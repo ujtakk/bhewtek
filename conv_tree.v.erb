@@ -1,0 +1,75 @@
+module conv_tree(/*AUTOARG*/);
+
+   parameter DWIDTH=16,DNUMBER=25;
+
+   /*AUTOINPUT*/
+   input clk;
+   input xrst;
+   //<% for i in 0..24 %>
+   input signed [DWIDTH-1:0] pixel<%=i%>;
+   input signed [DWIDTH-1:0] weight<%=i%>;
+   //<% end %>
+
+   /*AUTOOUTPUT*/
+   output [DWIDTH-1:0] fmap;
+
+   /*AUTOREG*/
+   //reg signed[DWIDTH-1:0]    r_fmap;
+   ////<% for i in 0..24 %>
+   //reg signed [DWIDTH-1:0]   r_pixel<%=i%>;
+   ////<% end %>
+   ////<% for i in 0..24 %>
+   //reg signed [DWIDTH-1:0]   r_weight<%=i%>;
+   ////<% end %>
+
+   /*AUTOWIRE*/
+   //<% for i in 0..23 %>
+   wire signed[DWIDTH-1:0]   sum<%=i%>;
+   //<% end %>
+   //<% for i in 0..24 %>
+   wire signed[2*DWIDTH-1:0]   pro<%=i%>;
+   //<% end %>
+   //<% for i in 0..24 %>
+   wire signed [DWIDTH-1:0]    pro_short<%=i%>;
+   //<% end %>
+
+   //<% for i in 0..24 %>
+   //assign pro<%=i%> = (r_pixel<%=i%> * r_weight<%=i%>);
+   assign pro<%=i%> = (pixel<%=i%> * weight<%=i%>);
+   assign pro_short<%=i%> = $signed({pro<%=i%>[22],pro<%=i%>[22:8]});
+   //<% end %>
+   assign sum0 = sum1 + sum2;
+   assign sum1 = sum3 + sum4;
+   assign sum2 = sum5 + pro_short24;
+   //<% for i in 3..11 %>
+   assign sum<%=i%> = sum<%=2*i+1%> + sum<%=2*i%>;
+   //<% end %>
+   //<% for i in 12..23 %>
+   assign sum<%=i%> = pro_short<%=2*i-23%> + pro_short<%=2*i-24%>;
+   //<% end %>
+
+   //<% for i in 0..24 %>
+   //always @(posedge clk or negedge xrst)
+   //  if(!xrst)
+   //    r_pixel<%=i%> <= 0;
+   //  else
+   //    r_pixel<%=i%> <= pixel<%=i%>;
+   //<% end %>
+
+   //<% for i in 0..24 %>
+   //always @(posedge clk or negedge xrst)
+   //  if(!xrst)
+   //    r_weight<%=i%> <= 0;
+   //  else
+   //    r_weight<%=i%> <= weight<%=i%>;
+   //<% end %>
+
+   assign fmap = sum0;
+
+   //always @(posedge clk or negedge xrst)
+   //  if(!xrst)
+   //    r_fmap <= 0;
+   //  else
+   //    r_fmap <= sum0;
+
+endmodule

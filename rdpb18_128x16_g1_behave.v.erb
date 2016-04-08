@@ -1,0 +1,606 @@
+`timescale 1ns/10ps
+module rdpb18_128x16_g1_behave(
+	a_state_a,
+	cp_state_a,
+	web_state_a,
+	reb_state_a,
+	oeb_state_a,
+	csb_state_a,
+	i_state_a,
+	int_bus_a,
+	sh_a_error_a,
+	sh_cp_error_a,
+	sh_web_error_a,
+	sh_reb_error_a,
+//	sh_oeb_error_a,
+	sh_csb_error_a,
+	sh_i_error_a,
+	outctrl_a,
+	error_a,
+	a_state_b,
+	cp_state_b,
+	web_state_b,
+	reb_state_b,
+	oeb_state_b,
+	csb_state_b,
+	i_state_b,
+	int_bus_b,
+	sh_a_error_b,
+	sh_cp_error_b,
+	sh_web_error_b,
+	sh_reb_error_b,
+//	sh_oeb_error_b,
+	sh_csb_error_b,
+	sh_i_error_b,
+	outctrl_b,
+	error_b,
+	confa,
+	confb,
+	cm_cp_error
+	);
+
+`define numaddr 7
+`define numout 16
+`define worddepth 128
+
+`define verbose 2
+`ifdef verbose_0
+`undef verbose
+`define verbose 0
+`else
+`endif
+`ifdef verbose_1
+`undef verbose
+`define  verbose 1
+`endif
+`ifdef verbose_2
+`undef verbose
+`define verbose 2
+`endif
+
+input [`numaddr-1:0] a_state_a;
+input cp_state_a;
+input web_state_a;
+input reb_state_a;
+input oeb_state_a;
+input csb_state_a;
+input [`numout-1:0] i_state_a;
+output [`numout-1:0] int_bus_a;
+input sh_a_error_a;
+input sh_web_error_a;
+input sh_reb_error_a;
+//input sh_oeb_error_a;
+input sh_cp_error_a;
+input sh_csb_error_a;
+input sh_i_error_a;
+output outctrl_a;
+output error_a;
+
+input [`numaddr-1:0] a_state_b;
+input cp_state_b;
+input web_state_b;
+input reb_state_b;
+input oeb_state_b;
+input csb_state_b;
+input [`numout-1:0] i_state_b;
+output [`numout-1:0] int_bus_b;
+input sh_a_error_b;
+input sh_web_error_b;
+input sh_reb_error_b;
+//input sh_oeb_error_b;
+input sh_cp_error_b;
+input sh_csb_error_b;
+input sh_i_error_b;
+output outctrl_b;
+output error_b;
+
+output confa;
+output confb;
+input cm_cp_error;
+
+reg [`numout-1:0] memory[`worddepth-1:0];
+reg [`numout-1:0] int_bus_a;
+reg outctrl_a;
+reg error_a;
+reg web_reg_a;
+reg reb_reg_a;
+reg oeb_reg_a;
+reg csb_reg_a;
+reg [`numaddr-1:0] a_reg_a;
+reg [`numout-1:0] i_reg_a;
+reg [`numout-1:0] out_bus_a;
+integer n;
+integer address_a;
+
+reg [`numout-1:0] int_bus_b;
+reg outctrl_b;
+reg error_b;
+reg web_reg_b;
+reg reb_reg_b;
+reg oeb_reg_b;
+reg csb_reg_b;
+reg [`numaddr-1:0] a_reg_b;
+reg [`numout-1:0] i_reg_b;
+reg [`numout-1:0] out_bus_b;
+integer address_b;
+
+reg confa;
+reg confb;
+
+initial
+begin : initialize
+  error_a = 1'b0;
+  web_reg_a = 1'bx;
+  reb_reg_a = 1'bx;
+  oeb_reg_a = 1'bx;
+  csb_reg_a = 1'bx;
+  a_reg_a = `numaddr'bx;
+  i_reg_a = `numout'bx;
+  int_bus_a = `numout'bx;
+  out_bus_a = `numout'bx;
+  error_b = 1'b0;
+  web_reg_b = 1'bx;
+  reb_reg_b = 1'bx;
+  oeb_reg_b = 1'bx;
+  csb_reg_b = 1'bx;
+  a_reg_b = `numaddr'bx;
+  i_reg_b = `numout'bx;
+  int_bus_b = `numout'bx;
+  out_bus_b = `numout'bx;
+  confa = 1'b0;
+  confb = 1'b0;
+  for (n=0; n < `worddepth; n = n + 1)
+    memory[n] = `numout'bx;
+end
+
+task memoryerror_a;
+  begin
+    if (`verbose == 2)
+    begin
+      if (address_a == -1)
+      begin
+	for (n=0; n < `worddepth; n = n + 1)
+          memory[n] = `numout'bx;
+      end
+      else
+      begin
+	memory[address_a] = `numout'bx;
+      end
+    end
+  end
+endtask
+
+task memoryerror_b;
+  begin
+    if (`verbose == 2)
+    begin
+      if (address_b == -1)
+      begin
+	for (n=0; n < `worddepth; n = n + 1)
+          memory[n] = `numout'bx;
+      end
+      else
+      begin
+	memory[address_b] = `numout'bx;
+      end
+    end
+  end
+endtask
+
+task warning;
+  input [1024:1] msg;
+  begin
+    if ($realtime != 0 && `verbose != 0)
+    begin
+      $display("%.1f : %m : %0s",$realtime,msg);
+    end
+  end
+endtask
+
+always @(negedge cp_state_a)
+begin
+  confa = 0;
+end
+
+always @(negedge cp_state_b)
+begin
+  confb = 0;
+end
+
+always @(cp_state_a or csb_state_a)
+begin
+  if ((cp_state_a === 1'bx || cp_state_a === 1'bz) && csb_state_a === 1'b0)
+  begin
+    warning("CPA is unknown.");
+    address_a = -1;
+    memoryerror_a;
+    int_bus_a = `numout'bx;
+    error_a = 1;
+  end
+end
+
+always @(cp_state_b or csb_state_b)
+begin
+  if ((cp_state_b === 1'bx || cp_state_b === 1'bz) && csb_state_b === 1'b0)
+  begin
+    warning("CPB is unknown.");
+    address_b = -1;
+    memoryerror_b;
+    int_bus_b = `numout'bx;
+    error_b = 1;
+  end
+end
+
+always @(oeb_state_a or csb_state_a)
+begin
+  outctrl_a = oeb_state_a | csb_state_a;
+end
+
+always @(oeb_state_b or csb_state_b)
+begin
+  outctrl_b = oeb_state_b | csb_state_b;
+end
+
+always @(posedge cp_state_a)
+begin : ck_active_edge_a
+  web_reg_a = web_state_a;
+  reb_reg_a = reb_state_a;
+  oeb_reg_a = oeb_state_a;
+  csb_reg_a = csb_state_a;
+  a_reg_a = a_state_a;
+  i_reg_a = i_state_a;
+
+  if ((csb_reg_a === 1'bx || csb_reg_a === 1'bz) && web_reg_a != 1'b1)
+  begin
+    int_bus_a = `numout'bx;
+    address_a = -1;
+    memoryerror_a;
+    error_a = 1;
+  end
+
+  else if ((web_reg_a === 1'bx || web_reg_a === 1'bz) && csb_reg_a === 1'b0)
+  begin
+    int_bus_a = `numout'bx;
+    address_a = -1;
+    memoryerror_a;
+    error_a = 1;
+  end
+
+  else if ((oeb_reg_a === 1'bx || oeb_reg_a === 1'bz) && csb_reg_a === 1'b0)
+  begin
+    int_bus_a = `numout'bx;
+    address_a = -1;
+    memoryerror_a;
+    error_a = 1;
+  end
+
+  else if ((reb_reg_a === 1'bx || reb_reg_a === 1'bz) && csb_reg_a === 1'b0)
+  begin
+    int_bus_a = `numout'bx;
+    address_a = -1;
+    memoryerror_a;
+    error_a = 1;
+  end
+
+  else if ( ^a_reg_a === 1'bx || ^a_reg_a === 1'bz)
+  begin
+    address_a = -1;
+    error_a = 1;
+    warning("AA is unknown.");
+    if (web_reg_a === 1'b0 && csb_reg_a === 1'b0)
+    begin
+      memoryerror_a;
+    end
+  end
+
+  else if (address_a >= `worddepth)
+  begin
+    warning("AA is out of range.");
+    error_a = 1;
+  end
+
+  else
+  begin
+    address_a = a_reg_a;
+    error_a = 0;
+  end
+
+  if (!error_a)
+  begin
+    if (csb_reg_a === 1'b0)
+    begin
+      if (web_reg_a === 1'b0 && reb_reg_a === 1'b1)
+      begin
+	memory[address_a] = i_reg_a;
+      end
+      else if (web_reg_a === 1'b1 && reb_reg_a === 1'b0)
+      begin
+        int_bus_a <= memory[address_a];
+      end
+      else if (web_reg_a === 1'b0 && reb_reg_a === 1'b0)
+      begin
+	memory[address_a] = i_reg_a;
+        int_bus_a = i_reg_a;
+      end
+//      else if (web_reg_a === 1'b1 && reb_reg_a === 1'b1)
+//      begin
+//	warning("both WEBA and REBA are not active.");
+//      end
+    end
+  end
+end
+
+always @(posedge cp_state_b)
+begin : ck_active_edge_b
+  web_reg_b = web_state_b;
+  reb_reg_b = reb_state_b;
+  oeb_reg_b = oeb_state_b;
+  csb_reg_b = csb_state_b;
+  a_reg_b = a_state_b;
+  i_reg_b = i_state_b;
+
+  if ((csb_reg_b === 1'bx || csb_reg_b === 1'bz) && web_reg_b != 1'b1)
+  begin
+    int_bus_b = `numout'bx;
+    address_b = -1;
+    memoryerror_b;
+    error_b = 1;
+  end
+
+  else if ((web_reg_b === 1'bx || web_reg_b === 1'bz) && csb_reg_b === 1'b0)
+  begin
+    int_bus_b = `numout'bx;
+    address_b = -1;
+    memoryerror_b;
+    error_b = 1;
+  end
+  else if ((oeb_reg_b === 1'bx || oeb_reg_b === 1'bz) && csb_reg_b === 1'b0)
+  begin
+    int_bus_b = `numout'bx;
+    address_b = -1;
+    memoryerror_b;
+    error_b = 1;
+  end
+  else if ((reb_reg_b === 1'bx || reb_reg_b === 1'bz) && csb_reg_b === 1'b0)
+  begin
+    int_bus_b = `numout'bx;
+    address_b = -1;
+    memoryerror_b;
+    error_b = 1;
+  end
+
+  else if ( ^a_reg_b === 1'bx || ^a_reg_b === 1'bz)
+  begin
+    address_b = -1;
+    error_b = 1;
+    warning("AB is unknown.");
+    if (web_reg_b === 1'b0 && csb_reg_b === 1'b0)
+    begin
+      memoryerror_b;
+    end
+  end
+
+  else if (address_b >= `worddepth)
+  begin
+    warning("AB is out of range.");
+    error_b = 1;
+  end
+
+  else
+  begin
+    address_b = a_reg_b;
+    error_b = 0;
+  end
+
+  if (!error_b)
+  begin
+    if (csb_reg_b === 1'b0)
+    begin
+      if (web_reg_b === 1'b0 && reb_reg_b === 1'b1)
+      begin
+	memory[address_b] = i_reg_b;
+      end
+      else if (web_reg_b === 1'b1 && reb_reg_b === 1'b0)
+      begin
+        int_bus_b <= memory[address_b];
+      end
+      else if (web_reg_b === 1'b0 && reb_reg_b === 1'b0)
+      begin
+	memory[address_b] = i_reg_b;
+        int_bus_b = i_reg_b;
+      end
+//      else if (web_reg_b === 1'b1 && reb_reg_b === 1'b1)
+//      begin
+//	warning("both WEBB and REBB are not active.");
+//      end
+    end
+  end
+end
+
+always @(posedge cp_state_a)
+begin
+  if (a_state_a == a_state_b &&
+//    web_state_a === 1'b0 &&
+      csb_state_a === 1'b0 &&
+      ~(web_state_a === 1'b1 && reb_state_a === 1'b1))
+  begin
+    confa = 1'b1;
+  end
+  else
+  begin
+    confa = 1'b0;
+  end
+end
+
+always @(posedge cp_state_b)
+begin
+  if (a_state_a == a_state_b &&
+//    web_state_b === 1'b0 &&
+      csb_state_b === 1'b0 &&
+      ~(web_state_b === 1'b1 && reb_state_b === 1'b1))
+  begin
+    confb = 1'b1;
+  end
+  else
+  begin
+    confb = 1'b0;
+  end
+end
+
+always @(cm_cp_error)
+begin : Write_conflict_Error
+  if (reb_state_a === 1'b0 && (web_state_a === 1'b0 || web_state_b === 1'b0))
+  begin
+    #0.01 int_bus_a = `numout'bx;
+  end
+  if (reb_state_b === 1'b0 && (web_state_a === 1'b0 || web_state_b === 1'b0))
+  begin
+    #0.01 int_bus_b = `numout'bx;
+  end
+  if (web_state_a === 1'b0 && web_state_b === 1'b0)
+  begin
+    address_a = -1;
+    address_b = -1;
+    memoryerror_a;
+  end
+end  
+
+always @(sh_cp_error_a)
+begin : setup_ck_error_a
+  address_a = -1;
+  memoryerror_a;
+  if (reb_reg_a === 1'b0 && csb_reg_a === 1'b0)
+  begin
+  #0.01 int_bus_a = `numout'bx;
+  end
+end
+
+always @(sh_csb_error_a)
+begin : setup_csb_error_a
+  address_a = -1;
+  memoryerror_a;
+  if (reb_reg_a === 1'b0 && csb_reg_a === 1'b0)
+  begin
+  #0.01 int_bus_a = `numout'bx;
+  end
+end
+
+always @(sh_a_error_a)
+begin : setuphold_address_error_a
+  if (web_reg_a === 1'b0 && csb_reg_a === 1'b0)
+  begin
+    address_a = -1;
+    memoryerror_a;
+  end
+  if (reb_reg_a === 1'b0 && csb_reg_a === 1'b0)
+  begin
+    #0.01 int_bus_a = `numout'bx;
+    address_a = -1;
+    memoryerror_a;
+  end
+end
+
+always @(sh_i_error_a)
+begin : setuphold_i_error_a
+  if (web_state_a === 1'b0 && csb_reg_a === 1'b0)
+  begin
+    address_a = -1;
+    memoryerror_a;
+  end
+end
+
+always @(sh_web_error_a)
+begin : setuphold_web_error_a
+  if (csb_reg_a === 1'b0)
+  begin
+    address_a = -1;
+    memoryerror_a;
+  end
+end
+
+always @(sh_reb_error_a)
+begin : setuphold_reb_error_a
+  if (csb_reg_a === 1'b0)
+  begin
+    #0.01 int_bus_a = `numout'bx;
+  end
+end
+
+//always @(sh_oeb_error_a)
+//begin : setuphold_oeb_error_a
+//  if (csb_reg_a === 1'b0)
+//  begin
+//    #0.01 int_bus_a = `numout'bx;
+//  end
+//end
+
+always @(sh_cp_error_b)
+begin : setup_ck_error_b
+  address_b = -1;
+  memoryerror_b;
+  if (reb_reg_b === 1'b0 && csb_reg_b === 1'b0)
+  begin
+  #0.01 int_bus_b = `numout'bx;
+  end
+end
+
+always @(sh_csb_error_b)
+begin : setup_csb_error_b
+  address_b = -1;
+  memoryerror_b;
+  if (reb_reg_b === 1'b0 && csb_reg_b === 1'b0)
+  begin
+  #0.01 int_bus_b = `numout'bx;
+  end
+end
+
+always @(sh_a_error_b)
+begin : setuphold_address_error_b
+  if (web_reg_b === 1'b0 && csb_reg_b === 1'b0)
+  begin
+    address_b = -1;
+    memoryerror_b;
+  end
+  if (reb_reg_b === 1'b0 && csb_reg_b === 1'b0)
+  begin
+    #0.01 int_bus_b = `numout'bx;
+    address_b = -1;
+    memoryerror_b;
+  end
+end
+
+always @(sh_i_error_b)
+begin : setuphold_i_error_b
+  if (web_state_b === 1'b0 && csb_reg_b === 1'b0)
+  begin
+    address_b = -1;
+    memoryerror_b;
+  end
+end
+
+always @(sh_web_error_b)
+begin : setuphold_web_error_b
+  if (csb_reg_b === 1'b0)
+  begin
+    address_b = -1;
+    memoryerror_b;
+  end
+end
+
+always @(sh_reb_error_b)
+begin : setuphold_reb_error_b
+  if (csb_reg_b === 1'b0)
+  begin
+    #0.01 int_bus_b = `numout'bx;
+  end
+end
+
+//always @(sh_oeb_error_b)
+//begin : setuphold_oeb_error_b
+//  if (csb_reg_b === 1'b0)
+//  begin
+//    #0.01 int_bus_b = `numout'bx;
+//  end
+//end
+
+endmodule

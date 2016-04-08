@@ -1,0 +1,616 @@
+`timescale 1ns/10ps
+
+`celldefine
+`suppress_faults
+`enable_portfaults
+
+module rdpb18_128x16_g1(
+	AA,
+	CPA,
+	WEBA,
+	REBA,
+	OEBA,
+	CSBA,
+	IA,
+	OA,
+	AB,
+	CPB,
+	WEBB,
+	REBB,
+	OEBB,
+	CSBB,
+	IB,
+	OB
+	);
+
+`define numaddr 7
+`define numout 16
+`define worddepth 128
+
+`define verbose 2
+`ifdef verbose_0
+`undef verbose
+`define verbose 0
+`else
+`endif
+`ifdef verbose_1
+`undef verbose
+`define  verbose 1
+`endif
+`ifdef verbose_2
+`undef verbose
+`define verbose 2
+`endif
+
+input [`numaddr-1:0] AA;
+input CPA;
+input WEBA;
+input REBA;
+input OEBA;
+input CSBA;
+input [`numout-1:0] IA;
+output [`numout-1:0] OA;
+
+input [`numaddr-1:0] AB;
+input CPB;
+input WEBB;
+input REBB;
+input OEBB;
+input CSBB;
+input [`numout-1:0] IB;
+output [`numout-1:0] OB;
+
+wire [`numaddr-1:0] AA;
+wire CPA;
+wire WEBA;
+wire REBA;
+wire OEBA;
+wire CSBA;
+wire [`numout-1:0] IA;
+wire [`numout-1:0] OA;
+wire [`numaddr-1:0] a_state_a;
+wire cp_state_a;
+wire web_state_a;
+wire reb_state_a;
+wire oeb_state_a;
+wire csb_state_a;
+wire [`numout-1:0] i_state_a;
+wire [`numout-1:0] int_bus_a;
+
+wire [`numaddr-1:0] AB;
+wire CPB;
+wire WEBB;
+wire REBB;
+wire OEBB;
+wire CSBB;
+wire [`numout-1:0] IB;
+wire [`numout-1:0] OB;
+wire [`numaddr-1:0] a_state_b;
+wire cp_state_b;
+wire web_state_b;
+wire reb_state_b;
+wire oeb_state_b;
+wire csb_state_b;
+wire [`numout-1:0] i_state_b;
+wire [`numout-1:0] int_bus_b;
+
+buf (a_state_a[6],AA[6]),
+    (a_state_a[5],AA[5]),
+    (a_state_a[4],AA[4]),
+    (a_state_a[3],AA[3]),
+    (a_state_a[2],AA[2]),
+    (a_state_a[1],AA[1]),
+    (a_state_a[0],AA[0]);
+
+buf (a_state_b[6],AB[6]),
+    (a_state_b[5],AB[5]),
+    (a_state_b[4],AB[4]),
+    (a_state_b[3],AB[3]),
+    (a_state_b[2],AB[2]),
+    (a_state_b[1],AB[1]),
+    (a_state_b[0],AB[0]);
+
+buf (cp_state_a,CPA);
+buf (web_state_a,WEBA);
+buf (reb_state_a,REBA);
+buf (oeb_state_a,OEBA);
+buf (csb_state_a,CSBA);
+
+buf (cp_state_b,CPB);
+buf (web_state_b,WEBB);
+buf (reb_state_b,REBB);
+buf (oeb_state_b,OEBB);
+buf (csb_state_b,CSBB);
+
+buf (i_state_a[15],IA[15]),
+    (i_state_a[14],IA[14]),
+    (i_state_a[13],IA[13]),
+    (i_state_a[12],IA[12]),
+    (i_state_a[11],IA[11]),
+    (i_state_a[10],IA[10]),
+    (i_state_a[9],IA[9]),
+    (i_state_a[8],IA[8]),
+    (i_state_a[7],IA[7]),
+    (i_state_a[6],IA[6]),
+    (i_state_a[5],IA[5]),
+    (i_state_a[4],IA[4]),
+    (i_state_a[3],IA[3]),
+    (i_state_a[2],IA[2]),
+    (i_state_a[1],IA[1]),
+    (i_state_a[0],IA[0]);
+
+buf (i_state_b[15],IB[15]),
+    (i_state_b[14],IB[14]),
+    (i_state_b[13],IB[13]),
+    (i_state_b[12],IB[12]),
+    (i_state_b[11],IB[11]),
+    (i_state_b[10],IB[10]),
+    (i_state_b[9],IB[9]),
+    (i_state_b[8],IB[8]),
+    (i_state_b[7],IB[7]),
+    (i_state_b[6],IB[6]),
+    (i_state_b[5],IB[5]),
+    (i_state_b[4],IB[4]),
+    (i_state_b[3],IB[3]),
+    (i_state_b[2],IB[2]),
+    (i_state_b[1],IB[1]),
+    (i_state_b[0],IB[0]);
+
+bufif0 (OA[15],int_bus_a[15],outctrl_a),
+       (OA[14],int_bus_a[14],outctrl_a),
+       (OA[13],int_bus_a[13],outctrl_a),
+       (OA[12],int_bus_a[12],outctrl_a),
+       (OA[11],int_bus_a[11],outctrl_a),
+       (OA[10],int_bus_a[10],outctrl_a),
+       (OA[9],int_bus_a[9],outctrl_a),
+       (OA[8],int_bus_a[8],outctrl_a),
+       (OA[7],int_bus_a[7],outctrl_a),
+       (OA[6],int_bus_a[6],outctrl_a),
+       (OA[5],int_bus_a[5],outctrl_a),
+       (OA[4],int_bus_a[4],outctrl_a),
+       (OA[3],int_bus_a[3],outctrl_a),
+       (OA[2],int_bus_a[2],outctrl_a),
+       (OA[1],int_bus_a[1],outctrl_a),
+       (OA[0],int_bus_a[0],outctrl_a);
+
+bufif0 (OB[15],int_bus_b[15],outctrl_b),
+       (OB[14],int_bus_b[14],outctrl_b),
+       (OB[13],int_bus_b[13],outctrl_b),
+       (OB[12],int_bus_b[12],outctrl_b),
+       (OB[11],int_bus_b[11],outctrl_b),
+       (OB[10],int_bus_b[10],outctrl_b),
+       (OB[9],int_bus_b[9],outctrl_b),
+       (OB[8],int_bus_b[8],outctrl_b),
+       (OB[7],int_bus_b[7],outctrl_b),
+       (OB[6],int_bus_b[6],outctrl_b),
+       (OB[5],int_bus_b[5],outctrl_b),
+       (OB[4],int_bus_b[4],outctrl_b),
+       (OB[3],int_bus_b[3],outctrl_b),
+       (OB[2],int_bus_b[2],outctrl_b),
+       (OB[1],int_bus_b[1],outctrl_b),
+       (OB[0],int_bus_b[0],outctrl_b);
+
+reg sh_a_error_a;
+reg sh_cp_error_a;
+reg sh_web_error_a;
+reg sh_reb_error_a;
+//reg sh_oeb_error_a;
+reg sh_csb_error_a;
+reg sh_i_error_a;
+wire error_a;
+
+reg sh_a_error_b;
+reg sh_cp_error_b;
+reg sh_web_error_b;
+reg sh_reb_error_b;
+//reg sh_oeb_error_b;
+reg sh_csb_error_b;
+reg sh_i_error_b;
+wire error_b;
+
+reg cm_cp_error;
+
+rdpb18_128x16_g1_behave u1 (
+	.a_state_a(a_state_a),
+	.cp_state_a(cp_state_a),
+	.web_state_a(web_state_a),
+	.reb_state_a(reb_state_a),
+	.oeb_state_a(oeb_state_a),
+	.csb_state_a(csb_state_a),
+	.i_state_a(i_state_a),
+	.int_bus_a(int_bus_a),
+	.sh_a_error_a(sh_a_error_a),
+	.sh_cp_error_a(sh_cp_error_a),
+	.sh_web_error_a(sh_web_error_a),
+	.sh_reb_error_a(sh_reb_error_a),
+//	.sh_oeb_error_a(sh_oeb_error_a),
+	.sh_csb_error_a(sh_csb_error_a),
+	.sh_i_error_a(sh_i_error_a),
+	.outctrl_a(outctrl_a),
+	.error_a(error_a),
+	
+	.a_state_b(a_state_b),
+	.cp_state_b(cp_state_b),
+	.web_state_b(web_state_b),
+	.reb_state_b(reb_state_b),
+	.oeb_state_b(oeb_state_b),
+	.csb_state_b(csb_state_b),
+	.i_state_b(i_state_b),
+	.int_bus_b(int_bus_b),
+	.sh_a_error_b(sh_a_error_b),
+	.sh_cp_error_b(sh_cp_error_b),
+	.sh_web_error_b(sh_web_error_b),
+	.sh_reb_error_b(sh_reb_error_b),
+//	.sh_oeb_error_b(sh_oeb_error_b),
+	.sh_csb_error_b(sh_csb_error_b),
+	.sh_i_error_b(sh_i_error_b),
+	.outctrl_b(outctrl_b),
+	.error_b(error_b),
+
+	.confa(confa),
+	.confb(confb),
+	.cm_cp_error(cm_cp_error)
+	);
+	
+//`define timing
+`ifdef timing
+specify
+  specparam df    = 1.0,
+	    tacr  = 2.70*df,  // rise access time @Cload=0.0pF
+	    tacf  = 2.70*df,  // fall access time @Cload=0.0pF
+            tcyc  = 6.00*df,  // cycle time
+            twh   = 3.00*df,  // minimum clock high time.
+	    twl   = 3.00*df,  // minimum clock low time.
+	    twes  = 0.75*df,  // web setup time
+	    tweh  = 0.35*df,  // web hold time
+	    tres  = 0.75*df,  // reb setup time
+	    treh  = 0.35*df,  // reb hold time
+	    tcs   = 0.75*df,  // csb setup time
+	    tch   = 0.35*df,  // csb hold time
+	    tadds = 0.50*df,  // address setup time
+	    taddh = 0.65*df,  // address hold time
+	    tis   = 0.40*df,  // data setup time
+	    tih   = 1.30*df,  // data hold time
+	    toh   = 1.50*df,  // oeb disbale time
+	    tcm   = 4.65*df;  // cp conflict margin (if AA=AB && WEBA=WEBB="L")
+
+  if (!error_a) (CPA => OA[0]) = (tacr,tacf);
+  if (!error_a) (CPA => OA[1]) = (tacr,tacf);
+  if (!error_a) (CPA => OA[2]) = (tacr,tacf);
+  if (!error_a) (CPA => OA[3]) = (tacr,tacf);
+  if (!error_a) (CPA => OA[4]) = (tacr,tacf);
+  if (!error_a) (CPA => OA[5]) = (tacr,tacf);
+  if (!error_a) (CPA => OA[6]) = (tacr,tacf);
+  if (!error_a) (CPA => OA[7]) = (tacr,tacf);
+  if (!error_a) (CPA => OA[8]) = (tacr,tacf);
+  if (!error_a) (CPA => OA[9]) = (tacr,tacf);
+  if (!error_a) (CPA => OA[10]) = (tacr,tacf);
+  if (!error_a) (CPA => OA[11]) = (tacr,tacf);
+  if (!error_a) (CPA => OA[12]) = (tacr,tacf);
+  if (!error_a) (CPA => OA[13]) = (tacr,tacf);
+  if (!error_a) (CPA => OA[14]) = (tacr,tacf);
+  if (!error_a) (CPA => OA[15]) = (tacr,tacf);
+  if (!error_a) (OEBA => OA[15]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (OEBA => OA[14]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (OEBA => OA[13]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (OEBA => OA[12]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (OEBA => OA[11]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (OEBA => OA[10]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (OEBA => OA[9]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (OEBA => OA[8]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (OEBA => OA[7]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (OEBA => OA[6]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (OEBA => OA[5]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (OEBA => OA[4]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (OEBA => OA[3]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (OEBA => OA[2]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (OEBA => OA[1]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (OEBA => OA[0]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (CSBA => OA[15]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (CSBA => OA[14]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (CSBA => OA[13]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (CSBA => OA[12]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (CSBA => OA[11]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (CSBA => OA[10]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (CSBA => OA[9]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (CSBA => OA[8]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (CSBA => OA[7]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (CSBA => OA[6]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (CSBA => OA[5]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (CSBA => OA[4]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (CSBA => OA[3]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (CSBA => OA[2]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (CSBA => OA[1]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_a) (CSBA => OA[0]) = (tacr,tacf,toh,tacr,toh,tacf);
+
+  if (!error_b) (CPB => OB[0]) = (tacr,tacf);
+  if (!error_b) (CPB => OB[1]) = (tacr,tacf);
+  if (!error_b) (CPB => OB[2]) = (tacr,tacf);
+  if (!error_b) (CPB => OB[3]) = (tacr,tacf);
+  if (!error_b) (CPB => OB[4]) = (tacr,tacf);
+  if (!error_b) (CPB => OB[5]) = (tacr,tacf);
+  if (!error_b) (CPB => OB[6]) = (tacr,tacf);
+  if (!error_b) (CPB => OB[7]) = (tacr,tacf);
+  if (!error_b) (CPB => OB[8]) = (tacr,tacf);
+  if (!error_b) (CPB => OB[9]) = (tacr,tacf);
+  if (!error_b) (CPB => OB[10]) = (tacr,tacf);
+  if (!error_b) (CPB => OB[11]) = (tacr,tacf);
+  if (!error_b) (CPB => OB[12]) = (tacr,tacf);
+  if (!error_b) (CPB => OB[13]) = (tacr,tacf);
+  if (!error_b) (CPB => OB[14]) = (tacr,tacf);
+  if (!error_b) (CPB => OB[15]) = (tacr,tacf);
+  if (!error_b) (OEBB => OB[15]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (OEBB => OB[14]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (OEBB => OB[13]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (OEBB => OB[12]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (OEBB => OB[11]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (OEBB => OB[10]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (OEBB => OB[9]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (OEBB => OB[8]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (OEBB => OB[7]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (OEBB => OB[6]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (OEBB => OB[5]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (OEBB => OB[4]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (OEBB => OB[3]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (OEBB => OB[2]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (OEBB => OB[1]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (OEBB => OB[0]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (CSBB => OB[15]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (CSBB => OB[14]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (CSBB => OB[13]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (CSBB => OB[12]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (CSBB => OB[11]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (CSBB => OB[10]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (CSBB => OB[9]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (CSBB => OB[8]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (CSBB => OB[7]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (CSBB => OB[6]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (CSBB => OB[5]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (CSBB => OB[4]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (CSBB => OB[3]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (CSBB => OB[2]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (CSBB => OB[1]) = (tacr,tacf,toh,tacr,toh,tacf);
+  if (!error_b) (CSBB => OB[0]) = (tacr,tacf,toh,tacr,toh,tacf);
+
+  $setup(posedge WEBA,posedge CPA,twes,sh_web_error_a);
+  $setup(negedge WEBA,posedge CPA,twes,sh_web_error_a);
+  $hold(posedge CPA,negedge WEBA,tweh,sh_web_error_a);
+  $hold(posedge CPA,posedge WEBA,tweh,sh_web_error_a);
+  $setup(posedge REBA,posedge CPA,tres,sh_reb_error_a);
+  $setup(negedge REBA,posedge CPA,tres,sh_reb_error_a);
+  $hold(posedge CPA,posedge REBA,treh,sh_reb_error_a);
+  $hold(posedge CPA,negedge REBA,treh,sh_reb_error_a);
+//  $setup(posedge OEBA,posedge CPA,toes,sh_oeb_error_a);
+//  $setup(negedge OEBA,posedge CPA,toes,sh_oeb_error_a);
+//  $hold(posedge CPA,posedge OEBA,toeh,sh_oeb_error_a);
+//  $hold(posedge CPA,negedge OEBA,toeh,sh_oeb_error_a);
+  $setup(posedge AA[0],posedge CPA,tadds,sh_a_error_a);
+  $setup(negedge AA[0],posedge CPA,tadds,sh_a_error_a);
+  $hold(posedge CPA,posedge AA[0],taddh,sh_a_error_a);
+  $hold(posedge CPA,negedge AA[0],taddh,sh_a_error_a);
+  $setup(posedge AA[1],posedge CPA,tadds,sh_a_error_a);
+  $setup(negedge AA[1],posedge CPA,tadds,sh_a_error_a);
+  $hold(posedge CPA,posedge AA[1],taddh,sh_a_error_a);
+  $hold(posedge CPA,negedge AA[1],taddh,sh_a_error_a);
+  $setup(posedge AA[2],posedge CPA,tadds,sh_a_error_a);
+  $setup(negedge AA[2],posedge CPA,tadds,sh_a_error_a);
+  $hold(posedge CPA,posedge AA[2],taddh,sh_a_error_a);
+  $hold(posedge CPA,negedge AA[2],taddh,sh_a_error_a);
+  $setup(posedge AA[3],posedge CPA,tadds,sh_a_error_a);
+  $setup(negedge AA[3],posedge CPA,tadds,sh_a_error_a);
+  $hold(posedge CPA,posedge AA[3],taddh,sh_a_error_a);
+  $hold(posedge CPA,negedge AA[3],taddh,sh_a_error_a);
+  $setup(posedge AA[4],posedge CPA,tadds,sh_a_error_a);
+  $setup(negedge AA[4],posedge CPA,tadds,sh_a_error_a);
+  $hold(posedge CPA,posedge AA[4],taddh,sh_a_error_a);
+  $hold(posedge CPA,negedge AA[4],taddh,sh_a_error_a);
+  $setup(posedge AA[5],posedge CPA,tadds,sh_a_error_a);
+  $setup(negedge AA[5],posedge CPA,tadds,sh_a_error_a);
+  $hold(posedge CPA,posedge AA[5],taddh,sh_a_error_a);
+  $hold(posedge CPA,negedge AA[5],taddh,sh_a_error_a);
+  $setup(posedge AA[6],posedge CPA,tadds,sh_a_error_a);
+  $setup(negedge AA[6],posedge CPA,tadds,sh_a_error_a);
+  $hold(posedge CPA,posedge AA[6],taddh,sh_a_error_a);
+  $hold(posedge CPA,negedge AA[6],taddh,sh_a_error_a);
+  $setup(posedge CSBA,posedge CPA,tcs,sh_csb_error_a);
+  $setup(negedge CSBA,posedge CPA,tcs,sh_csb_error_a);
+  $hold(posedge CPA,posedge CSBA,tch,sh_csb_error_a);
+  $hold(posedge CPA,negedge CSBA,tch,sh_csb_error_a);
+  $setup(posedge IA[0],posedge CPA,tis,sh_i_error_a);
+  $setup(negedge IA[0],posedge CPA,tis,sh_i_error_a);
+  $hold(posedge CPA,posedge IA[0],tih,sh_i_error_a);
+  $hold(posedge CPA,negedge IA[0],tih,sh_i_error_a);
+  $setup(posedge IA[1],posedge CPA,tis,sh_i_error_a);
+  $setup(negedge IA[1],posedge CPA,tis,sh_i_error_a);
+  $hold(posedge CPA,posedge IA[1],tih,sh_i_error_a);
+  $hold(posedge CPA,negedge IA[1],tih,sh_i_error_a);
+  $setup(posedge IA[2],posedge CPA,tis,sh_i_error_a);
+  $setup(negedge IA[2],posedge CPA,tis,sh_i_error_a);
+  $hold(posedge CPA,posedge IA[2],tih,sh_i_error_a);
+  $hold(posedge CPA,negedge IA[2],tih,sh_i_error_a);
+  $setup(posedge IA[3],posedge CPA,tis,sh_i_error_a);
+  $setup(negedge IA[3],posedge CPA,tis,sh_i_error_a);
+  $hold(posedge CPA,posedge IA[3],tih,sh_i_error_a);
+  $hold(posedge CPA,negedge IA[3],tih,sh_i_error_a);
+  $setup(posedge IA[4],posedge CPA,tis,sh_i_error_a);
+  $setup(negedge IA[4],posedge CPA,tis,sh_i_error_a);
+  $hold(posedge CPA,posedge IA[4],tih,sh_i_error_a);
+  $hold(posedge CPA,negedge IA[4],tih,sh_i_error_a);
+  $setup(posedge IA[5],posedge CPA,tis,sh_i_error_a);
+  $setup(negedge IA[5],posedge CPA,tis,sh_i_error_a);
+  $hold(posedge CPA,posedge IA[5],tih,sh_i_error_a);
+  $hold(posedge CPA,negedge IA[5],tih,sh_i_error_a);
+  $setup(posedge IA[6],posedge CPA,tis,sh_i_error_a);
+  $setup(negedge IA[6],posedge CPA,tis,sh_i_error_a);
+  $hold(posedge CPA,posedge IA[6],tih,sh_i_error_a);
+  $hold(posedge CPA,negedge IA[6],tih,sh_i_error_a);
+  $setup(posedge IA[7],posedge CPA,tis,sh_i_error_a);
+  $setup(negedge IA[7],posedge CPA,tis,sh_i_error_a);
+  $hold(posedge CPA,posedge IA[7],tih,sh_i_error_a);
+  $hold(posedge CPA,negedge IA[7],tih,sh_i_error_a);
+  $setup(posedge IA[8],posedge CPA,tis,sh_i_error_a);
+  $setup(negedge IA[8],posedge CPA,tis,sh_i_error_a);
+  $hold(posedge CPA,posedge IA[8],tih,sh_i_error_a);
+  $hold(posedge CPA,negedge IA[8],tih,sh_i_error_a);
+  $setup(posedge IA[9],posedge CPA,tis,sh_i_error_a);
+  $setup(negedge IA[9],posedge CPA,tis,sh_i_error_a);
+  $hold(posedge CPA,posedge IA[9],tih,sh_i_error_a);
+  $hold(posedge CPA,negedge IA[9],tih,sh_i_error_a);
+  $setup(posedge IA[10],posedge CPA,tis,sh_i_error_a);
+  $setup(negedge IA[10],posedge CPA,tis,sh_i_error_a);
+  $hold(posedge CPA,posedge IA[10],tih,sh_i_error_a);
+  $hold(posedge CPA,negedge IA[10],tih,sh_i_error_a);
+  $setup(posedge IA[11],posedge CPA,tis,sh_i_error_a);
+  $setup(negedge IA[11],posedge CPA,tis,sh_i_error_a);
+  $hold(posedge CPA,posedge IA[11],tih,sh_i_error_a);
+  $hold(posedge CPA,negedge IA[11],tih,sh_i_error_a);
+  $setup(posedge IA[12],posedge CPA,tis,sh_i_error_a);
+  $setup(negedge IA[12],posedge CPA,tis,sh_i_error_a);
+  $hold(posedge CPA,posedge IA[12],tih,sh_i_error_a);
+  $hold(posedge CPA,negedge IA[12],tih,sh_i_error_a);
+  $setup(posedge IA[13],posedge CPA,tis,sh_i_error_a);
+  $setup(negedge IA[13],posedge CPA,tis,sh_i_error_a);
+  $hold(posedge CPA,posedge IA[13],tih,sh_i_error_a);
+  $hold(posedge CPA,negedge IA[13],tih,sh_i_error_a);
+  $setup(posedge IA[14],posedge CPA,tis,sh_i_error_a);
+  $setup(negedge IA[14],posedge CPA,tis,sh_i_error_a);
+  $hold(posedge CPA,posedge IA[14],tih,sh_i_error_a);
+  $hold(posedge CPA,negedge IA[14],tih,sh_i_error_a);
+  $setup(posedge IA[15],posedge CPA,tis,sh_i_error_a);
+  $setup(negedge IA[15],posedge CPA,tis,sh_i_error_a);
+  $hold(posedge CPA,posedge IA[15],tih,sh_i_error_a);
+  $hold(posedge CPA,negedge IA[15],tih,sh_i_error_a);
+  $width(posedge CPA,twh,0,sh_cp_error_a);
+  $width(negedge CPA,twl,0,sh_cp_error_a);
+  $period(posedge CPA,tcyc,sh_cp_error_a);
+  $period(negedge CPA,tcyc);
+
+  $setup(posedge WEBB,posedge CPB,twes,sh_web_error_b);
+  $setup(negedge WEBB,posedge CPB,twes,sh_web_error_b);
+  $hold(posedge CPB,negedge WEBB,tweh,sh_web_error_b);
+  $hold(posedge CPB,posedge WEBB,tweh,sh_web_error_b);
+  $setup(posedge REBB,posedge CPB,tres,sh_reb_error_b);
+  $setup(negedge REBB,posedge CPB,tres,sh_reb_error_b);
+  $hold(posedge CPB,posedge REBB,treh,sh_reb_error_b);
+  $hold(posedge CPB,negedge REBB,treh,sh_reb_error_b);
+//  $setup(posedge OEBB,posedge CPB,toes,sh_oeb_error_b);
+//  $setup(negedge OEBB,posedge CPB,toes,sh_oeb_error_b);
+//  $hold(posedge CPB,posedge OEBB,toeh,sh_oeb_error_b);
+//  $hold(posedge CPB,negedge OEBB,toeh,sh_oeb_error_b);
+  $setup(posedge AB[0],posedge CPB,tadds,sh_a_error_b);
+  $setup(negedge AB[0],posedge CPB,tadds,sh_a_error_b);
+  $hold(posedge CPB,posedge AB[0],taddh,sh_a_error_b);
+  $hold(posedge CPB,negedge AB[0],taddh,sh_a_error_b);
+  $setup(posedge AB[1],posedge CPB,tadds,sh_a_error_b);
+  $setup(negedge AB[1],posedge CPB,tadds,sh_a_error_b);
+  $hold(posedge CPB,posedge AB[1],taddh,sh_a_error_b);
+  $hold(posedge CPB,negedge AB[1],taddh,sh_a_error_b);
+  $setup(posedge AB[2],posedge CPB,tadds,sh_a_error_b);
+  $setup(negedge AB[2],posedge CPB,tadds,sh_a_error_b);
+  $hold(posedge CPB,posedge AB[2],taddh,sh_a_error_b);
+  $hold(posedge CPB,negedge AB[2],taddh,sh_a_error_b);
+  $setup(posedge AB[3],posedge CPB,tadds,sh_a_error_b);
+  $setup(negedge AB[3],posedge CPB,tadds,sh_a_error_b);
+  $hold(posedge CPB,posedge AB[3],taddh,sh_a_error_b);
+  $hold(posedge CPB,negedge AB[3],taddh,sh_a_error_b);
+  $setup(posedge AB[4],posedge CPB,tadds,sh_a_error_b);
+  $setup(negedge AB[4],posedge CPB,tadds,sh_a_error_b);
+  $hold(posedge CPB,posedge AB[4],taddh,sh_a_error_b);
+  $hold(posedge CPB,negedge AB[4],taddh,sh_a_error_b);
+  $setup(posedge AB[5],posedge CPB,tadds,sh_a_error_b);
+  $setup(negedge AB[5],posedge CPB,tadds,sh_a_error_b);
+  $hold(posedge CPB,posedge AB[5],taddh,sh_a_error_b);
+  $hold(posedge CPB,negedge AB[5],taddh,sh_a_error_b);
+  $setup(posedge AB[6],posedge CPB,tadds,sh_a_error_b);
+  $setup(negedge AB[6],posedge CPB,tadds,sh_a_error_b);
+  $hold(posedge CPB,posedge AB[6],taddh,sh_a_error_b);
+  $hold(posedge CPB,negedge AB[6],taddh,sh_a_error_b);
+  $setup(posedge CSBB,posedge CPB,tcs,sh_csb_error_b);
+  $setup(negedge CSBB,posedge CPB,tcs,sh_csb_error_b);
+  $hold(posedge CPB,posedge CSBB,tch,sh_csb_error_b);
+  $hold(posedge CPB,negedge CSBB,tch,sh_csb_error_b);
+  $setup(posedge IB[0],posedge CPB,tis,sh_i_error_b);
+  $setup(negedge IB[0],posedge CPB,tis,sh_i_error_b);
+  $hold(posedge CPB,posedge IB[0],tih,sh_i_error_b);
+  $hold(posedge CPB,negedge IB[0],tih,sh_i_error_b);
+  $setup(posedge IB[1],posedge CPB,tis,sh_i_error_b);
+  $setup(negedge IB[1],posedge CPB,tis,sh_i_error_b);
+  $hold(posedge CPB,posedge IB[1],tih,sh_i_error_b);
+  $hold(posedge CPB,negedge IB[1],tih,sh_i_error_b);
+  $setup(posedge IB[2],posedge CPB,tis,sh_i_error_b);
+  $setup(negedge IB[2],posedge CPB,tis,sh_i_error_b);
+  $hold(posedge CPB,posedge IB[2],tih,sh_i_error_b);
+  $hold(posedge CPB,negedge IB[2],tih,sh_i_error_b);
+  $setup(posedge IB[3],posedge CPB,tis,sh_i_error_b);
+  $setup(negedge IB[3],posedge CPB,tis,sh_i_error_b);
+  $hold(posedge CPB,posedge IB[3],tih,sh_i_error_b);
+  $hold(posedge CPB,negedge IB[3],tih,sh_i_error_b);
+  $setup(posedge IB[4],posedge CPB,tis,sh_i_error_b);
+  $setup(negedge IB[4],posedge CPB,tis,sh_i_error_b);
+  $hold(posedge CPB,posedge IB[4],tih,sh_i_error_b);
+  $hold(posedge CPB,negedge IB[4],tih,sh_i_error_b);
+  $setup(posedge IB[5],posedge CPB,tis,sh_i_error_b);
+  $setup(negedge IB[5],posedge CPB,tis,sh_i_error_b);
+  $hold(posedge CPB,posedge IB[5],tih,sh_i_error_b);
+  $hold(posedge CPB,negedge IB[5],tih,sh_i_error_b);
+  $setup(posedge IB[6],posedge CPB,tis,sh_i_error_b);
+  $setup(negedge IB[6],posedge CPB,tis,sh_i_error_b);
+  $hold(posedge CPB,posedge IB[6],tih,sh_i_error_b);
+  $hold(posedge CPB,negedge IB[6],tih,sh_i_error_b);
+  $setup(posedge IB[7],posedge CPB,tis,sh_i_error_b);
+  $setup(negedge IB[7],posedge CPB,tis,sh_i_error_b);
+  $hold(posedge CPB,posedge IB[7],tih,sh_i_error_b);
+  $hold(posedge CPB,negedge IB[7],tih,sh_i_error_b);
+  $setup(posedge IB[8],posedge CPB,tis,sh_i_error_b);
+  $setup(negedge IB[8],posedge CPB,tis,sh_i_error_b);
+  $hold(posedge CPB,posedge IB[8],tih,sh_i_error_b);
+  $hold(posedge CPB,negedge IB[8],tih,sh_i_error_b);
+  $setup(posedge IB[9],posedge CPB,tis,sh_i_error_b);
+  $setup(negedge IB[9],posedge CPB,tis,sh_i_error_b);
+  $hold(posedge CPB,posedge IB[9],tih,sh_i_error_b);
+  $hold(posedge CPB,negedge IB[9],tih,sh_i_error_b);
+  $setup(posedge IB[10],posedge CPB,tis,sh_i_error_b);
+  $setup(negedge IB[10],posedge CPB,tis,sh_i_error_b);
+  $hold(posedge CPB,posedge IB[10],tih,sh_i_error_b);
+  $hold(posedge CPB,negedge IB[10],tih,sh_i_error_b);
+  $setup(posedge IB[11],posedge CPB,tis,sh_i_error_b);
+  $setup(negedge IB[11],posedge CPB,tis,sh_i_error_b);
+  $hold(posedge CPB,posedge IB[11],tih,sh_i_error_b);
+  $hold(posedge CPB,negedge IB[11],tih,sh_i_error_b);
+  $setup(posedge IB[12],posedge CPB,tis,sh_i_error_b);
+  $setup(negedge IB[12],posedge CPB,tis,sh_i_error_b);
+  $hold(posedge CPB,posedge IB[12],tih,sh_i_error_b);
+  $hold(posedge CPB,negedge IB[12],tih,sh_i_error_b);
+  $setup(posedge IB[13],posedge CPB,tis,sh_i_error_b);
+  $setup(negedge IB[13],posedge CPB,tis,sh_i_error_b);
+  $hold(posedge CPB,posedge IB[13],tih,sh_i_error_b);
+  $hold(posedge CPB,negedge IB[13],tih,sh_i_error_b);
+  $setup(posedge IB[14],posedge CPB,tis,sh_i_error_b);
+  $setup(negedge IB[14],posedge CPB,tis,sh_i_error_b);
+  $hold(posedge CPB,posedge IB[14],tih,sh_i_error_b);
+  $hold(posedge CPB,negedge IB[14],tih,sh_i_error_b);
+  $setup(posedge IB[15],posedge CPB,tis,sh_i_error_b);
+  $setup(negedge IB[15],posedge CPB,tis,sh_i_error_b);
+  $hold(posedge CPB,posedge IB[15],tih,sh_i_error_b);
+  $hold(posedge CPB,negedge IB[15],tih,sh_i_error_b);
+  $width(posedge CPB,twh,0,sh_cp_error_b);
+  $width(negedge CPB,twl,0,sh_cp_error_b);
+  $period(posedge CPB,tcyc,sh_cp_error_b);
+  $period(negedge CPB,tcyc);
+  
+  $setup(posedge confa,posedge confb,tcm,cm_cp_error);
+  $setup(posedge confb,posedge confa,tcm,cm_cp_error);
+  $hold(posedge confa,posedge confb,tcm,cm_cp_error);
+  $hold(posedge confb,posedge confa,tcm,cm_cp_error);
+
+endspecify
+`endif
+
+`undef numaddr
+`undef numout
+`undef worddepth
+`undef verbose
+endmodule
+`nosuppress_faults
+`disable_portfaults
+`endcelldefine

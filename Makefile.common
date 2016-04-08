@@ -1,0 +1,192 @@
+# -*- makefile -*-
+
+.SUFFIXES: .com .v .vo .obj .eps .dat .bin .v.erb .v.in .log .run .run.g .vh .vh.erb .info .sim .dot .png .reg .reg.erb
+
+# SIMULATOR=ncsim
+ifndef SIMULATOR
+# SIMULATOR=vcs
+SIMULATOR=vsim
+# SIMULATOR=iverilog
+endif
+# SIMULATOR=vsim
+# vcs ncsim iverilog
+
+ifndef VERBOSE
+VERBOSE=0
+endif
+
+ifeq ($(VERBOSE),1)
+#  quiet =
+  E = true
+  Q =
+else
+#  quiet=quiet_
+  E =
+  Q = @
+endif
+
+ERUBY=erb
+IVERILOG=/usr/bin/iverilog
+ARCH=$(shell uname -m)
+ifeq ($(SIMULATOR),iverilog)
+VCS=iverilog
+else
+ifeq ($(ARCH),x86_64)
+VCS=vcs +v2k -full64
+else
+VCS=vcs +v2k
+endif
+endif
+
+ifeq ($(SIMULATOR),ncsim)
+
+DO_SIM=test -f $* && rm -f $* ; time (ncelab -access +r $*; ncsim $*)
+V_COMPILE=ncvlog $< && touch $@
+
+else
+ifeq ($(SIMULATOR),vsim)
+
+VLOG_OPT= +acc=rnbp +define+FAST_FUNC # -novopt # -lint
+VSIMOPTION= #$(VLOG_OPT)
+
+DO_SIM=test -f $* && rm -f $* ; time vsim $* $(VSIMOPTION) -c -do 'run -all; quit' | sed 's/^\# //'
+V_COMPILE=(test -d work || vlib work) && (vlog $(VLOG_OPT) $< > $@.log && touch $@) && (grep "^\*\* " $@.log || true) || (cat $@.log ; false)
+# V_COMPILE=(test -d work || vlib work) && (vlog           $< && touch $@)
+
+else
+ifeq ($(SIMULATOR),vcs)
+
+DO_SIM=make $* && time ./$*
+V_COMPILE=touch $@
+
+else
+ifeq ($(SIMULATOR),iverilog)
+
+DO_SIM=make $* && time ./$*
+V_COMPILE=touch $@
+
+endif
+endif
+endif
+endif
+
+.com.sim:
+	$(DO_SIM)
+
+.com.log:
+	$(DO_SIM) 2>&1 | tee $@
+
+ifndef USE_CACHE
+USE_CACHE=$(shell test -f cache.rb && echo 1 || echo 0)
+endif
+
+#### log suppressed
+.v.com:
+	@$(E) echo "  COMPILE (.v)      $<"
+	$(Q)$(V_COMPILE)
+.vo.com:
+	@$(E) echo "  COMPILE (.vo)     $<"
+	$(Q)$(V_COMPILE)
+.v.erb.v.in:
+	@$(E) echo "  ERUBY (.v.erb)    $<"
+	$(Q)(rm -f $@ ; $(ERUBY) $< > $@ || (rm -f $@ ; false))
+	$(Q)chmod 444 $@
+.vh.erb.vh:
+	@$(E) echo "  ERUBY (.vh.erb)   $<"
+	$(Q)(rm -f $@ ; $(ERUBY) $< > $@ || (rm -f $@ ; false))
+	$(Q)chmod 444 $@
+ifeq ($(USE_CACHE),1)
+.v.in.v:
+	@$(E) echo "  VMODE (.v.in) (C) $<"
+	$(Q)./cache.rb --cache-dir .cache-verilog-mode "$(MAKE) --quiet USE_CACHE=0 $@" $@ $^
+else
+.v.in.v:
+	@$(E) echo "  VMODE (.v.in) (B) $<"
+	$(Q)(rm -f $@ ; cp $< $@ ; chmod 644 $@ ; LANG=C emacs --batch --eval '(setq large-file-warning-threshold nil)' $@ -l verilog-mode -f verilog-auto -f save-buffer --no-site-file > $@.log 2>&1 || (rm -f $@ ; cat $@.log ; false))
+	$(Q)chmod 444 $@
+endif
+$(REGFILES): %_reg.v.in : %.reg config-misc.rb regfile.rb regfile.template
+	@$(E) echo "  REGISTER (.reg)   $<"
+	$(Q)./config-misc.rb --reg $< > $@ || (rm -f $@ ; false)
+#### end of log suppressed
+
+.dot.png:
+	dot -Tpng $< > $@
+.dot.eps:
+	dot -Tps $< > $@
+
+.bin.info:
+	(make ./program_dump.rb && cat $< | ./program_dump.rb > $@ ) || (rm -f $@ ; false)
+
+work:
+ifeq ($(SIMULATOR),ncsim)
+	mkdir -p worklib
+	touch $@
+else
+ifeq ($(SIMULATOR),vsim)
+	vlib $@
+endif
+endif
+
+SRAM_GEN=							\
+$(Q)$(E) echo "  GENERATE          $< -> $@" ;		\
+adr_width=`echo $* | sed "s,^.*_\([0-9]*\)_\([0-9]*\)$$,\1,"`	\
+word_width=`echo $* | sed "s,^.*_\([0-9]*\)_\([0-9]*\)$$,\2,"`	\
+name=$* $(ERUBY) $< > $@ || ( rm -f $@; false )
+
+$(IOCONV_SRAM_FILES): ioconv_sram.v.erb;    $(SRAM_GEN)
+$(SRAM_IP_FILES):     sramip.v.erb;         $(SRAM_GEN)
+$(SRAM_IP_FILES_2):   sramip_2.v.erb;       $(SRAM_GEN)
+$(SRAMW_FILES):       sramw.v.erb config;   $(SRAM_GEN)
+$(SRAMW_FILES_2):     sramw_2.v.erb config; $(SRAM_GEN)
+$(SRAM_FILES):        sram.v.erb sram_2.v.erb; $(SRAM_GEN)
+$(SRAM_FILES_2):      sram_2.v.erb;            $(SRAM_GEN)
+
+Makefile.dep:
+	cat Makefile | grep -v Makefile.dep | $(MAKE) -f - dep.rb dep.in
+	./dep.rb $(TARGET) > $@ || rm -f $@
+
+compile.all: $(TARGET:=.com)
+
+VERBFILES=$(wildcard *.v.erb)
+VHERBFILES=$(wildcard *.vh.erb)
+VINFILES=$(wildcard *.v.in)
+
+clean-common:
+	rm -f *~
+	rm -f *.com *.log
+	rm -f _*
+	rm -f Makefile.dep
+
+	### vsim
+	rm -f vsim.wlf transcript
+	rm -rf work csrc
+
+	### vcs
+	rm -f default.cfg vcdplus.vpd vcs.key
+	rm -rf *.daidir
+
+	rm -f $(VERBFILES:.v.erb=.v)
+	rm -f $(VERBFILES:.v.erb=.v.in)
+	rm -f $(VHERBFILES:.vh.erb=.vh)
+	rm -f $(VINFILES:.v.in=.v)
+
+	rm -f $(IOCONV_SRAM_FILES) $(SRAM_IP_FILES) $(SRAM_IP_FILES_2)
+	rm -f $(SRAMW_FILES) $(SRAM_FILES) $(SRAMW_FILES_2) $(SRAM_FILES_2)
+	rm -f $(REGFILES)
+
+	rm -f $(TARGET)
+
+	rm -f $(LINK_FILES)
+
+$(LINK_FILES):
+	(cd $(IOC_DIR)/ ; $(MAKE) $@)
+	ln -sf $(IOC_DIR)/$@ .
+
+################################################################
+# dist target
+################################################################
+dist:
+	$(MAKE) $(VFILES) $(VHFILES)
+	mkdir -p .dist
+	rsync -L -avz $(VFILES) $(VHFILES) .dist

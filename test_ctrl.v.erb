@@ -1,0 +1,92 @@
+`timescale 10ps/1ps
+
+module test_ctrl();
+`include "parameters.vh"
+
+    /*AUTOREGINPUT*/
+
+    /*AUTOWIRE*/
+
+    //clock
+    always
+    begin
+        clk = 0;
+        #(CLK/2);
+        clk = 1;
+        #(CLK/2);
+    end
+
+    integer fp;
+    initial
+    begin
+        fp = $fopen("ctrl_log.txt");
+        #(CLK);
+        xrst = 0;
+        req = 0;
+        in_addr = 0;
+        w_addr = 0;
+        n_in = 20;
+        n_out = 50;
+        img_w = 12;
+        img_h = 12;
+        fil_w = 5;
+        fil_h = 5;
+        #(CLK);
+        xrst = 1;
+        #(CLK*5);
+        req = 1;
+        #(CLK);
+        req = 0;
+        #(CLK*63367);
+        $finish();
+    end
+
+    always
+    begin
+        #(CLK/2-1);
+        $fdisplay(fp,
+            "%d ", xrst,
+            "%d ", req,
+            "| ",
+            /* <% for i in 0..3 %> */
+            "%d ", wreg_we<%=i%>,
+            "%d ", acc_we<%=i%>,
+            "%d ", pool_we<%=i%>,
+            "%d ", mem_faccum_we<%=i%>,
+            "%d ", mem_faccum_addr<%=i%>,
+            "%d ", mem_faccum_addr<%=i%>_f1,
+            ";",
+            /* <% end %> */
+            "%d ", mem_input_addr,
+            "%d ", mem_weight_addr,
+            "%d ", ack,
+            "| ",
+            "%d ", dut0.r_wreg,
+            "%d ", dut0.r_w_x,
+            "%d ", dut0.r_w_y,
+            "%d ", dut0.wreg_start,
+            "%d ", dut0.wreg_valid,
+            "%d ", dut0.wreg_end,
+            "; ",
+            "%d ", dut0.r_x,
+            "%d ", dut0.r_y,
+            "%d ", dut0.conv_start,
+            "%d ", dut0.conv_valid,
+            "%d ", dut0.conv_end,
+            "; ",
+            "%d ", dut0.r_p_x,
+            "%d ", dut0.r_p_y,
+            "%d ", dut0.pool_start,
+            "%d ", dut0.pool_valid,
+            "%d ", dut0.pool_end,
+            "| ",
+            "%d ", dut0.r_state,
+            "%d ", dut0.r_c_in,
+            "%d ", dut0.r_c_out,
+        );
+        #(CLK/2+1);
+    end
+
+    ctrl dut0(/*AUTOINST*/);
+
+endmodule

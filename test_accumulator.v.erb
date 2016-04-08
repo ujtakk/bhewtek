@@ -1,0 +1,58 @@
+`timescale 10ps/1ps
+
+module test_accumulator();
+`include "parameters.vh"
+
+    /*AUTOREGINPUT*/
+
+    /*AUTOWIRE*/
+
+    //clock
+    always
+    begin
+        clk = 0;
+        #(STEP/2);
+        clk = 1;
+        #(STEP/2);
+    end
+
+    initial
+    begin
+        $display("xrst o_we | result sum_old | total sum_wb");
+        #(STEP);
+        //xrst = 0;
+        o_we = 0;
+        result = 0;
+        sum_old = 0;
+        #(STEP);
+        //xrst = 1;
+        result = 5;
+        sum_old = 170;
+        #(STEP*2);
+        o_we = 1;
+        #(STEP*2);
+        result = 7;
+        #(STEP*2);
+        o_we = 0;
+        result = 0;
+        #(STEP*2);
+        $finish();
+    end
+
+    always
+    begin
+        #(STEP/2-1);
+        $display(
+            //"%d ", xrst,
+            "%d | ", o_we,
+            "%d ", result,
+            "%d | ", sum_old,
+            "%d ", total,
+            "%d ", sum_wb
+        );
+        #(STEP/2+1);
+    end
+
+    accumulator dut0(/*AUTOINST*/);
+
+endmodule

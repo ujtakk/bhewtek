@@ -1,0 +1,44 @@
+module linebuf_feat(/*AUTOARG*/);
+`include "parameters.vh"
+
+    /*AUTOINPUT*/
+    input clk;
+    input [DWIDTH-1:0] read_data;
+
+    /*AUTOOUTPUT*/
+    //<% for i in 0..3 %>
+    output [DWIDTH-1:0] pixel_feat<%=i%>;
+    //<% end %>
+
+    /*AUTOWIRE*/
+
+    /*AUTOREG*/
+
+    //<% for y in 0..1 %>
+    //<%   x_max = y == 1 ? 1 : 11 %>
+    //<%   for x in 0..x_max %>
+    reg [DWIDTH-1:0]    r_pix<%=y%>_<%=x%>;
+    //<%   end %>
+    //<% end %>
+
+    //<% for i in 0..3 %>
+    assign pixel_feat<%=i%> = r_pix<%=i/2%>_<%=i%2%>;
+    //<% end %>
+
+    //<% for y in 0..1 %>
+    //<%   x_max = y == 1 ? 1 : 11 %>
+    //<%   for x in 0..x_max %>
+    always @(posedge clk)
+        //<% if x == x_max %>
+        //<%   if y == 1 %>
+        r_pix<%=y%>_<%=x%> <= read_data;
+        //<%   else %>
+        r_pix<%=y%>_<%=x%> <= r_pix<%=y+1%>_0;
+        //<%   end %>
+        //<% else %>
+        r_pix<%=y%>_<%=x%> <= r_pix<%=y%>_<%=x+1%>;
+        //<% end %>
+    //<%   end %>
+    //<% end %>
+
+endmodule

@@ -1,11 +1,12 @@
 module top(/*AUTOARG*/);
 `include "parameters.vh"
+<%- load "parameters.rb" -%>
 
     /*AUTOINPUT*/
     input [INSIZE-1:0] input_addr;
-    /* <% for i in 0..3 %> */
+    <%- for i in 0..$core-1 -%>
     input [WSIZE-1:0] weight_addr<%=i%>;
-    /* <% end %> */
+    <%- end -%>
 
     /*AUTOOUTPUT*/
 
@@ -25,7 +26,7 @@ module top(/*AUTOARG*/);
     ); */
     rspb18_4kx16m8_g1 mem_input(/*AUTOINST*/);
 
-    //<% for i in 0..3 %>
+    <%- for i in 0..$core-1 -%>
     /* rspb18_8kx16m16_g1 AUTO_TEMPLATE (
         .ADR (weight_addr<%=i%>[WSIZE-1:0] + mem_weight_addr<%=i%>[WSIZE-1:0]),
         .D   (write_weight<%=i%>[DWIDTH-1:0]),
@@ -37,7 +38,7 @@ module top(/*AUTOARG*/);
         .Q   (read_weight<%=i%>[DWIDTH-1:0]),
     ); */
     rspb18_8kx16m16_g1 mem_weight<%=i%>(/*AUTOINST*/);
-    //<% end %>
+    <%- end -%>
 
     /* linebuf_pix AUTO_TEMPLATE (
         .read_data (read_input[DWIDTH-1:0]),
@@ -46,7 +47,7 @@ module top(/*AUTOARG*/);
 
     ctrl ctrl(/*AUTOINST*/);
 
-    //<% for i in 0..3 %>
+    <%- for i in 0..$core-1 -%>
     /* core AUTO_TEMPLATE (
         .conv_we          (conv_we<%=i%>),
         .mem_feat_addr    (mem_feat_addr<%=i%>[FACCUM-1:0]),
@@ -59,9 +60,9 @@ module top(/*AUTOARG*/);
         .pmap             (pmap<%=i%>[DWIDTH-1:0]),
     ); */
     core core<%=i%>(/*AUTOINST*/);
-    //<% end %>
+    <%- end -%>
 
-    //<% for i in 0..3 %>
+    <%- for i in 0..$core-1 -%>
     /* rspb18_1kx16m8_g1 AUTO_TEMPLATE (
         .ADR (mem_output_addr<%=i%>[OUTSIZE-1:0]),
         .D   (pmap<%=i%>[DWIDTH-1:0]),
@@ -73,6 +74,6 @@ module top(/*AUTOARG*/);
         .Q   (),
     ); */
     rspb18_1kx16m8_g1 mem_output<%=i%>(/*AUTOINST*/);
-    //<% end %>
+    <%- end -%>
 
 endmodule

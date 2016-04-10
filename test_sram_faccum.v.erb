@@ -22,26 +22,26 @@ module test_sram_faccum();
     //    mem_we1 = 1;
     //    mem_we2 = 0;
     //    write_data2 = 0;
-    //    /* <% for i in 0..31 %> */
+    //    <%- for i in 0..31 -%>
     //    mem_addr1 = <%=i%>;
-    //    /* <% if i == 31 %> */
+    //    <%- if i == 31 -%>
     //    mem_addr2 = 0;
-    //    /* <% else %> */
+    //    <%- else -%>
     //    mem_addr2 = <%=i+1%>;
-    //    /* <% end %> */
+    //    <%- end -%>
     //    write_data1 = <%=2*i%>;
     //    #(STEP);
-    //    /* <% end %> */
-    //    /* <% for i in 0..31 %> */
+    //    <%- end -%>
+    //    <%- for i in 0..31 -%>
     //    mem_addr1 = <%=i%>;
-    //    /* <% if i == 31 %> */
+    //    <%- if i == 31 -%>
     //    mem_addr2 = 0;
-    //    /* <% else %> */
+    //    <%- else -%>
     //    mem_addr2 = <%=i+1%>;
-    //    /* <% end %> */
+    //    <%- end -%>
     //    write_data1 = <%=4*i%>;
     //    #(STEP);
-    //    /* <% end %> */
+    //    <%- end -%>
     //    mem_we1 = 0;
     //    mem_addr1 = 1;
     //    write_data1 = 0;
@@ -84,26 +84,26 @@ module test_sram_faccum();
         mem_we1 = 1;
         mem_we2 = 0;
         write_data2 = 0;
-        /* <% for i in 0..31 %> */
+        <%- for i in 0..31 -%>
         mem_addr1 = <%=i%>;
-        /* <% if i == 31 %> */
+        <%- if i == 31 -%>
         mem_addr2 = 0;
-        /* <% else %> */
+        <%- else -%>
         mem_addr2 = <%=i+1%>;
-        /* <% end %> */
+        <%- end -%>
         write_data1 = <%=2*i%>;
         #(STEP);
-        /* <% end %> */
-        /* <% for i in 0..31 %> */
+        <%- end -%>
+        <%- for i in 0..31 -%>
         mem_addr1 = <%=i%>;
-        /* <% if i == 31 %> */
+        <%- if i == 31 -%>
         mem_addr2 = 0;
-        /* <% else %> */
+        <%- else -%>
         mem_addr2 = <%=i+1%>;
-        /* <% end %> */
+        <%- end -%>
         write_data1 = <%=4*i%>;
         #(STEP);
-        /* <% end %> */
+        <%- end -%>
         mem_we1 = 0;
         mem_addr1 = 1;
         write_data1 = 0;
@@ -137,7 +137,7 @@ module test_sram_faccum();
         #(STEP/2+1);
     end
 
-    /* rdpb18_64x16_g1 AUTO_TEMPLATE (
+    //rdpb18_64x16_g1 AUTO_TEMPLATE (
 	.AA (mem_addr1[FACCUM-1:0]),
 	.CPA (clk),
 	.WEBA (1'b0),
@@ -155,7 +155,7 @@ module test_sram_faccum();
 	.IB (write_data2[DWIDTH-1:0]),
 	.OB (read_data2[DWIDTH-1:0]),
 	);
-    */
+   
     rdpb18_64x16_g1 dut0(/*AUTOINST*/);
 
     //sram_faccum dut0(/*AUTOINST*/);

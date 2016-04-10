@@ -1,5 +1,6 @@
 module core(/*AUTOARG*/);
 `include "parameters.vh"
+<%- load "parameters.rb" -%>
 
     /*AUTOINPUT*/
 
@@ -48,9 +49,9 @@ module core(/*AUTOARG*/);
     accumulator feat_accum(/*AUTOINST*/);
 
     /* linebuf_feat AUTO_TEMPLATE (
-        //<% for i in 0..3 %>
+        <%- for i in 0..$psize**2-1 -%>
         .pixel_feat<%=i%> (pixel_feat<%=i%>[DWIDTH-1:0]),
-        //<% end %>
+        <%- end -%>
         .read_data        (fmap[DWIDTH-1:0]),
     ); */
     linebuf_feat buf_feat(/*AUTOINST*/);
@@ -58,9 +59,9 @@ module core(/*AUTOARG*/);
     /* pool AUTO_TEMPLATE (
         .pmap             (pmap[DWIDTH-1:0]),
         .o_we             (pool_we),
-        //<% for i in 0..3 %>
+        <%- for i in 0..$psize**-1 -%>
         .pixel_feat<%=i%> (pixel_feat<%=i%>[DWIDTH-1:0]),
-        //<% end %>
+        <%- end -%>
     ); */
     pool pool(/*AUTOINST*/);
 

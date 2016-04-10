@@ -21,11 +21,11 @@ module test_sram_input();
     //begin
     //    #(CLK);
     //    mem_we = 1;
-    //    /* <% for i in 0..63 %> */
+    //    <%- for i in 0..63 -%>
     //    mem_addr = <%=i%>;
     //    write_data = <%=2*i%>;
     //    #(CLK);
-    //    /* <% end %> */
+    //    <%- end -%>
     //    mem_we = 0;
     //    mem_addr = 1;
     //    write_data = 0;
@@ -58,11 +58,11 @@ module test_sram_input();
         WEM = 2'b11;
         #(STEP);
         WE = 1;
-        /* <% for i in 0..63 %> */
+        <%- for i in 0..63 -%>
         ADR = <%=i%>;
         D = <%=2*i%>;
         #(STEP);
-        /* <% end %> */
+        <%- end -%>
         WE = 0;
         ADR = 1;
         D = 0;

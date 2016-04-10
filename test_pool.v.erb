@@ -20,33 +20,23 @@ module test_pool();
     begin
         #(CLK);
         o_we = 0;
-        /* <% for i in 0..3 %> */
+        <%- for i in 0..3 -%>
         pixel_feat<%=i%> = <%=i%>;
-        /* <% end %> */
+        <%- end -%>
         #(CLK*2);
         o_we = 1;
         #(CLK*2);
-        /*  */
         pixel_feat0 = 8;
-        /*  */
         pixel_feat1 = 5;
-        /*  */
         pixel_feat2 = 6;
-        /*  */
         pixel_feat3 = 1;
-        /*  */
         #(CLK*2);
         o_we = 0;
         #(CLK*2);
-        /*  */
         pixel_feat0 = 0;
-        /*  */
         pixel_feat1 = 5;
-        /*  */
         pixel_feat2 = 6;
-        /*  */
         pixel_feat3 = 1;
-        /*  */
         #(CLK*2);
         o_we = 1;
         #(CLK*2);
@@ -58,9 +48,9 @@ module test_pool();
         #(CLK/2-1);
         $display(
             "%d | ", o_we,
-            /* <% for i in 0..3 %> */
+            <%- for i in 0..3 -%>
             "%d ", pixel_feat<%=i%>,
-            /* <% end %> */
+            <%- end -%>
             "| %d", pmap
         );
         #(CLK/2+1);

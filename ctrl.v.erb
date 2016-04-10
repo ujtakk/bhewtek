@@ -1,5 +1,6 @@
 module ctrl(/*AUTOARG*/);
 `include "parameters.vh"
+<%- load "parameters.rb" -%>
 
     parameter WAIT = 'd0;
     parameter WREG = 'd1;
@@ -22,7 +23,7 @@ module ctrl(/*AUTOARG*/);
     /*AUTOOUTPUT*/
     output [INSIZE-1:0] mem_input_addr;
     output ack;
-    //<% for i in 0..3 %>
+    <%- for i in 0..$core-1 -%>
     output [WSIZE-1:0] mem_weight_addr<%=i%>;
     output wreg_we<%=i%>;
     output mem_feat_we<%=i%>;
@@ -33,7 +34,7 @@ module ctrl(/*AUTOARG*/);
     output pool_we<%=i%>;
     output mem_output_we<%=i%>;
     output [OUTSIZE-1:0] mem_output_addr<%=i%>;
-    //<% end %>
+    <%- end -%>
 
     /*AUTOWIRE*/
     wire wreg_start;
@@ -68,7 +69,7 @@ module ctrl(/*AUTOARG*/);
     reg [LWIDTH-1:0] r_total_out;
     reg [LWIDTH-1:0] r_count_in;
     reg [LWIDTH-1:0] r_count_out;
-    //<% for i in 0..3 %>
+    <%- for i in 0..$core-1 -%>
     reg r_feat_we<%=i%>;
     reg r_feat_rst<%=i%>;
     reg [FACCUM-1:0] r_feat_addr<%=i%>;
@@ -79,7 +80,7 @@ module ctrl(/*AUTOARG*/);
     reg r_pool_we<%=i%>_d2;
     reg r_pool_we<%=i%>_d3;
     reg [OUTSIZE-1:0] r_output_addr<%=i%>;
-    //<% end %>
+    <%- end -%>
 
     //main FSM
     always @(posedge clk or negedge xrst)
@@ -111,11 +112,11 @@ module ctrl(/*AUTOARG*/);
 
                 POOL:
                     if (pool_end)
-                        if (r_count_out < r_total_out - 4)
+                        if (r_count_out < r_total_out - <%=$core%>)
                         begin
                             r_state <= WREG;
                             r_count_in <= 0;
-                            r_count_out <= r_count_out + 4;
+                            r_count_out <= r_count_out + <%=$core%>;
                         end
                         else
                         begin
@@ -162,13 +163,13 @@ module ctrl(/*AUTOARG*/);
         else if (r_state == CONV || r_state == POOL)
             r_in_addr <= r_in_addr + 1;
 
-    //<% for i in 0..3 %>
+    <%- for i in 0..$core-1 -%>
     assign mem_weight_addr<%=i%> = r_state == WREG
                                     ? r_w_addr + 1
                                     : r_w_addr;
 
     assign wreg_we<%=i%> = wreg_valid;
-    //<% end %>
+    <%- end -%>
 
     always @(posedge clk or negedge xrst)
         if (!xrst)
@@ -241,15 +242,15 @@ module ctrl(/*AUTOARG*/);
                 r_conv_y <= r_conv_y + 1;
 
     assign conv_start = (r_state == CONV || r_state == POOL)
-                        && r_conv_x == 4 && r_conv_y == 4;
+                        && r_conv_x == r_fil_w - 1 && r_conv_y == r_fil_h - 1;
     assign conv_valid = (r_state == CONV || r_state == POOL)
-                        && r_conv_x >= 4 && r_conv_x < r_img_w
-                        && r_conv_y >= 4 && r_conv_y < r_img_h;
+                        && r_conv_x >= r_fil_w - 1 && r_conv_x < r_img_w
+                        && r_conv_y >= r_fil_h - 1 && r_conv_y < r_img_h;
     assign conv_end   = (r_state == CONV || r_state == POOL)
                         && r_conv_x == r_img_w - 1 && r_conv_y == r_img_h - 1;
 
     //accum exec
-    //<% for i in 0..3 %>
+    <%- for i in 0..$core-1 -%>
     assign mem_feat_we<%=i%>      = r_feat_we<%=i%>;
     assign mem_feat_rst<%=i%>     = r_feat_rst<%=i%>;
     assign mem_feat_addr<%=i%>_d1 = r_feat_addr<%=i%>_d1;
@@ -284,7 +285,7 @@ module ctrl(/*AUTOARG*/);
             r_conv_we<%=i%> <= 1;
         else
             r_conv_we<%=i%> <= 0;
-    //<% end %>
+    <%- end -%>
 
     always @(posedge clk or negedge xrst)
         if (!xrst)
@@ -319,7 +320,7 @@ module ctrl(/*AUTOARG*/);
                         && r_pool_x == r_fea_w - 1 && r_pool_y == r_fea_h - 1;
 
     //pool exec
-    //<% for i in 0..3 %>
+    <%- for i in 0..$core-1 -%>
     assign pool_we<%=i%>         = r_pool_we<%=i%>_d2;
     assign mem_output_we<%=i%>   = r_pool_we<%=i%>_d3;
     assign mem_output_addr<%=i%> = r_output_addr<%=i%>;
@@ -342,8 +343,8 @@ module ctrl(/*AUTOARG*/);
             r_output_addr<%=i%> <= 0;
         else if (mem_output_we<%=i%>)
             r_output_addr<%=i%> <= r_output_addr<%=i%> + 1;
-    //<% end %>
+    <%- end -%>
 
-    assign ack = pool_end && r_count_out >= r_total_out - 4;
+    assign ack = pool_end && r_count_out >= r_total_out - <%=$core%>;
 
 endmodule

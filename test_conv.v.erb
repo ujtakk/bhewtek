@@ -21,21 +21,21 @@ module test_conv();
         #(CLK);
         xrst = 0;
         wreg_we = 0;
-        /* <% for i in 0..24 %> */
+        <%- for i in 0..$fsize**2-1 -%>
         pixel<%=i%> = 0;
-        /* <% end %> */
+        <%- end -%>
         #(CLK);
         xrst = 1;
         #(CLK);
         wreg_we = 1;
-        /* <% for i in 0..24 %> */
+        <%- for i in 0..$fsize**2-1 -%>
         read_data = <%=i%>;
         #(CLK);
-        /* <% end %> */
+        <%- end -%>
         wreg_we = 0;
-        /* <% for i in 0..24 %> */
+        <%- for i in 0..$fsize**2-1 -%>
         pixel<%=i%> = <%=i%>;
-        /* <% end %> */
+        <%- end -%>
         #(CLK*3);
         $finish();
     end
@@ -44,19 +44,19 @@ module test_conv();
     begin
         #(CLK/2-1);
         $display("%d %d | %d ", xrst, wreg_we, read_data);
-        /* <% for i in 0..4 %> */
+        <%- for i in 0..4 -%>
         $display(
-            /* <%   for j in 0..3 %> */
+            <%-   for j in 0..3 -%>
             "%d ", pixel<%=5*i+j%>,
-            /* <% end %> */
+            <%- end -%>
             "%d ", pixel<%=5*i+4%>,
             "| ",
-            /* <%   for j in 0..3 %> */
+            <%-   for j in 0..3 -%>
             "%d ", dut0.weight<%=5*i+j%>,
-            /* <% end %> */
+            <%- end -%>
             "%d ", dut0.weight<%=5*i+4%>,
         );
-        /* <% end %> */
+        <%- end -%>
         $display("output: %d\n", fmap);
         #(CLK/2+1);
     end

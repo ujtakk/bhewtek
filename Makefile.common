@@ -25,7 +25,7 @@ else
   Q = @
 endif
 
-ERUBY=erb
+ERUBY=erb -T -
 IVERILOG=/usr/bin/iverilog
 ARCH=$(shell uname -m)
 ifeq ($(SIMULATOR),iverilog)

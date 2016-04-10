@@ -1,12 +1,13 @@
 module pool(/*AUTOARG*/);
-    `include "parameters.vh"
+`include "parameters.vh"
+<%- load "parameters.rb" -%>
 
     /*AUTOINPUT*/
     input clk;
     input o_we;
-    /* <% for i in 0..3 %> */
+    <%- for i in 0..$psize**2-1 -%>
     input signed [DWIDTH-1:0] pixel_feat<%=i%>;
-    /* <% end %> */
+    <%- end -%>
 
     /*AUTOOUTPUT*/
     output [DWIDTH-1:0] pmap;

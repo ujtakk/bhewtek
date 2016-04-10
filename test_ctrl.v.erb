@@ -48,7 +48,7 @@ module test_ctrl();
             "%d ", xrst,
             "%d ", req,
             "| ",
-            /* <% for i in 0..3 %> */
+            <%- for i in 0..3 -%>
             "%d ", wreg_we<%=i%>,
             "%d ", acc_we<%=i%>,
             "%d ", pool_we<%=i%>,
@@ -56,7 +56,7 @@ module test_ctrl();
             "%d ", mem_faccum_addr<%=i%>,
             "%d ", mem_faccum_addr<%=i%>_f1,
             ";",
-            /* <% end %> */
+            <%- end -%>
             "%d ", mem_input_addr,
             "%d ", mem_weight_addr,
             "%d ", ack,

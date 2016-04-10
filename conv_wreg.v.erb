@@ -3,7 +3,7 @@ module conv_wreg(/*AUTOARG*/);
 
     /*AUTOINPUT*/
     input [DWIDTH-1:0] read_data;
-    input wreg_we; // write enable
+    input wreg_we;
     input clk;
 
     /*AUTOOUTPUT*/
@@ -18,7 +18,9 @@ module conv_wreg(/*AUTOARG*/);
     reg [DWIDTH-1:0] r_weight<%=i%>;
     //<% end %>
 
+    //<% for i in 0..24 %>
     assign weight<%=i%> = r_weight<%=i%>;
+    //<% end %>
 
     //<% for i in 0..24 %>
     always @(posedge clk)

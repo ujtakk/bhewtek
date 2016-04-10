@@ -58,7 +58,7 @@ module top(/*AUTOARG*/);
         .wreg_we          (wreg_we<%=i%>),
         .pmap             (pmap<%=i%>[DWIDTH-1:0]),
     ); */
-    core pe<%=i%>(/*AUTOINST*/);
+    core core<%=i%>(/*AUTOINST*/);
     //<% end %>
 
     //<% for i in 0..3 %>

@@ -83,7 +83,8 @@ module ctrl(/*AUTOARG*/);
 
     //main FSM
     always @(posedge clk or negedge xrst)
-        if (!xrst) begin
+        if (!xrst)
+        begin
             r_state <= WAIT;
             r_count_in <= 0;
             r_count_out <= 0;
@@ -102,19 +103,22 @@ module ctrl(/*AUTOARG*/);
                             r_state <= CONV;
 
                 CONV:
-                    if (conv_end) begin
+                    if (conv_end)
+                    begin
                         r_state  <= WREG;
                         r_count_in <= r_count_in + 1;
                     end
 
                 POOL:
                     if (pool_end)
-                        if (r_count_out < r_total_out - 4) begin
+                        if (r_count_out < r_total_out - 4)
+                        begin
                             r_state <= WREG;
                             r_count_in <= 0;
                             r_count_out <= r_count_out + 4;
                         end
-                        else begin
+                        else
+                        begin
                             r_state <= WAIT;
                             r_count_in <= 0;
                             r_count_out <= 0;
@@ -123,7 +127,8 @@ module ctrl(/*AUTOARG*/);
 
     //wait exec (initialize)
     always @(posedge clk or negedge xrst)
-        if (!xrst) begin
+        if (!xrst)
+        begin
             r_total_in  <= 0;
             r_total_out <= 0;
             r_img_w <= 0;
@@ -133,7 +138,8 @@ module ctrl(/*AUTOARG*/);
             r_fea_w <= 0;
             r_fea_h <= 0;
         end
-        else if (r_state == WAIT && req) begin
+        else if (r_state == WAIT && req)
+        begin
             r_total_in  <= n_in;
             r_total_out <= n_out;
             r_img_w <= img_w;
@@ -191,7 +197,8 @@ module ctrl(/*AUTOARG*/);
                 r_wreg_x <= r_wreg_x + 1;
 
     always @(posedge clk or negedge xrst)
-        if (!xrst) r_wreg_y <= 0;
+        if (!xrst)
+            r_wreg_y <= 0;
         else if (r_state == WAIT)
             r_wreg_y <= 0;
         else if (r_state == WREG && r_wreg_x == r_fil_w - 1)
@@ -335,7 +342,6 @@ module ctrl(/*AUTOARG*/);
             r_output_addr<%=i%> <= 0;
         else if (mem_output_we<%=i%>)
             r_output_addr<%=i%> <= r_output_addr<%=i%> + 1;
-
     //<% end %>
 
     assign ack = pool_end && r_count_out >= r_total_out - 4;

@@ -1,4 +1,4 @@
-`timescale 10ps/1ps
+`timescale 1ns/1ps
 
 module test_top();
 `include "parameters.vh"
@@ -34,7 +34,7 @@ module test_top();
         fcnt<%=i%> = 0;
         <% end %>
 
-        //fp = $fopen("core_log.txt");
+        fp = $fopen("top_log.txt");
 
         xrst = 0;
         input_addr = 0;
@@ -73,7 +73,6 @@ module test_top();
         <% end %>
 
         //$toggle_start();
-        //$vcdpluson;
         #(STEP);
 
         xrst = 0;
@@ -111,7 +110,6 @@ module test_top();
         $display("input: %d     weight: %d", mem_input_cnt, mem_weight_cnt);
         $display("fcnt: %d %d %d %d", fcnt0, fcnt1, fcnt2, fcnt3);
         //$toggle_report("test_core.saif", "10ps", "dut0");
-        //$vcdplusoff;
         $finish();
     end
 
@@ -136,74 +134,45 @@ module test_top();
         if (dut0.mem_feat_we<%=i%>)
             fcnt<%=i%> = fcnt<%=i%> + 1;
         <% end %>
+
+        $fdisplay(fp,
+            "%5d: ", $time/STEP,
+            "%d ", xrst,
+            "%d ", req,
+            "%d ", ack,
+            "| ",
+            "%d ", dut0.ctrl.r_state,
+            "%d ", dut0.ctrl.r_count_in,
+            "%d ", dut0.ctrl.r_count_out,
+            "| ",
+            "%d ", dut0.ctrl.r_wreg_x,
+            "%d ", dut0.ctrl.r_wreg_y,
+            "%d ", dut0.ctrl.wreg_valid,
+            "; ",
+            "%d ", dut0.ctrl.r_conv_x,
+            "%d ", dut0.ctrl.r_conv_y,
+            "%d ", dut0.ctrl.conv_valid,
+            "; ",
+            "%d ", dut0.ctrl.r_pool_x,
+            "%d ", dut0.ctrl.r_pool_y,
+            "%d ", dut0.ctrl.pool_valid,
+            "| ",
+            "%d ", dut0.mem_feat_we0,
+            "%d ", dut0.mem_feat_addr0,
+            "%4d ", $signed(dut0.core0.result),
+            "%4d ", $signed(dut0.core0.read_feat),
+            "%4d ", $signed(dut0.core0.write_feat),
+            "| ",
+            <% for i in 0..3 %>
+            "%4d ", $signed(dut0.core0.pixel_feat<%=i%>),
+            <% end %>
+            "| ",
+            "%4d ", $signed(dut0.pmap0),
+            "%d ", dut0.mem_output_we0,
+            "%d ", dut0.mem_output_addr0,
+        );
         #(STEP/2+1);
     end
-
-//        $fdisplay(fp,
-//            "%5d: ", $time/STEP,
-//            "%d ", xrst,
-//            "%d ", req,
-//            "%d ", $signed(dut0.pmap0),
-//            "%d ", $signed(dut0.pmap1),
-//            "%d ", $signed(dut0.pmap2),
-//            "%d ", $signed(dut0.pmap3),
-//            "%d ", ack,
-//            "%d ", dut0.mem_output_we0,
-//            "%d ", dut0.mem_output_addr0,
-//            "| ",
-//            "%d ", dut0.mem_input_addr,
-//            "%d ", dut0.input_addr,
-//            "%d ", dut0.mem_weight_addr0,
-//            "%d ", dut0.weight_addr0,
-//            "%d ", dut0.wreg_we0,
-//            "%d ", dut0.conv_we0,
-//            "%d ", dut0.pool_we0,
-//            "| ",
-//            "%d ", dut0.mem_feat_we0,
-//            "%d ", dut0.mem_feat_rst0,
-//            "%d ", dut0.mem_feat_addr0,
-//            "%d ", dut0.mem_feat_addr0_d1,
-//            "%d ", $signed(dut0.result0),
-//            "%d ", $signed(dut0.read_feat0),
-//            "%d ", $signed(dut0.write_feat0),
-//            //"-*- ",
-//            //"%4d ", $signed(dut0.mem_feat0.mem[0]),
-//            //"%4d ", $signed(dut0.mem_feat0.mem[1]),
-//            //"%4d ", $signed(dut0.mem_feat0.mem[2]),
-//            //"%4d ", $signed(dut0.mem_feat0.mem[3]),
-//            //"%4d ", $signed(dut0.mem_feat0.mem[4]),
-//            //"%4d ", $signed(dut0.mem_feat0.mem[5]),
-//            //"%4d ", $signed(dut0.mem_feat0.mem[6]),
-//            //"%4d ", $signed(dut0.mem_feat0.mem[7]),
-//            //"-*- ",
-//            "| ",
-//            "%d ", dut0.ctrl.r_state,
-//            "%d ", dut0.ctrl.r_c_in,
-//            "%d ", dut0.ctrl.r_c_out,
-//            "| ",
-//            "%d ", dut0.ctrl.r_w_x,
-//            "%d ", dut0.ctrl.r_w_y,
-//            //"%d ", dut0.ctrl.wreg_start,
-//            "%d ", dut0.ctrl.wreg_valid,
-//            //"%d ", dut0.ctrl.wreg_end,
-//            "; ",
-//            "%d ", dut0.ctrl.r_x,
-//            "%d ", dut0.ctrl.r_y,
-//            "%d ", dut0.ctrl.conv_start,
-//            "%d ", dut0.ctrl.conv_valid,
-//            "%d ", dut0.ctrl.conv_end,
-//            "; ",
-//            "%d ", dut0.ctrl.r_p_x,
-//            "%d ", dut0.ctrl.r_p_y,
-//            //"%d ", dut0.ctrl.pool_start,
-//            "%d ", dut0.ctrl.pool_valid,
-//            //"%d ", dut0.ctrl.pool_end,
-//            <% for i in 0..3 %>
-//            "%d ", $signed(dut0.pixel_feat<%=i%>_0),
-//            <% end %>
-//        );
-//        #(STEP/2+1);
-//    end
 
     top dut0(/*AUTOINST*/);
 

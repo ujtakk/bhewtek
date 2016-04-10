@@ -1,6 +1,5 @@
 module conv_tree(/*AUTOARG*/);
-
-   parameter DWIDTH=16,DNUMBER=25;
+`include "parameters.vh"
 
    /*AUTOINPUT*/
    input clk;
@@ -28,14 +27,14 @@ module conv_tree(/*AUTOARG*/);
    //<% end %>
    //<% for i in 0..24 %>
    wire signed[2*DWIDTH-1:0]   pro<%=i%>;
-   //<% end %>
-   //<% for i in 0..24 %>
    wire signed [DWIDTH-1:0]    pro_short<%=i%>;
    //<% end %>
 
    //<% for i in 0..24 %>
    //assign pro<%=i%> = (r_pixel<%=i%> * r_weight<%=i%>);
    assign pro<%=i%> = (pixel<%=i%> * weight<%=i%>);
+   //<% end %>
+   //<% for i in 0..24 %>
    assign pro_short<%=i%> = $signed({pro<%=i%>[22],pro<%=i%>[22:8]});
    //<% end %>
    assign sum0 = sum1 + sum2;

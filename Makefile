@@ -19,5 +19,5 @@ include $(IOC_DIR)/Makefile.common
 clean: clean-common
 
 saif:
-	vcs -full64 -R -debug_all -PP -timescale=10ps/1ps +v2k +neg_tchk *.v | tee vcslog
+	vcs -full64 -R -debug_all -PP -timescale=1ns/1ps +v2k +neg_tchk *.v | tee vcslog
 	vcd2saif -64 -input vcdplus.vpd -output $(TARGET).saif

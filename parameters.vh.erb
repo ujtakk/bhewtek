@@ -1,13 +1,14 @@
-parameter DWIDTH = 16;
-parameter INSIZE = 12; // 3664
-parameter FSIZE = 5;
-parameter PSIZE = 2;
-parameter N_F1 = 20;
-parameter N_F2 = 50;
-parameter OUTSIZE = 10; // 928
-parameter WSIZE = 13; // 6625
-parameter IFMSIZE = 9; // 360 (cf. 8bit)
-parameter FACCUM = 7; // 64(Actually, 576)
-parameter PACCUM = 8; // 144
-parameter LWIDTH = 8;
-parameter STEP = 10;
+<%- load "parameters.rb" -%>
+parameter DWIDTH  = <%= $dwidth  %>;
+parameter INSIZE  = <%= $insize  %>;
+parameter FSIZE   = <%= $fsize   %>;
+parameter PSIZE   = <%= $psize   %>;
+parameter N_F1    = <%= $n_f1    %>;
+parameter N_F2    = <%= $n_f2    %>;
+parameter OUTSIZE = <%= $outsize %>;
+parameter WSIZE   = <%= $wsize   %>;
+parameter IFMSIZE = <%= $ifmsize %>;
+parameter FACCUM  = <%= $faccum  %>;
+parameter PACCUM  = <%= $paccum  %>;
+parameter LWIDTH  = <%= $lwidth  %>;
+parameter STEP    = <%= $step    %>;

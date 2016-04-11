@@ -270,7 +270,10 @@ module ctrl(/*AUTOARG*/);
             r_feat_rst<%=i%> <= 0;
 
     always @(posedge clk or negedge xrst)
-        r_feat_addr<%=i%>_d1 <= r_feat_addr<%=i%>;
+        if (!xrst)
+            r_feat_addr<%=i%>_d1 <= 0;
+        else
+            r_feat_addr<%=i%>_d1 <= r_feat_addr<%=i%>;
 
     always @(posedge clk or negedge xrst)
         if (!xrst)
@@ -332,11 +335,18 @@ module ctrl(/*AUTOARG*/);
             r_pool_we<%=i%> <= 0;
 
     always @(posedge clk or negedge xrst)
-    begin
-        r_pool_we<%=i%>_d1 <= r_pool_we<%=i%>;
-        r_pool_we<%=i%>_d2 <= r_pool_we<%=i%>_d1;
-        r_pool_we<%=i%>_d3 <= r_pool_we<%=i%>_d2;
-    end
+        if (!xrst)
+        begin
+            r_pool_we<%=i%>_d1 <= 0;
+            r_pool_we<%=i%>_d2 <= 0;
+            r_pool_we<%=i%>_d3 <= 0;
+        end
+        else
+        begin
+            r_pool_we<%=i%>_d1 <= r_pool_we<%=i%>;
+            r_pool_we<%=i%>_d2 <= r_pool_we<%=i%>_d1;
+            r_pool_we<%=i%>_d3 <= r_pool_we<%=i%>_d2;
+        end
 
     always @(posedge clk or negedge xrst)
         if (!xrst)

@@ -1,0 +1,8 @@
+*~
+*.v
+*.vh
+*.log
+*.in
+*.com
+*.vstf
+Makefile.dep

@@ -1,0 +1,884 @@
+//---------------------------------------------------------------------
+//               Copyright(c) Virage Logic Corporation.                
+//     All Rights reserved - Unpublished -rights reserved under        
+//     the Copyright laws of the United States of America.             
+//                                                                     
+//  This file includes the Confidential information of Virage Logic    
+//  The receiver of this Confidential Information shall not disclose   
+//  it to any third party and shall protect its confidentiality by     
+//  using the same degree of care, but not less then a reasonable      
+//  degree of care, as the receiver uses to protect receiver's own     
+//  Confidential Information.                                          
+//                                                                     
+//                    Virage Logic Corporation.                        
+//                    46501 Landing Parkway                            
+//                    Fremont , California 94538.                      
+//                                                                     
+//---------------------------------------------------------------------
+//                                                                     
+//  Software           : Rev: 3.2.0 (build REL-3-2-0-2002-09-27)       
+//  Library Format     : Rev: 1.05.00                                  
+//  Compiler Name      : ts18s1p11hdsb04p4                             
+//  Date of Generation : Thu Feb 27 13:52:48 JST 2003                  
+//                                                                     
+//---------------------------------------------------------------------
+//   --------------------------------------------------------------     
+//                       Template Revision : 1.1.9                      
+//   --------------------------------------------------------------     
+//  ************************************************************
+//     *    Synchronous, 1-Port Read/Write RAM      *
+//            *  Verilog Behavioral Model  *
+// *************************************************************
+//
+// THIS IS A SYNCHRONOUS 1-PORT MEMORY MODEL
+// WHICH TAKES BOTH TIMING CHECKS AND DELAY DATA FROM SDF ONLY
+//
+// Memory Name:       rspb18_512x16m8_g1
+// Memory Size:       512 words x 16 bits
+//
+//                 PORT NAME
+//                 ---------
+// Input Ports:
+//
+//                 ADR [8:0]
+//                 D  [15:0]
+//                 WEM  [1:0]
+//                 WE
+//                 OE
+//                 ME
+//                 CLK
+
+// Output Ports:
+//
+//                 Q [15:0]
+//
+// *************************************************************
+`resetall 
+
+`timescale 1 ns / 1 ps 
+`celldefine 
+`suppress_faults 
+`enable_portfaults 
+
+`define True    1'b1
+`define False   1'b0
+module rspb18_512x16m8_g1 ( Q, ADR, D, WEM,WE, OE, ME,  CLK);
+
+parameter MES_ALL = "ON";
+
+output [15:0] Q;
+wire [15:0] Q;
+
+input [8:0] ADR;
+input [15:0] D;
+input [1:0] WEM;
+input WE;
+input OE;
+input ME;
+input CLK;
+
+// Local registers, wires, etc
+
+wire [15:0]    Q_tmp;
+wire [8:0]    ADR_buf;
+wire [15:0]    D_buf;
+wire [1:0]    WEM_buf;
+wire OE_eff;
+wire OEeff_del;
+reg  notif_a_we, notif_a_adr, notif_a_d, notif_a_clk, notif_a_me;
+reg  notif_a_wem;
+reg  ME_buf_L;
+reg  WE_buf_L;
+reg [8:0] ADR_buf_L;
+reg [8:0] preADR;
+reg ADRFLAGA;
+wire CHKEN1A;
+wire CHKEN2A;
+wire CHKEN3A;
+wire CHKEN4A;
+wire CHKEN7A;
+wire WEM_active;
+wire WEM_active_eff;
+wire WEM_active_eff_L;
+reg WEM_active_L;
+wire [1:0] WEMbus;
+wire [1:0] WEMbus_eff;
+wire [1:0] WEMbus_eff_L;
+reg [1:0] WEMbus_L;
+
+buf ADR_buf_u0 ( ADR_buf[0], ADR[0] );
+buf ADR_buf_u1 ( ADR_buf[1], ADR[1] );
+buf ADR_buf_u2 ( ADR_buf[2], ADR[2] );
+buf ADR_buf_u3 ( ADR_buf[3], ADR[3] );
+buf ADR_buf_u4 ( ADR_buf[4], ADR[4] );
+buf ADR_buf_u5 ( ADR_buf[5], ADR[5] );
+buf ADR_buf_u6 ( ADR_buf[6], ADR[6] );
+buf ADR_buf_u7 ( ADR_buf[7], ADR[7] );
+buf ADR_buf_u8 ( ADR_buf[8], ADR[8] );
+
+buf D_buf_u0 ( D_buf[0], D[0] );
+buf D_buf_u1 ( D_buf[1], D[1] );
+buf D_buf_u2 ( D_buf[2], D[2] );
+buf D_buf_u3 ( D_buf[3], D[3] );
+buf D_buf_u4 ( D_buf[4], D[4] );
+buf D_buf_u5 ( D_buf[5], D[5] );
+buf D_buf_u6 ( D_buf[6], D[6] );
+buf D_buf_u7 ( D_buf[7], D[7] );
+buf D_buf_u8 ( D_buf[8], D[8] );
+buf D_buf_u9 ( D_buf[9], D[9] );
+buf D_buf_u10 ( D_buf[10], D[10] );
+buf D_buf_u11 ( D_buf[11], D[11] );
+buf D_buf_u12 ( D_buf[12], D[12] );
+buf D_buf_u13 ( D_buf[13], D[13] );
+buf D_buf_u14 ( D_buf[14], D[14] );
+buf D_buf_u15 ( D_buf[15], D[15] );
+
+buf WEM_buf_u0 ( WEM_buf[0], WEM[0] );
+buf WEM_buf_u1 ( WEM_buf[1], WEM[1] );
+
+buf WE_buf_u0 ( WE_buf, WE );
+buf OE_buf_u0 ( OE_buf, OE );
+buf ME_buf_u0 ( ME_buf, ME );
+buf CLK_buf_u0 ( CLK_buf, CLK );
+
+IntComp_rspb18_512x16m8_g1 #(MES_ALL,9, 16, 512,2) u0  ( Q_tmp, CLK_buf,  ADR_buf, D_buf, WEM_buf, WE_buf, OE_buf, ME_buf, notif_a_we, notif_a_adr, notif_a_d, notif_a_me,   notif_a_wem, notif_a_clk);
+and u_OE_0 (OE_eff, OE_buf, 1'b1);
+function is_adr_Valid;  // 1-bit return value
+
+ input [8:0] addr_to_check;
+
+ integer addr_bit_count;
+ reg     ret_value;
+ begin
+  ret_value = `True;
+  for (addr_bit_count = 0; addr_bit_count <= 8; addr_bit_count = addr_bit_count +1)
+   if ((addr_to_check[addr_bit_count] !== 1'b0) && (addr_to_check[addr_bit_count] !== 1'b1))
+    ret_value = `False;
+   if((addr_to_check > 511) || (addr_to_check < 0))
+    begin
+     ret_value = `False;
+    end
+   is_adr_Valid = ret_value;
+ end
+
+endfunction
+
+
+initial
+ begin
+  ME_buf_L = 1'b0;
+  ADRFLAGA = 1;
+ end
+
+always @( ADR_buf or negedge CLK_buf)
+ begin
+   if ( CLK_buf == 1'b0) preADR = ADR_buf;
+ end
+
+always @( posedge CLK_buf)
+ begin
+  ME_buf_L = ME_buf;
+  WE_buf_L = WE_buf;
+  WEM_active_L = WEM_active;
+  WEMbus_L = WEMbus;
+
+ end
+
+
+
+always @ ( ADR_buf )
+ begin
+  if ( $realtime != 0) begin
+   if (( ADR_buf > 511) || (ADR_buf < 0 ))
+    ADRFLAGA = 0;
+   else
+    ADRFLAGA = 1;
+  end
+ end
+
+buf #0.001 u_OEeff_del_0 ( OEeff_del, OE_eff );
+
+bufif1 u_Q_0 (Q[0], Q_tmp[0], OEeff_del);
+bufif1 u_Q_1 (Q[1], Q_tmp[1], OEeff_del);
+bufif1 u_Q_2 (Q[2], Q_tmp[2], OEeff_del);
+bufif1 u_Q_3 (Q[3], Q_tmp[3], OEeff_del);
+bufif1 u_Q_4 (Q[4], Q_tmp[4], OEeff_del);
+bufif1 u_Q_5 (Q[5], Q_tmp[5], OEeff_del);
+bufif1 u_Q_6 (Q[6], Q_tmp[6], OEeff_del);
+bufif1 u_Q_7 (Q[7], Q_tmp[7], OEeff_del);
+bufif1 u_Q_8 (Q[8], Q_tmp[8], OEeff_del);
+bufif1 u_Q_9 (Q[9], Q_tmp[9], OEeff_del);
+bufif1 u_Q_10 (Q[10], Q_tmp[10], OEeff_del);
+bufif1 u_Q_11 (Q[11], Q_tmp[11], OEeff_del);
+bufif1 u_Q_12 (Q[12], Q_tmp[12], OEeff_del);
+bufif1 u_Q_13 (Q[13], Q_tmp[13], OEeff_del);
+bufif1 u_Q_14 (Q[14], Q_tmp[14], OEeff_del);
+bufif1 u_Q_15 (Q[15], Q_tmp[15], OEeff_del);
+and u_CHKEN1A_0 ( CHKEN1A, ME_buf, ADRFLAGA);
+and u_CHKEN4A_0 ( CHKEN4A, ME_buf, ADRFLAGA, WE_buf , WEM_active);
+and u_CHKEN7A_0 ( CHKEN7A, ME_buf, ADRFLAGA, WE_buf);
+buf u_CHKEN3A_0 ( CHKEN3A, ME_buf );
+
+buf u_CHKEN2A_0 ( CHKEN2A, ADRFLAGA );
+assign WEMbus = { WEM_buf };
+assign WEM_active = ((|(WEMbus)===0)?1'b0:1'b1);
+assign WEM_active_eff = WEM_active;
+assign WEM_active_eff_L = WEM_active_L;
+
+// The following is Timing-dependent section of this model
+
+//`define timing
+`ifdef timing
+specify
+
+    specparam PATHPULSE$OE$Q = ( 0, 0.001 );
+    specparam
+        Tcq  =  1.422,
+        Tcqx =  0.601,
+
+        Toq  =  0.422,
+        Toqz =  0.431,
+
+        Tcc  =  1.436,
+        Tcl  =  0.565,
+        Tch  =  0.520,
+
+        Tac  =  0.347,
+        Tcax =  0.000,
+
+        Twc  =  0.351,
+        Tcwx =  0.000,
+        Tdc  =  0.352,
+        Tcdx =  0.045,
+
+        Twmc  =  0.352,
+        Tcwmx =  0.045,
+
+        Tmc  =  0.344,
+        Tcmx =  0.000;
+
+                                            /* using the Z transition place holder for Tcqx so that we
+                                               can control the X-transition of the output */
+
+    if (  OE )
+       ( posedge CLK => ( Q[0] : 1'bx )) = (Tcq, Tcq, Tcqx, Tcq, Tcqx, Tcq);
+    if (  OE )
+       ( posedge CLK => ( Q[1] : 1'bx )) = (Tcq, Tcq, Tcqx, Tcq, Tcqx, Tcq);
+    if (  OE )
+       ( posedge CLK => ( Q[2] : 1'bx )) = (Tcq, Tcq, Tcqx, Tcq, Tcqx, Tcq);
+    if (  OE )
+       ( posedge CLK => ( Q[3] : 1'bx )) = (Tcq, Tcq, Tcqx, Tcq, Tcqx, Tcq);
+    if (  OE )
+       ( posedge CLK => ( Q[4] : 1'bx )) = (Tcq, Tcq, Tcqx, Tcq, Tcqx, Tcq);
+    if (  OE )
+       ( posedge CLK => ( Q[5] : 1'bx )) = (Tcq, Tcq, Tcqx, Tcq, Tcqx, Tcq);
+    if (  OE )
+       ( posedge CLK => ( Q[6] : 1'bx )) = (Tcq, Tcq, Tcqx, Tcq, Tcqx, Tcq);
+    if (  OE )
+       ( posedge CLK => ( Q[7] : 1'bx )) = (Tcq, Tcq, Tcqx, Tcq, Tcqx, Tcq);
+    if (  OE )
+       ( posedge CLK => ( Q[8] : 1'bx )) = (Tcq, Tcq, Tcqx, Tcq, Tcqx, Tcq);
+    if (  OE )
+       ( posedge CLK => ( Q[9] : 1'bx )) = (Tcq, Tcq, Tcqx, Tcq, Tcqx, Tcq);
+    if (  OE )
+       ( posedge CLK => ( Q[10] : 1'bx )) = (Tcq, Tcq, Tcqx, Tcq, Tcqx, Tcq);
+    if (  OE )
+       ( posedge CLK => ( Q[11] : 1'bx )) = (Tcq, Tcq, Tcqx, Tcq, Tcqx, Tcq);
+    if (  OE )
+       ( posedge CLK => ( Q[12] : 1'bx )) = (Tcq, Tcq, Tcqx, Tcq, Tcqx, Tcq);
+    if (  OE )
+       ( posedge CLK => ( Q[13] : 1'bx )) = (Tcq, Tcq, Tcqx, Tcq, Tcqx, Tcq);
+    if (  OE )
+       ( posedge CLK => ( Q[14] : 1'bx )) = (Tcq, Tcq, Tcqx, Tcq, Tcqx, Tcq);
+    if (  OE )
+       ( posedge CLK => ( Q[15] : 1'bx )) = (Tcq, Tcq, Tcqx, Tcq, Tcqx, Tcq);
+
+       ( OE => Q[0] ) = (Toq, Toq, Toqz, Toq, Toqz, Toq);
+       ( OE => Q[1] ) = (Toq, Toq, Toqz, Toq, Toqz, Toq);
+       ( OE => Q[2] ) = (Toq, Toq, Toqz, Toq, Toqz, Toq);
+       ( OE => Q[3] ) = (Toq, Toq, Toqz, Toq, Toqz, Toq);
+       ( OE => Q[4] ) = (Toq, Toq, Toqz, Toq, Toqz, Toq);
+       ( OE => Q[5] ) = (Toq, Toq, Toqz, Toq, Toqz, Toq);
+       ( OE => Q[6] ) = (Toq, Toq, Toqz, Toq, Toqz, Toq);
+       ( OE => Q[7] ) = (Toq, Toq, Toqz, Toq, Toqz, Toq);
+       ( OE => Q[8] ) = (Toq, Toq, Toqz, Toq, Toqz, Toq);
+       ( OE => Q[9] ) = (Toq, Toq, Toqz, Toq, Toqz, Toq);
+       ( OE => Q[10] ) = (Toq, Toq, Toqz, Toq, Toqz, Toq);
+       ( OE => Q[11] ) = (Toq, Toq, Toqz, Toq, Toqz, Toq);
+       ( OE => Q[12] ) = (Toq, Toq, Toqz, Toq, Toqz, Toq);
+       ( OE => Q[13] ) = (Toq, Toq, Toqz, Toq, Toqz, Toq);
+       ( OE => Q[14] ) = (Toq, Toq, Toqz, Toq, Toqz, Toq);
+       ( OE => Q[15] ) = (Toq, Toq, Toqz, Toq, Toqz, Toq);
+
+// Timing Checks
+    $width (negedge CLK, Tcl, 0, notif_a_clk);
+    $width (posedge CLK, Tch, 0, notif_a_clk);
+    $period (negedge CLK, Tcc, notif_a_clk);
+    $period (posedge CLK, Tcc, notif_a_clk);
+    $setuphold (posedge CLK &&& ME, posedge ADR[0] &&& ME, Tac, Tcax, notif_a_adr );
+    $setuphold (posedge CLK &&& ME, negedge ADR[0] &&& ME, Tac, Tcax, notif_a_adr );
+    $setuphold (posedge CLK &&& ME, posedge ADR[1] &&& ME, Tac, Tcax, notif_a_adr );
+    $setuphold (posedge CLK &&& ME, negedge ADR[1] &&& ME, Tac, Tcax, notif_a_adr );
+    $setuphold (posedge CLK &&& ME, posedge ADR[2] &&& ME, Tac, Tcax, notif_a_adr );
+    $setuphold (posedge CLK &&& ME, negedge ADR[2] &&& ME, Tac, Tcax, notif_a_adr );
+    $setuphold (posedge CLK &&& ME, posedge ADR[3] &&& ME, Tac, Tcax, notif_a_adr );
+    $setuphold (posedge CLK &&& ME, negedge ADR[3] &&& ME, Tac, Tcax, notif_a_adr );
+    $setuphold (posedge CLK &&& ME, posedge ADR[4] &&& ME, Tac, Tcax, notif_a_adr );
+    $setuphold (posedge CLK &&& ME, negedge ADR[4] &&& ME, Tac, Tcax, notif_a_adr );
+    $setuphold (posedge CLK &&& ME, posedge ADR[5] &&& ME, Tac, Tcax, notif_a_adr );
+    $setuphold (posedge CLK &&& ME, negedge ADR[5] &&& ME, Tac, Tcax, notif_a_adr );
+    $setuphold (posedge CLK &&& ME, posedge ADR[6] &&& ME, Tac, Tcax, notif_a_adr );
+    $setuphold (posedge CLK &&& ME, negedge ADR[6] &&& ME, Tac, Tcax, notif_a_adr );
+    $setuphold (posedge CLK &&& ME, posedge ADR[7] &&& ME, Tac, Tcax, notif_a_adr );
+    $setuphold (posedge CLK &&& ME, negedge ADR[7] &&& ME, Tac, Tcax, notif_a_adr );
+    $setuphold (posedge CLK &&& ME, posedge ADR[8] &&& ME, Tac, Tcax, notif_a_adr );
+    $setuphold (posedge CLK &&& ME, negedge ADR[8] &&& ME, Tac, Tcax, notif_a_adr );
+
+    $setuphold (posedge CLK &&& CHKEN2A, posedge ME &&& CHKEN2A, Tmc, Tcmx, notif_a_me );
+    $setuphold (posedge CLK &&& CHKEN2A, negedge ME &&& CHKEN2A, Tmc, Tcmx, notif_a_me );
+
+    $setuphold (posedge CLK &&& CHKEN1A, posedge WE &&& CHKEN1A, Twc, Tcwx, notif_a_we );
+    $setuphold (posedge CLK &&& CHKEN1A, negedge WE &&& CHKEN1A, Twc, Tcwx, notif_a_we );
+
+    $setuphold (posedge CLK &&& CHKEN4A, posedge D[0] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, negedge D[0] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, posedge D[1] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, negedge D[1] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, posedge D[2] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, negedge D[2] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, posedge D[3] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, negedge D[3] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, posedge D[4] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, negedge D[4] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, posedge D[5] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, negedge D[5] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, posedge D[6] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, negedge D[6] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, posedge D[7] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, negedge D[7] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, posedge D[8] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, negedge D[8] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, posedge D[9] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, negedge D[9] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, posedge D[10] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, negedge D[10] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, posedge D[11] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, negedge D[11] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, posedge D[12] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, negedge D[12] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, posedge D[13] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, negedge D[13] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, posedge D[14] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, negedge D[14] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, posedge D[15] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+    $setuphold (posedge CLK &&& CHKEN4A, negedge D[15] &&& CHKEN4A, Tdc, Tcdx, notif_a_d );
+
+    $setuphold (posedge CLK &&& CHKEN7A, posedge WEM[0] &&& CHKEN7A, Twmc, Tcwmx, notif_a_wem );
+    $setuphold (posedge CLK &&& CHKEN7A, negedge WEM[0] &&& CHKEN7A, Twmc, Tcwmx, notif_a_wem );
+    $setuphold (posedge CLK &&& CHKEN7A, posedge WEM[1] &&& CHKEN7A, Twmc, Tcwmx, notif_a_wem );
+    $setuphold (posedge CLK &&& CHKEN7A, negedge WEM[1] &&& CHKEN7A, Twmc, Tcwmx, notif_a_wem );
+
+
+endspecify
+`endif
+
+endmodule
+
+`disable_portfaults 
+`nosuppress_faults 
+`endcelldefine
+
+// The following is the sub-module used in definition of overall memory module
+// ===========================================================================
+module IntComp_rspb18_512x16m8_g1   ( Q_tmp, CLK_buf,  ADR_buf, D_buf, WEM_buf, WE_buf, OE_buf, ME_buf, notif_a_we, notif_a_adr, notif_a_d, notif_a_me,   notif_a_wem, notif_a_clk); 
+parameter MES_ALL = "ON", A_bit=9, I_bit=16, I_word=512, bsel_bit=2;
+
+output  [I_bit -1:0]  Q_tmp;
+reg  [I_bit -1:0]  Q_tmp;
+reg  [I_bit -1:0]  Q_local;
+
+
+wire   [I_bit -1:0]  Q_temp;
+reg [I_bit-1:0] allX , allZ ;
+
+input CLK_buf;
+input  [A_bit -1:0]  ADR_buf;
+input  [I_bit -1:0]  D_buf;
+input  [bsel_bit -1:0]  WEM_buf;
+input WE_buf;
+input OE_buf;
+input ME_buf;
+
+input notif_a_we, notif_a_adr, notif_a_d, notif_a_me, notif_a_clk;
+input notif_a_wem;
+integer i;
+initial begin
+        for ( i=0; i < I_bit ; i=i+1 ) begin
+                allX[i] = 1'bx ; allZ[i] = 1'bz ;
+        end
+end 
+reg [I_bit -1:0] mem_core_array [0:I_word -1];
+reg [I_bit -1:0] X_a_corrupt;
+
+reg
+        flaga_read_ok,
+        flaga_we_ok,
+        flaga_d_ok,
+        flaga_wem_ok,
+        flaga_adr_ok,
+        flaga_range_ok;
+reg     flaga_adr_viol;
+reg     flaga_clk_valid;
+reg     flaga_adr_x;
+
+event   ev_read_out_a_port;
+
+reg[A_bit -1:0] ADRlatched;
+reg[I_bit -1:0] Dlatched;
+reg WElatched;
+reg[ bsel_bit -1:0] WEMlatched;
+reg MElatched;
+reg ME_chk;
+real CLKA_T;
+wire [I_bit -1:0] WEMall;
+reg [I_bit -1:0] WEMbuslatched;
+integer wem_bit_cnt_a;
+integer count_a;
+integer cnt_a;
+reg  [I_bit -1:0] mask_a;
+reg  [I_bit -1:0] tmp_array_element_a;
+reg  [I_bit -1:0] tmp_din_a;
+integer wem_bit_a_corrupt;
+integer count_a_corrupt;
+integer cnt_a_corrupt;
+reg  [I_bit -1:0] mask_a_corrupt;
+reg  [I_bit -1:0] tmp_array_a_corrupt;
+
+function is_adr_Valid;  // 1-bit return value
+
+ input [A_bit -1:0] addr_to_check;
+
+ integer addr_bit_count;
+ reg     ret_value;
+ begin
+  ret_value = `True;
+  for (addr_bit_count = 0; addr_bit_count <= A_bit -1; addr_bit_count = addr_bit_count +1)
+   if ((addr_to_check[addr_bit_count] !== 1'b0) && (addr_to_check[addr_bit_count] !== 1'b1)) begin
+    flaga_adr_x = `True;
+    ret_value = `False;
+   end
+   if((addr_to_check > I_word -1) || (addr_to_check < 0))
+    begin
+     ret_value = `False;
+    end
+   is_adr_Valid = ret_value;
+ end
+
+endfunction
+
+function is_x;  // 1-bit return value
+
+ input [I_bit -1:0] addr_to_check;
+
+ integer addr_bit_count;
+ reg     ret_value;
+ begin
+  ret_value = `False;
+  for (addr_bit_count = 0; addr_bit_count <= I_bit -1; addr_bit_count = addr_bit_count +1)
+   if ((addr_to_check[addr_bit_count] !== 1'b0) && (addr_to_check[addr_bit_count] !== 1'b1)) begin
+    ret_value = `True;
+   end
+   is_x = ret_value;
+ end
+
+endfunction
+
+// -------------------------------------------------------------------
+// Common tasks
+// -------------------------------------------------------------------
+
+
+task corrupt_all_loc;
+
+ input flag_range_ok;
+ integer addr_index;
+ begin
+                                     // do not corrupt entire memory if write to
+                                    // out of range address, for all other cases
+                                    // flag_range_ok is true, therefore corruption
+                                    // will occur as before
+  if( flag_range_ok == `True)
+   begin
+    for( addr_index = 0; addr_index < I_word; addr_index = addr_index + 1) begin
+     mem_core_array[ addr_index] = allX;
+    end
+   end
+ end
+
+endtask
+
+task corrupt_cur_loc;
+
+ input[A_bit -1:0] loc_to_corrupt;
+
+ if (is_adr_Valid (loc_to_corrupt))
+  mem_core_array[loc_to_corrupt] = allX;
+ else
+  corrupt_all_loc(`True);
+
+endtask
+
+
+
+
+// Perform Sanity Check on Port A, Corrupt memory if required
+
+task checkSanityOnAport;
+
+ #0                // let CLOCK and NOTIFIER stuff execute first
+ case ( {flaga_adr_ok, flaga_we_ok, flaga_d_ok,flaga_wem_ok} ) // only 1 and 0
+
+  4'b1111   : ;                                               // everything ok!!!
+
+  4'b1011,
+  4'b1001,
+  4'b1010,
+  4'b1000   : corrupt_cur_loc(ADRlatched);         // WE is unstable
+
+  4'b1101   : if (WElatched === 1'b1 && WEMlatched !== 2'b00)
+               corrupt_cur_loc(ADRlatched);        // Data is unstable
+
+  4'b0001,
+  4'b0011,
+  4'b0000,
+  4'b0010   : corrupt_all_loc(flaga_range_ok);           // ADR and WE unstable
+
+  4'b0100,
+  4'b0110   : if (WElatched !== 1'b0)
+              corrupt_all_loc(flaga_range_ok);
+
+  4'b0101,
+  4'b0111   : if (WElatched === 1'b1 && WEMlatched !== 2'b00)   // ADR unstable, WE stable
+               corrupt_all_loc(flaga_range_ok);
+
+  4'b1100,
+  4'b1110   : if (WElatched !== 1'b0)
+               corrupt_cur_loc(ADRlatched);        // WEM is unstable
+
+ endcase
+endtask
+
+// PORT A FUNCTIONALITY (Handle violation behavior)
+
+initial
+ begin
+  flaga_adr_ok  = `True;
+  flaga_range_ok = `True;
+  flaga_we_ok   = `True;
+  flaga_d_ok    = `True;
+  flaga_wem_ok   = `True;
+  flaga_read_ok = `True;
+  flaga_adr_viol = `True;
+  flaga_clk_valid = `True;
+  flaga_adr_x = `False;
+ end
+
+assign WEMall = { {8{WEM_buf[1]}},{8{WEM_buf[0]}} };
+always @(notif_a_we)            // PORT A WE violation
+ begin
+  if ( $realtime == CLKA_T )
+   ME_chk = ME_buf;
+  else
+   ME_chk = MElatched;
+  if (ME_chk !== 1'b0)
+   begin
+    flaga_we_ok = `False;
+    checkSanityOnAport;
+    disable OUTPUT_a;
+    flaga_read_ok = `False;
+    -> ev_read_out_a_port;
+   end
+ end
+
+always @(notif_a_clk)            // PORT A CLK violation
+ begin
+  disable OUTPUT_a;
+  flaga_adr_ok = `False;
+  flaga_we_ok  = `False;
+  checkSanityOnAport;
+  flaga_read_ok = `False;     // irrespective of WE
+  -> ev_read_out_a_port;
+ end
+
+always @(notif_a_me)            // PORT A ME violation
+ begin
+  flaga_adr_ok = `False;
+  flaga_read_ok = `False;     // irrespective of WE
+  disable OUTPUT_a;
+  checkSanityOnAport;
+  -> ev_read_out_a_port;
+ end
+
+always @(notif_a_adr)           // PORT A ADR violation
+ begin
+  if ( $realtime == CLKA_T )
+   ME_chk = ME_buf;
+  else
+   ME_chk = MElatched;
+  if (ME_chk !== 1'b0)
+   begin
+    if (WElatched === 1'b0)
+      begin
+    corrupt_all_loc(`True);
+    flaga_read_ok = `False; // irrespective of WE
+    disable OUTPUT_a;
+    -> ev_read_out_a_port;
+      end
+     else  begin
+    flaga_adr_ok = `False;
+    flaga_read_ok = `False; // irrespective of WE
+    disable OUTPUT_a;
+    checkSanityOnAport;
+    -> ev_read_out_a_port;
+      end
+   end
+ end
+
+always @(notif_a_d)             // PORT A D violation
+ begin
+  if ( $realtime == CLKA_T )
+   ME_chk = ME_buf;
+  else
+   ME_chk = MElatched;
+  if (ME_chk !== 1'b0)
+   begin
+    flaga_d_ok = `False;
+    disable OUTPUT_a;
+    checkSanityOnAport;
+    flaga_read_ok = `False;
+    -> ev_read_out_a_port;
+   end
+ end
+
+
+
+
+always @(notif_a_wem)               //PORT A WEM violation
+ begin
+  if ( $realtime == CLKA_T )
+   ME_chk = ME_buf;
+  else
+   ME_chk = MElatched;
+  if (ME_chk !== 1'b0)
+   begin
+    disable OUTPUT_a;
+    flaga_read_ok = `False;
+    -> ev_read_out_a_port;
+    flaga_wem_ok  = `False;
+    checkSanityOnAport;
+   end
+ end
+
+always @(negedge CLK_buf)          // reset for next cycle
+ begin
+  if ( CLK_buf !== 1'bx ) begin
+   #0.001;
+   flaga_range_ok  = `True;
+   flaga_read_ok = `True;
+   flaga_adr_viol = `True;
+   flaga_clk_valid = `True;
+   flaga_adr_x = `False;
+  end
+  else
+   begin
+    if( MES_ALL=="ON" && $realtime != 0) begin
+     $display("<<CLK unknown>>");
+     $display("      time=%t; instance=%m (rspb18_512x16m8_g1_core)",$realtime);
+    end
+    flaga_clk_valid = `False;
+    Q_local = allX;
+    corrupt_all_loc(`True);
+   end
+ end
+
+// PORT A FUNCTIONALITY (Handle normal read/write)
+
+always @(posedge CLK_buf)
+ begin
+   flaga_adr_ok  = `True;
+   flaga_we_ok   = `True;
+   flaga_d_ok    = `True;
+   flaga_wem_ok   = `True;
+  if ( CLK_buf === 1'bx) begin
+   if( MES_ALL=="ON" && $realtime != 0) begin
+    $display("<<CLK unknown>>");
+    $display("      time=%t; instance=%m (rspb18_512x16m8_g1_core)",$realtime);
+   end
+    flaga_clk_valid = `False;
+    Q_local = allX;
+    corrupt_all_loc(`True);
+  end
+  CLKA_T = $realtime;
+  MElatched = ME_buf;
+  WElatched = WE_buf;
+  ADRlatched = ADR_buf;
+  Dlatched = D_buf;
+  WEMlatched = WEM_buf;
+   if( MES_ALL=="ON" && $realtime != 0) begin
+    if ( is_x(Dlatched) && WElatched == 1'b1 && MElatched == 1'b1) begin
+      $display("<<D unknown>>");
+      $display("      time=%t; instance=%m (rspb18_512x16m8_g1_core)",$realtime);
+    end  
+   end 
+   if( MES_ALL=="ON" && $realtime != 0) begin
+    if ( is_x(WEMlatched) && WElatched == 1'b1 && MElatched == 1'b1) begin 
+      $display("<<WEM unknown>>"); 
+      $display("      time=%t; instance=%m (rspb18_512x16m8_g1_core)",$realtime); 
+    end   
+   end  
+  WEMbuslatched = WEMall;
+  if (!flaga_clk_valid)
+   Q_local = allX;
+  else if ( CLK_buf === 1'bx )
+   begin
+    if( MES_ALL=="ON" && $realtime != 0) begin
+     $display("<<CLK unknown>>");
+     $display("      time=%t; instance=%m (rspb18_512x16m8_g1_core)",$realtime);
+    end
+    Q_local = allX;
+    corrupt_all_loc(flaga_range_ok);
+   end
+  else
+   begin
+    if (ME_buf !== 1'b0)
+     begin
+      if (WE_buf === 1'bx) begin
+        if( MES_ALL=="ON" && $realtime != 0) begin
+          $display("<<WE unknown>>");
+          $display("      time=%t; instance=%m (rspb18_512x16m8_g1_core)",$realtime);
+        end
+       flaga_we_ok = `False;
+      if (is_adr_Valid(ADRlatched) != `True && WEMlatched == 2'b00) 
+          flaga_range_ok = `False;
+      end
+      if (ME_buf !== 1'b1)
+       flaga_we_ok = `False;       // don't know if cycle is On or Off
+      if (is_adr_Valid(ADRlatched) != `True ) begin
+        if( MES_ALL=="ON" && $realtime != 0) begin
+         if ( flaga_adr_x ) begin
+           $display("<<ADR unknown>>");
+           $display("      time=%t; instance=%m (rspb18_512x16m8_g1_core)",$realtime);
+         end
+        end
+       flaga_adr_ok = `False;
+      if(((ADRlatched > I_word -1)|| ( ADRlatched < 0)) && (MElatched != 1'b0))
+       begin
+        $display("\n%m WARNING:address is out of range\n RANGE:0 to 511\n");
+        flaga_range_ok = `False;
+       end
+      else begin
+        if (WElatched === 1'b0 && ME_buf === 1'b1 )
+         corrupt_all_loc(`True);
+      end
+      end
+      if ( ME_buf === 1'bx ) begin
+        if( MES_ALL=="ON" && $realtime != 0) begin
+          $display("<<ME unknown>>");
+          $display("      time=%t; instance=%m (rspb18_512x16m8_g1_core)",$realtime);
+        end
+       Q_local = allX;
+      if (WE_buf !== 1'b0)
+       corrupt_all_loc(flaga_range_ok);
+      end
+      else
+       begin
+        for ( wem_bit_cnt_a = 0; ((wem_bit_cnt_a < bsel_bit) && (flaga_wem_ok != `False));wem_bit_cnt_a = wem_bit_cnt_a + 1)
+         begin
+          if ( WEMlatched[wem_bit_cnt_a] === 1'bx ) begin
+           flaga_wem_ok = `False;
+           if ( WE_buf == 1'b1 )
+            flaga_read_ok = `False;
+          end
+         end
+
+        if (flaga_we_ok && flaga_wem_ok && flaga_adr_ok && flaga_d_ok && (WE_buf == 1'b1))
+         begin
+          tmp_array_element_a = mem_core_array[ADRlatched];
+          mem_core_array[ADRlatched] = ((mem_core_array[ADRlatched] & ~WEMbuslatched) | ( Dlatched & WEMbuslatched)) ^ ( WEMbuslatched ^ WEMbuslatched);
+         end
+        else
+         begin
+          checkSanityOnAport;
+         end
+        -> ev_read_out_a_port;
+       end
+     end
+   end
+ end
+
+
+// PORT A READ-OUT
+
+always @(ev_read_out_a_port)
+ begin
+  #0                // let CLOCK and NOTIFIER module execute first
+  if (flaga_adr_ok && (ADRlatched <= I_word -1) && flaga_read_ok) begin : OUTPUT_a
+   if (WElatched == 1'b1) begin
+    Q_local = allX;
+    #0.001
+    Q_local = Dlatched;
+   end
+   else
+    begin
+     Q_local = allX;
+     #0.001
+      Q_local = mem_core_array[ADRlatched];
+    end
+  end
+  else
+   begin
+        if (is_adr_Valid(ADRlatched) != `True && WElatched == 1'b1) begin
+    Q_local = allX;
+    #0.001
+    Q_local = Dlatched;
+   end
+   else
+    Q_local = allX;
+    flaga_read_ok = `True;
+   end
+ end
+assign Q_temp = Q_local;
+
+always @( Q_temp or OE_buf )
+ begin
+  if ( OE_buf == 1'b1 )
+   Q_tmp = Q_temp;
+  else if ( OE_buf == 1'b0 )
+   begin
+    Q_tmp = allX;
+    #0.001;
+    if ( OE_buf == 1'b1 )
+      Q_tmp = Q_temp;
+    else if ( OE_buf == 1'b0 )
+      Q_tmp = allZ;
+    else begin
+      Q_tmp = allX;
+    end
+   end
+  else begin
+   Q_tmp = allX;
+  end
+ end
+always @( OE_buf )
+ begin
+  if ( OE_buf ===  1'bx )
+  begin
+      if( MES_ALL=="ON" && $realtime != 0) begin
+        $display("<<OE unknown>>");
+        $display("      time=%t; instance=%m (rspb18_512x16m8_g1_core)",$realtime);
+      end
+  end
+ end
+
+
+endmodule

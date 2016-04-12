@@ -27,7 +27,7 @@ module top(/*AUTOARG*/);
     rspb18_4kx16m8_g1 mem_input(/*AUTOINST*/);
 
     <%- for i in 0..$core-1 -%>
-    /* rspb18_8kx16m16_g1 AUTO_TEMPLATE (
+    /* rspb18_512x16m8_g1 AUTO_TEMPLATE (
         .ADR (weight_addr<%=i%>[WSIZE-1:0] + mem_weight_addr<%=i%>[WSIZE-1:0]),
         .D   (write_weight<%=i%>[DWIDTH-1:0]),
         .WE  (mem_weight_we<%=i%>),
@@ -37,7 +37,7 @@ module top(/*AUTOARG*/);
         .WEM (2'b11),
         .Q   (read_weight<%=i%>[DWIDTH-1:0]),
     ); */
-    rspb18_8kx16m16_g1 mem_weight<%=i%>(/*AUTOINST*/);
+    rspb18_512x16m8_g1 mem_weight<%=i%>(/*AUTOINST*/);
     <%- end -%>
 
     /* linebuf_pix AUTO_TEMPLATE (

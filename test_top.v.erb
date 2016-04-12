@@ -110,11 +110,14 @@ module test_top();
 
         req = 0;
 
-        #(STEP*43950);
-        //$toggle_stop();
+        //#(STEP*84510); // 2 core 16384
+        //#(STEP*43950); // 4 core 8192
+        //#(STEP*23670); // 8 core 4096
+        //#(STEP*13530); // 16 core 2048
+        //#(STEP*6770);  // 32 core 1024
+        #(STEP*3390);  // 64 core 512
 
-        $display("input: %d     weight: %d", mem_input_cnt, mem_weight_cnt);
-        $display("fcnt: %d %d %d %d", fcnt0, fcnt1, fcnt2, fcnt3);
+        //$toggle_stop();
         //$toggle_report("test_core.saif", "10ps", "dut0");
         $finish();
     end
@@ -134,7 +137,12 @@ module test_top();
     begin
         #(STEP/2-1);
         if (pool_we_d1)
-            $display("%d: %d %d %d %d", $time/STEP, $signed(dut0.pmap0), $signed(dut0.pmap1), $signed(dut0.pmap2), $signed(dut0.pmap3));
+            $display(
+                "%5d: ", $time/STEP,
+                <%- for i in 0..$core-1 -%>
+                "%d ", $signed(dut0.pmap<%=i%>),
+                <%- end -%>
+            );
 
         <%- for i in 0..$core-1 -%>
         if (dut0.mem_feat_we<%=i%>)
@@ -163,23 +171,23 @@ module test_top();
             "%d ", dut0.ctrl.r_pool_y,
             "%d ", dut0.ctrl.pool_valid,
             "| ",
-            "%d ", $signed(dut0.read_input),
-            <%- for i in 0..$psize**2-1 -%>
-            "%d ", $signed(dut0.read_weight<%=i%>),
-            <%- end -%>
-            "| ",
-            "%d ", dut0.mem_feat_we0,
-            "%d ", dut0.mem_feat_addr0,
-            "%4d ", $signed(dut0.core0.result),
-            "%4d ", $signed(dut0.core0.read_feat),
-            "%4d ", $signed(dut0.core0.write_feat),
-            "| ",
-            <%- for i in 0..$psize**2-1 -%>
-            "%4d ", $signed(dut0.core0.pixel_feat<%=i%>),
-            <%- end -%>
-            "| ",
-            "%4d ", $signed(dut0.pmap0),
-            "%d ", dut0.mem_output_we0,
+            //"%d ", $signed(dut0.read_input),
+            //<%- for i in 0..$core-1 -%>
+            //"%d ", $signed(dut0.read_weight<%=i%>),
+            //<%- end -%>
+            //"| ",
+            //"%d ", dut0.mem_feat_we0,
+            //"%d ", dut0.mem_feat_addr0,
+            //"%4d ", $signed(dut0.core0.result),
+            //"%4d ", $signed(dut0.core0.read_feat),
+            //"%4d ", $signed(dut0.core0.write_feat),
+            //"| ",
+            //<%- for i in 0..$psize**2-1 -%>
+            //"%4d ", $signed(dut0.core0.pixel_feat<%=i%>),
+            //<%- end -%>
+            //"| ",
+            //"%4d ", $signed(dut0.pmap0),
+            //"%d ", dut0.mem_output_we0,
         );
         #(STEP/2+1);
     end
@@ -215,7 +223,7 @@ module test_top();
             <%- for i in 0..$n_f2/$core-1 -%>
             <%-   for j in 0..$n_f1-1 -%>
             <%-     for k in 0..$core-1 -%>
-            $readmemb("/home/work/takau/lazy_core/data/weight/bwb_2/data<%=4*i+k%>_<%=j%>.bin", mem_w<%=k%>, <%=($fsize**2)*($n_f1*i+j)%>, <%=($fsize**2)*($n_f1*i+j+1)-1%>);
+            $readmemb("/home/work/takau/lazy_core/data/weight/bwb_2/data<%=$core*i+k%>_<%=j%>.bin", mem_w<%=k%>, <%=($fsize**2)*($n_f1*i+j)%>, <%=($fsize**2)*($n_f1*i+j+1)-1%>);
             <%-     end -%>
             <%-   end -%>
             <%- end -%>

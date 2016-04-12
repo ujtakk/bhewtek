@@ -112,7 +112,7 @@ module ctrl(/*AUTOARG*/);
 
                 POOL:
                     if (pool_end)
-                        if (r_count_out < r_total_out - <%=$core%>)
+                        if (r_count_out + <%=$core%> < r_total_out)
                         begin
                             r_state <= WREG;
                             r_count_in <= 0;
@@ -355,6 +355,6 @@ module ctrl(/*AUTOARG*/);
             r_output_addr<%=i%> <= r_output_addr<%=i%> + 1;
     <%- end -%>
 
-    assign ack = pool_end && r_count_out >= r_total_out - <%=$core%>;
+    assign ack = pool_end && r_count_out + <%=$core%> >= r_total_out;
 
 endmodule

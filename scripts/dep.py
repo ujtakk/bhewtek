@@ -20,6 +20,7 @@ class VerilogFile:
         data_dict = {}
         with open(fname, 'r') as f:
             for line in f:
+#TODO
 
     def have_v_in(self):
         if self.have_v_erb():
@@ -49,31 +50,69 @@ class VerilogFile:
         if not any([
             self.com() in self.ignore_com,
             len(self.com_dep()) != 0,
-            self.com() # TODO
+            '<' in self.com()
         ]):
-            text += '{}: ()\n'.format(self.com(), ' '.join(self.com_dep()))
+            text += '{}: {}\n'.format(self.com(), ' '.join(self.com_dep()))
             files.append(self.com())
             files += [h for h in self.com_dep() if h.endswith('.vh')]
             for i in self.submodules():
                 if not i+'.v' in files:
+                    if i in self.ignore_file or '<' in i:
+                        continue
+                    else:
+                    files.append(i+'.v')
+                    text += VerilogFile(i).walk(files)
 
         return text
 
     def com_dep(self):
+        text = self.includes() + [ VerilogFile(i).com() for i in submodules]
+        text = [ i for i in text if not i in self.ignore_com and not '<' in i ]
+        return text
 
     def dep(self):
+        if self.dep != '':
+            return self.dep
+        self.dep = []
+        self.dep += [ i+'v' for i in self.submodules() if not '<' in i ]
+
+        return self.dep
 
     def data(self):
+        if self.data != None:
+            return self.data
+
+        if self.have_v_erb():
+            self.data = open(self.v_erb, 'r')
+        elif self.have_v_in():
+            self.data = open(self.v_in, 'r')
+        else:
+            if os.path.exists(self.filename()):
+                self.data = open(self.filename(), 'r')
+            else:
+                self.data = None
+
+        return self.data
 
     def _submodules(self, string):
+#TODO
 
     def submodules(self):
+        v_files = self._submodules(data)
+        sdata = #TODO
 
     def includes(self):
+#TODO
 
     def to_dot_sub(self):
+        text = []
+        text.append('node_{} [label=\"{}\"];'.format(self.filename_body, filename_body))
+#TODO
 
     def to_dot(self):
+        return 'digraph sample {{\n' \
+               '{}\n'.format(self.to_dot_sub()) \
+               '}}\n' \
 
 class VHeaderFile(VerilogFile):
     def __init__(self, filename):

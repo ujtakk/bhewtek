@@ -96,13 +96,26 @@ class VerilogFile:
 
     def _submodules(self, string):
 #TODO
+    v_files = []
+    data0 = #TODO: MODULENAME (AUTOINST)
+    v_files += data0
+    data1 = #TODO: MODULENAME (ELSE)
+    v_files += data1
+    return list(set(v_files))
 
     def submodules(self):
         v_files = self._submodules(data)
         sdata = #TODO
+        v_files += self._submodules(sdata)
+        text_list = v_files
+
+        return  sorted(text_list, key=str.lower)
 
     def includes(self):
 #TODO
+    v_files = 
+
+    return 
 
     def to_dot_sub(self):
         text = []

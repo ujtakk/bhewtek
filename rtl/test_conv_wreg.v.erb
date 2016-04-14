@@ -1,0 +1,65 @@
+`timescale 1ns/1ps
+
+module test_conv_wreg();
+`include "parameters.vh"
+
+    /*AUTOREGINPUT*/
+
+    /*AUTOWIRE*/
+
+    //clock
+    always
+    begin
+        clk = 0;
+        #(CLK/2);
+        clk = 1;
+        #(CLK/2);
+    end
+
+    initial
+    begin
+        #(CLK);
+        wreg_we = 0;
+        <%- for i in 0...12 -%>
+        #(CLK);
+        read_data = <%=i%>;
+        <%- end -%>
+        #(CLK);
+        wreg_we = 1;
+        <%- for i in 12...25 -%>
+        #(CLK);
+        read_data = -<%=i%>;
+        <%- end -%>
+        <%- for i in 0...6 -%>
+        #(CLK);
+        read_data = <%=2*i%>;
+        #(CLK);
+        read_data = -<%=2*i+1%>;
+        <%- end -%>
+        #(CLK);
+        wreg_we = 0;
+        <%- for i in 0...25 -%>
+        #(CLK);
+        read_data = <%=i%>;
+        <%- end -%>
+        #(CLK);
+        $finish();
+    end
+
+    always
+    begin
+        #(CLK/2-1);
+        $display(
+            "%d | ", wreg_we,
+            "%d | ", $signed(read_data),
+            <%- for i in 0...24 -%>
+            "%d ", weight<%=i%>,
+            <%- end -%>
+            "%d ", weight24
+        );
+        #(CLK/2+1);
+    end
+
+    conv_wreg dut0(/*AUTOINST*/);
+
+endmodule

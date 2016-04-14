@@ -1,0 +1,45 @@
+module linebuf_pix(/*AUTOARG*/);
+`include "parameters.vh"
+<%- load "parameters.rb" -%>
+
+    /*AUTOINPUT*/
+    input clk;
+    input [DWIDTH-1:0] read_data;
+
+    /*AUTOOUTPUT*/
+    <%- for i in 0...$fsize**2 -%>
+    output [DWIDTH-1:0] pixel<%=i%>;
+    <%- end -%>
+
+    /*AUTOWIRE*/
+
+    /*AUTOREG*/
+
+    <%- for y in 0...$fsize -%>
+    <%-   x_max = y == $fsize-1 ? $fsize : $insize -%>
+    <%-   for x in 0...x_max -%>
+    reg [DWIDTH-1:0]    r_pix<%=y%>_<%=x%>;
+    <%-   end -%>
+    <%- end -%>
+
+    <%- for i in 0...$fsize**2 -%>
+    assign pixel<%=i%> = r_pix<%=i/$fsize%>_<%=i%$fsize%>;
+    <%- end -%>
+
+    <%- for y in 0...$fsize -%>
+    <%-   x_max = y == $fsize-1 ? $fsize : $insize -%>
+    <%-   for x in 0...x_max -%>
+    always @(posedge clk)
+        <%- if x == x_max-1 -%>
+        <%-   if y == $fsize-1 -%>
+        r_pix<%=y%>_<%=x%> <= read_data;
+        <%-   else -%>
+        r_pix<%=y%>_<%=x%> <= r_pix<%=y+1%>_0;
+        <%-   end -%>
+        <%- else -%>
+        r_pix<%=y%>_<%=x%> <= r_pix<%=y%>_<%=x+1%>;
+        <%- end -%>
+    <%-   end -%>
+    <%- end -%>
+
+endmodule

@@ -1,0 +1,251 @@
+`timescale 1ns/1ps
+
+module test_top();
+`include "parameters.vh"
+<%- load "parameters.rb" -%>
+
+    /*AUTOREGINPUT*/
+
+    /*AUTOWIRE*/
+
+    //clock
+    always
+    begin
+        clk = 0;
+        #(STEP/2);
+        clk = 1;
+        #(STEP/2);
+    end
+
+    reg [DWIDTH-1:0] mem_in [2**INSIZE-1:0];
+    <%- for i in 0...$core -%>
+    integer fcnt<%=i%>;
+    reg [DWIDTH-1:0] mem_w<%=i%> [2**WSIZE-1:0];
+    <%- end -%>
+
+    integer mem_input_cnt;
+    integer mem_weight_cnt;
+    integer fp;
+    integer i;
+    initial
+    begin
+        //$set_toggle_region(test_top.dut0);
+
+        mem_input_cnt = 0;
+        mem_weight_cnt = 0;
+        <%- for i in 0...$core -%>
+        fcnt<%=i%> = 0;
+        <%- end -%>
+
+        mem_clear;
+
+        fp = $fopen("top_log.txt");
+
+        xrst = 0;
+        input_addr = 0;
+        write_input = 0;
+        mem_input_we = 0;
+        <%- for n in 0...$core -%>
+        mem_weight_we<%=n%> = 0;
+        weight_addr<%=n%> = 0;
+        write_weight<%=n%> = 0;
+        <%- end -%>
+        #(STEP) xrst = 1;
+
+        read_input;
+        mem_input_we = 1;
+        for (i=0; i<2**INSIZE; i=i+1)
+        begin
+            input_addr = i;
+            write_input = mem_in[i];
+            #(STEP);
+        end
+        mem_input_we = 0;
+        input_addr = 0;
+        write_input = 0;
+
+        read_weight;
+        <%- for n in 0...$core -%>
+        mem_weight_we<%=n%> = 1;
+        for (i=0; i<2**WSIZE; i=i+1)
+        begin
+            weight_addr<%=n%> = i;
+            write_weight<%=n%> = mem_w<%=n%>[i];
+            #(STEP);
+        end
+        mem_weight_we<%=n%> = 0;
+        weight_addr<%=n%> = 0;
+        write_weight<%=n%> = 0;
+        <%- end -%>
+
+        //$toggle_start();
+        #(STEP);
+
+        xrst = 0;
+        req = 0;
+        fil_h = FSIZE;
+        fil_w = FSIZE;
+        img_h = INSIZE;
+        img_w = INSIZE;
+        n_in = N_F1;
+        n_out = N_F2;
+        in_addr = 0;
+        w_addr = 0;
+        mem_input_we = 0;
+        write_input = 0;
+        <%- for i in 0...$core -%>
+        mem_weight_we<%=i%> = 0;
+        write_weight<%=i%> = 0;
+        <%- end -%>
+
+        #(STEP);
+
+        xrst = 1;
+
+        #(STEP*5);
+
+        req = 1;
+
+        #(STEP);
+
+        req = 0;
+
+        <%- if $core == 2 -%>
+        #(STEP*84510); // 2 core 16384
+        <%- elsif $core == 4 -%>
+        #(STEP*43950); // 4 core 8192
+        <%- elsif $core == 8 -%>
+        #(STEP*23670); // 8 core 4096
+        <%- elsif $core == 16 -%>
+        #(STEP*13530); // 16 core 2048
+        <%- elsif $core == 32 -%>
+        #(STEP*6770);  // 32 core 1024
+        <%- elsif $core == 64 -%>
+        #(STEP*3390);  // 64 core 512
+        <%- end -%>
+
+        //$toggle_stop();
+        //$toggle_report("<%=$project%>/saif_rtl/saif{CORE}/rtl_top{NUM}_{FILE}.saif", 1.0e-9, "test_top");
+        $finish();
+    end
+
+    reg pool_we_d1;
+
+    always @(posedge clk)
+        pool_we_d1 <= dut0.pool_we0;
+
+    always @(dut0.mem_input_addr)
+        mem_input_cnt = mem_input_cnt + 1;
+
+    always @(dut0.mem_weight_addr0)
+        mem_weight_cnt = mem_weight_cnt + 1;
+
+    always
+    begin
+        #(STEP/2-1);
+        if (pool_we_d1)
+            $display(
+                "%5d: ", $time/STEP,
+                <%- for i in 0...$core -%>
+                "%d ", $signed(dut0.pmap<%=i%>),
+                <%- end -%>
+            );
+
+        <%- for i in 0...$core -%>
+        if (dut0.mem_feat_we<%=i%>)
+            fcnt<%=i%> = fcnt<%=i%> + 1;
+        <%- end -%>
+
+        $fdisplay(fp,
+            "%5d: ", $time/STEP,
+            "%d ", xrst,
+            "%d ", req,
+            "%d ", ack,
+            "| ",
+            "%d ", dut0.ctrl.r_state,
+            "%d ", dut0.ctrl.r_count_in,
+            "%d ", dut0.ctrl.r_count_out,
+            "| ",
+            "%d ", dut0.ctrl.r_wreg_x,
+            "%d ", dut0.ctrl.r_wreg_y,
+            "%d ", dut0.ctrl.wreg_valid,
+            "; ",
+            "%d ", dut0.ctrl.r_conv_x,
+            "%d ", dut0.ctrl.r_conv_y,
+            "%d ", dut0.ctrl.conv_valid,
+            "; ",
+            "%d ", dut0.ctrl.r_pool_x,
+            "%d ", dut0.ctrl.r_pool_y,
+            "%d ", dut0.ctrl.pool_valid,
+            "| ",
+            //"%d ", $signed(dut0.read_input),
+            //<%- for i in 0...$core -%>
+            //"%d ", $signed(dut0.read_weight<%=i%>),
+            //<%- end -%>
+            //"| ",
+            //"%d ", dut0.mem_feat_we0,
+            //"%d ", dut0.mem_feat_addr0,
+            //"%4d ", $signed(dut0.core0.result),
+            //"%4d ", $signed(dut0.core0.read_feat),
+            //"%4d ", $signed(dut0.core0.write_feat),
+            //"| ",
+            //<%- for i in 0...$psize**2 -%>
+            //"%4d ", $signed(dut0.core0.pixel_feat<%=i%>),
+            //<%- end -%>
+            //"| ",
+            //"%4d ", $signed(dut0.pmap0),
+            //"%d ", dut0.mem_output_we0,
+        );
+        #(STEP/2+1);
+    end
+
+    top dut0(/*AUTOINST*/);
+
+    task mem_clear;
+        begin
+            for (i=0; i<2**INSIZE; i=i+1)
+            begin
+                mem_in[i] = {DWIDTH{1'b0}};
+            end
+
+            <%- for i in 0...$core -%>
+            for (i=0; i<2**WSIZE; i=i+1)
+            begin
+                mem_w<%=i%>[i] = {DWIDTH{1'b0}};
+            end
+            <%- end -%>
+        end
+    endtask
+    task read_input;
+        begin
+            <%- num = 0 -%><%- file = 1 -%>
+            <%- for i in 0...$n_f1 -%>
+            $readmemb("/home/work/takau/lazy_core/data/bpmap1/<%=num%>/data<%=file%>_<%=i%>.bin", mem_in, <%=($insize**2)*i%>, <%=($insize**2)*(i+1)-1%>);
+            <%- end -%>
+        end
+    endtask
+
+    task read_weight;
+        begin
+            <%- for i in 0...$n_f2/$core -%>
+            <%-   for j in 0...$n_f1 -%>
+            <%-     for k in 0...$core -%>
+            $readmemb("/home/work/takau/lazy_core/data/weight/bwb_2/data<%=$core*i+k%>_<%=j%>.bin", mem_w<%=k%>, <%=($fsize**2)*($n_f1*i+j)%>, <%=($fsize**2)*($n_f1*i+j+1)-1%>);
+            <%-     end -%>
+            <%-   end -%>
+            <%- end -%>
+            <%- if $n_f2 % $core != 0 -%>
+            <%-   for j in 0...$n_f1 -%>
+            <%-     for k in 0...$core -%>
+            <%-       if ($n_f2 - ($n_f2 % $core) + k) < $n_f2 -%>
+            $readmemb("/home/work/takau/lazy_core/data/weight/bwb_2/data<%=$n_f2-($n_f2%$core)+k%>_<%=j%>.bin", mem_w<%=k%>, <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%>, <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%>);
+            <%-       else -%>
+            $readmemb("/home/work/takau/lazy_core/data/weight/bwb_2/null.bin", mem_w<%=k%>, <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%>, <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%>);
+            <%-       end -%>
+            <%-     end -%>
+            <%-   end -%>
+            <%- end -%>
+        end
+    endtask
+
+endmodule

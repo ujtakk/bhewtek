@@ -5,22 +5,32 @@ import os
 import argparse
 
 class VerilogFile:
+    #TODO
+    @staticmethod
+    def read_ignore_list(self, fname):
+        VerilogFile.ignore_file = []
+        VerilogFile.ignore_com = []
+        data_dict = {}
+        data = open(fname, 'r').read()
+        data = re.sub(r'#.*$', '', data)
+        data = re.sub(r'\s+', ' ', data, re.I | re.S)
+        for i in re.findall(r'(\S+)\s*\{(.*?)\}'):
+            typ, d = i
+            d = d.strip().split()
+            if typ == 'ignore_file':
+                VerilogFile.ignore_file = d
+            elif typ == 'ignore_com':
+                VerilogFile.ignore_com = [ i+'.com' for i in d ]
+            else:
+                raise
 
-    def __init__(self, filename, module_name):
+    def __init__(self, module_name):
         self._module_name = module_name
         self.filename = module_name + '.v'
-        self.filename_body = self.filename.split('.')[0]
-        self.filename_ext = '.'.join(self.filename.split('.')[1:])
-        dep = None
-
-    def read_ignore_list(self, fname):
-        self.ignore_file = []
-        self.ignore_com = []
-
-        data_dict = {}
-        with open(fname, 'r') as f:
-            for line in f:
-#TODO
+        #self.filename_body = self.filename.split('.')[0]
+        #self.filename_ext = '.'.join(self.filename.split('.')[1:])
+        self.filename_body, self.filename_ext = re.findall(r'^([^.]*)\.(.*)$')[0]
+        self.dep = None
 
     def have_v_in(self):
         if self.have_v_erb():
@@ -71,38 +81,35 @@ class VerilogFile:
         return text
 
     def dep(self):
-        if self.dep != '':
+        if self.dep != None:
             return self.dep
         self.dep = []
         self.dep += [ i+'v' for i in self.submodules() if not '<' in i ]
-
         return self.dep
 
     def data(self):
         if self.data != None:
             return self.data
-
         if self.have_v_erb():
-            self.data = open(self.v_erb, 'r')
+            self.data = open(self.v_erb, 'r').read()
         elif self.have_v_in():
-            self.data = open(self.v_in, 'r')
+            self.data = open(self.v_in, 'r').read()
         else:
             if os.path.exists(self.filename()):
-                self.data = open(self.filename(), 'r')
+                self.data = open(self.filename(), 'r').read()
             else:
-                self.data = None
-
+                self.data = ''
         return self.data
 
     def _submodules(self, string):
-#TODO
     v_files = []
-    data0 = #TODO: MODULENAME (AUTOINST)
+    data0 = [ i[0] for i in re.findall(r'([a-zA-Z_0-9]+)\s+\S+\s*\((?:\s*\.\S+\s*\([^\)]*\)\s*,{0,1}){0,}(?:\s*\/\*AUTOINST\*\/\s*){1}\);', string) ]
     v_files += data0
-    data1 = #TODO: MODULENAME (ELSE)
+    data1 = [ i[0] for i in re.findall(r'([a-zA-Z_0-9]+)\s+\S+\s*\((?:\s*\.\S+\s*\([^\)]*\)\s*,{0,1}){1,}\);', string) ]
     v_files += data1
     return list(set(v_files))
 
+    #TODO
     def submodules(self):
         v_files = self._submodules(data)
         sdata = #TODO
@@ -111,16 +118,18 @@ class VerilogFile:
 
         return  sorted(text_list, key=str.lower)
 
+    #TODO
     def includes(self):
-#TODO
-    v_files = 
+    v_files = [ [i[0]] + VHeaderFile(i[0]).includes()
+                    for i in re.findall(r'^\s*`include\s+"([^"]*)"\s*$') ]
 
     return 
 
+    #TODO
     def to_dot_sub(self):
         text = []
         text.append('node_{} [label=\"{}\"];'.format(self.filename_body, filename_body))
-#TODO
+        text += [ 
 
     def to_dot(self):
         return 'digraph sample {{\n' \
@@ -129,12 +138,57 @@ class VerilogFile:
 
 class VHeaderFile(VerilogFile):
     def __init__(self, filename):
+        self.filename = filename
+        self.filename_body = self.filename.split('.')[0]
+        self.filename_ext = '.'.join(self.filename.split('.')[1:])
+        self.dep = []
 
+class VFiles(list):
+    def to_str(self):
+        f = list(set(self))
+        f = self.purge(f)
+        f = r' \\\n'.join(sorted(f, key=str.lower)) + '\n'
+        return r'{}= \\\n{}\n'.format(self.name(), f)
+    def name(self):
+        return 'VFILES'
+    def purge(self, f):
+        f = [ i for i in f if i.endswith('.v') ]
+        f = [ i for i in f if not i.startswith('alt') ]
+        return
+
+class VHFiles(VFiles):
+    def name(self):
+        return 'VHFILES'
+    def purge(self, f):
+        f = [ i for i in f if i.endswith('.vh') ]
+        f = [ i for i in f if not i.startswith('alt') ]
 
 parser = argparse.ArgumentParser(
-    description='Verilog-ERB Source Parser')
-parser.add_argument('train', help='Path to training image-label list file')
-parser.add_argument('val', help='Path to validation image-label list file')
-parser.add_argument('--mean', '-m', default='mean.npy',
-                    help='Path to the mean file (computed by compute_mean.py)')
+    description='Verilog-mode Source Parser')
+parser.add_argument('--dc', help='design compiler readfile script')
+parser.add_argument('--dot', help='generate dot file')
+parser.add_argument('--make', help='generate Makefile (default)')
+parser.add_argument('files', help='verilog source files')
 args = parser.parse_args()
+
+VerilogFile.read_ignore_list('dep.in')
+
+top_v_files = [ VFile(top) for top in args.files ]
+
+#TODO
+top_vfiles_str =
+
+files = files_all
+
+if args.make:
+    print('## This Makefile is generated by dep.py\n')
+    print(VFiles(files).to_str())
+    print(VHFiles(files).to_str())
+    print('\n'.join(top_vfiles_str))
+elif args.dc:
+    files = [ i for i in files if i.endswith('.v') ]
+    for i in list(set(files)):
+        print('read_file -format verilog {}\n'.format(i))
+elif args.dot:
+    for t in top_vfiles:
+        print t.to_dot()

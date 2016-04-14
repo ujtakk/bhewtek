@@ -1,0 +1,32 @@
+module pool(/*AUTOARG*/);
+`include "parameters.vh"
+<%- load "parameters.rb" -%>
+
+    /*AUTOINPUT*/
+    input clk;
+    input o_we;
+    <%- for i in 0..$psize**2-1 -%>
+    input signed [DWIDTH-1:0] pixel_feat<%=i%>;
+    <%- end -%>
+
+    /*AUTOOUTPUT*/
+    output [DWIDTH-1:0] pmap;
+
+    /*AUTOWIRE*/
+    wire signed [DWIDTH-1:0] max_1;
+    wire signed [DWIDTH-1:0] max_2;
+    wire signed [DWIDTH-1:0] max;
+
+    /*AUTOREG*/
+    reg signed [DWIDTH-1:0] o_max;
+
+    assign max_1 = (pixel_feat0 >= pixel_feat1) ? pixel_feat0 : pixel_feat1;
+    assign max_2 = (pixel_feat2 >= pixel_feat3) ? pixel_feat2 : pixel_feat3;
+    assign max = (max_1 >= max_2) ? max_1 : max_2;
+
+    assign pmap = o_max;
+
+    always @(posedge clk)
+        if(o_we) o_max <= max;
+
+endmodule

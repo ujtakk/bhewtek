@@ -1,0 +1,32 @@
+module accumulator(/*AUTOARG*/);
+`include "parameters.vh"
+
+    /*AUTOINPUT*/
+    input clk;
+    input reset;
+    input o_we;
+    input [DWIDTH-1:0] result;
+    input [DWIDTH-1:0] sum_old;
+
+    /*AUTOOUTPUT*/
+    output [DWIDTH-1:0] total;
+    output [DWIDTH-1:0] sum_wb;
+
+    /*AUTOWIRE*/
+    wire [DWIDTH-1:0] sum;
+
+    /*AUTOREG*/
+
+    assign sum = reset
+                    ? result
+                    : result + sum_old;
+
+    assign sum_wb = sum;
+
+    always @(posedge clk)
+        if(o_we)
+            total <= sum;
+        else
+            total <= total;
+
+endmodule

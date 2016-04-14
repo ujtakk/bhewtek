@@ -1,0 +1,79 @@
+module top(/*AUTOARG*/);
+`include "parameters.vh"
+<%- load "parameters.rb" -%>
+
+    /*AUTOINPUT*/
+    input [INSIZE-1:0] input_addr;
+    <%- for i in 0..$core-1 -%>
+    input [WSIZE-1:0] weight_addr<%=i%>;
+    <%- end -%>
+
+    /*AUTOOUTPUT*/
+
+    /*AUTOWIRE*/
+
+    /*AUTOREG*/
+
+    /* rspb18_4kx16m8_g1 AUTO_TEMPLATE (
+        .ADR (input_addr[INSIZE-1:0] + mem_input_addr[INSIZE-1:0]),
+        .D   (write_input[DWIDTH-1:0]),
+        .WE  (mem_input_we),
+        .OE  (1'b1),
+        .ME  (1'b1),
+        .CLK (clk),
+        .WEM (2'b11),
+        .Q   (read_input[DWIDTH-1:0]),
+    ); */
+    rspb18_4kx16m8_g1 mem_input(/*AUTOINST*/);
+
+    <%- for i in 0..$core-1 -%>
+    /* rspb18_512x16m8_g1 AUTO_TEMPLATE (
+        .ADR (weight_addr<%=i%>[WSIZE-1:0] + mem_weight_addr<%=i%>[WSIZE-1:0]),
+        .D   (write_weight<%=i%>[DWIDTH-1:0]),
+        .WE  (mem_weight_we<%=i%>),
+        .OE  (1'b1),
+        .ME  (1'b1),
+        .CLK (clk),
+        .WEM (2'b11),
+        .Q   (read_weight<%=i%>[DWIDTH-1:0]),
+    ); */
+    rspb18_512x16m8_g1 mem_weight<%=i%>(/*AUTOINST*/);
+    <%- end -%>
+
+    /* linebuf_pix AUTO_TEMPLATE (
+        .read_data (read_input[DWIDTH-1:0]),
+    ); */
+    linebuf_pix buf_pix(/*AUTOINST*/);
+
+    ctrl ctrl(/*AUTOINST*/);
+
+    <%- for i in 0..$core-1 -%>
+    /* core AUTO_TEMPLATE (
+        .conv_we          (conv_we<%=i%>),
+        .mem_feat_addr    (mem_feat_addr<%=i%>[FACCUM-1:0]),
+        .mem_feat_addr_d1 (mem_feat_addr<%=i%>_d1[FACCUM-1:0]),
+        .mem_feat_rst     (mem_feat_rst<%=i%>),
+        .mem_feat_we      (mem_feat_we<%=i%>),
+        .pool_we          (pool_we<%=i%>),
+        .read_weight      (read_weight<%=i%>[DWIDTH-1:0]),
+        .wreg_we          (wreg_we<%=i%>),
+        .pmap             (pmap<%=i%>[DWIDTH-1:0]),
+    ); */
+    core core<%=i%>(/*AUTOINST*/);
+    <%- end -%>
+
+    <%- for i in 0..$core-1 -%>
+    /* rspb18_1kx16m8_g1 AUTO_TEMPLATE (
+        .ADR (mem_output_addr<%=i%>[OUTSIZE-1:0]),
+        .D   (pmap<%=i%>[DWIDTH-1:0]),
+        .WE  (mem_output_we<%=i%>),
+        .OE  (1'b1),
+        .ME  (1'b1),
+        .CLK (clk),
+        .WEM (2'b11),
+        .Q   (),
+    ); */
+    rspb18_1kx16m8_g1 mem_output<%=i%>(/*AUTOINST*/);
+    <%- end -%>
+
+endmodule

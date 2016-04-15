@@ -2,7 +2,7 @@
 *.v
 *.vh
 *.log
-*.in
+*[^(dep)]*.in
 *.com
 *.vstf
 Makefile.dep

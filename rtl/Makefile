@@ -9,6 +9,8 @@ TARGET=test_top
 
 all: $(TARGET).com
 
+sim: $(TARGET).log
+
 include Makefile.dep
 include $(IOC_DIR)/Makefile.common
 

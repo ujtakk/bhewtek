@@ -1,5 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+#
+# NOTE: This script is WIP
+#       Use the dep.rb
+#
 
 import os
 import argparse
@@ -192,3 +196,4 @@ elif args.dc:
 elif args.dot:
     for t in top_vfiles:
         print t.to_dot()
+

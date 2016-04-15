@@ -1,11 +1,11 @@
 # STEP#1: define the output directory area.
 #
-set outputDir ../syn
-set reportDir ../syn/reports
-set resultDir ../syn/results
-file mkdir $outputDir
-file mkdir -p $outputDir
-file mkdir -p $outputDir
+source ./lib.tcl
+
+set reportDir ./reports
+set resultDir ./results
+file mkdir $reportDir
+file mkdir $resultDir
 #
 # STEP#2: setup design sources and constraints
 #

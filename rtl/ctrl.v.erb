@@ -179,7 +179,8 @@ module ctrl(/*AUTOARG*/);
         else if (r_state == WREG)
             r_w_addr <= r_w_addr + 1;
 
-    always @(posedge clk or negedge xrst)
+    //always @(posedge clk or negedge xrst)
+    always @(posedge clk)
         if (wreg_valid)
             r_wreg_we <= 1;
         else
@@ -257,13 +258,15 @@ module ctrl(/*AUTOARG*/);
     assign mem_feat_addr<%=i%>    = r_feat_addr<%=i%>;
     assign conv_we<%=i%>          = r_conv_we<%=i%>;
 
-    always @(posedge clk or negedge xrst)
+    //always @(posedge clk or negedge xrst)
+    always @(posedge clk)
         if (r_state == CONV && conv_valid)
             r_feat_we<%=i%> <= 1;
         else
             r_feat_we<%=i%> <= 0;
 
-    always @(posedge clk or negedge xrst)
+    //always @(posedge clk or negedge xrst)
+    always @(posedge clk)
         if (r_state == CONV && conv_valid && r_count_in == 0)
             r_feat_rst<%=i%> <= 1;
         else
@@ -283,7 +286,8 @@ module ctrl(/*AUTOARG*/);
         else if (conv_valid)
             r_feat_addr<%=i%> <= r_feat_addr<%=i%> + 1;
 
-    always @(posedge clk or negedge xrst)
+    //always @(posedge clk or negedge xrst)
+    always @(posedge clk)
         if (r_state == POOL && conv_valid)
             r_conv_we<%=i%> <= 1;
         else
@@ -328,7 +332,8 @@ module ctrl(/*AUTOARG*/);
     assign mem_output_we<%=i%>   = r_pool_we<%=i%>_d3;
     assign mem_output_addr<%=i%> = r_output_addr<%=i%>;
 
-    always @(posedge clk or negedge xrst)
+    //always @(posedge clk or negedge xrst)
+    always @(posedge clk)
         if (pool_valid && r_pool_x[0] == 1 && r_pool_y[0] == 1)
             r_pool_we<%=i%> <= 1;
         else

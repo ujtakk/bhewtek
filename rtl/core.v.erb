@@ -11,6 +11,7 @@ module core(/*AUTOARG*/);
     /*AUTOREG*/
 
     // AUTO_CONSTANT (DWIDTH)
+
     /* conv AUTO_TEMPLATE (
         .fmap      (result[DWIDTH-1:0]),
         .wreg_we   (wreg_we),
@@ -19,7 +20,7 @@ module core(/*AUTOARG*/);
     conv conv(/*AUTOINST*/);
 
     /* sram_feat AUTO_TEMPLATE (
-        .read_data1  (),
+        .read_data1  ({DWIDTH{1'b0}}),
         .write_data1 (write_feat[DWIDTH-1:0]),
         .mem_we1     (mem_feat_we),
         .mem_addr1   (mem_feat_addr_d1[FACCUM-1:0]),

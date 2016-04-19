@@ -1,18 +1,25 @@
 module top(/*AUTOARG*/);
 `include "parameters.vh"
 <%- load "parameters.rb" -%>
+ /*AUTO_LISP(setq verilog-auto-output-ignore-regexp
+                (verilog-regexp-words `(
+        "mem_input_addr"
+        <%- for i in 0...$core -%>
+        "mem_weight_addr<%=i%>"
+        <%- end -%>
+        )))*/
 
     /*AUTOINPUT*/
     input [INSIZE-1:0] input_addr;
-    <%- for i in 0...$core -%>
-    input [WSIZE-1:0] weight_addr<%=i%>;
-    <%- end -%>
+    input [WSIZE-1:0] weight_addr;
 
     /*AUTOOUTPUT*/
 
     /*AUTOWIRE*/
 
     /*AUTOREG*/
+
+    // AUTO_CONSTANT (DWIDTH)
 
     /* sram_input AUTO_TEMPLATE (
         .read_data  (read_input[DWIDTH-1:0]),
@@ -25,9 +32,9 @@ module top(/*AUTOARG*/);
     <%- for i in 0...$core -%>
     /* sram_weight AUTO_TEMPLATE (
         .read_data  (read_weight<%=i%>[DWIDTH-1:0]),
-        .write_data (write_weight<%=i%>[DWIDTH-1:0]),
+        .write_data (write_weight[DWIDTH-1:0]),
         .mem_we     (mem_weight_we<%=i%>),
-        .mem_addr   (weight_addr<%=i%>[WSIZE-1:0] + mem_weight_addr<%=i%>[WSIZE-1:0]),
+        .mem_addr   (weight_addr[WSIZE-1:0] + mem_weight_addr<%=i%>[WSIZE-1:0]),
     ); */
     sram_weight mem_weight<%=i%>(/*AUTOINST*/);
     <%- end -%>
@@ -37,6 +44,12 @@ module top(/*AUTOARG*/);
     ); */
     linebuf_pix buf_pix(/*AUTOINST*/);
 
+    /* ctrl AUTO_TEMPLATE (
+        .fil_h (fil_size[LWIDTH-1:0]),
+        .fil_w (fil_size[LWIDTH-1:0]),
+        .img_h (img_size[LWIDTH-1:0]),
+        .img_w (img_size[LWIDTH-1:0]),
+    ); */
     ctrl ctrl(/*AUTOINST*/);
 
     <%- for i in 0...$core -%>
@@ -56,7 +69,7 @@ module top(/*AUTOARG*/);
 
     <%- for i in 0...$core -%>
     /* sram_output AUTO_TEMPLATE (
-        .read_data  (),
+        .read_data  (read_output<%=i%>[DWIDTH-1:0]),
         .write_data (pmap<%=i%>[DWIDTH-1:0]),
         .mem_we     (mem_output_we<%=i%>),
         .mem_addr   (mem_output_addr<%=i%>[OUTSIZE-1:0]),
@@ -65,3 +78,11 @@ module top(/*AUTOARG*/);
     <%- end -%>
 
 endmodule
+/*
+    Local Variables:
+    verilog-auto-output-ignore-regexp: t
+    eval:(setq verilog-auto-output-ignore-regexp (concat
+    "mem_input_addr"
+    )))
+    End:
+*/

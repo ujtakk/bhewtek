@@ -11,10 +11,10 @@ module ctrl(/*AUTOARG*/);
     input clk;
     input xrst;
     input req;
-    input [INSIZE-1:0] in_addr;
-    input [WSIZE-1:0]  w_addr;
-    input [LWIDTH-1:0] n_in;
-    input [LWIDTH-1:0] n_out;
+    input [INSIZE-1:0] input_addr;
+    input [WSIZE-1:0]  weight_addr;
+    input [LWIDTH-1:0] total_in;
+    input [LWIDTH-1:0] total_out;
     input [LWIDTH-1:0] img_w;
     input [LWIDTH-1:0] img_h;
     input [LWIDTH-1:0] fil_w;
@@ -51,8 +51,8 @@ module ctrl(/*AUTOARG*/);
     reg r_ack;
     reg r_wreg_we;
     reg [1:0] r_state;
-    reg [INSIZE-1:0] r_in_addr;
-    reg [WSIZE-1:0]  r_w_addr;
+    reg [INSIZE-1:0] r_input_addr;
+    reg [WSIZE-1:0]  r_weight_addr;
     reg [LWIDTH-1:0] r_img_w;
     reg [LWIDTH-1:0] r_img_h;
     reg [LWIDTH-1:0] r_fil_w;
@@ -141,8 +141,8 @@ module ctrl(/*AUTOARG*/);
         end
         else if (r_state == WAIT && req)
         begin
-            r_total_in  <= n_in;
-            r_total_out <= n_out;
+            r_total_in  <= total_in;
+            r_total_out <= total_out;
             r_img_w <= img_w;
             r_img_h <= img_h;
             r_fil_w <= fil_w;
@@ -152,32 +152,32 @@ module ctrl(/*AUTOARG*/);
         end
 
     assign mem_input_addr = (r_state == CONV || r_state == POOL)
-                            ? r_in_addr + 1
-                            : r_in_addr;
+                            ? r_input_addr + 1
+                            : r_input_addr;
 
     always @(posedge clk or negedge xrst)
         if (!xrst)
-            r_in_addr <= 0;
+            r_input_addr <= 0;
         else if (r_state == WAIT && req == 1 || pool_end)
-            r_in_addr <= in_addr;
+            r_input_addr <= input_addr;
         else if (r_state == CONV || r_state == POOL)
-            r_in_addr <= r_in_addr + 1;
+            r_input_addr <= r_input_addr + 1;
 
     <%- for i in 0...$core -%>
     assign mem_weight_addr<%=i%> = r_state == WREG
-                                    ? r_w_addr + 1
-                                    : r_w_addr;
+                                    ? r_weight_addr + 1
+                                    : r_weight_addr;
 
     assign wreg_we<%=i%> = wreg_valid;
     <%- end -%>
 
     always @(posedge clk or negedge xrst)
         if (!xrst)
-            r_w_addr <= 0;
+            r_weight_addr <= 0;
         else if (r_state == WAIT && req == 1 || ack)
-            r_w_addr <= w_addr;
+            r_weight_addr <= weight_addr;
         else if (r_state == WREG)
-            r_w_addr <= r_w_addr + 1;
+            r_weight_addr <= r_weight_addr + 1;
 
     //always @(posedge clk or negedge xrst)
     always @(posedge clk)

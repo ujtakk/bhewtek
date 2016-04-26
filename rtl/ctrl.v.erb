@@ -286,7 +286,6 @@ module ctrl(/*AUTOARG*/);
         else if (conv_valid)
             r_feat_addr<%=i%> <= r_feat_addr<%=i%> + 1;
 
-    //always @(posedge clk or negedge xrst)
     always @(posedge clk)
         if (r_state == POOL && conv_valid)
             r_conv_we<%=i%> <= 1;

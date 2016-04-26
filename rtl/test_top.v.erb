@@ -39,41 +39,39 @@ module test_top();
 
         mem_clear;
 
-        fp = $fopen("top_log.txt");
+        fp = $fopen("log.txt");
 
         xrst = 0;
         input_addr = 0;
         write_input = 0;
-        mem_input_we = 0;
-        <%- for n in 0...$core -%>
-        mem_weight_we<%=n%> = 0;
+        input_we = 0;
+        weight_we = 4'd0;
         weight_addr = 0;
         write_weight = 0;
-        <%- end -%>
         #(STEP) xrst = 1;
 
         read_input;
-        mem_input_we = 1;
+        input_we = 1;
         for (i=0; i<2**INSIZE; i=i+1)
         begin
             input_addr = i;
             write_input = mem_in[i];
             #(STEP);
         end
-        mem_input_we = 0;
+        input_we = 0;
         input_addr = 0;
         write_input = 0;
 
         read_weight;
         <%- for n in 0...$core -%>
-        mem_weight_we<%=n%> = 1;
+        weight_we = 4'd<%=n+1%>;
         for (i=0; i<2**WSIZE; i=i+1)
         begin
             weight_addr = i;
             write_weight = mem_w<%=n%>[i];
             #(STEP);
         end
-        mem_weight_we<%=n%> = 0;
+        weight_we = 4'd0;
         weight_addr = 0;
         write_weight = 0;
         <%- end -%>
@@ -83,22 +81,16 @@ module test_top();
 
         xrst = 0;
         req = 0;
-        //fil_h = FSIZE;
-        //fil_w = FSIZE;
-        //img_h = INSIZE;
-        //img_w = INSIZE;
         fil_size = FSIZE;
         img_size = INSIZE;
         total_in = N_F1;
         total_out = N_F2;
         input_addr = 0;
         weight_addr = 0;
-        mem_input_we = 0;
+        input_we = 0;
         write_input = 0;
         write_weight = 0;
-        <%- for i in 0...$core -%>
-        mem_weight_we<%=i%> = 0;
-        <%- end -%>
+        weight_we = 4'd0;
 
         #(STEP);
 
@@ -179,7 +171,15 @@ module test_top();
             "%d ", dut0.ctrl.r_pool_x,
             "%d ", dut0.ctrl.r_pool_y,
             "%d ", dut0.ctrl.pool_valid,
-            "|",
+            "| ",
+            "%d ", dut0.input_we,
+            "%d ", dut0.weight_we,
+            "%b ", dut0.mem_weight_we,
+            "%d ", dut0.core7.conv.pixel0,
+            "%d ", dut0.core1.conv.weight0,
+            "%d ", dut0.core7.conv.weight0,
+            "%d ", dut0.core7.result,
+
         );
         #(STEP/2+1);
     end

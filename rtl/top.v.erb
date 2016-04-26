@@ -31,7 +31,7 @@ module top(/*AUTOARG*/);
         .read_data  (read_weight<%=i%>[DWIDTH-1:0]),
         .write_data (write_weight[DWIDTH-1:0]),
         .mem_we     (mem_weight_we[<%=i%>]),
-        .mem_addr   (mem_weight_addr<%=i%>[WSIZE-1:0]),
+        .mem_addr   (mem_weight_addr[WSIZE-1:0]),
     ); */
     sram_weight mem_weight<%=i%>(/*AUTOINST*/);
     <%- end -%>
@@ -51,14 +51,14 @@ module top(/*AUTOARG*/);
 
     <%- for i in 0...$core -%>
     /* core AUTO_TEMPLATE (
-        .conv_we          (conv_we<%=i%>),
-        .mem_feat_addr    (mem_feat_addr<%=i%>[FACCUM-1:0]),
-        .mem_feat_addr_d1 (mem_feat_addr<%=i%>_d1[FACCUM-1:0]),
-        .mem_feat_rst     (mem_feat_rst<%=i%>),
-        .mem_feat_we      (mem_feat_we<%=i%>),
-        .pool_we          (pool_we<%=i%>),
+        .conv_we          (conv_we),
+        .mem_feat_addr    (mem_feat_addr[FACCUM-1:0]),
+        .mem_feat_addr_d1 (mem_feat_addr_d1[FACCUM-1:0]),
+        .mem_feat_rst     (mem_feat_rst),
+        .mem_feat_we      (mem_feat_we),
+        .pool_we          (pool_we),
         .read_weight      (read_weight<%=i%>[DWIDTH-1:0]),
-        .wreg_we          (wreg_we<%=i%>),
+        .wreg_we          (wreg_we),
         .pmap             (pmap<%=i%>[DWIDTH-1:0]),
     ); */
     core core<%=i%>(/*AUTOINST*/);
@@ -68,8 +68,8 @@ module top(/*AUTOARG*/);
     /* sram_output AUTO_TEMPLATE (
         .read_data  (read_output<%=i%>[DWIDTH-1:0]),
         .write_data (pmap<%=i%>[DWIDTH-1:0]),
-        .mem_we     (mem_output_we<%=i%>),
-        .mem_addr   (mem_output_addr<%=i%>[OUTSIZE-1:0]),
+        .mem_we     (mem_output_we),
+        .mem_addr   (mem_output_addr[OUTSIZE-1:0]),
     ); */
     (* dont_touch = "true" *) sram_output mem_output<%=i%>(/*AUTOINST*/);
     <%- end -%>

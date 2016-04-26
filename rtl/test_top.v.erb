@@ -126,12 +126,12 @@ module test_top();
     reg pool_we_d1;
 
     always @(posedge clk)
-        pool_we_d1 <= dut0.pool_we0;
+        pool_we_d1 <= dut0.pool_we;
 
     always @(dut0.mem_input_addr)
         mem_input_cnt = mem_input_cnt + 1;
 
-    always @(dut0.mem_weight_addr0)
+    always @(dut0.mem_weight_addr)
         mem_weight_cnt = mem_weight_cnt + 1;
 
     always
@@ -146,7 +146,7 @@ module test_top();
             );
 
         <%- for i in 0...$core -%>
-        if (dut0.mem_feat_we<%=i%>)
+        if (dut0.mem_feat_we)
             fcnt<%=i%> = fcnt<%=i%> + 1;
         <%- end -%>
 
@@ -175,10 +175,8 @@ module test_top();
             "%d ", dut0.input_we,
             "%d ", dut0.weight_we,
             "%b ", dut0.mem_weight_we,
-            "%d ", dut0.core7.conv.pixel0,
-            "%d ", dut0.core1.conv.weight0,
-            "%d ", dut0.core7.conv.weight0,
-            "%d ", dut0.core7.result,
+            "%d ", $signed(dut0.core0.result),
+            "%d ", dut0.core0.conv_we,
 
         );
         #(STEP/2+1);

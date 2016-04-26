@@ -4,6 +4,8 @@
 $project = '/home/work/takau/bhewtek'
 $core = 8
 $tech = nil # rohm
+$conv_delay = 2;
+$pool_delay = $conv_delay + 2;
 
 # Verilog parameter
 $dwidth = 16

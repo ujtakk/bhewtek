@@ -24,11 +24,11 @@ synth_design -top top -part xc7z020clg484-1
 source ./const.tcl
 #write_checkpoint -force $resultDir/post_synth
 report_timing_summary -file $reportDir/post_synth_timing_summary.rpt
-#report_power -verbose -file $reportDir/post_synth_power.rpt
+report_power -verbose -file $reportDir/post_synth_power.rpt
 #
 # Run custom script to report critical timing paths
-#reportCriticalPaths $reportDir/post_synth_critpath_report.csv
-#write_verilog -force $resultDir/${design}_synth_netlist.v
+reportCriticalPaths $reportDir/post_synth_critpath_report.csv
+write_verilog -force $resultDir/${design}_synth_netlist.v
 
 #for {set i 0} {$i < 10} {incr i} {
 #    for {set j 1} {$j <= 10} {incr j} {

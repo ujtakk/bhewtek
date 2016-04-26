@@ -32,8 +32,8 @@ module conv_tree(/*AUTOARG*/);
    <%- end -%>
 
    <%- for i in 0...$fsize**2 -%>
-   //assign pro<%=i%> = (r_pixel<%=i%> * r_weight<%=i%>);
-   assign pro<%=i%> = (pixel<%=i%> * weight<%=i%>);
+   assign pro<%=i%> = (r_pixel<%=i%> * r_weight<%=i%>);
+   //assign pro<%=i%> = (pixel<%=i%> * weight<%=i%>);
    <%- end -%>
    <%- for i in 0...$fsize**2 -%>
    assign pro_short<%=i%> = $signed({pro<%=i%>[22],pro<%=i%>[22:8]});
@@ -66,7 +66,8 @@ module conv_tree(/*AUTOARG*/);
 
    <%- end -%>
 
-   assign fmap = sum0;
+   assign fmap = r_fmap;
+   //assign fmap = sum0;
 
    always @(posedge clk or negedge xrst)
      if(!xrst)

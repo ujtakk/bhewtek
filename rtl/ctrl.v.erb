@@ -21,20 +21,18 @@ module ctrl(/*AUTOARG*/);
     input [LWIDTH-1:0] fil_h;
 
     /*AUTOOUTPUT*/
-    output [INSIZE-1:0] mem_input_addr;
     output ack;
-    <%- for i in 0...$core -%>
-    output [WSIZE-1:0] mem_weight_addr<%=i%>;
-    output wreg_we<%=i%>;
-    output mem_feat_we<%=i%>;
-    output mem_feat_rst<%=i%>;
-    output [FACCUM-1:0] mem_feat_addr<%=i%>;
-    output [FACCUM-1:0] mem_feat_addr<%=i%>_d1;
-    output conv_we<%=i%>;
-    output pool_we<%=i%>;
-    output mem_output_we<%=i%>;
-    output [OUTSIZE-1:0] mem_output_addr<%=i%>;
-    <%- end -%>
+    output wreg_we;
+    output conv_we;
+    output pool_we;
+    output [INSIZE-1:0] mem_input_addr;
+    output [WSIZE-1:0] mem_weight_addr;
+    output mem_feat_we;
+    output mem_feat_rst;
+    output [FACCUM-1:0] mem_feat_addr;
+    output [FACCUM-1:0] mem_feat_addr_d1;
+    output mem_output_we;
+    output [OUTSIZE-1:0] mem_output_addr;
 
     /*AUTOWIRE*/
     wire wreg_start;
@@ -69,18 +67,18 @@ module ctrl(/*AUTOARG*/);
     reg [LWIDTH-1:0] r_total_out;
     reg [LWIDTH-1:0] r_count_in;
     reg [LWIDTH-1:0] r_count_out;
-    <%- for i in 0...$core -%>
-    reg r_feat_we<%=i%>;
-    reg r_feat_rst<%=i%>;
-    reg [FACCUM-1:0] r_feat_addr<%=i%>;
-    reg [FACCUM-1:0] r_feat_addr<%=i%>_d1;
-    reg r_conv_we<%=i%>;
-    reg r_pool_we<%=i%>;
-    reg r_pool_we<%=i%>_d1;
-    reg r_pool_we<%=i%>_d2;
-    reg r_pool_we<%=i%>_d3;
-    reg [OUTSIZE-1:0] r_output_addr<%=i%>;
+    <%- for i in 0...$conv_delay+1 -%>
+    reg r_feat_we_d<%=i%>;
+    reg r_feat_rst_d<%=i%>;
+    reg [FACCUM-1:0] r_feat_addr_d<%=i%>;
+    reg r_conv_we_d<%=i%>;
     <%- end -%>
+    reg [FACCUM-1:0] r_feat_addr_d<%=$conv_delay+1%>;
+    <% for i in 0...$pool_delay+1 -%>
+    reg r_pool_we_d<%=i%>;
+    <%- end -%>
+    reg r_pool_we_d<%=$pool_delay+1%>;
+    reg [OUTSIZE-1:0] r_output_addr;
 
     //main FSM
     always @(posedge clk or negedge xrst)
@@ -163,13 +161,11 @@ module ctrl(/*AUTOARG*/);
         else if (r_state == CONV || r_state == POOL)
             r_input_addr <= r_input_addr + 1;
 
-    <%- for i in 0...$core -%>
-    assign mem_weight_addr<%=i%> = weight_addr + ((r_state == WREG)
+    assign mem_weight_addr = weight_addr + ((r_state == WREG)
                                                     ? r_weight_addr + 1
                                                     : r_weight_addr);
 
-    assign wreg_we<%=i%> = wreg_valid;
-    <%- end -%>
+    assign wreg_we = wreg_valid;
 
     always @(posedge clk or negedge xrst)
         if (!xrst)
@@ -179,7 +175,6 @@ module ctrl(/*AUTOARG*/);
         else if (r_state == WREG)
             r_weight_addr <= r_weight_addr + 1;
 
-    //always @(posedge clk or negedge xrst)
     always @(posedge clk)
         if (wreg_valid)
             r_wreg_we <= 1;
@@ -251,47 +246,70 @@ module ctrl(/*AUTOARG*/);
                         && r_conv_x == r_img_w - 1 && r_conv_y == r_img_h - 1;
 
     //accum exec
-    <%- for i in 0...$core -%>
-    assign mem_feat_we<%=i%>      = r_feat_we<%=i%>;
-    assign mem_feat_rst<%=i%>     = r_feat_rst<%=i%>;
-    assign mem_feat_addr<%=i%>_d1 = r_feat_addr<%=i%>_d1;
-    assign mem_feat_addr<%=i%>    = r_feat_addr<%=i%>;
-    assign conv_we<%=i%>          = r_conv_we<%=i%>;
+    assign mem_feat_we      = r_feat_we_d2;
+    assign mem_feat_rst     = r_feat_rst_d2;
+    assign mem_feat_addr_d1 = r_feat_addr_d3;
+    assign mem_feat_addr    = r_feat_addr_d2;
+    assign conv_we          = r_conv_we_d2;
 
     //always @(posedge clk or negedge xrst)
     always @(posedge clk)
         if (r_state == CONV && conv_valid)
-            r_feat_we<%=i%> <= 1;
+            r_feat_we_d0 <= 1;
         else
-            r_feat_we<%=i%> <= 0;
+            r_feat_we_d0 <= 0;
 
-    //always @(posedge clk or negedge xrst)
     always @(posedge clk)
         if (r_state == CONV && conv_valid && r_count_in == 0)
-            r_feat_rst<%=i%> <= 1;
+            r_feat_rst_d0 <= 1;
         else
-            r_feat_rst<%=i%> <= 0;
+            r_feat_rst_d0 <= 0;
+
+    <%- for i in 1...$conv_delay+1 -%>
+    always @(posedge clk or negedge xrst)
+        if (!xrst)
+            r_feat_we_d<%=i%> <= 0;
+        else
+            r_feat_we_d<%=i%> <= r_feat_we_d<%=i-1%>;
+    <%- end -%>
+
+    <%- for i in 1..$conv_delay+1 -%>
+    always @(posedge clk or negedge xrst)
+        if (!xrst)
+            r_feat_addr_d<%=i%> <= 0;
+        else
+            r_feat_addr_d<%=i%> <= r_feat_addr_d<%=i-1%>;
+    <%- end -%>
+
+    <%- for i in 1...$conv_delay+1 -%>
+    always @(posedge clk or negedge xrst)
+        if (!xrst)
+            r_feat_rst_d<%=i%> <= 0;
+        else
+            r_feat_rst_d<%=i%> <= r_feat_rst_d<%=i-1%>;
+    <%- end -%>
+
+    <%- for i in 1...$conv_delay+1 -%>
+    always @(posedge clk or negedge xrst)
+        if (!xrst)
+            r_conv_we_d<%=i%> <= 0;
+        else
+            r_conv_we_d<%=i%> <= r_conv_we_d<%=i-1%>;
+    <%- end -%>
 
     always @(posedge clk or negedge xrst)
         if (!xrst)
-            r_feat_addr<%=i%>_d1 <= 0;
-        else
-            r_feat_addr<%=i%>_d1 <= r_feat_addr<%=i%>;
-
-    always @(posedge clk or negedge xrst)
-        if (!xrst)
-            r_feat_addr<%=i%> <= 0;
+            r_feat_addr_d0 <= 0;
         else if (conv_end)
-            r_feat_addr<%=i%> <= 0;
+            r_feat_addr_d0 <= 0;
         else if (conv_valid)
-            r_feat_addr<%=i%> <= r_feat_addr<%=i%> + 1;
+            r_feat_addr_d0 <= r_feat_addr_d0 + 1;
 
     always @(posedge clk)
         if (r_state == POOL && conv_valid)
-            r_conv_we<%=i%> <= 1;
+            r_conv_we_d0 <= 1;
         else
-            r_conv_we<%=i%> <= 0;
-    <%- end -%>
+            r_conv_we_d0 <= 0;
 
     always @(posedge clk or negedge xrst)
         if (!xrst)
@@ -326,38 +344,29 @@ module ctrl(/*AUTOARG*/);
                         && r_pool_x == r_fea_w - 1 && r_pool_y == r_fea_h - 1;
 
     //pool exec
-    <%- for i in 0...$core -%>
-    assign pool_we<%=i%>         = r_pool_we<%=i%>_d2;
-    assign mem_output_we<%=i%>   = r_pool_we<%=i%>_d3;
-    assign mem_output_addr<%=i%> = r_output_addr<%=i%>;
+    assign pool_we         = r_pool_we_d<%=$pool_delay%>;
+    assign mem_output_we   = r_pool_we_d<%=$pool_delay+1%>;
+    assign mem_output_addr = r_output_addr;
 
-    //always @(posedge clk or negedge xrst)
     always @(posedge clk)
         if (pool_valid && r_pool_x[0] == 1 && r_pool_y[0] == 1)
-            r_pool_we<%=i%> <= 1;
+            r_pool_we_d0 <= 1;
         else
-            r_pool_we<%=i%> <= 0;
+            r_pool_we_d0 <= 0;
 
+    <%- for i in 1..$pool_delay+1 -%>
     always @(posedge clk or negedge xrst)
         if (!xrst)
-        begin
-            r_pool_we<%=i%>_d1 <= 0;
-            r_pool_we<%=i%>_d2 <= 0;
-            r_pool_we<%=i%>_d3 <= 0;
-        end
+            r_pool_we_d<%=i%> <= 0;
         else
-        begin
-            r_pool_we<%=i%>_d1 <= r_pool_we<%=i%>;
-            r_pool_we<%=i%>_d2 <= r_pool_we<%=i%>_d1;
-            r_pool_we<%=i%>_d3 <= r_pool_we<%=i%>_d2;
-        end
-
-    always @(posedge clk or negedge xrst)
-        if (!xrst)
-            r_output_addr<%=i%> <= 0;
-        else if (mem_output_we<%=i%>)
-            r_output_addr<%=i%> <= r_output_addr<%=i%> + 1;
+            r_pool_we_d<%=i%> <= r_pool_we_d<%=i-1%>;
     <%- end -%>
+
+    always @(posedge clk or negedge xrst)
+        if (!xrst)
+            r_output_addr <= 0;
+        else if (r_pool_we_d<%=$pool_delay+1%>)
+            r_output_addr <= r_output_addr + 1;
 
     assign ack = pool_end && r_count_out + <%=$core%> >= r_total_out;
 

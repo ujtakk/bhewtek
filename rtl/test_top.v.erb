@@ -139,7 +139,7 @@ module test_top();
     always @(dut0.mem_input_addr)
         mem_input_cnt = mem_input_cnt + 1;
 
-    always @(dut0.mem_weight_addr)
+    always @(dut0.mem_weight_addr0)
         mem_weight_cnt = mem_weight_cnt + 1;
 
     always
@@ -179,24 +179,7 @@ module test_top();
             "%d ", dut0.ctrl.r_pool_x,
             "%d ", dut0.ctrl.r_pool_y,
             "%d ", dut0.ctrl.pool_valid,
-            "| ",
-            //"%d ", $signed(dut0.read_input),
-            //<%- for i in 0...$core -%>
-            //"%d ", $signed(dut0.read_weight<%=i%>),
-            //<%- end -%>
-            //"| ",
-            //"%d ", dut0.mem_feat_we0,
-            //"%d ", dut0.mem_feat_addr0,
-            //"%4d ", $signed(dut0.core0.result),
-            //"%4d ", $signed(dut0.core0.read_feat),
-            //"%4d ", $signed(dut0.core0.write_feat),
-            //"| ",
-            //<%- for i in 0...$psize**2 -%>
-            //"%4d ", $signed(dut0.core0.pixel_feat<%=i%>),
-            //<%- end -%>
-            //"| ",
-            //"%4d ", $signed(dut0.pmap0),
-            //"%d ", dut0.mem_output_we0,
+            "|",
         );
         #(STEP/2+1);
     end

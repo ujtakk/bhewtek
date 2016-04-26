@@ -4,48 +4,86 @@
 source ./lib.tcl
 
 set design top
-set reportDir reports
-file mkdir $design
+set resultDir ./results
+set reportDir ./reports
+file mkdir $resultDir
 file mkdir $reportDir
-file mkdir $reportDir/timing
-file mkdir $reportDir/power
+#file mkdir $reportDir/timing
+#file mkdir $reportDir/power
 
-create_project -force top $design -part xc7z020clg484-1
-add_files [ glob ../rtl/*.v ]
-add_files [ glob ../rtl/*.vh ]
-add_files -fileset sim_1 ../rtl/test_top.v
-import_files -force -norecurse
-#import_files -fileset constrs_1 -force -norecurse ./Sources/bft_full_kintex7.xdc
+#
+# STEP#1: setup design sources and constraints
+#
+read_verilog  [ glob ../rtl/*.v ]
+read_xdc ./zedboard_master_XDC_RevC_D_v2.xdc
 
-# Mimic GUI behavior of automatically setting top and file compile order
-set_property top top [current_fileset]
-update_compile_order -fileset sources_1
-update_compile_order -fileset sim_1
-
-# Launch Synthesis
-launch_runs synth_1
-wait_on_run synth_1
-open_run synth_1 -name netlist_1
-
-# Generate a timing and power reports and write to disk
-report_timing_summary -delay_type max -report_unconstrained -check_timing_verbose -max_paths 10 -input_pins -file $reportDir/syn_timing.rpt
-report_power -file $reportDir/syn_power.rpt
-#write_hwdef -file $design.hwdef
-
+#
+# STEP#2: run synthesis, report utilization and timing estimates, write checkpoint design
+#
+synth_design -top top -part xc7z020clg484-1
 source ./const.tcl
-set_property SEVERITY {Warning} [get_drc_checks NSTD-1]
-set_property SEVERITY {Warning} [get_drc_checks UCIO-1]
+#write_checkpoint -force $resultDir/post_synth
+report_timing_summary -file $reportDir/post_synth_timing_summary.rpt
+#report_power -verbose -file $reportDir/post_synth_power.rpt
+#
+# Run custom script to report critical timing paths
+#reportCriticalPaths $reportDir/post_synth_critpath_report.csv
+#write_verilog -force $resultDir/${design}_synth_netlist.v
 
-# Launch Implementation
-launch_runs impl_1 -to_step write_bitstream
-wait_on_run impl_1
+#for {set i 0} {$i < 10} {incr i} {
+#    for {set j 1} {$j <= 10} {incr j} {
+#        read_saif -strip_path test_top/dut0 -file ../saif_rtl/saif4/rtl_top${i}_${j}.saif
+#        report_switching_activity -signal_rate -static_probability [all_outputs]
+#
+#        check_timing
+#        report_timing -file $reportDir/timing/top${i}_${j}.timing.rpt
+#
+#        report_power -verbose -file $reportDir/power/top${i}_${j}.power.rpt
+#    }
+#}
 
-# Generate a timing and power reports and write to disk
-# comment out the open_run for batch mode
-open_run impl_1
-report_timing_summary -delay_type min_max -report_unconstrained -check_timing_verbose -max_paths 10 -input_pins -file $reportDir/imp_timing.rpt
-report_power -file $reportDir/imp_power.rpt
-#write_sysdef -bitfile -hwdef $design.hwdef -file $design.sysdef
-
-# comment out the for batch mode
-#start_gui
+#
+# STEP#2.5: I/O Planning
+#
+#
+# Ports
+#place_ports
+##
+## I/O Standard
+##set_property IOSTANDARD <standard_value> [get_ports *]
+##
+## NOT RECOMMENDED
+#set_property SEVERITY {Warning} [get_drc_checks NSTD-1]
+#set_property SEVERITY {Warning} [get_drc_checks UCIO-1]
+#
+##
+## STEP#3: run placement and logic optimzation, report utilization and timing estimates, write checkpoint design
+##
+#opt_design
+#place_design
+#phys_opt_design
+#write_checkpoint -force $resultDir/post_place
+#report_timing_summary -file $reportDir/post_place_timing_summary.rpt
+##write_hwdef -force -file $resultDir/$design.hwdef
+#
+##
+## STEP#4: run router, report actual utilization and timing, write checkpoint design, run drc, write verilog and xdc out
+##
+#route_design
+#write_checkpoint -force $resultDir/post_route
+#report_timing_summary -file $reportDir/post_route_timing_summary.rpt
+#report_timing -sort_by group -max_paths 100 -path_type summary -file $reportDir/post_route_timing.rpt
+#report_clock_utilization -file $reportDir/clock_util.rpt
+#report_utilization -file $reportDir/post_route_util.rpt
+#report_power -file $reportDir/post_route_power.rpt
+#report_drc -file $reportDir/post_imp_drc.rpt
+#reportCriticalPaths $reportDir/post_impl_critpath_report.csv
+#write_verilog -force $resultDir/${design}_impl_netlist.v
+#write_xdc -no_fixed_only -force $resultDir/${design}_impl.xdc
+#
+##
+## STEP#5: generate a bitstream
+##
+#write_bitstream -force $resultDir/$design.bit
+##write_sysdef -force -bitfile $resultDir/$design.bit -hwdef $resultDir/$design.hwdef -file $resultDir/$design.sysdef
+#

@@ -151,9 +151,9 @@ module ctrl(/*AUTOARG*/);
             r_fea_h <= img_h - fil_h + 1;
         end
 
-    assign mem_input_addr = (r_state == CONV || r_state == POOL)
-                            ? r_input_addr + 1
-                            : r_input_addr;
+    assign mem_input_addr = input_addr + ((r_state == CONV || r_state == POOL)
+                                            ? r_input_addr + 1
+                                            : r_input_addr);
 
     always @(posedge clk or negedge xrst)
         if (!xrst)
@@ -164,9 +164,9 @@ module ctrl(/*AUTOARG*/);
             r_input_addr <= r_input_addr + 1;
 
     <%- for i in 0...$core -%>
-    assign mem_weight_addr<%=i%> = r_state == WREG
-                                    ? r_weight_addr + 1
-                                    : r_weight_addr;
+    assign mem_weight_addr<%=i%> = weight_addr + ((r_state == WREG)
+                                                    ? r_weight_addr + 1
+                                                    : r_weight_addr);
 
     assign wreg_we<%=i%> = wreg_valid;
     <%- end -%>

@@ -2,7 +2,7 @@
 
 # ERB parameter
 $project = '/home/work/takau/bhewtek'
-$core = 4
+$core = 8
 $tech = nil # rohm
 
 # Verilog parameter

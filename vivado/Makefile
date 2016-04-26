@@ -7,5 +7,5 @@ sdk:
 
 clean:
 	rm -f *.log *.jou *.str
-	rm -rf top reports
+	rm -rf top reports results
 	rm -f usage_*

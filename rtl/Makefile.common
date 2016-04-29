@@ -78,12 +78,15 @@ endif
 	$(Q)chmod 444 $@
 .v.in.v:
 	@$(E) echo "  VMODE (.v.in) (B) $<"
-	$(Q)(rm -f $@ ; cp $< $@ ; chmod 644 $@ ; LANG=C emacs --batch --eval '(setq large-file-warning-threshold nil)' $@ -l verilog-mode -f verilog-auto -f save-buffer --no-site-file > $@.log 2>&1 || (rm -f $@ ; cat $@.log ; false))
+	$(Q)(rm -f $@ ; cp $< $@ ; chmod 644 $@ ; \
+		LANG=C emacs --batch --no-site-file \
+		--eval '(setq large-file-warning-threshold nil)' $@ \
+		-l verilog-mode -f verilog-auto -f save-buffer \
+		> $@.log 2>&1 || (rm -f $@ ; cat $@.log ; false))
 	$(Q)chmod 444 $@
 
 .v.dot:
 	./dep.rb --dot $< > $@
-
 .dot.png:
 	dot -Tpng $< > $@
 .dot.svg:

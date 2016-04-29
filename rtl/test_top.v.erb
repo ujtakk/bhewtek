@@ -19,23 +19,14 @@ module test_top();
 
     reg [DWIDTH-1:0] mem_in [2**INSIZE-1:0];
     <%- for i in 0...$core -%>
-    integer fcnt<%=i%>;
     reg [DWIDTH-1:0] mem_w<%=i%> [2**WSIZE-1:0];
     <%- end -%>
 
-    integer mem_input_cnt;
-    integer mem_weight_cnt;
     integer fp;
     integer i;
     initial
     begin
         //$set_toggle_region(test_top.dut0);
-
-        mem_input_cnt = 0;
-        mem_weight_cnt = 0;
-        <%- for i in 0...$core -%>
-        fcnt<%=i%> = 0;
-        <%- end -%>
 
         mem_clear;
 
@@ -45,9 +36,11 @@ module test_top();
         input_addr = 0;
         write_input = 0;
         input_we = 0;
-        weight_we = 4'd0;
+        weight_we = 0;
         weight_addr = 0;
-        write_weight = 0;
+        <%- for n in 0...$core -%>
+        write_weight<%=i%> = 0;
+        <%- end -%>
         #(STEP) xrst = 1;
 
         read_input;
@@ -63,17 +56,19 @@ module test_top();
         write_input = 0;
 
         read_weight;
-        <%- for n in 0...$core -%>
-        weight_we = 4'd<%=n+1%>;
+        weight_we = 1;
         for (i=0; i<2**WSIZE; i=i+1)
         begin
+            <%- for n in 0...$core -%>
             weight_addr = i;
-            write_weight = mem_w<%=n%>[i];
+            write_weight<%=n%> = mem_w<%=n%>[i];
+            <%- end -%>
             #(STEP);
         end
-        weight_we = 4'd0;
+        weight_we = 0;
         weight_addr = 0;
-        write_weight = 0;
+        <%- for n in 0...$core -%>
+        write_weight<%=i%> = 0;
         <%- end -%>
 
         //$toggle_start();
@@ -89,8 +84,10 @@ module test_top();
         weight_addr = 0;
         input_we = 0;
         write_input = 0;
-        write_weight = 0;
-        weight_we = 4'd0;
+        <%- for n in 0...$core -%>
+        write_weight<%=i%> = 0;
+        <%- end -%>
+        weight_we = 0;
 
         #(STEP);
 
@@ -128,12 +125,6 @@ module test_top();
     always @(posedge clk)
         pool_we_d1 <= dut0.pool_we;
 
-    always @(dut0.mem_input_addr)
-        mem_input_cnt = mem_input_cnt + 1;
-
-    always @(dut0.mem_weight_addr)
-        mem_weight_cnt = mem_weight_cnt + 1;
-
     always
     begin
         #(STEP/2-1);
@@ -144,11 +135,6 @@ module test_top();
                 "%d ", $signed(dut0.pmap<%=i%>),
                 <%- end -%>
             );
-
-        <%- for i in 0...$core -%>
-        if (dut0.mem_feat_we)
-            fcnt<%=i%> = fcnt<%=i%> + 1;
-        <%- end -%>
 
         $fdisplay(fp,
             "%5d: ", $time/STEP,
@@ -171,12 +157,6 @@ module test_top();
             "%d ", dut0.ctrl.r_pool_x,
             "%d ", dut0.ctrl.r_pool_y,
             "%d ", dut0.ctrl.pool_valid,
-            "| ",
-            "%d ", dut0.input_we,
-            "%d ", dut0.weight_we,
-            "%b ", dut0.mem_weight_we,
-            "%d ", $signed(dut0.core0.result),
-            "%d ", dut0.core0.conv_we,
 
         );
         #(STEP/2+1);
@@ -199,11 +179,12 @@ module test_top();
             <%- end -%>
         end
     endtask
+
     task read_input;
         begin
             <%- num = 0 -%><%- file = 1 -%>
             <%- for i in 0...$n_f1 -%>
-            $readmemb("/home/work/takau/lazy_core/data/bpmap1/<%=num%>/data<%=file%>_<%=i%>.bin", mem_in, <%=($insize**2)*i%>, <%=($insize**2)*(i+1)-1%>);
+            $readmemb("<%=$project%>/data/mnist/bpmap1/<%=num%>/data<%=file%>_<%=i%>.bin", mem_in, <%=($insize**2)*i%>, <%=($insize**2)*(i+1)-1%>);
             <%- end -%>
         end
     endtask
@@ -213,7 +194,7 @@ module test_top();
             <%- for i in 0...$n_f2/$core -%>
             <%-   for j in 0...$n_f1 -%>
             <%-     for k in 0...$core -%>
-            $readmemb("/home/work/takau/lazy_core/data/weight/bwb_2/data<%=$core*i+k%>_<%=j%>.bin", mem_w<%=k%>, <%=($fsize**2)*($n_f1*i+j)%>, <%=($fsize**2)*($n_f1*i+j+1)-1%>);
+            $readmemb("<%=$project%>/data/mnist/lenet/bwb_2/data<%=$core*i+k%>_<%=j%>.bin", mem_w<%=k%>, <%=($fsize**2)*($n_f1*i+j)%>, <%=($fsize**2)*($n_f1*i+j+1)-1%>);
             <%-     end -%>
             <%-   end -%>
             <%- end -%>
@@ -221,9 +202,9 @@ module test_top();
             <%-   for j in 0...$n_f1 -%>
             <%-     for k in 0...$core -%>
             <%-       if ($n_f2 - ($n_f2 % $core) + k) < $n_f2 -%>
-            $readmemb("/home/work/takau/lazy_core/data/weight/bwb_2/data<%=$n_f2-($n_f2%$core)+k%>_<%=j%>.bin", mem_w<%=k%>, <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%>, <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%>);
+            $readmemb("<%=$project%>/data/mnist/lenet/bwb_2/data<%=$n_f2-($n_f2%$core)+k%>_<%=j%>.bin", mem_w<%=k%>, <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%>, <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%>);
             <%-       else -%>
-            $readmemb("/home/work/takau/lazy_core/data/weight/bwb_2/null.bin", mem_w<%=k%>, <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%>, <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%>);
+            $readmemb("<%=$project%>/data/mnist/lenet/bwb_2/null.bin", mem_w<%=k%>, <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%>, <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%>);
             <%-       end -%>
             <%-     end -%>
             <%-   end -%>

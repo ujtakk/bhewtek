@@ -14,4 +14,6 @@ sim: $(TARGET).log
 include Makefile.dep
 include $(IOC_DIR)/Makefile.common
 
-clean: clean-common
+clean:
+	make clean-common
+	rm -f log.txt

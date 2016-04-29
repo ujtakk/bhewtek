@@ -1,0 +1,35 @@
+module mux_output(/*AUTOARG*/);
+`include "parameters.vh"
+<%- load "parameters.rb" -%>
+
+    /*AUTOINPUT*/
+    input clk;
+    input [3:0] output_re;
+    <%- for i in 0...$core -%>
+    input [DWIDTH-1:0] read_output<%=i%>;
+    <%- end -%>
+
+    /*AUTOOUTPUT*/
+    output [DWIDTH-1:0] read_output;
+
+    /*AUTOWIRE*/
+
+    /*AUTOREG*/
+    reg [DWIDTH-1:0] r_output;
+
+    assign read_output = r_output;
+
+    always @(posedge clk)
+        case (output_re)
+            3'd0: r_output <= {DWIDTH{1'b0}};
+            3'd1: r_output <= read_output0;
+            3'd2: r_output <= read_output1;
+            3'd3: r_output <= read_output2;
+            3'd4: r_output <= read_output3;
+            3'd5: r_output <= read_output4;
+            3'd6: r_output <= read_output5;
+            3'd7: r_output <= read_output6;
+            3'd8: r_output <= read_output7;
+        endcase
+
+endmodule

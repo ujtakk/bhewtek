@@ -13,15 +13,6 @@ module conv_tree(/*AUTOARG*/);
    /*AUTOOUTPUT*/
    output [DWIDTH-1:0] fmap;
 
-   /*AUTOREG*/
-   reg signed[DWIDTH-1:0]    r_fmap;
-   <%- for i in 0...$fsize**2 -%>
-   reg signed [DWIDTH-1:0]   r_pixel<%=i%>;
-   <%- end -%>
-   <%- for i in 0...$fsize**2 -%>
-   reg signed [DWIDTH-1:0]   r_weight<%=i%>;
-   <%- end -%>
-
    /*AUTOWIRE*/
    <%- for i in 0...24 -%>
    wire signed[DWIDTH-1:0]   sum<%=i%>;
@@ -31,9 +22,23 @@ module conv_tree(/*AUTOARG*/);
    wire signed [DWIDTH-1:0]    pro_short<%=i%>;
    <%- end -%>
 
+   /*AUTOREG*/
+   reg signed[DWIDTH-1:0]    r_fmap;
+   <%- for i in 0...$fsize**2 -%>
+   reg signed [DWIDTH-1:0]   r_pixel<%=i%>;
+   <%- end -%>
+   <%- for i in 0...$fsize**2 -%>
+   reg signed [DWIDTH-1:0]   r_weight<%=i%>;
+   <%- end -%>
+   //<%- for i in 0...24 -%>
+   //reg signed [DWIDTH-1:0] r_sum<%=i%>;
+   //<%- end -%>
+   //<%- for i in 1...4 -%>
+   //reg signed [DWIDTH-1:0] pro_short24_d<%=i%>;
+   //<%- end -%>
+
    <%- for i in 0...$fsize**2 -%>
    assign pro<%=i%> = (r_pixel<%=i%> * r_weight<%=i%>);
-   //assign pro<%=i%> = (pixel<%=i%> * weight<%=i%>);
    <%- end -%>
    <%- for i in 0...$fsize**2 -%>
    assign pro_short<%=i%> = $signed({pro<%=i%>[22],pro<%=i%>[22:8]});
@@ -44,8 +49,24 @@ module conv_tree(/*AUTOARG*/);
    <%- for i in 3...12 -%>
    assign sum<%=i%> = sum<%=2*i+1%> + sum<%=2*i%>;
    <%- end -%>
+   <%- for i in 6...12 -%>
+   //assign sum<%=i%> = sum<%=2*i+1%> + sum<%=2*i%>;
+   <%- end -%>
    <%- for i in 12...24 -%>
    assign sum<%=i%> = pro_short<%=2*i-23%> + pro_short<%=2*i-24%>;
+   <%- end -%>
+
+   <%- for i in 1...4 -%>
+   //always @(posedge clk)
+   //    <%- if i == 1 -%>
+   //    pro_short24_d<%=i%> <= pro_short24;
+   //    <%- else -%>
+   //    pro_short24_d<%=i%> <= pro_short24_d<%=i-1%>;
+   //    <%- end -%>
+   <%- end -%>
+   <%- for i in 0...24 -%>
+   //always @(posedge clk)
+   //    r_sum<%=i%> <= sum<%=i%>;
    <%- end -%>
 
    <%- for i in 0...$fsize**2 -%>
@@ -65,9 +86,7 @@ module conv_tree(/*AUTOARG*/);
        r_weight<%=i%> <= weight<%=i%>;
 
    <%- end -%>
-
    assign fmap = r_fmap;
-   //assign fmap = sum0;
 
    always @(posedge clk or negedge xrst)
      if(!xrst)

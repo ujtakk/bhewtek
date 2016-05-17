@@ -6,7 +6,7 @@
 <Project Version="7" Minor="12" Path="/ram/home/work/takau/bhewtek/zedboard/zedboard.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
-    <Option Name="Id" Val="f83da4db0c4941ec9dbd6a4cb1882986"/>
+    <Option Name="Id" Val="1a83e3cdfd36476fabe6a639d39dea3d"/>
     <Option Name="Part" Val="xc7z020clg484-1"/>
     <Option Name="CompiledLibDir" Val="$PCACHEDIR/compile_simlib"/>
     <Option Name="CompiledLibDirXSim" Val=""/>
@@ -16,7 +16,6 @@
     <Option Name="CompiledLibDirVCS" Val="$PCACHEDIR/compile_simlib/vcs"/>
     <Option Name="CompiledLibDirRiviera" Val="$PCACHEDIR/compile_simlib/riviera"/>
     <Option Name="CompiledLibDirActivehdl" Val="$PCACHEDIR/compile_simlib/activehdl"/>
-    <Option Name="SimulatorLanguage" Val="Verilog"/>
     <Option Name="BoardPart" Val="em.avnet.com:zed:part0:1.3"/>
     <Option Name="ActiveSimSet" Val="sim_1"/>
     <Option Name="DefaultLib" Val="xil_defaultlib"/>
@@ -27,7 +26,7 @@
     <Option Name="IPStaticSourceDir" Val="$PPRDIR/zedboard.ip_user_files/ipstatic"/>
     <Option Name="EnableBDX" Val="FALSE"/>
     <Option Name="DSABoardId" Val="zed"/>
-    <Option Name="WTXSimLaunchSim" Val="2"/>
+    <Option Name="WTXSimLaunchSim" Val="0"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
@@ -164,7 +163,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/axi_slave.v">
+      <File Path="$PPRDIR/../rtl/axi_slave_top_wrapper.v">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
@@ -177,17 +176,17 @@
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
-        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="hdl/zboard.hwdef"/>
+        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="hdl/zboard.v"/>
+        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="ip/zboard_rst_processing_system7_0_100M_0/zboard_rst_processing_system7_0_100M_0.xci"/>
+        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="ip/zboard_processing_system7_0_axi_periph_0/zboard_processing_system7_0_axi_periph_0.xci"/>
+        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="ip/zboard_axi_slave_top_wrapper_0_0/zboard_axi_slave_top_wrapper_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="ip/zboard_processing_system7_0_0/zboard_processing_system7_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="ip/zboard_auto_us_0/zboard_auto_us_0.xci"/>
         <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="hw_handoff/zboard_bd.tcl"/>
+        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="hdl/zboard.hwdef"/>
+        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="ip/zboard_auto_pc_0/zboard_auto_pc_0.xci"/>
         <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="hw_handoff/zboard.hwh"/>
         <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="zboard_ooc.xdc"/>
-        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="hdl/zboard.v"/>
-        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="ip/zboard_auto_us_1/zboard_auto_us_1.xci"/>
-        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="ip/zboard_auto_pc_1/zboard_auto_pc_1.xci"/>
-        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="ip/zboard_rst_processing_system7_0_100M_1/zboard_rst_processing_system7_0_100M_1.xci"/>
-        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="ip/zboard_processing_system7_0_axi_periph_1/zboard_processing_system7_0_axi_periph_1.xci"/>
-        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="ip/zboard_axi_slave_0_1/zboard_axi_slave_0_1.xci"/>
-        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="ip/zboard_processing_system7_0_1/zboard_processing_system7_0_1.xci"/>
       </File>
       <File Path="$PSRCDIR/sources_1/bd/zboard/hdl/zboard_wrapper.v">
         <FileInfo>
@@ -219,8 +218,9 @@
       <Filter Type="Srcs"/>
       <Config>
         <Option Name="DesignMode" Val="RTL"/>
-        <Option Name="TopModule" Val="test_top"/>
+        <Option Name="TopModule" Val="axi_slave_top_wrapper"/>
         <Option Name="TopLib" Val="xil_defaultlib"/>
+        <Option Name="TopAutoSet" Val="TRUE"/>
         <Option Name="TransportPathDelay" Val="0"/>
         <Option Name="TransportIntDelay" Val="0"/>
         <Option Name="SrcSet" Val="sources_1"/>
@@ -252,9 +252,7 @@
     <Run Id="synth_1" Type="Ft3:Synth" SrcSet="sources_1" Part="xc7z020clg484-1" ConstrsSet="constrs_1" Description="Vivado Synthesis Defaults" State="current" Dir="$PRUNDIR/synth_1" IncludeInArchive="true">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2016"/>
-        <Step Id="synth_design">
-          <Option Id="RepFanoutThreshold">0</Option>
-        </Step>
+        <Step Id="synth_design"/>
       </Strategy>
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
     </Run>
@@ -262,15 +260,13 @@
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2016"/>
         <Step Id="init_design"/>
-        <Step Id="opt_design">
-          <Option Id="Verbose">1</Option>
-        </Step>
-        <Step Id="power_opt_design" EnableStepBool="1"/>
+        <Step Id="opt_design"/>
+        <Step Id="power_opt_design"/>
         <Step Id="place_design"/>
-        <Step Id="post_place_power_opt_design" EnableStepBool="1"/>
-        <Step Id="phys_opt_design" EnableStepBool="1"/>
+        <Step Id="post_place_power_opt_design"/>
+        <Step Id="phys_opt_design"/>
         <Step Id="route_design"/>
-        <Step Id="post_route_phys_opt_design" EnableStepBool="1"/>
+        <Step Id="post_route_phys_opt_design"/>
         <Step Id="write_bitstream"/>
       </Strategy>
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>

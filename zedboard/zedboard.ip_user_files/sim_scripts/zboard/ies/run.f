@@ -24,8 +24,8 @@
   "../../../ipstatic/processing_system7_bfm_v2_0/hdl/processing_system7_bfm_v2_0_processing_system7_bfm.v" \
 -endlib
 -makelib ies/xil_defaultlib \
-  "../../../bd/zboard/ip/zboard_processing_system7_0_1/sim/zboard_processing_system7_0_1.v" \
-  "../../../bd/zboard/ip/zboard_axi_slave_0_1/sim/zboard_axi_slave_0_1.v" \
+  "../../../bd/zboard/ip/zboard_processing_system7_0_0/sim/zboard_processing_system7_0_0.v" \
+  "../../../bd/zboard/ip/zboard_axi_slave_top_wrapper_0_0/sim/zboard_axi_slave_top_wrapper_0_0.v" \
 -endlib
 -makelib ies/lib_cdc_v1_0_2 \
   "../../../ipstatic/lib_cdc_v1_0/hdl/src/vhdl/cdc_sync.vhd" \
@@ -37,7 +37,7 @@
   "../../../ipstatic/proc_sys_reset_v5_0/hdl/src/vhdl/proc_sys_reset.vhd" \
 -endlib
 -makelib ies/xil_defaultlib \
-  "../../../bd/zboard/ip/zboard_rst_processing_system7_0_100M_1/sim/zboard_rst_processing_system7_0_100M_1.vhd" \
+  "../../../bd/zboard/ip/zboard_rst_processing_system7_0_100M_0/sim/zboard_rst_processing_system7_0_100M_0.vhd" \
 -endlib
 -makelib ies/generic_baseblocks_v2_1_0 \
   "../../../ipstatic/generic_baseblocks_v2_1/hdl/verilog/generic_baseblocks_v2_1_carry_and.v" \
@@ -106,7 +106,7 @@
   "../../../ipstatic/axi_protocol_converter_v2_1/hdl/verilog/axi_protocol_converter_v2_1_axi_protocol_converter.v" \
 -endlib
 -makelib ies/xil_defaultlib \
-  "../../../bd/zboard/ip/zboard_auto_pc_1/sim/zboard_auto_pc_1.v" \
+  "../../../bd/zboard/ip/zboard_auto_pc_0/sim/zboard_auto_pc_0.v" \
 -endlib
 -makelib ies/axi_clock_converter_v2_1_7 \
   "../../../ipstatic/axi_clock_converter_v2_1/hdl/verilog/axi_clock_converter_v2_1_axic_sync_clock_converter.v" \
@@ -133,7 +133,7 @@
   "../../../ipstatic/axi_dwidth_converter_v2_1/hdl/verilog/axi_dwidth_converter_v2_1_top.v" \
 -endlib
 -makelib ies/xil_defaultlib \
-  "../../../bd/zboard/ip/zboard_auto_us_1/sim/zboard_auto_us_1.v" \
+  "../../../bd/zboard/ip/zboard_auto_us_0/sim/zboard_auto_us_0.v" \
   "../../../bd/zboard/hdl/zboard.v" \
 -endlib
 -makelib ies/xil_defaultlib \

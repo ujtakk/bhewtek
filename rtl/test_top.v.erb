@@ -114,15 +114,10 @@ module test_top();
         $finish();
     end
 
-    reg pool_we_d1;
-
-    always @(posedge clk)
-        pool_we_d1 <= dut0.pool_we;
-
     always
     begin
         #(STEP/2-1);
-        if (pool_we_d1)
+        if (dut0.mem_output_we)
             $display(
                 "%5d: ", $time/STEP,
                 <%- for i in 0...$core -%>

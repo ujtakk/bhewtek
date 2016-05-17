@@ -30,12 +30,12 @@ module conv_tree(/*AUTOARG*/);
    <%- for i in 0...$fsize**2 -%>
    reg signed [DWIDTH-1:0]   r_weight<%=i%>;
    <%- end -%>
-   //<%- for i in 0...24 -%>
-   //reg signed [DWIDTH-1:0] r_sum<%=i%>;
-   //<%- end -%>
-   //<%- for i in 1...4 -%>
-   //reg signed [DWIDTH-1:0] pro_short24_d<%=i%>;
-   //<%- end -%>
+   <%- for i in 0...24 -%>
+   reg signed [DWIDTH-1:0] r_sum<%=i%>;
+   <%- end -%>
+   <%- for i in 1...5 -%>
+   reg signed [DWIDTH-1:0] pro_short24_d<%=i%>;
+   <%- end -%>
 
    <%- for i in 0...$fsize**2 -%>
    assign pro<%=i%> = (r_pixel<%=i%> * r_weight<%=i%>);
@@ -43,11 +43,11 @@ module conv_tree(/*AUTOARG*/);
    <%- for i in 0...$fsize**2 -%>
    assign pro_short<%=i%> = $signed({pro<%=i%>[22],pro<%=i%>[22:8]});
    <%- end -%>
-   assign sum0 = sum1 + sum2;
-   assign sum1 = sum3 + sum4;
-   assign sum2 = sum5 + pro_short24;
+   assign sum0 = r_sum1 + r_sum2;
+   assign sum1 = r_sum3 + r_sum4;
+   assign sum2 = r_sum5 + pro_short24_d3;
    <%- for i in 3...12 -%>
-   assign sum<%=i%> = sum<%=2*i+1%> + sum<%=2*i%>;
+   assign sum<%=i%> = r_sum<%=2*i+1%> + r_sum<%=2*i%>;
    <%- end -%>
    <%- for i in 6...12 -%>
    //assign sum<%=i%> = sum<%=2*i+1%> + sum<%=2*i%>;
@@ -56,17 +56,17 @@ module conv_tree(/*AUTOARG*/);
    assign sum<%=i%> = pro_short<%=2*i-23%> + pro_short<%=2*i-24%>;
    <%- end -%>
 
-   <%- for i in 1...4 -%>
-   //always @(posedge clk)
-   //    <%- if i == 1 -%>
-   //    pro_short24_d<%=i%> <= pro_short24;
-   //    <%- else -%>
-   //    pro_short24_d<%=i%> <= pro_short24_d<%=i-1%>;
-   //    <%- end -%>
+   <%- for i in 1...5 -%>
+   always @(posedge clk)
+       <%- if i == 1 -%>
+       pro_short24_d<%=i%> <= pro_short24;
+       <%- else -%>
+       pro_short24_d<%=i%> <= pro_short24_d<%=i-1%>;
+       <%- end -%>
    <%- end -%>
    <%- for i in 0...24 -%>
-   //always @(posedge clk)
-   //    r_sum<%=i%> <= sum<%=i%>;
+   always @(posedge clk)
+       r_sum<%=i%> <= sum<%=i%>;
    <%- end -%>
 
    <%- for i in 0...$fsize**2 -%>

@@ -5,7 +5,7 @@ $project = '/home/work/takau/bhewtek'
 $core = 8
 $core_log = (Math.log($core)/Math.log(2)).to_i
 $tech = nil # rohm
-$conv_delay = 2;
+$conv_delay = 6;
 $pool_delay = $conv_delay + 2;
 
 # Verilog parameter

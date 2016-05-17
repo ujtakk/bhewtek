@@ -4,8 +4,7 @@
 
 set_msg_config -id {HDL 9-1061} -limit 100000
 set_msg_config -id {HDL 9-1654} -limit 100000
-set_msg_config -id {Synth 8-256} -limit 10000
-set_msg_config -id {Synth 8-638} -limit 10000
+set_msg_config -id {HDL-1065} -limit 10000
 create_project -in_memory -part xc7z020clg484-1
 
 set_param project.singleFileAddWarning.threshold 0
@@ -20,34 +19,34 @@ set_property target_language Verilog [current_project]
 set_property board_part em.avnet.com:zed:part0:1.3 [current_project]
 read_verilog /ram/home/work/takau/bhewtek/rtl/parameters.vh
 add_files /ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/zboard.bd
-set_property used_in_implementation false [get_files -all /ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/ip/zboard_processing_system7_0_1/zboard_processing_system7_0_1.xdc]
-set_property used_in_implementation false [get_files -all /ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/ip/zboard_rst_processing_system7_0_100M_1/zboard_rst_processing_system7_0_100M_1_board.xdc]
-set_property used_in_implementation false [get_files -all /ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/ip/zboard_rst_processing_system7_0_100M_1/zboard_rst_processing_system7_0_100M_1.xdc]
-set_property used_in_implementation false [get_files -all /ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/ip/zboard_rst_processing_system7_0_100M_1/zboard_rst_processing_system7_0_100M_1_ooc.xdc]
-set_property used_in_implementation false [get_files -all /ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/ip/zboard_auto_pc_1/zboard_auto_pc_1_ooc.xdc]
-set_property used_in_implementation false [get_files -all /ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/ip/zboard_auto_us_1/zboard_auto_us_1_ooc.xdc]
-set_property used_in_implementation false [get_files -all /ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/ip/zboard_auto_us_1/zboard_auto_us_1_clocks.xdc]
+set_property used_in_implementation false [get_files -all /ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/ip/zboard_processing_system7_0_0/zboard_processing_system7_0_0.xdc]
+set_property used_in_implementation false [get_files -all /ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/ip/zboard_rst_processing_system7_0_100M_0/zboard_rst_processing_system7_0_100M_0_board.xdc]
+set_property used_in_implementation false [get_files -all /ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/ip/zboard_rst_processing_system7_0_100M_0/zboard_rst_processing_system7_0_100M_0.xdc]
+set_property used_in_implementation false [get_files -all /ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/ip/zboard_rst_processing_system7_0_100M_0/zboard_rst_processing_system7_0_100M_0_ooc.xdc]
+set_property used_in_implementation false [get_files -all /ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/ip/zboard_auto_pc_0/zboard_auto_pc_0_ooc.xdc]
+set_property used_in_implementation false [get_files -all /ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/ip/zboard_auto_us_0/zboard_auto_us_0_ooc.xdc]
+set_property used_in_implementation false [get_files -all /ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/ip/zboard_auto_us_0/zboard_auto_us_0_clocks.xdc]
 set_property used_in_implementation false [get_files -all /ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/zboard_ooc.xdc]
 set_property is_locked true [get_files /ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/zboard.bd]
 
 read_verilog -library xil_defaultlib {
   /ram/home/work/takau/bhewtek/rtl/conv_wreg.v
   /ram/home/work/takau/bhewtek/rtl/conv_tree.v
-  /ram/home/work/takau/bhewtek/rtl/accumulator.v
   /ram/home/work/takau/bhewtek/rtl/sram_feat.v
   /ram/home/work/takau/bhewtek/rtl/pool.v
   /ram/home/work/takau/bhewtek/rtl/linebuf_feat.v
   /ram/home/work/takau/bhewtek/rtl/conv.v
-  /ram/home/work/takau/bhewtek/rtl/core.v
-  /ram/home/work/takau/bhewtek/rtl/sram_output.v
-  /ram/home/work/takau/bhewtek/rtl/linebuf_pix.v
-  /ram/home/work/takau/bhewtek/rtl/sram_input.v
-  /ram/home/work/takau/bhewtek/rtl/decoder.v
+  /ram/home/work/takau/bhewtek/rtl/accumulator.v
   /ram/home/work/takau/bhewtek/rtl/sram_weight.v
+  /ram/home/work/takau/bhewtek/rtl/sram_output.v
+  /ram/home/work/takau/bhewtek/rtl/sram_input.v
   /ram/home/work/takau/bhewtek/rtl/mux_output.v
+  /ram/home/work/takau/bhewtek/rtl/linebuf_pix.v
+  /ram/home/work/takau/bhewtek/rtl/decoder.v
   /ram/home/work/takau/bhewtek/rtl/ctrl.v
+  /ram/home/work/takau/bhewtek/rtl/core.v
   /ram/home/work/takau/bhewtek/rtl/top.v
-  /ram/home/work/takau/bhewtek/rtl/axi_slave.v
+  /ram/home/work/takau/bhewtek/rtl/axi_slave_top_wrapper.v
   /ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/hdl/zboard_wrapper.v
 }
 foreach dcp [get_files -quiet -all *.dcp] {
@@ -56,7 +55,7 @@ foreach dcp [get_files -quiet -all *.dcp] {
 read_xdc dont_touch.xdc
 set_property used_in_implementation false [get_files dont_touch.xdc]
 
-synth_design -top zboard_wrapper -part xc7z020clg484-1 -fanout_limit 0
+synth_design -top zboard_wrapper -part xc7z020clg484-1
 
 
 write_checkpoint -force -noxdef zboard_wrapper.dcp

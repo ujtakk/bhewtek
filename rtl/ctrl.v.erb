@@ -247,11 +247,11 @@ module ctrl(/*AUTOARG*/);
                         && r_conv_x == r_img_w - 1 && r_conv_y == r_img_h - 1;
 
     //accum exec
-    assign mem_feat_we      = r_feat_we_d2;
-    assign mem_feat_rst     = r_feat_rst_d2;
-    assign mem_feat_addr_d1 = r_feat_addr_d3;
-    assign mem_feat_addr    = r_feat_addr_d2;
-    assign conv_we          = r_conv_we_d2;
+    assign mem_feat_we      = r_feat_we_d<%=$conv_delay%>;
+    assign mem_feat_rst     = r_feat_rst_d<%=$conv_delay%>;
+    assign mem_feat_addr_d1 = r_feat_addr_d<%=$conv_delay+1%>;
+    assign mem_feat_addr    = r_feat_addr_d<%=$conv_delay%>;
+    assign conv_we          = r_conv_we_d<%=$conv_delay%>;
 
     always @(posedge clk)
         if (r_state == CONV && conv_valid)

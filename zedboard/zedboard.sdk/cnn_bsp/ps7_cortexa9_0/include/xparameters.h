@@ -111,9 +111,9 @@
 /******************************************************************/
 
 
-/* Definitions for peripheral AXI_SLAVE_0 */
-#define XPAR_AXI_SLAVE_0_BASEADDR 0x40000000
-#define XPAR_AXI_SLAVE_0_HIGHADDR 0x7FFFFFFF
+/* Definitions for peripheral AXI_SLAVE_TOP_WRAPPER_0 */
+#define XPAR_AXI_SLAVE_TOP_WRAPPER_0_BASEADDR 0x40000000
+#define XPAR_AXI_SLAVE_TOP_WRAPPER_0_HIGHADDR 0x7FFFFFFF
 
 
 /* Definitions for peripheral PS7_AFI_0 */

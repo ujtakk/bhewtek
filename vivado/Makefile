@@ -1,6 +1,6 @@
 conf:
 	(cd ../rtl; make)
-	vivado -mode batch -source conf.tcl
+	vivado -mode batch -source conf_proj.tcl
 
 sdk:
 	xsdk -batch -source sdk.tcl 2>&1 | tee sdk.log

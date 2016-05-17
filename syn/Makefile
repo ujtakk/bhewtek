@@ -1,5 +1,5 @@
 RTL_DIR=$(PWD)/../rtl
-DESIGN=core
+DESIGN=top
 
 dc:
 	make link

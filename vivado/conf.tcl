@@ -3,7 +3,7 @@
 #
 source ./lib.tcl
 
-set design top
+set design zedboard_wrapper
 set resultDir ./results
 set reportDir ./reports
 file mkdir $resultDir
@@ -15,6 +15,7 @@ file mkdir $reportDir
 # STEP#1: setup design sources and constraints
 #
 read_verilog  [ glob ../rtl/*.v ]
+read_verilog  [ glob ../zedboard/zedboard.srcs/sources_1/bd/zboard/hdl/*.v ]
 read_xdc ./zedboard_master_XDC_RevC_D_v2.xdc
 
 #
@@ -47,43 +48,43 @@ write_verilog -force $resultDir/${design}_synth_netlist.v
 #
 #
 # Ports
-#place_ports
-##
-## I/O Standard
-##set_property IOSTANDARD <standard_value> [get_ports *]
-##
-## NOT RECOMMENDED
+place_ports
+#
+# I/O Standard
+#set_property IOSTANDARD <standard_value> [get_ports *]
+#
+# NOT RECOMMENDED
 #set_property SEVERITY {Warning} [get_drc_checks NSTD-1]
 #set_property SEVERITY {Warning} [get_drc_checks UCIO-1]
+
 #
-##
-## STEP#3: run placement and logic optimzation, report utilization and timing estimates, write checkpoint design
-##
-#opt_design
-#place_design
-#phys_opt_design
-#write_checkpoint -force $resultDir/post_place
-#report_timing_summary -file $reportDir/post_place_timing_summary.rpt
-##write_hwdef -force -file $resultDir/$design.hwdef
+# STEP#3: run placement and logic optimzation, report utilization and timing estimates, write checkpoint design
 #
-##
-## STEP#4: run router, report actual utilization and timing, write checkpoint design, run drc, write verilog and xdc out
-##
-#route_design
-#write_checkpoint -force $resultDir/post_route
-#report_timing_summary -file $reportDir/post_route_timing_summary.rpt
-#report_timing -sort_by group -max_paths 100 -path_type summary -file $reportDir/post_route_timing.rpt
-#report_clock_utilization -file $reportDir/clock_util.rpt
-#report_utilization -file $reportDir/post_route_util.rpt
-#report_power -file $reportDir/post_route_power.rpt
-#report_drc -file $reportDir/post_imp_drc.rpt
-#reportCriticalPaths $reportDir/post_impl_critpath_report.csv
-#write_verilog -force $resultDir/${design}_impl_netlist.v
-#write_xdc -no_fixed_only -force $resultDir/${design}_impl.xdc
+opt_design
+place_design
+phys_opt_design
+write_checkpoint -force $resultDir/post_place
+report_timing_summary -file $reportDir/post_place_timing_summary.rpt
+#write_hwdef -force -file $resultDir/$design.hwdef
+
 #
-##
-## STEP#5: generate a bitstream
-##
-#write_bitstream -force $resultDir/$design.bit
-##write_sysdef -force -bitfile $resultDir/$design.bit -hwdef $resultDir/$design.hwdef -file $resultDir/$design.sysdef
+# STEP#4: run router, report actual utilization and timing, write checkpoint design, run drc, write verilog and xdc out
 #
+route_design
+write_checkpoint -force $resultDir/post_route
+report_timing_summary -file $reportDir/post_route_timing_summary.rpt
+report_timing -sort_by group -max_paths 100 -path_type summary -file $reportDir/post_route_timing.rpt
+report_clock_utilization -file $reportDir/clock_util.rpt
+report_utilization -file $reportDir/post_route_util.rpt
+report_power -file $reportDir/post_route_power.rpt
+report_drc -file $reportDir/post_imp_drc.rpt
+reportCriticalPaths $reportDir/post_impl_critpath_report.csv
+write_verilog -force $resultDir/${design}_impl_netlist.v
+write_xdc -no_fixed_only -force $resultDir/${design}_impl.xdc
+
+#
+# STEP#5: generate a bitstream
+#
+write_bitstream -force $resultDir/$design.bit
+#write_sysdef -force -bitfile $resultDir/$design.bit -hwdef $resultDir/$design.hwdef -file $resultDir/$design.sysdef
+

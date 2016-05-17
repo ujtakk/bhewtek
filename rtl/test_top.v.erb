@@ -36,11 +36,9 @@ module test_top();
         input_addr = 0;
         write_input = 0;
         input_we = 0;
-        weight_we = 0;
+        weight_we = 4'd0;
         weight_addr = 0;
-        <%- for n in 0...$core -%>
-        write_weight<%=i%> = 0;
-        <%- end -%>
+        write_weight = 0;
         #(STEP) xrst = 1;
 
         read_input;
@@ -56,19 +54,17 @@ module test_top();
         write_input = 0;
 
         read_weight;
-        weight_we = 1;
+        <%- for n in 0...$core -%>
+        weight_we = 4'd<%=n+1%>;
         for (i=0; i<2**WSIZE; i=i+1)
         begin
-            <%- for n in 0...$core -%>
             weight_addr = i;
-            write_weight<%=n%> = mem_w<%=n%>[i];
-            <%- end -%>
+            write_weight = mem_w<%=n%>[i];
             #(STEP);
         end
-        weight_we = 0;
+        weight_we = 4'd0;
         weight_addr = 0;
-        <%- for n in 0...$core -%>
-        write_weight<%=i%> = 0;
+        write_weight = 0;
         <%- end -%>
 
         //$toggle_start();
@@ -84,10 +80,8 @@ module test_top();
         weight_addr = 0;
         input_we = 0;
         write_input = 0;
-        <%- for n in 0...$core -%>
-        write_weight<%=i%> = 0;
-        <%- end -%>
-        weight_we = 0;
+        write_weight = 0;
+        weight_we = 4'd0;
 
         #(STEP);
 

@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenRun Id="impl_1" LaunchPart="xc7z020clg484-1" LaunchTime="1462036872">
+  <File Type="POSTROUTE-PHYSOPT-DCP" Name="zboard_wrapper_postroute_physopt.dcp"/>
+  <File Type="PA-TCL" Name="zboard_wrapper.tcl"/>
+  <File Type="BITSTR-BMM" Name="zboard_wrapper_bd.bmm"/>
+  <File Type="PLACE-UTIL-PB" Name="zboard_wrapper_utilization_placed.pb"/>
+  <File Type="BITSTR-RBT" Name="zboard_wrapper.rbt"/>
+  <File Type="OPT-DCP" Name="zboard_wrapper_opt.dcp"/>
+  <File Type="POSTPLACE-PWROPT-DCP" Name="zboard_wrapper_postplace_pwropt.dcp"/>
+  <File Type="BITSTR-MMI" Name="zboard_wrapper.mmi"/>
+  <File Type="PWROPT-TIMING" Name="zboard_wrapper_timing_summary_pwropted.rpt"/>
+  <File Type="RDI-RDI" Name="zboard_wrapper.vdi"/>
+  <File Type="OPT-DRC" Name="zboard_wrapper_drc_opted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="zboard_wrapper_timing_summary_postroute_physopted.rpx"/>
+  <File Type="PLACE-UTIL" Name="zboard_wrapper_utilization_placed.rpt"/>
+  <File Type="BITSTR-NKY" Name="zboard_wrapper.nky"/>
+  <File Type="PLACE-DCP" Name="zboard_wrapper_placed.dcp"/>
+  <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
+  <File Type="ROUTE-CLK" Name="zboard_wrapper_clock_utilization_routed.rpt"/>
+  <File Type="BITSTR-MSK" Name="zboard_wrapper.msk"/>
+  <File Type="INIT-TIMING" Name="zboard_wrapper_timing_summary_init.rpt"/>
+  <File Type="ROUTE-DRC" Name="zboard_wrapper_drc_routed.rpt"/>
+  <File Type="ROUTE-PWR" Name="zboard_wrapper_power_routed.rpt"/>
+  <File Type="ROUTE-BLACKBOX-DCP" Name="zboard_wrapper_routed_bb.dcp"/>
+  <File Type="PLACE-CLK" Name="zboard_wrapper_clock_utilization_placed.rpt"/>
+  <File Type="PHYSOPT-TIMING" Name="zboard_wrapper_timing_summary_physopted.rpt"/>
+  <File Type="PLACE-CTRL" Name="zboard_wrapper_control_sets_placed.rpt"/>
+  <File Type="OPT-METHODOLOGY-DRC" Name="zboard_wrapper_methodology_drc_opted.rpt"/>
+  <File Type="PLACE-SIMILARITY" Name="zboard_wrapper_incremental_reuse_placed.rpt"/>
+  <File Type="ROUTE-METHODOLOGY-DRC" Name="zboard_wrapper_methodology_drc_routed.rpt"/>
+  <File Type="PLACE-PRE-SIMILARITY" Name="zboard_wrapper_incremental_reuse_pre_placed.rpt"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="zboard_wrapper_methodology_drc_routed.pb"/>
+  <File Type="ROUTE-DCP" Name="zboard_wrapper_routed.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="zboard_wrapper_timing_summary_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="zboard_wrapper_postroute_physopt_bb.dcp"/>
+  <File Type="ROUTE-SIMILARITY" Name="zboard_wrapper_incremental_reuse_routed.rpt"/>
+  <File Type="BG-BIN" Name="zboard_wrapper.bin"/>
+  <File Type="ROUTE-TIMINGSUMMARY" Name="zboard_wrapper_timing_summary_routed.rpt"/>
+  <File Type="BG-BIT" Name="zboard_wrapper.bit"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="zboard_wrapper_timing_summary_postroute_physopted.rpt"/>
+  <File Type="ROUTE-TIMING-RPX" Name="zboard_wrapper_timing_summary_routed.rpx"/>
+  <File Type="BG-BGN" Name="zboard_wrapper.bgn"/>
+  <File Type="BG-DRC" Name="zboard_wrapper.drc"/>
+  <File Type="ROUTE-TIMING-PB" Name="zboard_wrapper_timing_summary_routed.pb"/>
+  <File Type="PWROPT-DCP" Name="zboard_wrapper_pwropt.dcp"/>
+  <File Type="OPT-HWDEF" Name="zboard_wrapper.hwdef"/>
+  <File Type="PLACE-TIMING" Name="zboard_wrapper_timing_summary_placed.rpt"/>
+  <File Type="OPT-TIMING" Name="zboard_wrapper_timing_summary_opted.rpt"/>
+  <File Type="PLACE-IO" Name="zboard_wrapper_io_placed.rpt"/>
+  <File Type="POSTPLACE-PWROPT-TIMING" Name="zboard_wrapper_timing_summary_postplace_pwropted.rpt"/>
+  <File Type="BITSTR-SYSDEF" Name="zboard_wrapper.sysdef"/>
+  <File Type="PWROPT-DRC" Name="zboard_wrapper_drc_pwropted.rpt"/>
+  <File Type="ROUTE-STATUS-PB" Name="zboard_wrapper_route_status.pb"/>
+  <File Type="ROUTE-STATUS" Name="zboard_wrapper_route_status.rpt"/>
+  <File Type="ROUTE-PWR-RPX" Name="zboard_wrapper_power_routed.rpx"/>
+  <File Type="ROUTE-DRC-PB" Name="zboard_wrapper_drc_routed.pb"/>
+  <File Type="PHYSOPT-DRC" Name="zboard_wrapper_drc_physopted.rpt"/>
+  <File Type="ROUTE-PWR-SUM" Name="zboard_wrapper_power_summary_routed.pb"/>
+  <File Type="PHYSOPT-DCP" Name="zboard_wrapper_physopt.dcp"/>
+  <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
+    <Filter Type="Srcs"/>
+    <File Path="$PPRDIR/../rtl/parameters.vh">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../rtl/conv_wreg.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../rtl/conv_tree.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../rtl/accumulator.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../rtl/sram_feat.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../rtl/pool.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../rtl/linebuf_feat.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../rtl/conv.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../rtl/core.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../rtl/sram_output.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../rtl/linebuf_pix.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../rtl/sram_input.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../rtl/decoder.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../rtl/sram_weight.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../rtl/mux_output.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../rtl/ctrl.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../rtl/top.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../rtl/axi_slave.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/bd/zboard/zboard.bd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/bd/zboard/hdl/zboard_wrapper.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../rtl/test_top.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="DesignMode" Val="RTL"/>
+      <Option Name="TopModule" Val="zboard_wrapper"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1">
+    <Filter Type="Constrs"/>
+    <Config>
+      <Option Name="ConstrsType" Val="XDC"/>
+    </Config>
+  </FileSet>
+  <Strategy Version="1" Minor="2">
+    <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2016"/>
+    <Step Id="init_design"/>
+    <Step Id="opt_design">
+      <Option Id="Verbose">1</Option>
+    </Step>
+    <Step Id="power_opt_design" EnableStepBool="1"/>
+    <Step Id="place_design"/>
+    <Step Id="post_place_power_opt_design" EnableStepBool="1"/>
+    <Step Id="phys_opt_design" EnableStepBool="1"/>
+    <Step Id="route_design"/>
+    <Step Id="post_route_phys_opt_design" EnableStepBool="1"/>
+    <Step Id="write_bitstream"/>
+  </Strategy>
+</GenRun>

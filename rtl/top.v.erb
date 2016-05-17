@@ -20,18 +20,17 @@ module top(/*AUTOARG*/);
     ); */
     sram_input mem_input(/*AUTOINST*/);
 
-    ///* decoder AUTO_TEMPLATE (
-    //    .in_code (weight_we[3:0]),
-    //    .out_code (mem_weight_we[7:0]),
-    //); */
-    //decoder dec_weight(/*AUTOINST*/);
+    /* decoder AUTO_TEMPLATE (
+        .in_code (weight_we[<%=$core_log%>:0]),
+        .out_code (mem_weight_we[<%=$core-1%>:0]),
+    ); */
+    decoder dec_weight(/*AUTOINST*/);
 
     <%- for i in 0...$core -%>
     /* sram_weight AUTO_TEMPLATE (
         .read_data  (read_weight<%=i%>[DWIDTH-1:0]),
-        .write_data (write_weight<%=i%>[DWIDTH-1:0]),
-        //.mem_we     (mem_weight_we[<%=i%>]),
-        .mem_we     (weight_we),
+        .write_data (write_weight[DWIDTH-1:0]),
+        .mem_we     (mem_weight_we[<%=i%>]),
         .mem_addr   (mem_weight_addr[WSIZE-1:0]),
     ); */
     sram_weight mem_weight<%=i%>(/*AUTOINST*/);

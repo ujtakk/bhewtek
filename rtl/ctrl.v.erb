@@ -47,7 +47,6 @@ module ctrl(/*AUTOARG*/);
     wire pool_end;
 
     /*AUTOREG*/
-    reg r_ack;
     reg r_wreg_we;
     reg [1:0] r_state;
     reg [INSIZE-1:0] r_input_addr;
@@ -75,10 +74,11 @@ module ctrl(/*AUTOARG*/);
     reg r_conv_we_d<%=i%>;
     <%- end -%>
     reg [FACCUM-1:0] r_feat_addr_d<%=$conv_delay+1%>;
-    <% for i in 0...$pool_delay+1 -%>
+    <% for i in 0..$pool_delay+1 -%>
     reg r_pool_we_d<%=i%>;
+    reg r_ack_d<%=i%>;
     <%- end -%>
-    reg r_pool_we_d<%=$pool_delay+1%>;
+    reg r_ack_d<%=$pool_delay+2%>;
     reg [OUTSIZE-1:0] r_output_addr;
 
     //main FSM
@@ -369,6 +369,23 @@ module ctrl(/*AUTOARG*/);
         else if (r_pool_we_d<%=$pool_delay+1%>)
             r_output_addr <= r_output_addr + 1;
 
-    assign ack = pool_end && r_count_out + <%=$core%> >= r_total_out;
+    //assign ack = pool_end && r_count_out + <%=$core%> >= r_total_out;
+    assign ack = r_ack_d<%=$pool_delay+2%>;
+
+    always @(posedge clk)
+        if (!xrst)
+            r_ack_d0 <= 0;
+        else if (req)
+            r_ack_d0 <= 0;
+        else if (pool_end && r_count_out + <%=$core%> >= r_total_out)
+            r_ack_d0 <= 1;
+
+    <%- for i in 1..$pool_delay+2 -%>
+    always @(posedge clk)
+        if (!xrst)
+            r_ack_d<%=i%> <= 0;
+        else
+            r_ack_d<%=i%> <= r_ack_d<%=i-1%>;
+    <%- end -%>
 
 endmodule

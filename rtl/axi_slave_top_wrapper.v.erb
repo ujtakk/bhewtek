@@ -181,6 +181,7 @@ module axi_slave_top_wrapper #
     **    1 => network parameters
     **    2 ~ => normal addresses
     */
+    // sm_cs: state machine current state
     assign clk                              = ACLK;
     assign xrst                             = r_xrst;
     assign output_addr                      = r_output_addr;
@@ -225,18 +226,23 @@ module axi_slave_top_wrapper #
             r_output_addr       <= S_AXI_ARADDR[<%=$outsize%>-1:0];
             r_ack               <= ack;
             r_read_output       <= read_output;
-            r_input_addr        <= S_AXI_AWADDR[<%=$insize%>:1];
-            r_weight_addr       <= S_AXI_AWADDR[<%=$insize+$wsize%>:<%=$insize+1%>];
-            r_req               <= S_AXI_AWADDR == 1 & S_AXI_WDATA[0];
-            r_input_we          <= S_AXI_AWADDR == 1 & S_AXI_WDATA[1];
-            r_weight_we         <= S_AXI_AWADDR == 1 & S_AXI_WDATA[<%=$core_log+2%>:2];
-            r_output_re         <= S_AXI_AWADDR == 1 & S_AXI_WDATA[<%=2*$core_log+2%>:<%=$core_log+3%>];
-            r_total_out         <= S_AXI_AWADDR == 1 & S_AXI_WDATA[<%=$lwidth-1%>+32:32];
-            r_total_in          <= S_AXI_AWADDR == 1 & S_AXI_WDATA[<%=2*$lwidth-1%>+32:<%=$lwidth%>+32];
-            r_img_size          <= S_AXI_AWADDR == 1 & S_AXI_WDATA[<%=3*$lwidth-1%>+32:<%=2*$lwidth%>+32];
-            r_fil_size          <= S_AXI_AWADDR == 1 & S_AXI_WDATA[<%=4*$lwidth-1%>+32:<%=3*$lwidth%>+32];
-            r_write_input       <= S_AXI_WDATA[<%=$dwidth-1%>:0];
-            r_write_weight      <= S_AXI_WDATA[<%=2*$dwidth-1%>:<%=$dwidth%>];
+            case (S_AXI_AWADDR[29:28])
+                2'b01:
+                    r_req               <= S_AXI_WDATA[0];
+                    r_input_we          <= S_AXI_WDATA[1];
+                    r_weight_we         <= S_AXI_WDATA[<%=$core_log+2%>:2];
+                    r_output_re         <= S_AXI_WDATA[<%=2*$core_log+2%>:<%=$core_log+3%>];
+                2'b10:
+                    r_fil_size          <= S_AXI_WDATA[<%=$lwidth-1%>:0]];
+                    r_img_size          <= S_AXI_WDATA[<%=2*$lwidth-1%>:<%=$lwidth%>];
+                    r_total_in          <= S_AXI_WDATA[<%=3*$lwidth-1%>:<%=2*$lwidth%>];
+                    r_total_out         <= S_AXI_WDATA[<%=4*$lwidth-1%>:<%=3*$lwidth%>];
+                default:
+                    r_input_addr        <= S_AXI_AWADDR[<%=$insize%>:1];
+                    r_weight_addr       <= S_AXI_AWADDR[<%=$insize+$wsize%>:<%=$insize+1%>];
+                    r_write_input       <= S_AXI_WDATA[<%=$dwidth-1%>:0];
+                    r_write_weight      <= S_AXI_WDATA[<%=2*$dwidth-1%>:<%=$dwidth%>];
+            endcase
         end
 
     top top0(/*AUTOINST*/);
@@ -307,6 +313,19 @@ module axi_slave_top_wrapper #
         end
         else
             case (waddr_sm_cs)
+                /*
+                    when WADDR is idle, down awready.
+                    if bvalid is up, awready comes back.
+                        => what's bvalid ?
+
+                    solutions goes like:
+                        => bvalid indicates Write response valid.
+                           This signal indicates that a valid write response is available:
+                            1 = write response available
+                            0 = write response not available.
+                            (cf. http://mazsola.iit.uni-miskolc.hu/~drdani/docs_arm/AMBAaxi.pdf)
+                        => AWVALID typically asserts for a clock. so AWREADY deasserts when trans end.
+                */
                 IDLE_WADDR:
                     if (S_AXI_AWVALID)
                     begin
@@ -315,7 +334,7 @@ module axi_slave_top_wrapper #
                         awid        <= S_AXI_AWID;
                         awburst     <= S_AXI_AWBURST;
                     end
-                AWREADY_HOLD_OFF:
+                AWREADY_HOLD_OFF: // when writing data
                     if (bvalid)
                     begin
                         waddr_sm_cs <= IDLE_WADDR;
@@ -370,6 +389,9 @@ module axi_slave_top_wrapper #
         end
         else
             case (wres_sm_cs)
+                /*
+                    bvalid stands for valid state of bus
+                */
                 IDLE_WRES :
                     if (wdata_sm_cs == WREADY_ASSERT & S_AXI_WLAST & S_AXI_WVALID)
                     begin    // Write transaction end
@@ -478,6 +500,8 @@ module axi_slave_top_wrapper #
     assign S_AXI_RRESP = rresp;
 
     // rdata_count
+    // data amount to be transferred
+    // indicates the burst length
     always @(posedge ACLK)
         if (!ARESETN)
             rdata_count <= 9'd0;
@@ -497,13 +521,14 @@ module axi_slave_top_wrapper #
         else
             case (rlast_sm_cs)
                 IDLE_RLAST :
+                    // rdata_count is 9'd2 and when transaction is issued
                     if (rdata_count == 9'd2 && (rvalid & S_AXI_RREADY))
                     begin
                         rlast_sm_cs <= RLAST_ASSERT;
                         rlast       <= 1'b1;
                     end else if (raddr_sm_cs==IDLE_RADDR && S_AXI_ARVALID==1'b1 && S_AXI_ARLEN==8'd0)
                     begin
-                    // $BE>Aw?t$,(B1$B$N;~$O%G!<%?E>Aw$N:G=i$+$i(Brlast $B$r(B1$B$K$9$k(B
+                    // 転送数が1の時はデータ転送の最初からrlast を1にする
                         rlast_sm_cs <= RLAST_ASSERT;
                         rlast       <= 1'b1;
                     end

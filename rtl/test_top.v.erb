@@ -33,13 +33,20 @@ module test_top();
         fp = $fopen("log.txt");
 
         xrst = 0;
+
         input_addr = 0;
         write_input = 0;
         input_we = 0;
+
         weight_we = 4'd0;
         weight_addr = 0;
         write_weight = 0;
-        #(STEP) xrst = 1;
+
+        output_addr = 0;
+        output_re = 0;
+
+        #(STEP);
+        xrst = 1;
 
         read_input;
         input_we = 1;
@@ -82,6 +89,8 @@ module test_top();
         write_input = 0;
         write_weight = 0;
         weight_we = 4'd0;
+        output_addr = 0;
+        output_re = 0;
 
         #(STEP);
 
@@ -100,7 +109,8 @@ module test_top();
         <%- elsif $core == 4 -%>
         #(STEP*43950); // 4 core 8192
         <%- elsif $core == 8 -%>
-        #(STEP*23670); // 8 core 4096
+        //#(STEP*23670); // 8 core 4096
+        #(STEP*23690); // 8 core 4096
         <%- elsif $core == 16 -%>
         #(STEP*13530); // 16 core 2048
         <%- elsif $core == 32 -%>
@@ -146,7 +156,11 @@ module test_top();
             "%d ", dut0.ctrl.r_pool_x,
             "%d ", dut0.ctrl.r_pool_y,
             "%d ", dut0.ctrl.pool_valid,
-
+            "@@ ",
+            "%d ", dut0.ctrl.pool_end,
+            "%d ", dut0.ctrl.mem_output_we,
+            "%d ", dut0.ctrl.mem_output_addr,
+            "%d ", dut0.ctrl.ack,
         );
         #(STEP/2+1);
     end

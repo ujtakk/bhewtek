@@ -2,6 +2,7 @@
 
 module test_linebuf_feat();
 `include "parameters.vh"
+<%- load "parameters.rb" -%>
 
     /*AUTOREGINPUT*/
 
@@ -11,9 +12,9 @@ module test_linebuf_feat();
     always
     begin
         clk = 0;
-        #(CLK/2);
+        #(STEP/2);
         clk = 1;
-        #(CLK/2);
+        #(STEP/2);
     end
 
     integer fp;
@@ -23,18 +24,18 @@ module test_linebuf_feat();
         fp = $fopen("lbfeat.txt");
         /* <% for i in 0...3 %> */
         /* <%   for j in 0...24 %> */
-        #(CLK);
+        #(STEP);
         read_data = <%=24*i+j%>;
         /* <%   end %> */
         /* <% end %> */
-        #(CLK);
-        #(CLK);
+        #(STEP);
+        #(STEP);
         $finish();
     end
 
     always
     begin
-        #(CLK/2-1);
+        #(STEP/2-1);
         $fdisplay(fp, "input: %d", read_data);
         /* <% for i in 0...2 %> */
         $fdisplay(fp,
@@ -42,7 +43,7 @@ module test_linebuf_feat();
             "%d ", pixel_feat<%=2*i+1%>
         );
         /* <% end %> */
-        #(CLK/2+1);
+        #(STEP/2+1);
     end
 
     linebuf_feat dut0(/*AUTOINST*/);

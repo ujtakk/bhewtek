@@ -2,6 +2,7 @@
 
 module test_conv();
 `include "parameters.vh"
+<%- load "parameters.rb" -%>
 
     /*AUTOREGINPUT*/
 
@@ -11,38 +12,38 @@ module test_conv();
     always
     begin
         clk = 0;
-        #(CLK/2);
+        #(STEP/2);
         clk = 1;
-        #(CLK/2);
+        #(STEP/2);
     end
 
     initial
     begin
-        #(CLK);
+        #(STEP);
         xrst = 0;
         wreg_we = 0;
         <%- for i in 0...$fsize**2 -%>
         pixel<%=i%> = 0;
         <%- end -%>
-        #(CLK);
+        #(STEP);
         xrst = 1;
-        #(CLK);
+        #(STEP);
         wreg_we = 1;
         <%- for i in 0...$fsize**2 -%>
         read_data = <%=i%>;
-        #(CLK);
+        #(STEP);
         <%- end -%>
         wreg_we = 0;
         <%- for i in 0...$fsize**2 -%>
         pixel<%=i%> = <%=i%>;
         <%- end -%>
-        #(CLK*3);
+        #(STEP*3);
         $finish();
     end
 
     always
     begin
-        #(CLK/2-1);
+        #(STEP/2-1);
         $display("%d %d | %d ", xrst, wreg_we, read_data);
         <%- for i in 0...5 -%>
         $display(
@@ -58,7 +59,7 @@ module test_conv();
         );
         <%- end -%>
         $display("output: %d\n", fmap);
-        #(CLK/2+1);
+        #(STEP/2+1);
     end
 
     conv dut0(/*AUTOINST*/);

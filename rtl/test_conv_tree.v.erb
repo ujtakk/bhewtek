@@ -2,6 +2,7 @@
 
 module test_conv_tree();
 `include "parameters.vh"
+<%- load "parameters.rb" -%>
 
     /*AUTOREGINPUT*/
 
@@ -11,35 +12,35 @@ module test_conv_tree();
     always
     begin
         clk = 0;
-        #(CLK/2);
+        #(STEP/2);
         clk = 1;
-        #(CLK/2);
+        #(STEP/2);
     end
 
     integer fp;
     initial
     begin
         fp = $fopen("newtest");
-        #(CLK);
+        #(STEP);
         xrst=0;
         <%- for i in 0...$fsize**2 -%>
         pixel<%=i%> = 0;
         weight<%=i%> = 0;
         <%- end -%>
-        #(CLK);
+        #(STEP);
         xrst = 1;
-        #(CLK);
+        #(STEP);
         <%- for i in 0...$fsize**2 -%>
         pixel<%=i%> = <%=i%>;
         weight<%=i%> = <%=i%>;
         <%- end -%>
-        #(CLK*10);
+        #(STEP*10);
         $finish();
     end
 
     always
     begin
-        #(CLK/2-1);
+        #(STEP/2-1);
         <%- for i in 0...5 -%>
         $display(
             <%-   for j in 0...4 -%>
@@ -66,7 +67,7 @@ module test_conv_tree();
             //"%d ", dut0.r_fmap,
             "%d ", dut0.fmap,
         );
-        #(CLK/2+1);
+        #(STEP/2+1);
     end
 
     conv_core dut0(/*AUTOINST*/);

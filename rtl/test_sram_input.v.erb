@@ -2,6 +2,7 @@
 
 module test_sram_input();
 `include "parameters.vh"
+<%- load "parameters.rb" -%>
     parameter STEP = 1000;
 
     /*AUTOREGINPUT*/
@@ -11,45 +12,45 @@ module test_sram_input();
     //clock
     always
     begin
-        CLK = 0;
+        STEP = 0;
         #(STEP/2);
-        CLK = 1;
+        STEP = 1;
         #(STEP/2);
     end
 
     //initial
     //begin
-    //    #(CLK);
+    //    #(STEP);
     //    mem_we = 1;
     //    <%- for i in 0...64 -%>
     //    mem_addr = <%=i%>;
     //    write_data = <%=2*i%>;
-    //    #(CLK);
+    //    #(STEP);
     //    <%- end -%>
     //    mem_we = 0;
     //    mem_addr = 1;
     //    write_data = 0;
     //    //sram_input.mem[100] = 334;
-    //    #(CLK);
+    //    #(STEP);
     //    mem_addr = 10;
-    //    #(CLK*2);
+    //    #(STEP*2);
     //    mem_addr = 63;
-    //    #(CLK*2);
+    //    #(STEP*2);
     //    mem_addr = 100;
-    //    #(CLK*2);
+    //    #(STEP*2);
     //    $finish();
     //end
 
     //always
     //begin
-    //    #(CLK/2-1);
+    //    #(STEP/2-1);
     //    $display(
     //        "%d ", mem_we,
     //        "%d ", mem_addr,
     //        "%d | ", write_data,
     //        "%d ", read_data
     //    );
-    //    #(CLK/2+1);
+    //    #(STEP/2+1);
     //end
     initial
     begin

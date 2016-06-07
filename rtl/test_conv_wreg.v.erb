@@ -2,6 +2,7 @@
 
 module test_conv_wreg();
 `include "parameters.vh"
+<%- load "parameters.rb" -%>
 
     /*AUTOREGINPUT*/
 
@@ -11,44 +12,44 @@ module test_conv_wreg();
     always
     begin
         clk = 0;
-        #(CLK/2);
+        #(STEP/2);
         clk = 1;
-        #(CLK/2);
+        #(STEP/2);
     end
 
     initial
     begin
-        #(CLK);
+        #(STEP);
         wreg_we = 0;
         <%- for i in 0...12 -%>
-        #(CLK);
+        #(STEP);
         read_data = <%=i%>;
         <%- end -%>
-        #(CLK);
+        #(STEP);
         wreg_we = 1;
         <%- for i in 12...25 -%>
-        #(CLK);
+        #(STEP);
         read_data = -<%=i%>;
         <%- end -%>
         <%- for i in 0...6 -%>
-        #(CLK);
+        #(STEP);
         read_data = <%=2*i%>;
-        #(CLK);
+        #(STEP);
         read_data = -<%=2*i+1%>;
         <%- end -%>
-        #(CLK);
+        #(STEP);
         wreg_we = 0;
         <%- for i in 0...25 -%>
-        #(CLK);
+        #(STEP);
         read_data = <%=i%>;
         <%- end -%>
-        #(CLK);
+        #(STEP);
         $finish();
     end
 
     always
     begin
-        #(CLK/2-1);
+        #(STEP/2-1);
         $display(
             "%d | ", wreg_we,
             "%d | ", $signed(read_data),
@@ -57,7 +58,7 @@ module test_conv_wreg();
             <%- end -%>
             "%d ", weight24
         );
-        #(CLK/2+1);
+        #(STEP/2+1);
     end
 
     conv_wreg dut0(/*AUTOINST*/);

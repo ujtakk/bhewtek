@@ -2,6 +2,7 @@
 
 module test_ctrl();
 `include "parameters.vh"
+<%- load "parameters.rb" -%>
 
     /*AUTOREGINPUT*/
 
@@ -11,16 +12,16 @@ module test_ctrl();
     always
     begin
         clk = 0;
-        #(CLK/2);
+        #(STEP/2);
         clk = 1;
-        #(CLK/2);
+        #(STEP/2);
     end
 
     integer fp;
     initial
     begin
         fp = $fopen("ctrl_log.txt");
-        #(CLK);
+        #(STEP);
         xrst = 0;
         req = 0;
         in_addr = 0;
@@ -31,19 +32,19 @@ module test_ctrl();
         img_h = 12;
         fil_w = 5;
         fil_h = 5;
-        #(CLK);
+        #(STEP);
         xrst = 1;
-        #(CLK*5);
+        #(STEP*5);
         req = 1;
-        #(CLK);
+        #(STEP);
         req = 0;
-        #(CLK*63367);
+        #(STEP*63367);
         $finish();
     end
 
     always
     begin
-        #(CLK/2-1);
+        #(STEP/2-1);
         $fdisplay(fp,
             "%d ", xrst,
             "%d ", req,
@@ -84,7 +85,7 @@ module test_ctrl();
             "%d ", dut0.r_c_in,
             "%d ", dut0.r_c_out,
         );
-        #(CLK/2+1);
+        #(STEP/2+1);
     end
 
     ctrl dut0(/*AUTOINST*/);

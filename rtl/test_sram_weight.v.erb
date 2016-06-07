@@ -1,6 +1,8 @@
 `timescale 1ns/1ps
 
 module test_sram_weight();
+`include "parameters.vh"
+<%- load "parameters.rb" -%>
 
     /*AUTOREGINPUT*/
 
@@ -10,9 +12,9 @@ module test_sram_weight();
     always
     begin
         clk = 0;
-        #(CLK/2);
+        #(STEP/2);
         clk = 1;
-        #(CLK/2);
+        #(STEP/2);
     end
 
 endmodule

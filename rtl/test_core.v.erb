@@ -112,7 +112,7 @@ module test_core();
 
         $display("input: %d     weight: %d", mem_input_cnt, mem_weight_cnt);
         $display("fcnt: %d %d %d %d", fcnt0, fcnt1, fcnt2, fcnt3);
-        //$toggle_report("test_core.saif", "10ps", "core0");
+        //$toggle_report("test_core.saif", "10ps", "dut0");
         //$vcdplusoff;
         $finish();
     end
@@ -120,22 +120,22 @@ module test_core();
     reg pool_we_d1;
 
     always @(posedge clk)
-        pool_we_d1 <= core0.pool_we0;
+        pool_we_d1 <= dut0.pool_we0;
 
-    always @(core0.mem_input_addr)
+    always @(dut0.mem_input_addr)
         mem_input_cnt = mem_input_cnt + 1;
 
-    always @(core0.mem_weight_addr0)
+    always @(dut0.mem_weight_addr0)
         mem_weight_cnt = mem_weight_cnt + 1;
 
     always
     begin
         #(STEP/2-1);
         if (pool_we_d1)
-            $display("%d: %d %d %d %d", $time/STEP, $signed(core0.pmap0), $signed(core0.pmap1), $signed(core0.pmap2), $signed(core0.pmap3));
+            $display("%d: %d %d %d %d", $time/STEP, $signed(dut0.pmap0), $signed(dut0.pmap1), $signed(dut0.pmap2), $signed(dut0.pmap3));
 
         <%- for i in 0...4 -%>
-        if (core0.mem_faccum_we<%=i%>)
+        if (dut0.mem_faccum_we<%=i%>)
             fcnt<%=i%> = fcnt<%=i%> + 1;
         <%- end -%>
 
@@ -143,7 +143,7 @@ module test_core();
         //$fdisplay(fp,
         //    <%- x_max = i == 1 ? 2 : 8 -%>
         //    <%-   for j in 0...x_max -%>
-        //    "%d ", $signed(core0.buf_feat0.r_pix<%=i%>_<%=j%>),
+        //    "%d ", $signed(dut0.buf_feat0.r_pix<%=i%>_<%=j%>),
         //    <%- end -%>
         //);
         //<%- end -%>
@@ -152,11 +152,11 @@ module test_core();
         //    <%- for i in 0...5 -%>
         //    $display(
         //        <%-   for j in 0...5 -%>
-        //        "%d ", $signed(core0.conv0.pixel<%=5*i+j%>),
+        //        "%d ", $signed(dut0.conv0.pixel<%=5*i+j%>),
         //        <%- end -%>
         //        "| ",
         //        <%-   for j in 0...5 -%>
-        //        "%d ", $signed(core0.conv0.weight<%=5*i+j%>),
+        //        "%d ", $signed(dut0.conv0.weight<%=5*i+j%>),
         //        <%- end -%>
         //    );
         //    <%- end -%>
@@ -165,69 +165,69 @@ module test_core();
             "%5d: ", $time/STEP,
             "%d ", xrst,
             "%d ", req,
-            "%d ", $signed(core0.pmap0),
-            "%d ", $signed(core0.pmap1),
-            "%d ", $signed(core0.pmap2),
-            "%d ", $signed(core0.pmap3),
+            "%d ", $signed(dut0.pmap0),
+            "%d ", $signed(dut0.pmap1),
+            "%d ", $signed(dut0.pmap2),
+            "%d ", $signed(dut0.pmap3),
             "%d ", ack,
-            "%d ", core0.mem_output_we0,
-            "%d ", core0.mem_output_addr0,
+            "%d ", dut0.mem_output_we0,
+            "%d ", dut0.mem_output_addr0,
             "| ",
-            "%d ", core0.mem_input_addr,
-            "%d ", core0.input_addr,
-            "%d ", core0.mem_weight_addr0,
-            "%d ", core0.weight_addr0,
-            "%d ", core0.wreg_we0,
-            "%d ", core0.conv_we0,
-            "%d ", core0.pool_we0,
+            "%d ", dut0.mem_input_addr,
+            "%d ", dut0.input_addr,
+            "%d ", dut0.mem_weight_addr0,
+            "%d ", dut0.weight_addr0,
+            "%d ", dut0.wreg_we0,
+            "%d ", dut0.conv_we0,
+            "%d ", dut0.pool_we0,
             "| ",
-            "%d ", core0.mem_faccum_we0,
-            "%d ", core0.mem_faccum_rst0,
-            "%d ", core0.mem_faccum_addr0,
-            "%d ", core0.mem_faccum_addr0_d1,
-            "%d ", $signed(core0.result0),
-            "%d ", $signed(core0.read_faccum0),
-            "%d ", $signed(core0.write_faccum0),
+            "%d ", dut0.mem_faccum_we0,
+            "%d ", dut0.mem_faccum_rst0,
+            "%d ", dut0.mem_faccum_addr0,
+            "%d ", dut0.mem_faccum_addr0_d1,
+            "%d ", $signed(dut0.result0),
+            "%d ", $signed(dut0.read_faccum0),
+            "%d ", $signed(dut0.write_faccum0),
             //"-*- ",
-            //"%4d ", $signed(core0.mem_faccum0.mem[0]),
-            //"%4d ", $signed(core0.mem_faccum0.mem[1]),
-            //"%4d ", $signed(core0.mem_faccum0.mem[2]),
-            //"%4d ", $signed(core0.mem_faccum0.mem[3]),
-            //"%4d ", $signed(core0.mem_faccum0.mem[4]),
-            //"%4d ", $signed(core0.mem_faccum0.mem[5]),
-            //"%4d ", $signed(core0.mem_faccum0.mem[6]),
-            //"%4d ", $signed(core0.mem_faccum0.mem[7]),
+            //"%4d ", $signed(dut0.mem_faccum0.mem[0]),
+            //"%4d ", $signed(dut0.mem_faccum0.mem[1]),
+            //"%4d ", $signed(dut0.mem_faccum0.mem[2]),
+            //"%4d ", $signed(dut0.mem_faccum0.mem[3]),
+            //"%4d ", $signed(dut0.mem_faccum0.mem[4]),
+            //"%4d ", $signed(dut0.mem_faccum0.mem[5]),
+            //"%4d ", $signed(dut0.mem_faccum0.mem[6]),
+            //"%4d ", $signed(dut0.mem_faccum0.mem[7]),
             //"-*- ",
             "| ",
-            "%d ", core0.ctrl.r_state,
-            "%d ", core0.ctrl.r_c_in,
-            "%d ", core0.ctrl.r_c_out,
+            "%d ", dut0.ctrl.r_state,
+            "%d ", dut0.ctrl.r_c_in,
+            "%d ", dut0.ctrl.r_c_out,
             "| ",
-            "%d ", core0.ctrl.r_w_x,
-            "%d ", core0.ctrl.r_w_y,
-            //"%d ", core0.ctrl.wreg_start,
-            "%d ", core0.ctrl.wreg_valid,
-            //"%d ", core0.ctrl.wreg_end,
+            "%d ", dut0.ctrl.r_w_x,
+            "%d ", dut0.ctrl.r_w_y,
+            //"%d ", dut0.ctrl.wreg_start,
+            "%d ", dut0.ctrl.wreg_valid,
+            //"%d ", dut0.ctrl.wreg_end,
             "; ",
-            "%d ", core0.ctrl.r_x,
-            "%d ", core0.ctrl.r_y,
-            "%d ", core0.ctrl.conv_start,
-            "%d ", core0.ctrl.conv_valid,
-            "%d ", core0.ctrl.conv_end,
+            "%d ", dut0.ctrl.r_x,
+            "%d ", dut0.ctrl.r_y,
+            "%d ", dut0.ctrl.conv_start,
+            "%d ", dut0.ctrl.conv_valid,
+            "%d ", dut0.ctrl.conv_end,
             "; ",
-            "%d ", core0.ctrl.r_p_x,
-            "%d ", core0.ctrl.r_p_y,
-            //"%d ", core0.ctrl.pool_start,
-            "%d ", core0.ctrl.pool_valid,
-            //"%d ", core0.ctrl.pool_end,
+            "%d ", dut0.ctrl.r_p_x,
+            "%d ", dut0.ctrl.r_p_y,
+            //"%d ", dut0.ctrl.pool_start,
+            "%d ", dut0.ctrl.pool_valid,
+            //"%d ", dut0.ctrl.pool_end,
             <%- for i in 0...4 -%>
-            "%d ", $signed(core0.pixel_feat<%=i%>_0),
+            "%d ", $signed(dut0.pixel_feat<%=i%>_0),
             <%- end -%>
         );
         #(STEP/2+1);
     end
 
-    core core0(/*AUTOINST*/);
+    core dut0(/*AUTOINST*/);
 
     //task mem_clear;
     //    integer i;
@@ -235,7 +235,7 @@ module test_core();
     //        for(i=0; i<2**FACCUM; i=i+1)
     //        begin
     //            <%- for i in 0...4 -%>
-    //            core0.mem_faccum<%=i%>.mem[i] = 0;
+    //            dut0.mem_faccum<%=i%>.mem[i] = 0;
     //            <%- end -%>
     //        end
     //    end
@@ -272,7 +272,7 @@ module test_core();
     //    begin
     //        <%- num = 0 -%><%- file = 1 -%>
     //        <%- for i in 0...20 -%>
-    //        $readmemb("/home/work/takau/lazy_core/data/bpmap1/<%=num%>/data<%=file%>_<%=i%>.bin", core0.mem_input.mem, <%=144*i%>, <%=144*(i+1)-1%>);
+    //        $readmemb("/home/work/takau/lazy_core/data/bpmap1/<%=num%>/data<%=file%>_<%=i%>.bin", dut0.mem_input.mem, <%=144*i%>, <%=144*(i+1)-1%>);
     //        <%- end -%>
     //    end
     //endtask
@@ -282,15 +282,15 @@ module test_core();
     //        <%- for i in 0...12 -%>
     //        <%-   for j in 0...20 -%>
     //        <%-     for k in 0...4 -%>
-    //        $readmemb("/home/work/takau/lazy_core/data/weight/bwb_2/data<%=4*i+k%>_<%=j%>.bin", core0.mem_weight<%=k%>.mem, <%=25*(20*i+j)%>, <%=25*(20*i+j+1)-1%>);
+    //        $readmemb("/home/work/takau/lazy_core/data/weight/bwb_2/data<%=4*i+k%>_<%=j%>.bin", dut0.mem_weight<%=k%>.mem, <%=25*(20*i+j)%>, <%=25*(20*i+j+1)-1%>);
     //        <%-     end -%>
     //        <%-   end -%>
     //        <%- end -%>
     //        <%- for j in 0...20 -%>
-    //        $readmemb("/home/work/takau/lazy_core/data/weight/bwb_2/data48_<%=j%>.bin", core0.mem_weight0.mem, <%=25*(240+j)%>, <%=25*(241+j)-1%>);
-    //        $readmemb("/home/work/takau/lazy_core/data/weight/bwb_2/data49_<%=j%>.bin", core0.mem_weight1.mem, <%=25*(240+j)%>, <%=25*(241+j)-1%>);
-    //        $readmemb("/home/work/takau/lazy_core/data/weight/bwb_2/null.bin", core0.mem_weight2.mem, <%=25*(240+j)%>, <%=25*(241+j)-1%>);
-    //        $readmemb("/home/work/takau/lazy_core/data/weight/bwb_2/null.bin", core0.mem_weight3.mem, <%=25*(240+j)%>, <%=25*(241+j)-1%>);
+    //        $readmemb("/home/work/takau/lazy_core/data/weight/bwb_2/data48_<%=j%>.bin", dut0.mem_weight0.mem, <%=25*(240+j)%>, <%=25*(241+j)-1%>);
+    //        $readmemb("/home/work/takau/lazy_core/data/weight/bwb_2/data49_<%=j%>.bin", dut0.mem_weight1.mem, <%=25*(240+j)%>, <%=25*(241+j)-1%>);
+    //        $readmemb("/home/work/takau/lazy_core/data/weight/bwb_2/null.bin", dut0.mem_weight2.mem, <%=25*(240+j)%>, <%=25*(241+j)-1%>);
+    //        $readmemb("/home/work/takau/lazy_core/data/weight/bwb_2/null.bin", dut0.mem_weight3.mem, <%=25*(240+j)%>, <%=25*(241+j)-1%>);
     //        <%- end -%>
     //    end
     //endtask

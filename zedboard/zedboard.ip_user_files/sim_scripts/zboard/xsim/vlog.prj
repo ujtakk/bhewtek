@@ -1,3 +1,10 @@
+sv xil_defaultlib "/opt/xilinx/Vivado/2016.1/data/ip/xpm/xpm_memory/hdl/xpm_memory_base.sv" --include "../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" --include "../../../ipstatic/processing_system7_bfm_v2_0/hdl"
+sv xil_defaultlib "/opt/xilinx/Vivado/2016.1/data/ip/xpm/xpm_memory/hdl/xpm_memory_dpdistram.sv" --include "../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" --include "../../../ipstatic/processing_system7_bfm_v2_0/hdl"
+sv xil_defaultlib "/opt/xilinx/Vivado/2016.1/data/ip/xpm/xpm_memory/hdl/xpm_memory_dprom.sv" --include "../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" --include "../../../ipstatic/processing_system7_bfm_v2_0/hdl"
+sv xil_defaultlib "/opt/xilinx/Vivado/2016.1/data/ip/xpm/xpm_memory/hdl/xpm_memory_sdpram.sv" --include "../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" --include "../../../ipstatic/processing_system7_bfm_v2_0/hdl"
+sv xil_defaultlib "/opt/xilinx/Vivado/2016.1/data/ip/xpm/xpm_memory/hdl/xpm_memory_spram.sv" --include "../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" --include "../../../ipstatic/processing_system7_bfm_v2_0/hdl"
+sv xil_defaultlib "/opt/xilinx/Vivado/2016.1/data/ip/xpm/xpm_memory/hdl/xpm_memory_sprom.sv" --include "../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" --include "../../../ipstatic/processing_system7_bfm_v2_0/hdl"
+sv xil_defaultlib "/opt/xilinx/Vivado/2016.1/data/ip/xpm/xpm_memory/hdl/xpm_memory_tdpram.sv" --include "../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" --include "../../../ipstatic/processing_system7_bfm_v2_0/hdl"
 verilog processing_system7_bfm_v2_0_5 "../../../ipstatic/processing_system7_bfm_v2_0/hdl/processing_system7_bfm_v2_0_arb_wr.v" --include "../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" --include "../../../ipstatic/processing_system7_bfm_v2_0/hdl"
 verilog processing_system7_bfm_v2_0_5 "../../../ipstatic/processing_system7_bfm_v2_0/hdl/processing_system7_bfm_v2_0_arb_rd.v" --include "../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" --include "../../../ipstatic/processing_system7_bfm_v2_0/hdl"
 verilog processing_system7_bfm_v2_0_5 "../../../ipstatic/processing_system7_bfm_v2_0/hdl/processing_system7_bfm_v2_0_arb_wr_4.v" --include "../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" --include "../../../ipstatic/processing_system7_bfm_v2_0/hdl"
@@ -23,6 +30,7 @@ verilog processing_system7_bfm_v2_0_5 "../../../ipstatic/processing_system7_bfm_
 verilog processing_system7_bfm_v2_0_5 "../../../ipstatic/processing_system7_bfm_v2_0/hdl/processing_system7_bfm_v2_0_processing_system7_bfm.v" --include "../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" --include "../../../ipstatic/processing_system7_bfm_v2_0/hdl"
 verilog xil_defaultlib "../../../bd/zboard/ip/zboard_processing_system7_0_0/sim/zboard_processing_system7_0_0.v" --include "../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" --include "../../../ipstatic/processing_system7_bfm_v2_0/hdl"
 verilog xil_defaultlib "../../../bd/zboard/ip/zboard_axi_slave_top_wrapper_0_0/sim/zboard_axi_slave_top_wrapper_0_0.v" --include "../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" --include "../../../ipstatic/processing_system7_bfm_v2_0/hdl"
+verilog xil_defaultlib "../../../bd/zboard/hdl/zboard.v" --include "../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" --include "../../../ipstatic/processing_system7_bfm_v2_0/hdl"
 verilog generic_baseblocks_v2_1_0 "../../../ipstatic/generic_baseblocks_v2_1/hdl/verilog/generic_baseblocks_v2_1_carry_and.v" --include "../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" --include "../../../ipstatic/processing_system7_bfm_v2_0/hdl"
 verilog generic_baseblocks_v2_1_0 "../../../ipstatic/generic_baseblocks_v2_1/hdl/verilog/generic_baseblocks_v2_1_carry_latch_and.v" --include "../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" --include "../../../ipstatic/processing_system7_bfm_v2_0/hdl"
 verilog generic_baseblocks_v2_1_0 "../../../ipstatic/generic_baseblocks_v2_1/hdl/verilog/generic_baseblocks_v2_1_carry_latch_or.v" --include "../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" --include "../../../ipstatic/processing_system7_bfm_v2_0/hdl"
@@ -92,7 +100,6 @@ verilog axi_dwidth_converter_v2_1_8 "../../../ipstatic/axi_dwidth_converter_v2_1
 verilog axi_dwidth_converter_v2_1_8 "../../../ipstatic/axi_dwidth_converter_v2_1/hdl/verilog/axi_dwidth_converter_v2_1_axi_upsizer.v" --include "../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" --include "../../../ipstatic/processing_system7_bfm_v2_0/hdl"
 verilog axi_dwidth_converter_v2_1_8 "../../../ipstatic/axi_dwidth_converter_v2_1/hdl/verilog/axi_dwidth_converter_v2_1_top.v" --include "../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" --include "../../../ipstatic/processing_system7_bfm_v2_0/hdl"
 verilog xil_defaultlib "../../../bd/zboard/ip/zboard_auto_us_0/sim/zboard_auto_us_0.v" --include "../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" --include "../../../ipstatic/processing_system7_bfm_v2_0/hdl"
-verilog xil_defaultlib "../../../bd/zboard/hdl/zboard.v" --include "../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" --include "../../../ipstatic/processing_system7_bfm_v2_0/hdl"
 
 verilog xil_defaultlib "glbl.v"
 

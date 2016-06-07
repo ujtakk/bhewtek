@@ -2,8 +2,8 @@
 # Vivado v2016.1 (64-bit)
 # SW Build 1538259 on Fri Apr  8 15:45:23 MDT 2016
 # IP Build 1537824 on Fri Apr  8 04:28:57 MDT 2016
-# Start of session at: Wed May 18 01:40:18 2016
-# Process ID: 31818
+# Start of session at: Mon Jun  6 12:47:40 2016
+# Process ID: 5273
 # Current directory: /ram/home/work/takau/bhewtek/zedboard/zedboard.runs/impl_1
 # Command line: vivado -log zboard_wrapper.vdi -applog -messageDb vivado.pb -mode batch -source zboard_wrapper.tcl -notrace
 # Log file: /ram/home/work/takau/bhewtek/zedboard/zedboard.runs/impl_1/zboard_wrapper.vdi
@@ -12,7 +12,7 @@
 source zboard_wrapper.tcl -notrace
 Design is defaulting to srcset: sources_1
 Design is defaulting to constrset: constrs_1
-INFO: [Netlist 29-17] Analyzing 1102 Unisim elements for replacement
+INFO: [Netlist 29-17] Analyzing 1107 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-479] Netlist was created with Vivado 2016.1
 INFO: [Device 21-403] Loading part xc7z020clg484-1
@@ -29,7 +29,7 @@ INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-link_design: Time (s): cpu = 00:00:07 ; elapsed = 00:00:13 . Memory (MB): peak = 1315.461 ; gain = 346.516 ; free physical = 656 ; free virtual = 2166
+link_design: Time (s): cpu = 00:00:07 ; elapsed = 00:00:12 . Memory (MB): peak = 1316.457 ; gain = 347.516 ; free physical = 612 ; free virtual = 1988
 Command: opt_design
 Attempting to get a license for feature 'Implementation' and/or device 'xc7z020'
 INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7z020'
@@ -40,97 +40,73 @@ INFO: [DRC 23-27] Running DRC with 4 threads
 INFO: [Project 1-461] DRC finished with 0 Errors
 INFO: [Project 1-462] Please refer to the DRC report (report_drc) for more information.
 
-Time (s): cpu = 00:00:00.18 ; elapsed = 00:00:00.18 . Memory (MB): peak = 1351.477 ; gain = 34.016 ; free physical = 652 ; free virtual = 2162
+Time (s): cpu = 00:00:00.19 ; elapsed = 00:00:00.22 . Memory (MB): peak = 1351.473 ; gain = 33.016 ; free physical = 610 ; free virtual = 1987
 INFO: [Timing 38-35] Done setting XDC timing constraints.
 
 Starting Logic Optimization Task
-Implement Debug Cores | Checksum: 1be53a82e
+Implement Debug Cores | Checksum: 13f275d1b
 
 Phase 1 Retarget
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
 INFO: [Opt 31-49] Retargeted 0 cell(s).
-Phase 1 Retarget | Checksum: ea495bba
+Phase 1 Retarget | Checksum: 13fadaa7f
 
-Time (s): cpu = 00:00:02 ; elapsed = 00:00:02 . Memory (MB): peak = 1796.969 ; gain = 0.000 ; free physical = 258 ; free virtual = 1782
+Time (s): cpu = 00:00:02 ; elapsed = 00:00:02 . Memory (MB): peak = 1799.965 ; gain = 0.000 ; free physical = 229 ; free virtual = 1607
 
 Phase 2 Constant Propagation
 INFO: [Opt 31-138] Pushed 3 inverter(s) to 10 load pin(s).
-INFO: [Opt 31-10] Eliminated 250 cells.
-Phase 2 Constant Propagation | Checksum: 1e49f4823
+INFO: [Opt 31-10] Eliminated 255 cells.
+Phase 2 Constant Propagation | Checksum: 1a4d40aa1
 
-Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 1796.969 ; gain = 0.000 ; free physical = 255 ; free virtual = 1780
+Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 1799.965 ; gain = 0.000 ; free physical = 228 ; free virtual = 1606
 
 Phase 3 Sweep
-INFO: [Opt 31-12] Eliminated 10538 unconnected nets.
+INFO: [Opt 31-12] Eliminated 7040 unconnected nets.
 INFO: [Opt 31-120] Instance zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_output7 (sram_output) has been optimized to an empty box cell during sweep but it has constraints that prevent its removal. Empty box cells do not impact the implementation flow but they have no functional relevance.
-Resolution: If this is not expected, please check for DONT_TOUCH properties or timing constraint set on the empty box cell or on nets connected to the cell. If found, remove the relevant DONT_TOUCH property or timing constraint and re-run opt_design.
-INFO: [Opt 31-120] Instance zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_output6 (sram_output__7) has been optimized to an empty box cell during sweep but it has constraints that prevent its removal. Empty box cells do not impact the implementation flow but they have no functional relevance.
-Resolution: If this is not expected, please check for DONT_TOUCH properties or timing constraint set on the empty box cell or on nets connected to the cell. If found, remove the relevant DONT_TOUCH property or timing constraint and re-run opt_design.
-INFO: [Opt 31-120] Instance zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_output5 (sram_output__6) has been optimized to an empty box cell during sweep but it has constraints that prevent its removal. Empty box cells do not impact the implementation flow but they have no functional relevance.
-Resolution: If this is not expected, please check for DONT_TOUCH properties or timing constraint set on the empty box cell or on nets connected to the cell. If found, remove the relevant DONT_TOUCH property or timing constraint and re-run opt_design.
-INFO: [Opt 31-120] Instance zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_output4 (sram_output__5) has been optimized to an empty box cell during sweep but it has constraints that prevent its removal. Empty box cells do not impact the implementation flow but they have no functional relevance.
-Resolution: If this is not expected, please check for DONT_TOUCH properties or timing constraint set on the empty box cell or on nets connected to the cell. If found, remove the relevant DONT_TOUCH property or timing constraint and re-run opt_design.
-INFO: [Opt 31-120] Instance zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_output3 (sram_output__4) has been optimized to an empty box cell during sweep but it has constraints that prevent its removal. Empty box cells do not impact the implementation flow but they have no functional relevance.
-Resolution: If this is not expected, please check for DONT_TOUCH properties or timing constraint set on the empty box cell or on nets connected to the cell. If found, remove the relevant DONT_TOUCH property or timing constraint and re-run opt_design.
-INFO: [Opt 31-120] Instance zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_output2 (sram_output__3) has been optimized to an empty box cell during sweep but it has constraints that prevent its removal. Empty box cells do not impact the implementation flow but they have no functional relevance.
-Resolution: If this is not expected, please check for DONT_TOUCH properties or timing constraint set on the empty box cell or on nets connected to the cell. If found, remove the relevant DONT_TOUCH property or timing constraint and re-run opt_design.
-INFO: [Opt 31-120] Instance zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_output1 (sram_output__2) has been optimized to an empty box cell during sweep but it has constraints that prevent its removal. Empty box cells do not impact the implementation flow but they have no functional relevance.
 Resolution: If this is not expected, please check for DONT_TOUCH properties or timing constraint set on the empty box cell or on nets connected to the cell. If found, remove the relevant DONT_TOUCH property or timing constraint and re-run opt_design.
 INFO: [Opt 31-120] Instance zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/mem_feat (sram_feat) has been optimized to an empty box cell during sweep but it has constraints that prevent its removal. Empty box cells do not impact the implementation flow but they have no functional relevance.
 Resolution: If this is not expected, please check for DONT_TOUCH properties or timing constraint set on the empty box cell or on nets connected to the cell. If found, remove the relevant DONT_TOUCH property or timing constraint and re-run opt_design.
-INFO: [Opt 31-120] Instance zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/mem_feat (sram_feat__7) has been optimized to an empty box cell during sweep but it has constraints that prevent its removal. Empty box cells do not impact the implementation flow but they have no functional relevance.
-Resolution: If this is not expected, please check for DONT_TOUCH properties or timing constraint set on the empty box cell or on nets connected to the cell. If found, remove the relevant DONT_TOUCH property or timing constraint and re-run opt_design.
-INFO: [Opt 31-120] Instance zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/mem_feat (sram_feat__6) has been optimized to an empty box cell during sweep but it has constraints that prevent its removal. Empty box cells do not impact the implementation flow but they have no functional relevance.
-Resolution: If this is not expected, please check for DONT_TOUCH properties or timing constraint set on the empty box cell or on nets connected to the cell. If found, remove the relevant DONT_TOUCH property or timing constraint and re-run opt_design.
-INFO: [Opt 31-120] Instance zboard_i/axi_slave_top_wrapper_0/inst/top0/core4/mem_feat (sram_feat__5) has been optimized to an empty box cell during sweep but it has constraints that prevent its removal. Empty box cells do not impact the implementation flow but they have no functional relevance.
-Resolution: If this is not expected, please check for DONT_TOUCH properties or timing constraint set on the empty box cell or on nets connected to the cell. If found, remove the relevant DONT_TOUCH property or timing constraint and re-run opt_design.
-INFO: [Opt 31-120] Instance zboard_i/axi_slave_top_wrapper_0/inst/top0/core3/mem_feat (sram_feat__4) has been optimized to an empty box cell during sweep but it has constraints that prevent its removal. Empty box cells do not impact the implementation flow but they have no functional relevance.
-Resolution: If this is not expected, please check for DONT_TOUCH properties or timing constraint set on the empty box cell or on nets connected to the cell. If found, remove the relevant DONT_TOUCH property or timing constraint and re-run opt_design.
-INFO: [Opt 31-120] Instance zboard_i/axi_slave_top_wrapper_0/inst/top0/core2/mem_feat (sram_feat__3) has been optimized to an empty box cell during sweep but it has constraints that prevent its removal. Empty box cells do not impact the implementation flow but they have no functional relevance.
-Resolution: If this is not expected, please check for DONT_TOUCH properties or timing constraint set on the empty box cell or on nets connected to the cell. If found, remove the relevant DONT_TOUCH property or timing constraint and re-run opt_design.
-INFO: [Opt 31-120] Instance zboard_i/axi_slave_top_wrapper_0/inst/top0/core1/mem_feat (sram_feat__2) has been optimized to an empty box cell during sweep but it has constraints that prevent its removal. Empty box cells do not impact the implementation flow but they have no functional relevance.
-Resolution: If this is not expected, please check for DONT_TOUCH properties or timing constraint set on the empty box cell or on nets connected to the cell. If found, remove the relevant DONT_TOUCH property or timing constraint and re-run opt_design.
-INFO: [Opt 31-11] Eliminated 14269 unconnected cells.
-Phase 3 Sweep | Checksum: 1e52f7092
+INFO: [Opt 31-11] Eliminated 2419 unconnected cells.
+Phase 3 Sweep | Checksum: 127030430
 
-Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 1796.969 ; gain = 0.000 ; free physical = 255 ; free virtual = 1780
+Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 1799.965 ; gain = 0.000 ; free physical = 228 ; free virtual = 1606
 
 Starting Connectivity Check Task
 
-Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 1796.969 ; gain = 0.000 ; free physical = 255 ; free virtual = 1780
-Ending Logic Optimization Task | Checksum: 1e52f7092
+Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.02 . Memory (MB): peak = 1799.965 ; gain = 0.000 ; free physical = 228 ; free virtual = 1606
+Ending Logic Optimization Task | Checksum: 127030430
 
-Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 1796.969 ; gain = 0.000 ; free physical = 255 ; free virtual = 1780
+Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 1799.965 ; gain = 0.000 ; free physical = 228 ; free virtual = 1606
 
 Starting Power Optimization Task
 INFO: [Pwropt 34-132] Skipping clock gating for clocks with a period < 2.00 ns.
+INFO: [Timing 38-35] Done setting XDC timing constraints.
 INFO: [Pwropt 34-9] Applying IDT optimizations ...
 INFO: [Pwropt 34-10] Applying ODC optimizations ...
-INFO: [Timing 38-35] Done setting XDC timing constraints.
 Running Vector-less Activity Propagation...
 
 Finished Running Vector-less Activity Propagation
 
 
 Starting PowerOpt Patch Enables Task
-INFO: [Pwropt 34-162] WRITE_MODE attribute of 1 BRAM(s) out of a total of 8 has been updated to save power. Run report_power_opt to get a complete listing of the BRAMs updated.
-INFO: [Pwropt 34-201] Structural ODC has moved 1 WE to EN ports
-Number of BRAM Ports augmented: 0 newly gated: 1 Total Ports: 16
-Ending PowerOpt Patch Enables Task | Checksum: 1cdfba789
+INFO: [Pwropt 34-162] WRITE_MODE attribute of 7 BRAM(s) out of a total of 44 has been updated to save power. Run report_power_opt to get a complete listing of the BRAMs updated.
+INFO: [Pwropt 34-201] Structural ODC has moved 7 WE to EN ports
+Number of BRAM Ports augmented: 0 newly gated: 35 Total Ports: 88
+Ending PowerOpt Patch Enables Task | Checksum: 19b3968e7
 
-Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.02 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 199 ; free virtual = 1728
-Ending Power Optimization Task | Checksum: 1cdfba789
+Time (s): cpu = 00:00:00.11 ; elapsed = 00:00:00.11 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 191 ; free virtual = 1463
+Ending Power Optimization Task | Checksum: 19b3968e7
 
-Time (s): cpu = 00:00:02 ; elapsed = 00:00:01 . Memory (MB): peak = 1984.012 ; gain = 187.043 ; free physical = 199 ; free virtual = 1728
+Time (s): cpu = 00:00:12 ; elapsed = 00:00:07 . Memory (MB): peak = 2044.004 ; gain = 244.039 ; free physical = 191 ; free virtual = 1463
 INFO: [Common 17-83] Releasing license: Implementation
-39 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+27 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
 opt_design completed successfully
-opt_design: Time (s): cpu = 00:00:20 ; elapsed = 00:00:17 . Memory (MB): peak = 1984.012 ; gain = 666.551 ; free physical = 199 ; free virtual = 1728
+opt_design: Time (s): cpu = 00:00:29 ; elapsed = 00:00:22 . Memory (MB): peak = 2044.004 ; gain = 725.547 ; free physical = 191 ; free virtual = 1463
 Writing placer database...
 Writing XDEF routing.
 Writing XDEF routing logical nets.
 Writing XDEF routing special nets.
-Write XDEF Complete: Time (s): cpu = 00:00:00.17 ; elapsed = 00:00:00.07 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 196 ; free virtual = 1727
+Write XDEF Complete: Time (s): cpu = 00:00:00.22 ; elapsed = 00:00:00.08 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 187 ; free virtual = 1463
 INFO: [DRC 23-27] Running DRC with 4 threads
 INFO: [Coretcl 2-168] The results of DRC are in file /ram/home/work/takau/bhewtek/zedboard/zedboard.runs/impl_1/zboard_wrapper_drc_opted.rpt.
 INFO: [Chipscope 16-241] No debug cores found in the current design.
@@ -151,17 +127,17 @@ Starting Placer Task
 INFO: [Place 30-611] Multithreading enabled for place_design using a maximum of 4 CPUs
 
 Phase 1 Placer Initialization
-Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 194 ; free virtual = 1726
+Netlist sorting complete. Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.02 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 176 ; free virtual = 1457
 INFO: [Timing 38-35] Done setting XDC timing constraints.
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 195 ; free virtual = 1727
+Netlist sorting complete. Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.02 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 174 ; free virtual = 1455
 
 Phase 1.1 IO Placement/ Clock Placement/ Build Placer Device
 
 Phase 1.1.1 Pre-Place Cells
 Phase 1.1.1 Pre-Place Cells | Checksum: 98566580
 
-Time (s): cpu = 00:00:00.68 ; elapsed = 00:00:00.49 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 195 ; free virtual = 1727
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:02 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 174 ; free virtual = 1455
 WARNING: [Place 30-879] Found overlapping PBlocks. The use of overlapping PBlocks is not recommended as it may lead to legalization errors or unplaced instances.
 WARNING: [Place 30-12] An IO Bus FIXED_IO_mio with more than one IO standard is found. Components associated with this bus are: 
 	FIXED_IO_mio[53] of IOStandard LVCMOS18
@@ -223,103 +199,103 @@ INFO: [Timing 38-35] Done setting XDC timing constraints.
 Phase 1.1.2 IO and Clk Clean Up
 Phase 1.1.2 IO and Clk Clean Up | Checksum: 98566580
 
-Time (s): cpu = 00:00:03 ; elapsed = 00:00:02 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 194 ; free virtual = 1726
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:05 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 176 ; free virtual = 1457
 
 Phase 1.1.3 Implementation Feasibility check On IDelay
 Phase 1.1.3 Implementation Feasibility check On IDelay | Checksum: 98566580
 
-Time (s): cpu = 00:00:03 ; elapsed = 00:00:02 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 194 ; free virtual = 1726
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:05 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 176 ; free virtual = 1457
 
 Phase 1.1.4 Commit IO Placement
 Phase 1.1.4 Commit IO Placement | Checksum: 15cdf3a3
 
-Time (s): cpu = 00:00:03 ; elapsed = 00:00:02 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 194 ; free virtual = 1726
-Phase 1.1 IO Placement/ Clock Placement/ Build Placer Device | Checksum: bc01eaac
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:05 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 176 ; free virtual = 1457
+Phase 1.1 IO Placement/ Clock Placement/ Build Placer Device | Checksum: fea80e6a
 
-Time (s): cpu = 00:00:03 ; elapsed = 00:00:02 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 194 ; free virtual = 1726
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:05 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 176 ; free virtual = 1457
 
 Phase 1.2 Build Placer Netlist Model
 
 Phase 1.2.1 Place Init Design
 
 Phase 1.2.1.1 Init Lut Pin Assignment
-Phase 1.2.1.1 Init Lut Pin Assignment | Checksum: e9758056
+Phase 1.2.1.1 Init Lut Pin Assignment | Checksum: 17b4b2cfa
 
-Time (s): cpu = 00:00:03 ; elapsed = 00:00:02 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 194 ; free virtual = 1726
-Phase 1.2.1 Place Init Design | Checksum: c24bce94
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:06 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 175 ; free virtual = 1456
+Phase 1.2.1 Place Init Design | Checksum: 126ffc451
 
-Time (s): cpu = 00:00:04 ; elapsed = 00:00:03 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 194 ; free virtual = 1726
-Phase 1.2 Build Placer Netlist Model | Checksum: c24bce94
+Time (s): cpu = 00:00:15 ; elapsed = 00:00:09 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 159 ; free virtual = 1440
+Phase 1.2 Build Placer Netlist Model | Checksum: 126ffc451
 
-Time (s): cpu = 00:00:04 ; elapsed = 00:00:03 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 194 ; free virtual = 1726
+Time (s): cpu = 00:00:15 ; elapsed = 00:00:09 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 159 ; free virtual = 1440
 
 Phase 1.3 Constrain Clocks/Macros
-Phase 1.3 Constrain Clocks/Macros | Checksum: c24bce94
+Phase 1.3 Constrain Clocks/Macros | Checksum: 126ffc451
 
-Time (s): cpu = 00:00:04 ; elapsed = 00:00:03 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 194 ; free virtual = 1726
-Phase 1 Placer Initialization | Checksum: c24bce94
+Time (s): cpu = 00:00:15 ; elapsed = 00:00:09 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 159 ; free virtual = 1440
+Phase 1 Placer Initialization | Checksum: 126ffc451
 
-Time (s): cpu = 00:00:04 ; elapsed = 00:00:03 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 194 ; free virtual = 1726
+Time (s): cpu = 00:00:15 ; elapsed = 00:00:09 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 159 ; free virtual = 1440
 
 Phase 2 Global Placement
-Phase 2 Global Placement | Checksum: 22733edff
+Phase 2 Global Placement | Checksum: 1c091db42
 
-Time (s): cpu = 00:00:09 ; elapsed = 00:00:05 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 194 ; free virtual = 1726
+Time (s): cpu = 00:00:28 ; elapsed = 00:00:16 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 158 ; free virtual = 1440
 
 Phase 3 Detail Placement
 
 Phase 3.1 Commit Multi Column Macros
-Phase 3.1 Commit Multi Column Macros | Checksum: 22733edff
+Phase 3.1 Commit Multi Column Macros | Checksum: 1c091db42
 
-Time (s): cpu = 00:00:09 ; elapsed = 00:00:05 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 194 ; free virtual = 1726
+Time (s): cpu = 00:00:29 ; elapsed = 00:00:16 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 158 ; free virtual = 1440
 
 Phase 3.2 Commit Most Macros & LUTRAMs
-Phase 3.2 Commit Most Macros & LUTRAMs | Checksum: 19e2d7558
+Phase 3.2 Commit Most Macros & LUTRAMs | Checksum: 1bc10ef4c
 
-Time (s): cpu = 00:00:10 ; elapsed = 00:00:06 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 193 ; free virtual = 1726
+Time (s): cpu = 00:00:33 ; elapsed = 00:00:19 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 156 ; free virtual = 1440
 
 Phase 3.3 Area Swap Optimization
-Phase 3.3 Area Swap Optimization | Checksum: 152096a29
+Phase 3.3 Area Swap Optimization | Checksum: 1c2681cf9
 
-Time (s): cpu = 00:00:10 ; elapsed = 00:00:06 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 193 ; free virtual = 1726
+Time (s): cpu = 00:00:34 ; elapsed = 00:00:19 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 154 ; free virtual = 1437
 
 Phase 3.4 updateClock Trees: DP
-Phase 3.4 updateClock Trees: DP | Checksum: 152096a29
+Phase 3.4 updateClock Trees: DP | Checksum: 1c2681cf9
 
-Time (s): cpu = 00:00:10 ; elapsed = 00:00:06 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 193 ; free virtual = 1726
+Time (s): cpu = 00:00:34 ; elapsed = 00:00:19 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 153 ; free virtual = 1437
 
 Phase 3.5 Timing Path Optimizer
-Phase 3.5 Timing Path Optimizer | Checksum: 1ea57f2c8
+Phase 3.5 Timing Path Optimizer | Checksum: 220af3a46
 
-Time (s): cpu = 00:00:10 ; elapsed = 00:00:06 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 193 ; free virtual = 1726
+Time (s): cpu = 00:00:35 ; elapsed = 00:00:20 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 154 ; free virtual = 1440
 
 Phase 3.6 Fast Optimization
-Phase 3.6 Fast Optimization | Checksum: 1ea57f2c8
+Phase 3.6 Fast Optimization | Checksum: 220af3a46
 
-Time (s): cpu = 00:00:10 ; elapsed = 00:00:06 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 193 ; free virtual = 1726
+Time (s): cpu = 00:00:35 ; elapsed = 00:00:20 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 154 ; free virtual = 1440
 
 Phase 3.7 Small Shape Detail Placement
-Phase 3.7 Small Shape Detail Placement | Checksum: 127bdf3ec
+Phase 3.7 Small Shape Detail Placement | Checksum: 2110da825
 
-Time (s): cpu = 00:00:11 ; elapsed = 00:00:07 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 193 ; free virtual = 1726
+Time (s): cpu = 00:00:37 ; elapsed = 00:00:22 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 153 ; free virtual = 1439
 
 Phase 3.8 Re-assign LUT pins
-Phase 3.8 Re-assign LUT pins | Checksum: 1525ed47b
+Phase 3.8 Re-assign LUT pins | Checksum: 18278774c
 
-Time (s): cpu = 00:00:11 ; elapsed = 00:00:07 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 193 ; free virtual = 1726
+Time (s): cpu = 00:00:37 ; elapsed = 00:00:22 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 153 ; free virtual = 1439
 
 Phase 3.9 Pipeline Register Optimization
-Phase 3.9 Pipeline Register Optimization | Checksum: 1525ed47b
+Phase 3.9 Pipeline Register Optimization | Checksum: 18278774c
 
-Time (s): cpu = 00:00:11 ; elapsed = 00:00:07 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 193 ; free virtual = 1726
+Time (s): cpu = 00:00:37 ; elapsed = 00:00:22 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 153 ; free virtual = 1440
 
 Phase 3.10 Fast Optimization
-Phase 3.10 Fast Optimization | Checksum: 1525ed47b
+Phase 3.10 Fast Optimization | Checksum: 18278774c
 
-Time (s): cpu = 00:00:12 ; elapsed = 00:00:07 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 192 ; free virtual = 1726
-Phase 3 Detail Placement | Checksum: 1525ed47b
+Time (s): cpu = 00:00:40 ; elapsed = 00:00:23 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 152 ; free virtual = 1439
+Phase 3 Detail Placement | Checksum: 18278774c
 
-Time (s): cpu = 00:00:12 ; elapsed = 00:00:07 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 192 ; free virtual = 1726
+Time (s): cpu = 00:00:40 ; elapsed = 00:00:23 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 152 ; free virtual = 1439
 
 Phase 4 Post Placement Optimization and Clean-Up
 
@@ -327,56 +303,56 @@ Phase 4.1 Post Commit Optimization
 INFO: [Timing 38-35] Done setting XDC timing constraints.
 
 Phase 4.1.1 updateClock Trees: PCOPT
-Phase 4.1.1 updateClock Trees: PCOPT | Checksum: 188df2d37
+Phase 4.1.1 updateClock Trees: PCOPT | Checksum: 10bb9e27b
 
-Time (s): cpu = 00:00:13 ; elapsed = 00:00:08 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 191 ; free virtual = 1724
+Time (s): cpu = 00:00:48 ; elapsed = 00:00:26 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 146 ; free virtual = 1432
 
 Phase 4.1.2 Post Placement Optimization
-INFO: [Place 30-746] Post Placement Timing Summary WNS=1.733. For the most accurate timing information please run report_timing.
-Phase 4.1.2 Post Placement Optimization | Checksum: 2475059f9
+INFO: [Place 30-746] Post Placement Timing Summary WNS=1.096. For the most accurate timing information please run report_timing.
+Phase 4.1.2 Post Placement Optimization | Checksum: 1aacb8df3
 
-Time (s): cpu = 00:00:13 ; elapsed = 00:00:08 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 189 ; free virtual = 1724
-Phase 4.1 Post Commit Optimization | Checksum: 2475059f9
+Time (s): cpu = 00:00:49 ; elapsed = 00:00:27 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 145 ; free virtual = 1432
+Phase 4.1 Post Commit Optimization | Checksum: 1aacb8df3
 
-Time (s): cpu = 00:00:14 ; elapsed = 00:00:08 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 189 ; free virtual = 1724
+Time (s): cpu = 00:00:49 ; elapsed = 00:00:27 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 145 ; free virtual = 1432
 
 Phase 4.2 Sweep Clock Roots: Post-Placement
-Phase 4.2 Sweep Clock Roots: Post-Placement | Checksum: 2475059f9
+Phase 4.2 Sweep Clock Roots: Post-Placement | Checksum: 1aacb8df3
 
-Time (s): cpu = 00:00:14 ; elapsed = 00:00:08 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 189 ; free virtual = 1724
+Time (s): cpu = 00:00:49 ; elapsed = 00:00:27 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 145 ; free virtual = 1432
 
 Phase 4.3 Post Placement Cleanup
-Phase 4.3 Post Placement Cleanup | Checksum: 2475059f9
+Phase 4.3 Post Placement Cleanup | Checksum: 1aacb8df3
 
-Time (s): cpu = 00:00:14 ; elapsed = 00:00:08 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 189 ; free virtual = 1724
+Time (s): cpu = 00:00:49 ; elapsed = 00:00:27 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 145 ; free virtual = 1432
 
 Phase 4.4 Placer Reporting
-Phase 4.4 Placer Reporting | Checksum: 2475059f9
+Phase 4.4 Placer Reporting | Checksum: 1aacb8df3
 
-Time (s): cpu = 00:00:14 ; elapsed = 00:00:08 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 189 ; free virtual = 1724
+Time (s): cpu = 00:00:49 ; elapsed = 00:00:27 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 145 ; free virtual = 1432
 
 Phase 4.5 Final Placement Cleanup
-Phase 4.5 Final Placement Cleanup | Checksum: 244960ca0
+Phase 4.5 Final Placement Cleanup | Checksum: f5b7aac7
 
-Time (s): cpu = 00:00:14 ; elapsed = 00:00:08 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 189 ; free virtual = 1724
-Phase 4 Post Placement Optimization and Clean-Up | Checksum: 244960ca0
+Time (s): cpu = 00:00:49 ; elapsed = 00:00:27 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 145 ; free virtual = 1432
+Phase 4 Post Placement Optimization and Clean-Up | Checksum: f5b7aac7
 
-Time (s): cpu = 00:00:14 ; elapsed = 00:00:08 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 189 ; free virtual = 1724
-Ending Placer Task | Checksum: 168db4563
+Time (s): cpu = 00:00:49 ; elapsed = 00:00:27 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 145 ; free virtual = 1432
+Ending Placer Task | Checksum: 247464db
 
-Time (s): cpu = 00:00:14 ; elapsed = 00:00:08 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 189 ; free virtual = 1724
+Time (s): cpu = 00:00:49 ; elapsed = 00:00:27 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 145 ; free virtual = 1432
 INFO: [Common 17-83] Releasing license: Implementation
-56 Infos, 2 Warnings, 0 Critical Warnings and 0 Errors encountered.
+44 Infos, 2 Warnings, 0 Critical Warnings and 0 Errors encountered.
 place_design completed successfully
-place_design: Time (s): cpu = 00:00:15 ; elapsed = 00:00:09 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 189 ; free virtual = 1724
+place_design: Time (s): cpu = 00:00:51 ; elapsed = 00:00:28 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 145 ; free virtual = 1432
 Writing placer database...
 Writing XDEF routing.
 Writing XDEF routing logical nets.
 Writing XDEF routing special nets.
-Write XDEF Complete: Time (s): cpu = 00:00:00.87 ; elapsed = 00:00:00.32 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 182 ; free virtual = 1724
-report_io: Time (s): cpu = 00:00:00.13 ; elapsed = 00:00:00.27 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 183 ; free virtual = 1720
-report_utilization: Time (s): cpu = 00:00:00.09 ; elapsed = 00:00:00.23 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 182 ; free virtual = 1719
-report_control_sets: Time (s): cpu = 00:00:00.07 ; elapsed = 00:00:00.20 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 183 ; free virtual = 1720
+Write XDEF Complete: Time (s): cpu = 00:00:03 ; elapsed = 00:00:01 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 160 ; free virtual = 1436
+report_io: Time (s): cpu = 00:00:00.14 ; elapsed = 00:00:00.43 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 178 ; free virtual = 1436
+report_utilization: Time (s): cpu = 00:00:00.17 ; elapsed = 00:00:00.31 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 178 ; free virtual = 1436
+report_control_sets: Time (s): cpu = 00:00:00.07 ; elapsed = 00:00:00.22 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 178 ; free virtual = 1436
 Command: route_design
 Attempting to get a license for feature 'Implementation' and/or device 'xc7z020'
 INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7z020'
@@ -389,124 +365,111 @@ INFO: [Vivado_Tcl 4-199] Please refer to the DRC report (report_drc) for more in
 
 Starting Routing Task
 INFO: [Route 35-254] Multithreading enabled for route_design using a maximum of 4 CPUs
-Checksum: PlaceDB: 71493634 ConstDB: 0 ShapeSum: f7920f2f RouteDB: 0
+Checksum: PlaceDB: 16bd0b1a ConstDB: 0 ShapeSum: db759c1 RouteDB: 0
 
 Phase 1 Build RT Design
-Phase 1 Build RT Design | Checksum: 13cca03b4
+Phase 1 Build RT Design | Checksum: 161241927
 
-Time (s): cpu = 00:00:18 ; elapsed = 00:00:13 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 109 ; free virtual = 1630
+Time (s): cpu = 00:00:19 ; elapsed = 00:00:14 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 125 ; free virtual = 1402
 
 Phase 2 Router Initialization
 
 Phase 2.1 Create Timer
-Phase 2.1 Create Timer | Checksum: 13cca03b4
+Phase 2.1 Create Timer | Checksum: 161241927
 
-Time (s): cpu = 00:00:18 ; elapsed = 00:00:13 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 109 ; free virtual = 1630
+Time (s): cpu = 00:00:19 ; elapsed = 00:00:14 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 125 ; free virtual = 1402
 
 Phase 2.2 Fix Topology Constraints
-Phase 2.2 Fix Topology Constraints | Checksum: 13cca03b4
+Phase 2.2 Fix Topology Constraints | Checksum: 161241927
 
-Time (s): cpu = 00:00:18 ; elapsed = 00:00:13 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 106 ; free virtual = 1627
+Time (s): cpu = 00:00:19 ; elapsed = 00:00:14 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 118 ; free virtual = 1395
 
 Phase 2.3 Pre Route Cleanup
-Phase 2.3 Pre Route Cleanup | Checksum: 13cca03b4
+Phase 2.3 Pre Route Cleanup | Checksum: 161241927
 
-Time (s): cpu = 00:00:18 ; elapsed = 00:00:14 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 106 ; free virtual = 1627
+Time (s): cpu = 00:00:19 ; elapsed = 00:00:14 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 118 ; free virtual = 1395
  Number of Nodes with overlaps = 0
 
 Phase 2.4 Update Timing
-Phase 2.4 Update Timing | Checksum: 11b0d1dd1
+Phase 2.4 Update Timing | Checksum: 20e38e9f1
 
-Time (s): cpu = 00:00:20 ; elapsed = 00:00:15 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 162 ; free virtual = 1603
-INFO: [Route 35-416] Intermediate Timing Summary | WNS=1.629  | TNS=0.000  | WHS=-0.329 | THS=-42.609|
+Time (s): cpu = 00:00:29 ; elapsed = 00:00:18 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 133 ; free virtual = 1369
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=1.110  | TNS=0.000  | WHS=-0.351 | THS=-102.452|
 
-Phase 2 Router Initialization | Checksum: 11b638c9f
+Phase 2 Router Initialization | Checksum: 15e758db4
 
-Time (s): cpu = 00:00:21 ; elapsed = 00:00:15 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 162 ; free virtual = 1603
+Time (s): cpu = 00:00:32 ; elapsed = 00:00:19 . Memory (MB): peak = 2044.004 ; gain = 0.000 ; free physical = 133 ; free virtual = 1369
 
 Phase 3 Initial Routing
-Phase 3 Initial Routing | Checksum: 1a8b0ea6a
+Phase 3 Initial Routing | Checksum: 9dcdd809
 
-Time (s): cpu = 00:00:22 ; elapsed = 00:00:15 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 162 ; free virtual = 1603
+Time (s): cpu = 00:00:40 ; elapsed = 00:00:23 . Memory (MB): peak = 2101.590 ; gain = 57.586 ; free physical = 136 ; free virtual = 1307
 
 Phase 4 Rip-up And Reroute
 
 Phase 4.1 Global Iteration 0
- Number of Nodes with overlaps = 158
- Number of Nodes with overlaps = 11
- Number of Nodes with overlaps = 0
-
-Phase 4.1.1 Update Timing
-Phase 4.1.1 Update Timing | Checksum: 9c3eba2d
-
-Time (s): cpu = 00:00:24 ; elapsed = 00:00:16 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 161 ; free virtual = 1603
-INFO: [Route 35-416] Intermediate Timing Summary | WNS=0.755  | TNS=0.000  | WHS=N/A    | THS=N/A    |
-
-Phase 4.1 Global Iteration 0 | Checksum: 13cc6c7e4
-
-Time (s): cpu = 00:00:24 ; elapsed = 00:00:16 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 161 ; free virtual = 1603
-
-Phase 4.2 Global Iteration 1
+ Number of Nodes with overlaps = 349
+ Number of Nodes with overlaps = 30
  Number of Nodes with overlaps = 1
  Number of Nodes with overlaps = 0
 
-Phase 4.2.1 Update Timing
-Phase 4.2.1 Update Timing | Checksum: 132ad567b
+Phase 4.1.1 Update Timing
+Phase 4.1.1 Update Timing | Checksum: 1dda0ee5d
 
-Time (s): cpu = 00:00:25 ; elapsed = 00:00:16 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 161 ; free virtual = 1603
-INFO: [Route 35-416] Intermediate Timing Summary | WNS=0.755  | TNS=0.000  | WHS=N/A    | THS=N/A    |
+Time (s): cpu = 00:00:49 ; elapsed = 00:00:26 . Memory (MB): peak = 2101.590 ; gain = 57.586 ; free physical = 137 ; free virtual = 1308
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=0.668  | TNS=0.000  | WHS=N/A    | THS=N/A    |
 
-Phase 4.2 Global Iteration 1 | Checksum: e8cf7ef1
+Phase 4.1 Global Iteration 0 | Checksum: 2be1f1f68
 
-Time (s): cpu = 00:00:25 ; elapsed = 00:00:16 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 161 ; free virtual = 1603
-Phase 4 Rip-up And Reroute | Checksum: e8cf7ef1
+Time (s): cpu = 00:00:49 ; elapsed = 00:00:26 . Memory (MB): peak = 2101.590 ; gain = 57.586 ; free physical = 137 ; free virtual = 1308
+Phase 4 Rip-up And Reroute | Checksum: 2be1f1f68
 
-Time (s): cpu = 00:00:25 ; elapsed = 00:00:16 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 161 ; free virtual = 1603
+Time (s): cpu = 00:00:49 ; elapsed = 00:00:27 . Memory (MB): peak = 2101.590 ; gain = 57.586 ; free physical = 137 ; free virtual = 1308
 
 Phase 5 Delay and Skew Optimization
 
 Phase 5.1 Delay CleanUp
 
 Phase 5.1.1 Update Timing
-Phase 5.1.1 Update Timing | Checksum: 12fae7293
+Phase 5.1.1 Update Timing | Checksum: 2c325fc5e
 
-Time (s): cpu = 00:00:25 ; elapsed = 00:00:16 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 161 ; free virtual = 1603
-INFO: [Route 35-416] Intermediate Timing Summary | WNS=0.755  | TNS=0.000  | WHS=N/A    | THS=N/A    |
+Time (s): cpu = 00:00:51 ; elapsed = 00:00:27 . Memory (MB): peak = 2101.590 ; gain = 57.586 ; free physical = 137 ; free virtual = 1308
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=0.668  | TNS=0.000  | WHS=N/A    | THS=N/A    |
 
-Phase 5.1 Delay CleanUp | Checksum: 12fae7293
+Phase 5.1 Delay CleanUp | Checksum: 2c325fc5e
 
-Time (s): cpu = 00:00:25 ; elapsed = 00:00:16 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 161 ; free virtual = 1603
+Time (s): cpu = 00:00:51 ; elapsed = 00:00:27 . Memory (MB): peak = 2101.590 ; gain = 57.586 ; free physical = 137 ; free virtual = 1308
 
 Phase 5.2 Clock Skew Optimization
-Phase 5.2 Clock Skew Optimization | Checksum: 12fae7293
+Phase 5.2 Clock Skew Optimization | Checksum: 2c325fc5e
 
-Time (s): cpu = 00:00:25 ; elapsed = 00:00:16 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 161 ; free virtual = 1603
-Phase 5 Delay and Skew Optimization | Checksum: 12fae7293
+Time (s): cpu = 00:00:51 ; elapsed = 00:00:27 . Memory (MB): peak = 2101.590 ; gain = 57.586 ; free physical = 137 ; free virtual = 1308
+Phase 5 Delay and Skew Optimization | Checksum: 2c325fc5e
 
-Time (s): cpu = 00:00:25 ; elapsed = 00:00:16 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 161 ; free virtual = 1603
+Time (s): cpu = 00:00:51 ; elapsed = 00:00:27 . Memory (MB): peak = 2101.590 ; gain = 57.586 ; free physical = 137 ; free virtual = 1308
 
 Phase 6 Post Hold Fix
 
 Phase 6.1 Hold Fix Iter
 
 Phase 6.1.1 Update Timing
-Phase 6.1.1 Update Timing | Checksum: e6ceae32
+Phase 6.1.1 Update Timing | Checksum: 2548ff08e
 
-Time (s): cpu = 00:00:25 ; elapsed = 00:00:17 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 161 ; free virtual = 1603
-INFO: [Route 35-416] Intermediate Timing Summary | WNS=0.755  | TNS=0.000  | WHS=0.006  | THS=0.000  |
+Time (s): cpu = 00:00:52 ; elapsed = 00:00:28 . Memory (MB): peak = 2101.590 ; gain = 57.586 ; free physical = 137 ; free virtual = 1308
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=0.668  | TNS=0.000  | WHS=0.007  | THS=0.000  |
 
-Phase 6.1 Hold Fix Iter | Checksum: 17b3f2e51
+Phase 6.1 Hold Fix Iter | Checksum: 24991017e
 
-Time (s): cpu = 00:00:25 ; elapsed = 00:00:17 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 161 ; free virtual = 1603
-Phase 6 Post Hold Fix | Checksum: 17b3f2e51
+Time (s): cpu = 00:00:52 ; elapsed = 00:00:28 . Memory (MB): peak = 2101.590 ; gain = 57.586 ; free physical = 137 ; free virtual = 1308
+Phase 6 Post Hold Fix | Checksum: 24991017e
 
-Time (s): cpu = 00:00:25 ; elapsed = 00:00:17 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 161 ; free virtual = 1603
+Time (s): cpu = 00:00:52 ; elapsed = 00:00:28 . Memory (MB): peak = 2101.590 ; gain = 57.586 ; free physical = 137 ; free virtual = 1308
 
 Phase 7 Route finalize
 
 Router Utilization Summary
-  Global Vertical Routing Utilization    = 0.690173 %
-  Global Horizontal Routing Utilization  = 1.21171 %
+  Global Vertical Routing Utilization    = 4.8979 %
+  Global Horizontal Routing Utilization  = 6.46154 %
   Routable Net Status*
   *Does not include unroutable nets such as driverless and loadless.
   Run report_route_status for detailed report.
@@ -515,43 +478,43 @@ Router Utilization Summary
   Number of Partially Routed Nets     = 0
   Number of Node Overlaps             = 0
 
-Phase 7 Route finalize | Checksum: 8d2f002b
+Phase 7 Route finalize | Checksum: 29df8af12
 
-Time (s): cpu = 00:00:26 ; elapsed = 00:00:17 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 161 ; free virtual = 1603
+Time (s): cpu = 00:00:53 ; elapsed = 00:00:28 . Memory (MB): peak = 2101.590 ; gain = 57.586 ; free physical = 137 ; free virtual = 1308
 
 Phase 8 Verifying routed nets
 
  Verification completed successfully
-Phase 8 Verifying routed nets | Checksum: 8d2f002b
+Phase 8 Verifying routed nets | Checksum: 29df8af12
 
-Time (s): cpu = 00:00:26 ; elapsed = 00:00:17 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 161 ; free virtual = 1603
+Time (s): cpu = 00:00:53 ; elapsed = 00:00:28 . Memory (MB): peak = 2101.590 ; gain = 57.586 ; free physical = 137 ; free virtual = 1308
 
 Phase 9 Depositing Routes
-Phase 9 Depositing Routes | Checksum: 49111945
+Phase 9 Depositing Routes | Checksum: 2b57f18bb
 
-Time (s): cpu = 00:00:26 ; elapsed = 00:00:17 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 161 ; free virtual = 1603
+Time (s): cpu = 00:00:53 ; elapsed = 00:00:29 . Memory (MB): peak = 2101.590 ; gain = 57.586 ; free physical = 137 ; free virtual = 1308
 
 Phase 10 Post Router Timing
-INFO: [Route 35-57] Estimated Timing Summary | WNS=0.755  | TNS=0.000  | WHS=0.006  | THS=0.000  |
+INFO: [Route 35-57] Estimated Timing Summary | WNS=0.668  | TNS=0.000  | WHS=0.007  | THS=0.000  |
 
 INFO: [Route 35-327] The final timing numbers are based on the router estimated timing analysis. For a complete and accurate timing signoff, please run report_timing_summary.
-Phase 10 Post Router Timing | Checksum: 49111945
+Phase 10 Post Router Timing | Checksum: 2b57f18bb
 
-Time (s): cpu = 00:00:26 ; elapsed = 00:00:17 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 161 ; free virtual = 1603
+Time (s): cpu = 00:00:53 ; elapsed = 00:00:29 . Memory (MB): peak = 2101.590 ; gain = 57.586 ; free physical = 137 ; free virtual = 1308
 INFO: [Route 35-16] Router Completed Successfully
 
-Time (s): cpu = 00:00:26 ; elapsed = 00:00:17 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 161 ; free virtual = 1603
+Time (s): cpu = 00:00:53 ; elapsed = 00:00:29 . Memory (MB): peak = 2101.590 ; gain = 57.586 ; free physical = 137 ; free virtual = 1308
 
 Routing Is Done.
 INFO: [Common 17-83] Releasing license: Implementation
-70 Infos, 3 Warnings, 0 Critical Warnings and 0 Errors encountered.
+57 Infos, 3 Warnings, 0 Critical Warnings and 0 Errors encountered.
 route_design completed successfully
-route_design: Time (s): cpu = 00:00:27 ; elapsed = 00:00:18 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 161 ; free virtual = 1603
+route_design: Time (s): cpu = 00:00:56 ; elapsed = 00:00:30 . Memory (MB): peak = 2102.590 ; gain = 58.586 ; free physical = 137 ; free virtual = 1308
 Writing placer database...
 Writing XDEF routing.
 Writing XDEF routing logical nets.
 Writing XDEF routing special nets.
-Write XDEF Complete: Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.48 . Memory (MB): peak = 1984.012 ; gain = 0.000 ; free physical = 153 ; free virtual = 1603
+Write XDEF Complete: Time (s): cpu = 00:00:05 ; elapsed = 00:00:02 . Memory (MB): peak = 2117.598 ; gain = 0.000 ; free physical = 142 ; free virtual = 1311
 INFO: [DRC 23-27] Running DRC with 4 threads
 INFO: [Coretcl 2-168] The results of DRC are in file /ram/home/work/takau/bhewtek/zedboard/zedboard.runs/impl_1/zboard_wrapper_drc_routed.rpt.
 INFO: [Timing 38-91] UpdateTimingParams: Speed grade: -1, Delay Type: min_max.
@@ -559,122 +522,4 @@ INFO: [Timing 38-191] Multithreading enabled for timing update using a maximum o
 Running Vector-less Activity Propagation...
 
 Finished Running Vector-less Activity Propagation
-Attempting to get a license for feature 'Implementation' and/or device 'xc7z020'
-INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7z020'
-Running DRC as a precondition to command write_bitstream
-INFO: [DRC 23-27] Running DRC with 4 threads
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro1 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro1/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro1 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro1/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro10 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro10/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro10 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro10/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro11 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro11/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro11 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro11/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro12 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro12/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro12 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro12/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro13 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro13/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro13 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro13/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro14 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro14/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro14 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro14/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro15 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro15/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro15 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro15/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro16 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro16/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro16 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro16/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro17 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro17/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro17 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro17/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro18 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro18/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro18 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro18/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro19 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro19/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro19 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro19/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro2 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro2/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro2 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro2/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro20 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro20/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro20 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro20/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro21 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro21/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro21 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro21/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro22 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro22/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro22 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro22/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro23 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro23/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro23 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro23/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro24 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro24/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro24 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro24/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro3 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro3/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro3 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro3/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro4 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro4/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro4 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro4/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro5 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro5/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro5 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro5/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro6 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro6/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro6 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro6/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro7 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro7/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro7 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro7/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro8 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro8/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro8 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro8/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro9 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro9/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIP-1) Input pipelining - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro9 input zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro9/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[0] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[10] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[11] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[12] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[13] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[14] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[15] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[16] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[17] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[18] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[19] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[1] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[20] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[21] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[22] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[23] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[24] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[25] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[26] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[27] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[28] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[29] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[2] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[3] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[4] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[5] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[6] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[7] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[8] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/A[9] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/B[0] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/B[10] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/B[11] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/B[12] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/B[13] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/B[14] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/B[15] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/B[16] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/B[17] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/B[1] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/B[2] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/B[3] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/B[4] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/B[5] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/B[6] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/B[7] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/B[8] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro0/B[9] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-WARNING: [DRC 23-20] Rule violation (DPIR-1) Asynchronous driver check - DSP zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro1 input pin zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro1/A[0] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
-INFO: [Common 17-14] Message 'DRC 23-20' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
-INFO: [Vivado 12-3199] DRC finished with 0 Errors, 1299 Warnings
-INFO: [Vivado 12-3200] Please refer to the DRC report (report_drc) for more information.
-INFO: [Designutils 20-2272] Running write_bitstream with 4 threads.
-Loading data files...
-Loading site data...
-Loading route data...
-Processing options...
-Creating bitmap...
-Creating bitstream...
-Writing bitstream ./zboard_wrapper.bit...
-INFO: [Vivado 12-1842] Bitgen Completed Successfully.
-INFO: [Project 1-120] WebTalk data collection is mandatory when using a WebPACK part without a full Vivado license. To see the specific WebTalk data collected for your design, open the usage_statistics_webtalk.html or usage_statistics_webtalk.xml file in the implementation directory.
-INFO: [Common 17-83] Releasing license: Implementation
-write_bitstream: Time (s): cpu = 00:00:14 ; elapsed = 00:00:11 . Memory (MB): peak = 2298.844 ; gain = 302.809 ; free physical = 147 ; free virtual = 1257
-INFO: [Common 17-206] Exiting Vivado at Wed May 18 01:41:46 2016...
+INFO: [Common 17-206] Exiting Vivado at Mon Jun  6 12:49:45 2016...

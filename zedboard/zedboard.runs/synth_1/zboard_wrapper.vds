@@ -2,8 +2,8 @@
 # Vivado v2016.1 (64-bit)
 # SW Build 1538259 on Fri Apr  8 15:45:23 MDT 2016
 # IP Build 1537824 on Fri Apr  8 04:28:57 MDT 2016
-# Start of session at: Wed May 18 01:37:32 2016
-# Process ID: 31661
+# Start of session at: Mon Jun  6 12:45:04 2016
+# Process ID: 5157
 # Current directory: /ram/home/work/takau/bhewtek/zedboard/zedboard.runs/synth_1
 # Command line: vivado -log zboard_wrapper.vds -mode batch -messageDb vivado.pb -notrace -source zboard_wrapper.tcl
 # Log file: /ram/home/work/takau/bhewtek/zedboard/zedboard.runs/synth_1/zboard_wrapper.vds
@@ -18,7 +18,7 @@ Starting synth_design
 Attempting to get a license for feature 'Synthesis' and/or device 'xc7z020'
 INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z020'
 INFO: Launching helper process for spawning children vivado processes
-INFO: Helper process launched with PID 31670 
+INFO: Helper process launched with PID 5165 
 WARNING: [Synth 8-2292] literal value truncated to fit in 3 bits [/ram/home/work/takau/bhewtek/rtl/mux_output.v:43]
 WARNING: [Synth 8-2507] parameter declaration becomes local in axi_slave_top_wrapper with formal parameter declaration list [/ram/home/work/takau/bhewtek/rtl/parameters.vh:1]
 WARNING: [Synth 8-2507] parameter declaration becomes local in axi_slave_top_wrapper with formal parameter declaration list [/ram/home/work/takau/bhewtek/rtl/parameters.vh:2]
@@ -34,7 +34,7 @@ WARNING: [Synth 8-2507] parameter declaration becomes local in axi_slave_top_wra
 WARNING: [Synth 8-2507] parameter declaration becomes local in axi_slave_top_wrapper with formal parameter declaration list [/ram/home/work/takau/bhewtek/rtl/parameters.vh:12]
 WARNING: [Synth 8-2507] parameter declaration becomes local in axi_slave_top_wrapper with formal parameter declaration list [/ram/home/work/takau/bhewtek/rtl/parameters.vh:13]
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:14 . Memory (MB): peak = 1103.719 ; gain = 215.273 ; free physical = 738 ; free virtual = 2330
+Starting RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:15 . Memory (MB): peak = 1103.723 ; gain = 215.273 ; free physical = 119 ; free virtual = 1987
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-638] synthesizing module 'zboard_wrapper' [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/hdl/zboard_wrapper.v:12]
 INFO: [Synth 8-638] synthesizing module 'zboard' [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/hdl/zboard.v:518]
@@ -61,6 +61,8 @@ INFO: [Synth 8-638] synthesizing module 'axi_slave_top_wrapper' [/ram/home/work/
 	Parameter PACCUM bound to: 8 - type: integer 
 	Parameter LWIDTH bound to: 8 - type: integer 
 	Parameter STEP bound to: 10 - type: integer 
+	Parameter IDLE_WADDR bound to: 1'b0 
+	Parameter AWREADY_HOLD_OFF bound to: 1'b1 
 	Parameter RESP_OKAY bound to: 2'b00 
 	Parameter RESP_EXOKAY bound to: 2'b01 
 	Parameter RESP_SLVERR bound to: 2'b10 
@@ -68,16 +70,14 @@ INFO: [Synth 8-638] synthesizing module 'axi_slave_top_wrapper' [/ram/home/work/
 	Parameter AxBURST_FIXED bound to: 2'b00 
 	Parameter AxBURST_INCR bound to: 2'b01 
 	Parameter AxBURST_WRAP bound to: 2'b10 
-	Parameter IDLE_WADDR bound to: 1'b0 
-	Parameter AWREADY_HOLD_OFF bound to: 1'b1 
-	Parameter IDLE_WDATA bound to: 1'b0 
-	Parameter WREADY_ASSERT bound to: 1'b1 
 	Parameter IDLE_WRES bound to: 1'b0 
 	Parameter BVALID_ASSERT bound to: 1'b1 
-	Parameter IDLE_RADDR bound to: 1'b0 
-	Parameter ARREADY_HOLD_OFF bound to: 1'b1 
+	Parameter IDLE_WDATA bound to: 1'b0 
+	Parameter WREADY_ASSERT bound to: 1'b1 
 	Parameter IDLE_RDATA bound to: 1'b0 
 	Parameter RVALID_ASSERT bound to: 1'b1 
+	Parameter IDLE_RADDR bound to: 1'b0 
+	Parameter ARREADY_HOLD_OFF bound to: 1'b1 
 	Parameter IDLE_RLAST bound to: 1'b0 
 	Parameter RLAST_ASSERT bound to: 1'b1 
 INFO: [Synth 8-638] synthesizing module 'top' [/ram/home/work/takau/bhewtek/rtl/top.v:1]
@@ -318,6 +318,7 @@ WARNING: [Synth 8-151] case item 4'b0000 is unreachable [/ram/home/work/takau/bh
 INFO: [Synth 8-155] case statement is not full and has no default [/ram/home/work/takau/bhewtek/rtl/mux_output.v:34]
 INFO: [Synth 8-256] done synthesizing module 'mux_output' (15#1) [/ram/home/work/takau/bhewtek/rtl/mux_output.v:1]
 INFO: [Synth 8-256] done synthesizing module 'top' (16#1) [/ram/home/work/takau/bhewtek/rtl/top.v:1]
+WARNING: [Synth 8-3848] Net S_AXI_BUSER in module/entity axi_slave_top_wrapper does not have driver. [/ram/home/work/takau/bhewtek/rtl/axi_slave_top_wrapper.v:104]
 INFO: [Synth 8-256] done synthesizing module 'axi_slave_top_wrapper' (17#1) [/ram/home/work/takau/bhewtek/rtl/axi_slave_top_wrapper.v:61]
 INFO: [Synth 8-256] done synthesizing module 'zboard_axi_slave_top_wrapper_0_0' (18#1) [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/ip/zboard_axi_slave_top_wrapper_0_0/synth/zboard_axi_slave_top_wrapper_0_0.v:56]
 WARNING: [Synth 8-350] instance 'axi_slave_top_wrapper_0' of module 'zboard_axi_slave_top_wrapper_0_0' requires 47 connections, but only 43 given [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/hdl/zboard.v:661]
@@ -1368,7 +1369,7 @@ WARNING: [Synth 8-3331] design processing_system7_v5_5_processing_system7 has un
 WARNING: [Synth 8-3331] design processing_system7_v5_5_processing_system7 has unconnected port S_AXI_GP1_AWSIZE[2]
 INFO: [Common 17-14] Message 'Synth 8-3331' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:51 ; elapsed = 00:00:59 . Memory (MB): peak = 1239.969 ; gain = 351.523 ; free physical = 610 ; free virtual = 2191
+Finished RTL Elaboration : Time (s): cpu = 00:00:53 ; elapsed = 00:01:02 . Memory (MB): peak = 1239.973 ; gain = 351.523 ; free physical = 150 ; free virtual = 1902
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -1378,7 +1379,7 @@ Report Check Netlist:
 |1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
 +------+------------------+-------+---------+-------+------------------+
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:52 ; elapsed = 00:00:59 . Memory (MB): peak = 1239.969 ; gain = 351.523 ; free physical = 610 ; free virtual = 2191
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:54 ; elapsed = 00:01:02 . Memory (MB): peak = 1239.973 ; gain = 351.523 ; free physical = 150 ; free virtual = 1902
 ---------------------------------------------------------------------------------
 INFO: [Netlist 29-17] Analyzing 13 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
@@ -1408,16 +1409,16 @@ INFO: [Project 1-111] Unisim Transformation Summary:
   FDR => FDRE: 12 instances
   SRL16 => SRL16E: 1 instances
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.03 . Memory (MB): peak = 1534.688 ; gain = 1.000 ; free physical = 466 ; free virtual = 2047
+Constraint Validation Runtime : Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.04 . Memory (MB): peak = 1533.691 ; gain = 1.000 ; free physical = 151 ; free virtual = 1813
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:01:01 ; elapsed = 00:01:15 . Memory (MB): peak = 1534.688 ; gain = 646.242 ; free physical = 465 ; free virtual = 2047
+Finished Constraint Validation : Time (s): cpu = 00:01:04 ; elapsed = 00:01:19 . Memory (MB): peak = 1533.691 ; gain = 645.242 ; free physical = 162 ; free virtual = 1825
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7z020clg484-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:01:01 ; elapsed = 00:01:15 . Memory (MB): peak = 1534.688 ; gain = 646.242 ; free physical = 465 ; free virtual = 2047
+Finished Loading Part and Timing Information : Time (s): cpu = 00:01:04 ; elapsed = 00:01:19 . Memory (MB): peak = 1533.691 ; gain = 645.242 ; free physical = 162 ; free virtual = 1826
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
@@ -1433,21 +1434,19 @@ Applied set_property DONT_TOUCH = true for zboard_i/processing_system7_0_axi_per
 Applied set_property DONT_TOUCH = true for zboard_i/processing_system7_0_axi_periph/s00_couplers/auto_us. (constraint file  auto generated constraint, line ).
 Applied set_property DONT_TOUCH = true for zboard_i/rst_processing_system7_0_100M. (constraint file  auto generated constraint, line ).
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:01:02 ; elapsed = 00:01:15 . Memory (MB): peak = 1534.688 ; gain = 646.242 ; free physical = 465 ; free virtual = 2047
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:01:04 ; elapsed = 00:01:19 . Memory (MB): peak = 1533.691 ; gain = 645.242 ; free physical = 162 ; free virtual = 1825
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-5544] ROM "r_weight_addr" won't be mapped to Block RAM because address size (2) smaller than threshold (5)
-INFO: [Synth 8-4471] merging register 'wready_reg' into 'wdata_sm_cs_reg' [/ram/home/work/takau/bhewtek/rtl/axi_slave_top_wrapper.v:361]
-INFO: [Synth 8-4471] merging register 'bvalid_reg' into 'wres_sm_cs_reg' [/ram/home/work/takau/bhewtek/rtl/axi_slave_top_wrapper.v:387]
-INFO: [Synth 8-4471] merging register 'rvalid_reg' into 'rdata_sm_cs_reg' [/ram/home/work/takau/bhewtek/rtl/axi_slave_top_wrapper.v:467]
-INFO: [Synth 8-4471] merging register 'rlast_reg' into 'rlast_sm_cs_reg' [/ram/home/work/takau/bhewtek/rtl/axi_slave_top_wrapper.v:513]
-INFO: [Synth 8-5818] HDL ADVISOR - The operator resource <adder> is shared. To prevent sharing consider applying a KEEP on the output of the operator [/ram/home/work/takau/bhewtek/rtl/axi_slave_top_wrapper.v:503]
-INFO: [Synth 8-5544] ROM "bresp" won't be mapped to Block RAM because address size (2) smaller than threshold (5)
+INFO: [Synth 8-4471] merging register 'wready_reg' into 'wdata_state_reg' [/ram/home/work/takau/bhewtek/rtl/axi_slave_top_wrapper.v:278]
+INFO: [Synth 8-4471] merging register 'bvalid_reg' into 'wres_state_reg' [/ram/home/work/takau/bhewtek/rtl/axi_slave_top_wrapper.v:361]
+INFO: [Synth 8-4471] merging register 'rvalid_reg' into 'rdata_state_reg' [/ram/home/work/takau/bhewtek/rtl/axi_slave_top_wrapper.v:393]
+INFO: [Synth 8-4471] merging register 'rlast_reg' into 'rlast_state_reg' [/ram/home/work/takau/bhewtek/rtl/axi_slave_top_wrapper.v:479]
 INFO: [Synth 8-5818] HDL ADVISOR - The operator resource <adder> is shared. To prevent sharing consider applying a KEEP on the output of the operator [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/ipshared/xilinx.com/generic_baseblocks_v2_1/hdl/verilog/generic_baseblocks_v2_1_command_fifo.v:275]
 INFO: [Synth 8-5818] HDL ADVISOR - The operator resource <adder> is shared. To prevent sharing consider applying a KEEP on the output of the operator [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/ipshared/xilinx.com/generic_baseblocks_v2_1/hdl/verilog/generic_baseblocks_v2_1_command_fifo.v:275]
 INFO: [Synth 8-5818] HDL ADVISOR - The operator resource <adder> is shared. To prevent sharing consider applying a KEEP on the output of the operator [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/ipshared/xilinx.com/generic_baseblocks_v2_1/hdl/verilog/generic_baseblocks_v2_1_command_fifo.v:275]
 INFO: [Synth 8-4471] merging register 'seq_cnt_en_reg' into 'from_sys_reg' [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/ipshared/xilinx.com/proc_sys_reset_v5_0/hdl/src/vhdl/sequence_psr.vhd:222]
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:01:04 ; elapsed = 00:01:17 . Memory (MB): peak = 1534.688 ; gain = 646.242 ; free physical = 459 ; free virtual = 2041
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:01:06 ; elapsed = 00:01:22 . Memory (MB): peak = 1533.691 ; gain = 645.242 ; free physical = 155 ; free virtual = 1820
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -1465,7 +1464,7 @@ Detailed RTL Component Info :
 	   3 Input     13 Bit       Adders := 1     
 	   3 Input     12 Bit       Adders := 1     
 	   2 Input     10 Bit       Adders := 2     
-	   2 Input      9 Bit       Adders := 2     
+	   2 Input      9 Bit       Adders := 1     
 	   3 Input      8 Bit       Adders := 2     
 	   2 Input      8 Bit       Adders := 12    
 	   2 Input      7 Bit       Adders := 1     
@@ -1482,15 +1481,14 @@ Detailed RTL Component Info :
 	               13 Bit    Registers := 9     
 	               12 Bit    Registers := 4     
 	               10 Bit    Registers := 10    
-	                9 Bit    Registers := 1     
 	                8 Bit    Registers := 39    
 	                7 Bit    Registers := 24    
 	                6 Bit    Registers := 1     
 	                5 Bit    Registers := 4     
 	                4 Bit    Registers := 2     
 	                3 Bit    Registers := 7     
-	                2 Bit    Registers := 8     
-	                1 Bit    Registers := 104   
+	                2 Bit    Registers := 5     
+	                1 Bit    Registers := 117   
 +---RAMs : 
 	             128K Bit         RAMs := 8     
 	              64K Bit         RAMs := 1     
@@ -1500,7 +1498,6 @@ Detailed RTL Component Info :
 	   2 Input     68 Bit        Muxes := 2     
 	   2 Input     32 Bit        Muxes := 9     
 	   2 Input     16 Bit        Muxes := 32    
-	   2 Input      9 Bit        Muxes := 1     
 	  10 Input      8 Bit        Muxes := 1     
 	   2 Input      8 Bit        Muxes := 23    
 	   4 Input      8 Bit        Muxes := 1     
@@ -1509,12 +1506,12 @@ Detailed RTL Component Info :
 	   2 Input      3 Bit        Muxes := 11    
 	   8 Input      3 Bit        Muxes := 6     
 	   5 Input      2 Bit        Muxes := 1     
-	   4 Input      2 Bit        Muxes := 1     
-	   2 Input      2 Bit        Muxes := 11    
+	   2 Input      2 Bit        Muxes := 9     
 	  10 Input      1 Bit        Muxes := 1     
-	   2 Input      1 Bit        Muxes := 67    
+	   2 Input      1 Bit        Muxes := 66    
 	   4 Input      1 Bit        Muxes := 3     
 	   8 Input      1 Bit        Muxes := 1     
+	   3 Input      1 Bit        Muxes := 3     
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics 
 ---------------------------------------------------------------------------------
@@ -1561,12 +1558,12 @@ Detailed RTL Component Info :
 	                8 Bit    Registers := 16    
 	                7 Bit    Registers := 8     
 	                2 Bit    Registers := 1     
-	                1 Bit    Registers := 31    
+	                1 Bit    Registers := 42    
 +---Muxes : 
 	   2 Input      8 Bit        Muxes := 1     
 	   4 Input      8 Bit        Muxes := 1     
 	   5 Input      2 Bit        Muxes := 1     
-	   2 Input      1 Bit        Muxes := 19    
+	   2 Input      1 Bit        Muxes := 20    
 	   4 Input      1 Bit        Muxes := 3     
 Module conv_tree 
 Detailed RTL Component Info : 
@@ -1617,23 +1614,17 @@ Detailed RTL Component Info :
 	   8 Input      1 Bit        Muxes := 1     
 Module axi_slave_top_wrapper 
 Detailed RTL Component Info : 
-+---Adders : 
-	   2 Input      9 Bit       Adders := 1     
 +---Registers : 
 	               16 Bit    Registers := 3     
 	               13 Bit    Registers := 1     
 	               12 Bit    Registers := 1     
 	               10 Bit    Registers := 1     
-	                9 Bit    Registers := 1     
 	                8 Bit    Registers := 4     
 	                4 Bit    Registers := 2     
-	                2 Bit    Registers := 3     
-	                1 Bit    Registers := 15    
+	                1 Bit    Registers := 17    
 +---Muxes : 
-	   2 Input      9 Bit        Muxes := 1     
-	   4 Input      2 Bit        Muxes := 1     
-	   2 Input      2 Bit        Muxes := 2     
-	   2 Input      1 Bit        Muxes := 18    
+	   2 Input      1 Bit        Muxes := 16    
+	   3 Input      1 Bit        Muxes := 3     
 Module axi_dwidth_converter_v2_1_8_w_upsizer 
 Detailed RTL Component Info : 
 +---Adders : 
@@ -1786,7 +1777,7 @@ BRAMs: 280 (col length: RAMB18 60 RAMB36 30)
 ---------------------------------------------------------------------------------
 Finished Part Resource Summary
 ---------------------------------------------------------------------------------
-Start Parallel Synthesis Optimization  : Time (s): cpu = 00:01:04 ; elapsed = 00:01:17 . Memory (MB): peak = 1534.688 ; gain = 646.242 ; free physical = 459 ; free virtual = 2041
+Start Parallel Synthesis Optimization  : Time (s): cpu = 00:01:06 ; elapsed = 00:01:22 . Memory (MB): peak = 1533.691 ; gain = 645.242 ; free physical = 155 ; free virtual = 1820
 ---------------------------------------------------------------------------------
 Start Cross Boundary Optimization
 ---------------------------------------------------------------------------------
@@ -2192,9 +2183,9 @@ DSP Report: Generating DSP tree/pro7, operation Mode is: A*B.
 DSP Report: operator tree/pro7 is absorbed into DSP tree/pro7.
 INFO: [Synth 8-3936] Found unconnected internal register 'gen_upsizer.gen_full_upsizer.axi_upsizer_inst/USE_READ.gen_non_fifo_r_upsizer.mi_register_slice_inst/r_pipe/m_payload_i_reg' and it is trimmed from '68' to '67' bits. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/ipshared/xilinx.com/axi_register_slice_v2_1/hdl/verilog/axi_register_slice_v2_1_axic_register_slice.v:121]
 ---------------------------------------------------------------------------------
-Finished Cross Boundary Optimization : Time (s): cpu = 00:01:07 ; elapsed = 00:01:20 . Memory (MB): peak = 1534.688 ; gain = 646.242 ; free physical = 459 ; free virtual = 2041
+Finished Cross Boundary Optimization : Time (s): cpu = 00:01:09 ; elapsed = 00:01:25 . Memory (MB): peak = 1533.691 ; gain = 645.242 ; free physical = 155 ; free virtual = 1820
 ---------------------------------------------------------------------------------
-Finished Parallel Reinference  : Time (s): cpu = 00:01:07 ; elapsed = 00:01:20 . Memory (MB): peak = 1534.688 ; gain = 646.242 ; free physical = 459 ; free virtual = 2041
+Finished Parallel Reinference  : Time (s): cpu = 00:01:09 ; elapsed = 00:01:25 . Memory (MB): peak = 1533.691 ; gain = 645.242 ; free physical = 155 ; free virtual = 1820
 
 Report RTL Partitions: 
 +-+--------------+------------+----------+
@@ -2444,9 +2435,22 @@ Finished ROM, RAM, DSP and Shift Register Reporting
 ---------------------------------------------------------------------------------
 Start Area Optimization
 ---------------------------------------------------------------------------------
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_weight_we_reg[3]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[1]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_weight_we_reg[1]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[1]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_weight_we_reg[2]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[1]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_w_reg[0]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_h_reg[0]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_w_reg[1]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_h_reg[1]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_w_reg[2]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_h_reg[2]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_w_reg[3]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_h_reg[3]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_w_reg[4]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_h_reg[4]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_w_reg[5]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_h_reg[5]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_w_reg[6]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_h_reg[6]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_w_reg[7]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_h_reg[7]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_w_reg[0]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_h_reg[0]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_w_reg[1]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_h_reg[1]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_w_reg[2]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_h_reg[2]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_w_reg[3]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_h_reg[3]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_w_reg[4]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_h_reg[4]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_w_reg[5]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_h_reg[5]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_w_reg[6]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_h_reg[6]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_w_reg[7]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_h_reg[7]'
 INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/pro_short24_d1_reg[14]' (FD) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/pro_short24_d1_reg[15]'
 INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/pro_short24_d1_reg[14]' (FD) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/pro_short24_d1_reg[15]'
 INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core4/conv/tree/pro_short24_d1_reg[14]' (FD) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core4/conv/tree/pro_short24_d1_reg[15]'
@@ -2468,134 +2472,28 @@ INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top
 INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core2/conv/tree/pro_short24_d3_reg[14]' (FD) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core2/conv/tree/pro_short24_d3_reg[15]'
 INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core1/conv/tree/pro_short24_d3_reg[14]' (FD) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core1/conv/tree/pro_short24_d3_reg[15]'
 INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro_short24_d3_reg[14]' (FD) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/pro_short24_d3_reg[15]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_total_in_reg[1]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[1]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_total_in_reg[2]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[1]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_total_in_reg[3]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[1]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_total_in_reg[4]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[1]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_total_in_reg[5]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[1]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_total_in_reg[6]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[1]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_total_in_reg[7]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[1]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_total_out_reg[1]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[1]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_output_re_reg[1]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[1]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_output_re_reg[2]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[1]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_output_re_reg[3]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[1]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_img_size_reg[1]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[1]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[1]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[2]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[2]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[3]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_img_size_reg[2]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[3]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[3]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[4]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_img_size_reg[3]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[4]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[4]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[5]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_img_size_reg[4]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[5]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[5]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[6]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_img_size_reg[5]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[6]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[6]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[7]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_img_size_reg[6]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[7]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_img_size_reg[7]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[7]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_fil_size_reg[7]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_total_out_reg[2]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_w_reg[0]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_h_reg[0]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_w_reg[1]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_h_reg[1]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_w_reg[2]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_h_reg[2]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_w_reg[3]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_h_reg[3]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_w_reg[4]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_h_reg[4]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_w_reg[5]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_h_reg[5]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_w_reg[6]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_h_reg[6]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_w_reg[7]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fil_h_reg[7]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_w_reg[0]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_h_reg[0]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_w_reg[1]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_h_reg[1]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_w_reg[2]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_h_reg[2]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_w_reg[3]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_h_reg[3]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_w_reg[4]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_h_reg[4]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_w_reg[5]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_h_reg[5]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_w_reg[6]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_h_reg[6]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_w_reg[7]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_img_h_reg[7]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_total_out_reg[2]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_total_out_reg[3]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_total_out_reg[3]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_total_out_reg[4]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_total_out_reg[4]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_total_out_reg[5]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_total_out_reg[5]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_total_out_reg[6]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/r_total_out_reg[6]' (FDR) to 'zboard_i/axi_slave_top_wrapper_0/inst/r_total_out_reg[7]'
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (zboard_i/axi_slave_top_wrapper_0/\inst/r_total_out_reg[7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (zboard_i/axi_slave_top_wrapper_0/\inst/r_output_re_reg[3] )
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (zboard_i/axi_slave_top_wrapper_0/\inst/rid_reg[0] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (zboard_i/axi_slave_top_wrapper_0/\inst/rresp_reg[0] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (zboard_i/axi_slave_top_wrapper_0/\inst/bresp_reg[0] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (zboard_i/axi_slave_top_wrapper_0/\inst/top0 /\dec_weight/r_code_reg[6] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (zboard_i/axi_slave_top_wrapper_0/\inst/top0 /\dec_weight/r_code_reg[5] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (zboard_i/axi_slave_top_wrapper_0/\inst/top0 /\dec_weight/r_code_reg[4] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (zboard_i/axi_slave_top_wrapper_0/\inst/top0 /\dec_weight/r_code_reg[3] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (zboard_i/axi_slave_top_wrapper_0/\inst/top0 /\dec_weight/r_code_reg[2] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (zboard_i/axi_slave_top_wrapper_0/\inst/top0 /\dec_weight/r_code_reg[1] )
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_count_out_inferred__0/r_count_out_reg[4]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_count_out_inferred__0/r_count_out_reg[7]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_count_out_inferred__0/r_count_out_reg[3]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_count_out_inferred__0/r_count_out_reg[7]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_count_out_inferred__0/r_count_out_reg[2]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_count_out_inferred__0/r_count_out_reg[7]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_count_out_inferred__0/r_count_out_reg[1]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_count_out_inferred__0/r_count_out_reg[7]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_count_out_inferred__0/r_count_out_reg[0]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_count_out_inferred__0/r_count_out_reg[7]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_count_out_inferred__0/r_count_out_reg[5]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_count_out_inferred__0/r_count_out_reg[7]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_count_out_inferred__0/r_count_out_reg[6]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_count_out_inferred__0/r_count_out_reg[7]'
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (zboard_i/axi_slave_top_wrapper_0/\inst/top0 /ctrl/r_count_out_inferred__0/\r_count_out_reg[7] )
-WARNING: [Synth 8-3332] Sequential element (r_fea_w_reg[7]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_fea_w_reg[6]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_fea_w_reg[5]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_fea_w_reg[4]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_fea_w_reg[3]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_fea_w_reg[2]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_fea_h_reg[7]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_fea_h_reg[6]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_fea_h_reg[5]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_fea_h_reg[4]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_fea_h_reg[3]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_fea_h_reg[2]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_total_out_reg[7]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_total_out_reg[6]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_total_out_reg[5]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_total_out_reg[4]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_total_out_reg[3]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_total_out_reg[2]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_total_out_reg[1]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_total_out_reg[0]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_count_out_reg[7]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_count_out_reg[6]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_count_out_reg[5]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_count_out_reg[4]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_count_out_reg[3]) is unused and will be removed from module ctrl.
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (zboard_i/axi_slave_top_wrapper_0/\inst/rresp_reg )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (zboard_i/axi_slave_top_wrapper_0/\inst/bresp_reg )
 WARNING: [Synth 8-3332] Sequential element (r_count_out_reg[2]) is unused and will be removed from module ctrl.
 WARNING: [Synth 8-3332] Sequential element (r_count_out_reg[1]) is unused and will be removed from module ctrl.
 WARNING: [Synth 8-3332] Sequential element (r_count_out_reg[0]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_total_in_reg[7]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_total_in_reg[6]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_total_in_reg[5]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_total_in_reg[4]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_total_in_reg[3]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_total_in_reg[2]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_total_in_reg[1]) is unused and will be removed from module ctrl.
 WARNING: [Synth 8-3332] Sequential element (r_fil_w_reg[0]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_fil_h_reg[1]) is unused and will be removed from module ctrl.
 WARNING: [Synth 8-3332] Sequential element (r_fil_w_reg[1]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_fil_h_reg[2]) is unused and will be removed from module ctrl.
 WARNING: [Synth 8-3332] Sequential element (r_fil_w_reg[2]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_fil_h_reg[3]) is unused and will be removed from module ctrl.
 WARNING: [Synth 8-3332] Sequential element (r_fil_w_reg[3]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_fil_h_reg[4]) is unused and will be removed from module ctrl.
 WARNING: [Synth 8-3332] Sequential element (r_fil_w_reg[4]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_fil_h_reg[5]) is unused and will be removed from module ctrl.
 WARNING: [Synth 8-3332] Sequential element (r_fil_w_reg[5]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_fil_h_reg[6]) is unused and will be removed from module ctrl.
 WARNING: [Synth 8-3332] Sequential element (r_fil_w_reg[6]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_fil_h_reg[7]) is unused and will be removed from module ctrl.
 WARNING: [Synth 8-3332] Sequential element (r_fil_w_reg[7]) is unused and will be removed from module ctrl.
 WARNING: [Synth 8-3332] Sequential element (r_img_w_reg[0]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_img_h_reg[1]) is unused and will be removed from module ctrl.
 WARNING: [Synth 8-3332] Sequential element (r_img_w_reg[1]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_img_h_reg[2]) is unused and will be removed from module ctrl.
 WARNING: [Synth 8-3332] Sequential element (r_img_w_reg[2]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_img_h_reg[3]) is unused and will be removed from module ctrl.
 WARNING: [Synth 8-3332] Sequential element (r_img_w_reg[3]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_img_h_reg[4]) is unused and will be removed from module ctrl.
 WARNING: [Synth 8-3332] Sequential element (r_img_w_reg[4]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_img_h_reg[5]) is unused and will be removed from module ctrl.
 WARNING: [Synth 8-3332] Sequential element (r_img_w_reg[5]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_img_h_reg[6]) is unused and will be removed from module ctrl.
 WARNING: [Synth 8-3332] Sequential element (r_img_w_reg[6]) is unused and will be removed from module ctrl.
-WARNING: [Synth 8-3332] Sequential element (r_img_h_reg[7]) is unused and will be removed from module ctrl.
 WARNING: [Synth 8-3332] Sequential element (r_img_w_reg[7]) is unused and will be removed from module ctrl.
 WARNING: [Synth 8-3332] Sequential element (tree/pro_short24_d1_reg[14]) is unused and will be removed from module conv__1.
 WARNING: [Synth 8-3332] Sequential element (tree/pro_short24_d2_reg[14]) is unused and will be removed from module conv__1.
@@ -2618,31 +2516,35 @@ WARNING: [Synth 8-3332] Sequential element (tree/pro_short24_d3_reg[14]) is unus
 WARNING: [Synth 8-3332] Sequential element (tree/pro_short24_d1_reg[14]) is unused and will be removed from module conv__7.
 WARNING: [Synth 8-3332] Sequential element (tree/pro_short24_d2_reg[14]) is unused and will be removed from module conv__7.
 WARNING: [Synth 8-3332] Sequential element (tree/pro_short24_d3_reg[14]) is unused and will be removed from module conv__7.
-WARNING: [Synth 8-3332] Sequential element (dec_weight/r_code_reg[6]) is unused and will be removed from module top.
-WARNING: [Synth 8-3332] Sequential element (dec_weight/r_code_reg[5]) is unused and will be removed from module top.
-WARNING: [Synth 8-3332] Sequential element (dec_weight/r_code_reg[4]) is unused and will be removed from module top.
-WARNING: [Synth 8-3332] Sequential element (dec_weight/r_code_reg[3]) is unused and will be removed from module top.
-WARNING: [Synth 8-3332] Sequential element (dec_weight/r_code_reg[2]) is unused and will be removed from module top.
-WARNING: [Synth 8-3332] Sequential element (dec_weight/r_code_reg[1]) is unused and will be removed from module top.
-INFO: [Synth 8-3332] Sequential element (inst/bresp_reg[0]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/bresp_reg) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
 INFO: [Synth 8-3332] Sequential element (inst/rid_reg[0]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
-INFO: [Synth 8-3332] Sequential element (inst/rresp_reg[0]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
-INFO: [Synth 8-3332] Sequential element (inst/r_total_out_reg[0]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
-INFO: [Synth 8-3332] Sequential element (inst/r_fil_size_reg[1]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
-INFO: [Synth 8-3332] Sequential element (inst/r_weight_we_reg[3]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
-INFO: [Synth 8-3332] Sequential element (inst/r_weight_we_reg[1]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
-INFO: [Synth 8-3332] Sequential element (inst/r_weight_we_reg[2]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
-INFO: [Common 17-14] Message 'Synth 8-3332' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Synth 8-3332] Sequential element (inst/rresp_reg) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/r_output_re_reg[3]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
 INFO: [Synth 8-3886] merging instance 'zboard_i/processing_system7_0_axi_periph/s00_couplers/auto_us/inst/gen_upsizer.gen_full_upsizer.axi_upsizer_inst/USE_READ.gen_non_fifo_r_upsizer.mi_register_slice_inst/r_pipe/aresetn_d_reg[0]' (FDR) to 'zboard_i/processing_system7_0_axi_periph/s00_couplers/auto_us/inst/gen_upsizer.gen_full_upsizer.axi_upsizer_inst/si_register_slice_inst/aw_pipe/aresetn_d_reg[0]'
 INFO: [Synth 8-3886] merging instance 'zboard_i/processing_system7_0_axi_periph/s00_couplers/auto_us/inst/gen_upsizer.gen_full_upsizer.axi_upsizer_inst/USE_READ.gen_non_fifo_r_upsizer.mi_register_slice_inst/r_pipe/aresetn_d_reg[1]' (FDR) to 'zboard_i/processing_system7_0_axi_periph/s00_couplers/auto_us/inst/gen_upsizer.gen_full_upsizer.axi_upsizer_inst/si_register_slice_inst/aw_pipe/aresetn_d_reg[1]'
 INFO: [Synth 8-3886] merging instance 'zboard_i/processing_system7_0_axi_periph/s00_couplers/auto_us/inst/gen_upsizer.gen_full_upsizer.axi_upsizer_inst/si_register_slice_inst/ar_pipe/aresetn_d_reg[0]' (FDR) to 'zboard_i/processing_system7_0_axi_periph/s00_couplers/auto_us/inst/gen_upsizer.gen_full_upsizer.axi_upsizer_inst/si_register_slice_inst/aw_pipe/aresetn_d_reg[0]'
 INFO: [Synth 8-3886] merging instance 'zboard_i/processing_system7_0_axi_periph/s00_couplers/auto_us/inst/gen_upsizer.gen_full_upsizer.axi_upsizer_inst/si_register_slice_inst/aw_pipe/aresetn_d_reg[1]' (FDR) to 'zboard_i/processing_system7_0_axi_periph/s00_couplers/auto_us/inst/gen_upsizer.gen_full_upsizer.axi_upsizer_inst/si_register_slice_inst/ar_pipe/aresetn_d_reg[1]'
+INFO: [Synth 8-3332] Sequential element (gen_upsizer.gen_full_upsizer.axi_upsizer_inst/USE_WRITE.write_addr_inst/GEN_CMD_QUEUE.cmd_queue/USE_FF_OUT.USE_RTL_OUTPUT_PIPELINE.M_MESG_Q_reg[15]) is unused and will be removed from module axi_dwidth_converter_v2_1_8_top.
+INFO: [Synth 8-3332] Sequential element (gen_upsizer.gen_full_upsizer.axi_upsizer_inst/USE_WRITE.write_addr_inst/GEN_CMD_QUEUE.cmd_queue/USE_FF_OUT.USE_RTL_OUTPUT_PIPELINE.M_MESG_Q_reg[14]) is unused and will be removed from module axi_dwidth_converter_v2_1_8_top.
+INFO: [Synth 8-3332] Sequential element (gen_upsizer.gen_full_upsizer.axi_upsizer_inst/USE_READ.read_addr_inst/GEN_CMD_QUEUE.cmd_queue/USE_FF_OUT.USE_RTL_OUTPUT_PIPELINE.M_MESG_Q_reg[15]) is unused and will be removed from module axi_dwidth_converter_v2_1_8_top.
+INFO: [Synth 8-3332] Sequential element (gen_upsizer.gen_full_upsizer.axi_upsizer_inst/USE_READ.read_addr_inst/GEN_CMD_QUEUE.cmd_queue/USE_FF_OUT.USE_RTL_OUTPUT_PIPELINE.M_MESG_Q_reg[14]) is unused and will be removed from module axi_dwidth_converter_v2_1_8_top.
+INFO: [Synth 8-3332] Sequential element (gen_upsizer.gen_full_upsizer.axi_upsizer_inst/USE_READ.gen_non_fifo_r_upsizer.mi_register_slice_inst/r_pipe/skid_buffer_reg[67]) is unused and will be removed from module axi_dwidth_converter_v2_1_8_top.
+INFO: [Synth 8-3332] Sequential element (gen_upsizer.gen_full_upsizer.axi_upsizer_inst/USE_READ.gen_non_fifo_r_upsizer.mi_register_slice_inst/r_pipe/aresetn_d_reg[0]) is unused and will be removed from module axi_dwidth_converter_v2_1_8_top.
+INFO: [Synth 8-3332] Sequential element (gen_upsizer.gen_full_upsizer.axi_upsizer_inst/si_register_slice_inst/aw_pipe/aresetn_d_reg[1]) is unused and will be removed from module axi_dwidth_converter_v2_1_8_top.
+INFO: [Synth 8-3332] Sequential element (gen_upsizer.gen_full_upsizer.axi_upsizer_inst/USE_READ.gen_non_fifo_r_upsizer.mi_register_slice_inst/r_pipe/aresetn_d_reg[1]) is unused and will be removed from module axi_dwidth_converter_v2_1_8_top.
+INFO: [Synth 8-3332] Sequential element (gen_upsizer.gen_full_upsizer.axi_upsizer_inst/si_register_slice_inst/ar_pipe/aresetn_d_reg[0]) is unused and will be removed from module axi_dwidth_converter_v2_1_8_top.
 INFO: [Synth 8-3886] merging instance 'zboard_i/rst_processing_system7_0_100M/U0/SEQ/pr_dec_reg[1]' (FD) to 'zboard_i/rst_processing_system7_0_100M/U0/SEQ/bsr_dec_reg[1]'
 INFO: [Synth 8-3886] merging instance 'zboard_i/rst_processing_system7_0_100M/U0/SEQ/bsr_dec_reg[1]' (FD) to 'zboard_i/rst_processing_system7_0_100M/U0/SEQ/core_dec_reg[1]'
+WARNING: [Synth 8-3332] Sequential element (EXT_LPF/ACTIVE_LOW_EXT.ACT_LO_EXT/GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.CROSS_PLEVEL_IN2SCNDRY_s_level_out_d5) is unused and will be removed from module proc_sys_reset.
+WARNING: [Synth 8-3332] Sequential element (EXT_LPF/ACTIVE_LOW_EXT.ACT_LO_EXT/GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.CROSS_PLEVEL_IN2SCNDRY_s_level_out_d6) is unused and will be removed from module proc_sys_reset.
+WARNING: [Synth 8-3332] Sequential element (EXT_LPF/ACTIVE_LOW_AUX.ACT_LO_AUX/GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.CROSS_PLEVEL_IN2SCNDRY_s_level_out_d5) is unused and will be removed from module proc_sys_reset.
+WARNING: [Synth 8-3332] Sequential element (EXT_LPF/ACTIVE_LOW_AUX.ACT_LO_AUX/GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.CROSS_PLEVEL_IN2SCNDRY_s_level_out_d6) is unused and will be removed from module proc_sys_reset.
+WARNING: [Synth 8-3332] Sequential element (SEQ/bsr_dec_reg[1]) is unused and will be removed from module proc_sys_reset.
+WARNING: [Synth 8-3332] Sequential element (SEQ/pr_dec_reg[1]) is unused and will be removed from module proc_sys_reset.
 ---------------------------------------------------------------------------------
-Finished Area Optimization : Time (s): cpu = 00:01:19 ; elapsed = 00:01:32 . Memory (MB): peak = 1535.688 ; gain = 647.242 ; free physical = 416 ; free virtual = 1998
+Finished Area Optimization : Time (s): cpu = 00:01:22 ; elapsed = 00:01:38 . Memory (MB): peak = 1534.691 ; gain = 646.242 ; free physical = 160 ; free virtual = 1787
 ---------------------------------------------------------------------------------
-Finished Parallel Area Optimization  : Time (s): cpu = 00:01:19 ; elapsed = 00:01:32 . Memory (MB): peak = 1535.688 ; gain = 647.242 ; free physical = 416 ; free virtual = 1998
+Finished Parallel Area Optimization  : Time (s): cpu = 00:01:22 ; elapsed = 00:01:38 . Memory (MB): peak = 1534.691 ; gain = 646.242 ; free physical = 160 ; free virtual = 1787
 
 Report RTL Partitions: 
 +-+--------------+------------+----------+
@@ -2656,12 +2558,10 @@ Start Timing Optimization
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:01:27 ; elapsed = 00:01:41 . Memory (MB): peak = 1719.688 ; gain = 831.242 ; free physical = 200 ; free virtual = 1782
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:01:31 ; elapsed = 00:01:47 . Memory (MB): peak = 1723.691 ; gain = 835.242 ; free physical = 129 ; free virtual = 1570
 ---------------------------------------------------------------------------------
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fea_w_reg[0]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fea_h_reg[0]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fea_w_reg[1]' (FDRE) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/ctrl/r_fea_h_reg[1]'
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:01:34 ; elapsed = 00:01:48 . Memory (MB): peak = 1790.695 ; gain = 902.250 ; free physical = 129 ; free virtual = 1711
+Finished Timing Optimization : Time (s): cpu = 00:01:39 ; elapsed = 00:01:55 . Memory (MB): peak = 1803.699 ; gain = 915.250 ; free physical = 152 ; free virtual = 1504
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -2672,46 +2572,106 @@ Report RTL Partitions:
 ---------------------------------------------------------------------------------
 Start Technology Mapping
 ---------------------------------------------------------------------------------
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel16_reg[0]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/r_pixel16_reg[0]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[0]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/r_pixel16_reg[0]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel16_reg[0]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/r_pixel16_reg[0]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core4/conv/tree/r_pixel16_reg[0]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/r_pixel16_reg[0]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core3/conv/tree/r_pixel16_reg[0]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/r_pixel16_reg[0]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core2/conv/tree/r_pixel16_reg[0]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/r_pixel16_reg[0]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core1/conv/tree/r_pixel16_reg[0]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/r_pixel16_reg[0]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel16_reg[1]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/r_pixel16_reg[1]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[1]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/r_pixel16_reg[1]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel16_reg[1]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/r_pixel16_reg[1]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core4/conv/tree/r_pixel16_reg[1]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/r_pixel16_reg[1]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core3/conv/tree/r_pixel16_reg[1]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/r_pixel16_reg[1]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core2/conv/tree/r_pixel16_reg[1]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/r_pixel16_reg[1]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core1/conv/tree/r_pixel16_reg[1]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/r_pixel16_reg[1]'
-INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel16_reg[2]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core0/conv/tree/r_pixel16_reg[2]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel16_reg[0]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[0]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[0]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel16_reg[0]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel16_reg[1]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[1]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[1]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel16_reg[1]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel16_reg[2]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[2]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[2]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel16_reg[2]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel16_reg[3]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[3]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[3]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel16_reg[3]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel16_reg[4]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[4]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[4]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel16_reg[4]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel16_reg[5]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[5]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[5]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel16_reg[5]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel16_reg[6]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[6]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[6]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel16_reg[6]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel16_reg[7]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[7]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[7]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel16_reg[7]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel16_reg[8]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[8]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[8]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel16_reg[8]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel16_reg[9]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[9]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[9]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel16_reg[9]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel16_reg[10]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[10]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[10]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel16_reg[10]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel16_reg[11]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[11]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[11]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel16_reg[11]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel16_reg[12]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[12]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[12]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel16_reg[12]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel16_reg[13]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[13]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[13]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel16_reg[13]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel16_reg[14]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[14]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[14]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel16_reg[14]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel16_reg[15]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[15]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel16_reg[15]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel16_reg[15]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel17_reg[0]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel17_reg[0]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel17_reg[0]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel17_reg[0]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel17_reg[1]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel17_reg[1]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel17_reg[1]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel17_reg[1]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel17_reg[2]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel17_reg[2]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel17_reg[2]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel17_reg[2]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel17_reg[3]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel17_reg[3]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel17_reg[3]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel17_reg[3]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel17_reg[4]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel17_reg[4]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel17_reg[4]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel17_reg[4]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel17_reg[5]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel17_reg[5]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel17_reg[5]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel17_reg[5]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel17_reg[6]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel17_reg[6]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel17_reg[6]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel17_reg[6]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel17_reg[7]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel17_reg[7]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel17_reg[7]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel17_reg[7]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel17_reg[8]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel17_reg[8]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel17_reg[8]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel17_reg[8]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel17_reg[9]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel17_reg[9]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel17_reg[9]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel17_reg[9]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel17_reg[10]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel17_reg[10]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel17_reg[10]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel17_reg[10]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel17_reg[11]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel17_reg[11]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel17_reg[11]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core5/conv/tree/r_pixel17_reg[11]'
+INFO: [Synth 8-3886] merging instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core7/conv/tree/r_pixel17_reg[12]' (FDC) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/core6/conv/tree/r_pixel17_reg[12]'
 INFO: [Common 17-14] Message 'Synth 8-3886' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
-INFO: [Synth 8-223] decloning instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight1/mem_reg_0' (RAMB36E1_1) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight2/mem_reg_0'
-INFO: [Synth 8-223] decloning instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight1/mem_reg_1' (RAMB36E1_1) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight2/mem_reg_1'
-INFO: [Synth 8-223] decloning instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight1/mem_reg_2' (RAMB36E1_1) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight2/mem_reg_2'
-INFO: [Synth 8-223] decloning instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight1/mem_reg_3' (RAMB36E1_1) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight2/mem_reg_3'
-INFO: [Synth 8-223] decloning instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight2/mem_reg_0' (RAMB36E1_1) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight3/mem_reg_0'
-INFO: [Synth 8-223] decloning instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight2/mem_reg_1' (RAMB36E1_1) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight3/mem_reg_1'
-INFO: [Synth 8-223] decloning instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight2/mem_reg_2' (RAMB36E1_1) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight3/mem_reg_2'
-INFO: [Synth 8-223] decloning instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight2/mem_reg_3' (RAMB36E1_1) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight3/mem_reg_3'
-INFO: [Synth 8-223] decloning instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight3/mem_reg_0' (RAMB36E1_1) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight4/mem_reg_0'
-INFO: [Synth 8-223] decloning instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight3/mem_reg_1' (RAMB36E1_1) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight4/mem_reg_1'
-INFO: [Synth 8-223] decloning instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight3/mem_reg_2' (RAMB36E1_1) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight4/mem_reg_2'
-INFO: [Synth 8-223] decloning instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight3/mem_reg_3' (RAMB36E1_1) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight4/mem_reg_3'
-INFO: [Synth 8-223] decloning instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight4/mem_reg_0' (RAMB36E1_1) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight5/mem_reg_0'
-INFO: [Synth 8-223] decloning instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight4/mem_reg_1' (RAMB36E1_1) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight5/mem_reg_1'
-INFO: [Synth 8-223] decloning instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight4/mem_reg_2' (RAMB36E1_1) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight5/mem_reg_2'
-INFO: [Synth 8-223] decloning instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight4/mem_reg_3' (RAMB36E1_1) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight5/mem_reg_3'
-INFO: [Synth 8-223] decloning instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight5/mem_reg_0' (RAMB36E1_1) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight6/mem_reg_0'
-INFO: [Synth 8-223] decloning instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight5/mem_reg_1' (RAMB36E1_1) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight6/mem_reg_1'
-INFO: [Synth 8-223] decloning instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight5/mem_reg_2' (RAMB36E1_1) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight6/mem_reg_2'
-INFO: [Synth 8-223] decloning instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight5/mem_reg_3' (RAMB36E1_1) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight6/mem_reg_3'
-INFO: [Synth 8-223] decloning instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight6/mem_reg_0' (RAMB36E1_1) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight7/mem_reg_0'
-INFO: [Synth 8-223] decloning instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight6/mem_reg_1' (RAMB36E1_1) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight7/mem_reg_1'
-INFO: [Synth 8-223] decloning instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight6/mem_reg_2' (RAMB36E1_1) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight7/mem_reg_2'
-INFO: [Synth 8-223] decloning instance 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight6/mem_reg_3' (RAMB36E1_1) to 'zboard_i/axi_slave_top_wrapper_0/inst/top0/mem_weight7/mem_reg_3'
+INFO: [Synth 8-3332] Sequential element (inst/top0/core6/conv/tree/r_pixel16_reg[0]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core7/conv/tree/r_pixel16_reg[0]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core5/conv/tree/r_pixel16_reg[0]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core6/conv/tree/r_pixel16_reg[1]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core7/conv/tree/r_pixel16_reg[1]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core5/conv/tree/r_pixel16_reg[1]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core6/conv/tree/r_pixel16_reg[2]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core7/conv/tree/r_pixel16_reg[2]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core5/conv/tree/r_pixel16_reg[2]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core6/conv/tree/r_pixel16_reg[3]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core7/conv/tree/r_pixel16_reg[3]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core5/conv/tree/r_pixel16_reg[3]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core6/conv/tree/r_pixel16_reg[4]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core7/conv/tree/r_pixel16_reg[4]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core5/conv/tree/r_pixel16_reg[4]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core6/conv/tree/r_pixel16_reg[5]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core7/conv/tree/r_pixel16_reg[5]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core5/conv/tree/r_pixel16_reg[5]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core6/conv/tree/r_pixel16_reg[6]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core7/conv/tree/r_pixel16_reg[6]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core5/conv/tree/r_pixel16_reg[6]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core6/conv/tree/r_pixel16_reg[7]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core7/conv/tree/r_pixel16_reg[7]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core5/conv/tree/r_pixel16_reg[7]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core6/conv/tree/r_pixel16_reg[8]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core7/conv/tree/r_pixel16_reg[8]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core5/conv/tree/r_pixel16_reg[8]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core6/conv/tree/r_pixel16_reg[9]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core7/conv/tree/r_pixel16_reg[9]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core5/conv/tree/r_pixel16_reg[9]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core6/conv/tree/r_pixel16_reg[10]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core7/conv/tree/r_pixel16_reg[10]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core5/conv/tree/r_pixel16_reg[10]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core6/conv/tree/r_pixel16_reg[11]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core7/conv/tree/r_pixel16_reg[11]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core5/conv/tree/r_pixel16_reg[11]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core6/conv/tree/r_pixel16_reg[12]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core7/conv/tree/r_pixel16_reg[12]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core5/conv/tree/r_pixel16_reg[12]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core6/conv/tree/r_pixel16_reg[13]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Synth 8-3332] Sequential element (inst/top0/core7/conv/tree/r_pixel16_reg[13]) is unused and will be removed from module zboard_axi_slave_top_wrapper_0_0.
+INFO: [Common 17-14] Message 'Synth 8-3332' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
 INFO: [Synth 8-4480] The timing for the instance mem_reg (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
 INFO: [Synth 8-4480] The timing for the instance mem_reg (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
 INFO: [Synth 8-4480] The timing for the instance mem_reg (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
@@ -2736,21 +2696,17 @@ INFO: [Synth 8-4480] The timing for the instance mem_reg (implemented as a block
 INFO: [Synth 8-4480] The timing for the instance mem_reg (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
 INFO: [Synth 8-4480] The timing for the instance mem_reg (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
 INFO: [Synth 8-4480] The timing for the instance mem_reg (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
-INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight7/mem_reg_0 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
-INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight7/mem_reg_1 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
-INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight7/mem_reg_2 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
-INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight7/mem_reg_3 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:01:46 ; elapsed = 00:02:00 . Memory (MB): peak = 1845.484 ; gain = 957.039 ; free physical = 116 ; free virtual = 1656
+Finished Technology Mapping : Time (s): cpu = 00:01:53 ; elapsed = 00:02:10 . Memory (MB): peak = 1849.066 ; gain = 960.617 ; free physical = 143 ; free virtual = 1464
 ---------------------------------------------------------------------------------
-Finished Parallel Technology Mapping Optimization  : Time (s): cpu = 00:01:46 ; elapsed = 00:02:00 . Memory (MB): peak = 1845.484 ; gain = 957.039 ; free physical = 116 ; free virtual = 1656
+Finished Parallel Technology Mapping Optimization  : Time (s): cpu = 00:01:53 ; elapsed = 00:02:10 . Memory (MB): peak = 1849.066 ; gain = 960.617 ; free physical = 143 ; free virtual = 1464
 
 Report RTL Partitions: 
 +-+--------------+------------+----------+
 | |RTL Partition |Replication |Instances |
 +-+--------------+------------+----------+
 +-+--------------+------------+----------+
-Finished Parallel Synthesis Optimization  : Time (s): cpu = 00:01:46 ; elapsed = 00:02:00 . Memory (MB): peak = 1845.484 ; gain = 957.039 ; free physical = 116 ; free virtual = 1656
+Finished Parallel Synthesis Optimization  : Time (s): cpu = 00:01:53 ; elapsed = 00:02:10 . Memory (MB): peak = 1849.066 ; gain = 960.617 ; free physical = 143 ; free virtual = 1464
 ---------------------------------------------------------------------------------
 Start IO Insertion
 ---------------------------------------------------------------------------------
@@ -2763,7 +2719,6 @@ Finished Flattening Before IO Insertion
 ---------------------------------------------------------------------------------
 Start Final Netlist Cleanup
 ---------------------------------------------------------------------------------
-INFO: [Synth 8-5365] Flop inst/r_output_re_reg[0] is being inverted and renamed to inst/r_output_re_reg[0]_inv.
 ---------------------------------------------------------------------------------
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
@@ -2869,7 +2824,7 @@ WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/
 WARNING: [Synth 8-5396] Clock pin CLK has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/zboard/ipshared/xilinx.com/generic_baseblocks_v2_1/hdl/verilog/generic_baseblocks_v2_1_command_fifo.v:340]
 INFO: [Common 17-14] Message 'Synth 8-5396' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:01:48 ; elapsed = 00:02:02 . Memory (MB): peak = 1845.484 ; gain = 957.039 ; free physical = 116 ; free virtual = 1656
+Finished IO Insertion : Time (s): cpu = 00:01:56 ; elapsed = 00:02:12 . Memory (MB): peak = 1849.066 ; gain = 960.617 ; free physical = 143 ; free virtual = 1464
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -2882,7 +2837,7 @@ Report Check Netlist:
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:01:49 ; elapsed = 00:02:02 . Memory (MB): peak = 1845.484 ; gain = 957.039 ; free physical = 116 ; free virtual = 1656
+Finished Renaming Generated Instances : Time (s): cpu = 00:01:56 ; elapsed = 00:02:12 . Memory (MB): peak = 1849.066 ; gain = 960.617 ; free physical = 143 ; free virtual = 1465
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -2894,25 +2849,25 @@ Report RTL Partitions:
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:01:55 ; elapsed = 00:02:09 . Memory (MB): peak = 1845.484 ; gain = 957.039 ; free physical = 116 ; free virtual = 1656
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:02:03 ; elapsed = 00:02:19 . Memory (MB): peak = 1849.066 ; gain = 960.617 ; free physical = 143 ; free virtual = 1465
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:01:55 ; elapsed = 00:02:09 . Memory (MB): peak = 1845.484 ; gain = 957.039 ; free physical = 116 ; free virtual = 1656
+Finished Renaming Generated Ports : Time (s): cpu = 00:02:03 ; elapsed = 00:02:19 . Memory (MB): peak = 1849.066 ; gain = 960.617 ; free physical = 143 ; free virtual = 1465
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:01:55 ; elapsed = 00:02:09 . Memory (MB): peak = 1845.484 ; gain = 957.039 ; free physical = 116 ; free virtual = 1656
+Finished Handling Custom Attributes : Time (s): cpu = 00:02:03 ; elapsed = 00:02:19 . Memory (MB): peak = 1849.066 ; gain = 960.617 ; free physical = 143 ; free virtual = 1465
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:01:55 ; elapsed = 00:02:09 . Memory (MB): peak = 1845.484 ; gain = 957.039 ; free physical = 116 ; free virtual = 1656
+Finished Renaming Generated Nets : Time (s): cpu = 00:02:03 ; elapsed = 00:02:19 . Memory (MB): peak = 1849.066 ; gain = 960.617 ; free physical = 143 ; free virtual = 1465
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start ROM, RAM, DSP and Shift Register Reporting
@@ -2935,6 +2890,7 @@ Static Shift Register Report:
 |zboard_axi_slave_top_wrapper_0_0 | inst/top0/core5/buf_feat/r_pix0_1_reg[15]        | 11     | 16    | NO           | NO                 | YES               | 16     | 0       | 
 |zboard_axi_slave_top_wrapper_0_0 | inst/top0/core6/buf_feat/r_pix0_1_reg[15]        | 11     | 16    | NO           | NO                 | YES               | 16     | 0       | 
 |zboard_axi_slave_top_wrapper_0_0 | inst/top0/core7/buf_feat/r_pix0_1_reg[15]        | 11     | 16    | NO           | NO                 | YES               | 16     | 0       | 
+|zboard_axi_slave_top_wrapper_0_0 | inst/top0/ctrl/r_ack_d10_reg                     | 10     | 1     | YES          | NO                 | YES               | 1      | 0       | 
 |zboard_axi_slave_top_wrapper_0_0 | inst/top0/ctrl/r_conv_we_d6_reg                  | 6      | 1     | YES          | NO                 | YES               | 1      | 0       | 
 |zboard_axi_slave_top_wrapper_0_0 | inst/top0/ctrl/r_pool_we_d8_reg                  | 8      | 1     | YES          | NO                 | YES               | 1      | 0       | 
 |zboard_axi_slave_top_wrapper_0_0 | inst/top0/ctrl/r_feat_we_d6_reg                  | 6      | 1     | YES          | NO                 | YES               | 1      | 0       | 
@@ -2971,38 +2927,39 @@ Report Cell Usage:
 +------+-----------+------+
 |1     |BIBUF      |   130|
 |2     |BUFG       |     1|
-|3     |CARRY4     |   902|
+|3     |CARRY4     |   907|
 |4     |DSP48E1    |   193|
 |5     |DSP48E1_1  |     7|
-|6     |LUT1       |   295|
-|7     |LUT2       |  3115|
-|8     |LUT3       |   491|
-|9     |LUT4       |   413|
-|10    |LUT5       |   369|
-|11    |LUT6       |   372|
-|12    |PS7        |     1|
-|13    |RAMB18E1   |     8|
-|14    |RAMB18E1_1 |     8|
-|15    |RAMB36E1   |     2|
-|16    |RAMB36E1_1 |     8|
-|17    |SRL16      |     1|
-|18    |SRL16E     |   219|
-|19    |SRLC32E    |    80|
-|20    |FDCE       |  3753|
-|21    |FDR        |     8|
-|22    |FDRE       |  8454|
-|23    |FDSE       |    11|
+|6     |LUT1       |   233|
+|7     |LUT2       |  3102|
+|8     |LUT3       |   573|
+|9     |LUT4       |   421|
+|10    |LUT5       |   387|
+|11    |LUT6       |   425|
+|12    |MUXF7      |    16|
+|13    |PS7        |     1|
+|14    |RAMB18E1   |     8|
+|15    |RAMB18E1_1 |     8|
+|16    |RAMB36E1   |     2|
+|17    |RAMB36E1_1 |    32|
+|18    |SRL16      |     1|
+|19    |SRL16E     |   220|
+|20    |SRLC32E    |    80|
+|21    |FDCE       |  3753|
+|22    |FDR        |     8|
+|23    |FDRE       |  8424|
+|24    |FDSE       |    10|
 +------+-----------+------+
 
 Report Instance Areas: 
 +------+-----------------------------------------------------------------------+--------------------------------------------------------------+------+
 |      |Instance                                                               |Module                                                        |Cells |
 +------+-----------------------------------------------------------------------+--------------------------------------------------------------+------+
-|1     |top                                                                    |                                                              | 18841|
-|2     |  zboard_i                                                             |zboard                                                        | 18841|
-|3     |    axi_slave_top_wrapper_0                                            |zboard_axi_slave_top_wrapper_0_0                              | 17243|
-|4     |      inst                                                             |axi_slave_top_wrapper                                         | 17243|
-|5     |        top0                                                           |top                                                           | 17069|
+|1     |top                                                                    |                                                              | 18942|
+|2     |  zboard_i                                                             |zboard                                                        | 18942|
+|3     |    axi_slave_top_wrapper_0                                            |zboard_axi_slave_top_wrapper_0_0                              | 17344|
+|4     |      inst                                                             |axi_slave_top_wrapper                                         | 17344|
+|5     |        top0                                                           |top                                                           | 17192|
 |6     |          mem_output0                                                  |sram_output__1                                                |     1|
 |7     |          mem_output1                                                  |sram_output__2                                                |     1|
 |8     |          mem_output2                                                  |sram_output__3                                                |     1|
@@ -3014,111 +2971,117 @@ Report Instance Areas:
 |14    |          buf_pix                                                      |linebuf_pix                                                   |   448|
 |15    |          core0                                                        |core                                                          |  2364|
 |16    |            mem_feat                                                   |sram_feat__1                                                  |     1|
-|17    |            buf_feat                                                   |linebuf_feat_46                                               |   182|
-|18    |            conv                                                       |conv_47                                                       |  2149|
-|19    |              tree                                                     |conv_tree_50                                                  |  1765|
-|20    |              wreg                                                     |conv_wreg_51                                                  |   384|
-|21    |            feat_accum                                                 |accumulator_48                                                |    16|
-|22    |            pool                                                       |pool_49                                                       |    16|
-|23    |          core1                                                        |core_2                                                        |  1954|
+|17    |            buf_feat                                                   |linebuf_feat_52                                               |   182|
+|18    |            conv                                                       |conv_53                                                       |  2149|
+|19    |              tree                                                     |conv_tree_56                                                  |  1765|
+|20    |              wreg                                                     |conv_wreg_57                                                  |   384|
+|21    |            feat_accum                                                 |accumulator_54                                                |    16|
+|22    |            pool                                                       |pool_55                                                       |    16|
+|23    |          core1                                                        |core_2                                                        |  1938|
 |24    |            mem_feat                                                   |sram_feat__2                                                  |     1|
-|25    |            buf_feat                                                   |linebuf_feat_40                                               |   182|
-|26    |            conv                                                       |conv_41                                                       |  1739|
-|27    |              tree                                                     |conv_tree_44                                                  |  1339|
-|28    |              wreg                                                     |conv_wreg_45                                                  |   400|
-|29    |            feat_accum                                                 |accumulator_42                                                |    16|
-|30    |            pool                                                       |pool_43                                                       |    16|
-|31    |          core2                                                        |core_3                                                        |  1954|
+|25    |            buf_feat                                                   |linebuf_feat_46                                               |   182|
+|26    |            conv                                                       |conv_47                                                       |  1723|
+|27    |              tree                                                     |conv_tree_50                                                  |  1339|
+|28    |              wreg                                                     |conv_wreg_51                                                  |   384|
+|29    |            feat_accum                                                 |accumulator_48                                                |    16|
+|30    |            pool                                                       |pool_49                                                       |    16|
+|31    |          core2                                                        |core_3                                                        |  1938|
 |32    |            mem_feat                                                   |sram_feat__3                                                  |     1|
-|33    |            buf_feat                                                   |linebuf_feat_34                                               |   182|
-|34    |            conv                                                       |conv_35                                                       |  1739|
-|35    |              tree                                                     |conv_tree_38                                                  |  1339|
-|36    |              wreg                                                     |conv_wreg_39                                                  |   400|
-|37    |            feat_accum                                                 |accumulator_36                                                |    16|
-|38    |            pool                                                       |pool_37                                                       |    16|
-|39    |          core3                                                        |core_4                                                        |  1954|
+|33    |            buf_feat                                                   |linebuf_feat_40                                               |   182|
+|34    |            conv                                                       |conv_41                                                       |  1723|
+|35    |              tree                                                     |conv_tree_44                                                  |  1339|
+|36    |              wreg                                                     |conv_wreg_45                                                  |   384|
+|37    |            feat_accum                                                 |accumulator_42                                                |    16|
+|38    |            pool                                                       |pool_43                                                       |    16|
+|39    |          core3                                                        |core_4                                                        |  1938|
 |40    |            mem_feat                                                   |sram_feat__4                                                  |     1|
-|41    |            buf_feat                                                   |linebuf_feat_28                                               |   182|
-|42    |            conv                                                       |conv_29                                                       |  1739|
-|43    |              tree                                                     |conv_tree_32                                                  |  1339|
-|44    |              wreg                                                     |conv_wreg_33                                                  |   400|
-|45    |            feat_accum                                                 |accumulator_30                                                |    16|
-|46    |            pool                                                       |pool_31                                                       |    16|
-|47    |          core4                                                        |core_5                                                        |  1954|
+|41    |            buf_feat                                                   |linebuf_feat_34                                               |   182|
+|42    |            conv                                                       |conv_35                                                       |  1723|
+|43    |              tree                                                     |conv_tree_38                                                  |  1339|
+|44    |              wreg                                                     |conv_wreg_39                                                  |   384|
+|45    |            feat_accum                                                 |accumulator_36                                                |    16|
+|46    |            pool                                                       |pool_37                                                       |    16|
+|47    |          core4                                                        |core_5                                                        |  1938|
 |48    |            mem_feat                                                   |sram_feat__5                                                  |     1|
-|49    |            buf_feat                                                   |linebuf_feat_22                                               |   182|
-|50    |            conv                                                       |conv_23                                                       |  1739|
-|51    |              tree                                                     |conv_tree_26                                                  |  1339|
-|52    |              wreg                                                     |conv_wreg_27                                                  |   400|
-|53    |            feat_accum                                                 |accumulator_24                                                |    16|
-|54    |            pool                                                       |pool_25                                                       |    16|
-|55    |          core5                                                        |core_6                                                        |  1954|
+|49    |            buf_feat                                                   |linebuf_feat_28                                               |   182|
+|50    |            conv                                                       |conv_29                                                       |  1723|
+|51    |              tree                                                     |conv_tree_32                                                  |  1339|
+|52    |              wreg                                                     |conv_wreg_33                                                  |   384|
+|53    |            feat_accum                                                 |accumulator_30                                                |    16|
+|54    |            pool                                                       |pool_31                                                       |    16|
+|55    |          core5                                                        |core_6                                                        |  1938|
 |56    |            mem_feat                                                   |sram_feat__6                                                  |     1|
-|57    |            buf_feat                                                   |linebuf_feat_16                                               |   182|
-|58    |            conv                                                       |conv_17                                                       |  1739|
-|59    |              tree                                                     |conv_tree_20                                                  |  1339|
-|60    |              wreg                                                     |conv_wreg_21                                                  |   400|
-|61    |            feat_accum                                                 |accumulator_18                                                |    16|
-|62    |            pool                                                       |pool_19                                                       |    16|
-|63    |          core6                                                        |core_7                                                        |  1954|
+|57    |            buf_feat                                                   |linebuf_feat_22                                               |   182|
+|58    |            conv                                                       |conv_23                                                       |  1723|
+|59    |              tree                                                     |conv_tree_26                                                  |  1339|
+|60    |              wreg                                                     |conv_wreg_27                                                  |   384|
+|61    |            feat_accum                                                 |accumulator_24                                                |    16|
+|62    |            pool                                                       |pool_25                                                       |    16|
+|63    |          core6                                                        |core_7                                                        |  1938|
 |64    |            mem_feat                                                   |sram_feat__7                                                  |     1|
-|65    |            buf_feat                                                   |linebuf_feat_10                                               |   182|
-|66    |            conv                                                       |conv_11                                                       |  1739|
-|67    |              tree                                                     |conv_tree_14                                                  |  1339|
-|68    |              wreg                                                     |conv_wreg_15                                                  |   400|
-|69    |            feat_accum                                                 |accumulator_12                                                |    16|
-|70    |            pool                                                       |pool_13                                                       |    16|
-|71    |          core7                                                        |core_8                                                        |  1956|
+|65    |            buf_feat                                                   |linebuf_feat_16                                               |   182|
+|66    |            conv                                                       |conv_17                                                       |  1723|
+|67    |              tree                                                     |conv_tree_20                                                  |  1339|
+|68    |              wreg                                                     |conv_wreg_21                                                  |   384|
+|69    |            feat_accum                                                 |accumulator_18                                                |    16|
+|70    |            pool                                                       |pool_19                                                       |    16|
+|71    |          core7                                                        |core_8                                                        |  1940|
 |72    |            mem_feat                                                   |sram_feat                                                     |     1|
 |73    |            buf_feat                                                   |linebuf_feat                                                  |   182|
-|74    |            conv                                                       |conv                                                          |  1741|
+|74    |            conv                                                       |conv                                                          |  1725|
 |75    |              tree                                                     |conv_tree                                                     |  1341|
-|76    |              wreg                                                     |conv_wreg                                                     |   400|
+|76    |              wreg                                                     |conv_wreg                                                     |   384|
 |77    |            feat_accum                                                 |accumulator                                                   |    16|
 |78    |            pool                                                       |pool                                                          |    16|
-|79    |          ctrl                                                         |ctrl                                                          |   542|
-|80    |          dec_weight                                                   |decoder                                                       |     1|
+|79    |          ctrl                                                         |ctrl                                                          |   690|
+|80    |          dec_weight                                                   |decoder                                                       |    16|
 |81    |          mem_input                                                    |sram_input                                                    |     2|
 |82    |          mem_weight0                                                  |sram_weight                                                   |     4|
-|83    |          mem_weight7                                                  |sram_weight_9                                                 |     4|
-|84    |          select_out                                                   |mux_output                                                    |    16|
-|85    |    processing_system7_0                                               |zboard_processing_system7_0_0                                 |   244|
-|86    |      inst                                                             |processing_system7_v5_5_processing_system7                    |   244|
-|87    |    processing_system7_0_axi_periph                                    |zboard_processing_system7_0_axi_periph_0                      |  1288|
-|88    |      s00_couplers                                                     |s00_couplers_imp_4247W5                                       |  1288|
-|89    |        auto_pc                                                        |zboard_auto_pc_0                                              |     0|
-|90    |        auto_us                                                        |zboard_auto_us_0                                              |  1288|
-|91    |          inst                                                         |axi_dwidth_converter_v2_1_8_top                               |  1288|
-|92    |            \gen_upsizer.gen_full_upsizer.axi_upsizer_inst             |axi_dwidth_converter_v2_1_8_axi_upsizer                       |  1288|
-|93    |              \USE_READ.gen_non_fifo_r_upsizer.mi_register_slice_inst  |axi_register_slice_v2_1_8_axi_register_slice                  |   207|
-|94    |                r_pipe                                                 |axi_register_slice_v2_1_8_axic_register_slice__parameterized2 |   207|
-|95    |              \USE_READ.gen_non_fifo_r_upsizer.read_data_inst          |axi_dwidth_converter_v2_1_8_r_upsizer                         |   146|
-|96    |              \USE_READ.read_addr_inst                                 |axi_dwidth_converter_v2_1_8_a_upsizer__parameterized0         |   141|
-|97    |                \GEN_CMD_QUEUE.cmd_queue                               |generic_baseblocks_v2_1_0_command_fifo__parameterized1        |    96|
-|98    |                \gen_id_queue.id_queue                                 |generic_baseblocks_v2_1_0_command_fifo_1                      |    44|
-|99    |              \USE_WRITE.gen_non_fifo_w_upsizer.write_data_inst        |axi_dwidth_converter_v2_1_8_w_upsizer                         |   300|
-|100   |              \USE_WRITE.write_addr_inst                               |axi_dwidth_converter_v2_1_8_a_upsizer                         |   158|
-|101   |                \GEN_CMD_QUEUE.cmd_queue                               |generic_baseblocks_v2_1_0_command_fifo__parameterized0        |   111|
-|102   |                \gen_id_queue.id_queue                                 |generic_baseblocks_v2_1_0_command_fifo                        |    46|
-|103   |              si_register_slice_inst                                   |axi_register_slice_v2_1_8_axi_register_slice__parameterized0  |   336|
-|104   |                ar_pipe                                                |axi_register_slice_v2_1_8_axic_register_slice__parameterized6 |   173|
-|105   |                aw_pipe                                                |axi_register_slice_v2_1_8_axic_register_slice__parameterized3 |   163|
-|106   |    rst_processing_system7_0_100M                                      |zboard_rst_processing_system7_0_100M_0                        |    66|
-|107   |      U0                                                               |proc_sys_reset                                                |    66|
-|108   |        EXT_LPF                                                        |lpf                                                           |    23|
-|109   |          \ACTIVE_LOW_AUX.ACT_LO_AUX                                   |cdc_sync                                                      |     6|
-|110   |          \ACTIVE_LOW_EXT.ACT_LO_EXT                                   |cdc_sync_0                                                    |     6|
-|111   |        SEQ                                                            |sequence_psr                                                  |    38|
-|112   |          SEQ_COUNTER                                                  |upcnt_n                                                       |    13|
+|83    |          mem_weight1                                                  |sram_weight_9                                                 |     4|
+|84    |          mem_weight2                                                  |sram_weight_10                                                |     4|
+|85    |          mem_weight3                                                  |sram_weight_11                                                |     4|
+|86    |          mem_weight4                                                  |sram_weight_12                                                |     4|
+|87    |          mem_weight5                                                  |sram_weight_13                                                |     4|
+|88    |          mem_weight6                                                  |sram_weight_14                                                |     4|
+|89    |          mem_weight7                                                  |sram_weight_15                                                |     4|
+|90    |          select_out                                                   |mux_output                                                    |    64|
+|91    |    processing_system7_0                                               |zboard_processing_system7_0_0                                 |   244|
+|92    |      inst                                                             |processing_system7_v5_5_processing_system7                    |   244|
+|93    |    processing_system7_0_axi_periph                                    |zboard_processing_system7_0_axi_periph_0                      |  1288|
+|94    |      s00_couplers                                                     |s00_couplers_imp_4247W5                                       |  1288|
+|95    |        auto_pc                                                        |zboard_auto_pc_0                                              |     0|
+|96    |        auto_us                                                        |zboard_auto_us_0                                              |  1288|
+|97    |          inst                                                         |axi_dwidth_converter_v2_1_8_top                               |  1288|
+|98    |            \gen_upsizer.gen_full_upsizer.axi_upsizer_inst             |axi_dwidth_converter_v2_1_8_axi_upsizer                       |  1288|
+|99    |              \USE_READ.gen_non_fifo_r_upsizer.mi_register_slice_inst  |axi_register_slice_v2_1_8_axi_register_slice                  |   207|
+|100   |                r_pipe                                                 |axi_register_slice_v2_1_8_axic_register_slice__parameterized2 |   207|
+|101   |              \USE_READ.gen_non_fifo_r_upsizer.read_data_inst          |axi_dwidth_converter_v2_1_8_r_upsizer                         |   146|
+|102   |              \USE_READ.read_addr_inst                                 |axi_dwidth_converter_v2_1_8_a_upsizer__parameterized0         |   141|
+|103   |                \GEN_CMD_QUEUE.cmd_queue                               |generic_baseblocks_v2_1_0_command_fifo__parameterized1        |    96|
+|104   |                \gen_id_queue.id_queue                                 |generic_baseblocks_v2_1_0_command_fifo_1                      |    44|
+|105   |              \USE_WRITE.gen_non_fifo_w_upsizer.write_data_inst        |axi_dwidth_converter_v2_1_8_w_upsizer                         |   300|
+|106   |              \USE_WRITE.write_addr_inst                               |axi_dwidth_converter_v2_1_8_a_upsizer                         |   158|
+|107   |                \GEN_CMD_QUEUE.cmd_queue                               |generic_baseblocks_v2_1_0_command_fifo__parameterized0        |   111|
+|108   |                \gen_id_queue.id_queue                                 |generic_baseblocks_v2_1_0_command_fifo                        |    46|
+|109   |              si_register_slice_inst                                   |axi_register_slice_v2_1_8_axi_register_slice__parameterized0  |   336|
+|110   |                ar_pipe                                                |axi_register_slice_v2_1_8_axic_register_slice__parameterized6 |   173|
+|111   |                aw_pipe                                                |axi_register_slice_v2_1_8_axic_register_slice__parameterized3 |   163|
+|112   |    rst_processing_system7_0_100M                                      |zboard_rst_processing_system7_0_100M_0                        |    66|
+|113   |      U0                                                               |proc_sys_reset                                                |    66|
+|114   |        EXT_LPF                                                        |lpf                                                           |    23|
+|115   |          \ACTIVE_LOW_AUX.ACT_LO_AUX                                   |cdc_sync                                                      |     6|
+|116   |          \ACTIVE_LOW_EXT.ACT_LO_EXT                                   |cdc_sync_0                                                    |     6|
+|117   |        SEQ                                                            |sequence_psr                                                  |    38|
+|118   |          SEQ_COUNTER                                                  |upcnt_n                                                       |    13|
 +------+-----------------------------------------------------------------------+--------------------------------------------------------------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:01:55 ; elapsed = 00:02:09 . Memory (MB): peak = 1845.484 ; gain = 957.039 ; free physical = 116 ; free virtual = 1656
+Finished Writing Synthesis Report : Time (s): cpu = 00:02:03 ; elapsed = 00:02:19 . Memory (MB): peak = 1849.066 ; gain = 960.617 ; free physical = 143 ; free virtual = 1465
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 0 critical warnings and 1211 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:01:45 ; elapsed = 00:01:47 . Memory (MB): peak = 1845.484 ; gain = 538.234 ; free physical = 116 ; free virtual = 1656
-Synthesis Optimization Complete : Time (s): cpu = 00:01:56 ; elapsed = 00:02:09 . Memory (MB): peak = 1845.492 ; gain = 957.047 ; free physical = 117 ; free virtual = 1658
+Synthesis finished with 0 errors, 0 critical warnings and 1197 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:01:53 ; elapsed = 00:01:56 . Memory (MB): peak = 1849.066 ; gain = 542.812 ; free physical = 143 ; free virtual = 1465
+Synthesis Optimization Complete : Time (s): cpu = 00:02:03 ; elapsed = 00:02:19 . Memory (MB): peak = 1849.074 ; gain = 960.625 ; free physical = 142 ; free virtual = 1465
 INFO: [Project 1-571] Translating synthesized netlist
-INFO: [Netlist 29-17] Analyzing 1137 Unisim elements for replacement
+INFO: [Netlist 29-17] Analyzing 1166 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
@@ -3128,8 +3091,8 @@ INFO: [Project 1-111] Unisim Transformation Summary:
   SRL16 => SRL16E: 1 instances
 
 INFO: [Common 17-83] Releasing license: Synthesis
-340 Infos, 311 Warnings, 0 Critical Warnings and 0 Errors encountered.
+348 Infos, 266 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:01:56 ; elapsed = 00:02:04 . Memory (MB): peak = 1846.484 ; gain = 847.535 ; free physical = 118 ; free virtual = 1658
-report_utilization: Time (s): cpu = 00:00:00.14 ; elapsed = 00:00:00.45 . Memory (MB): peak = 1878.500 ; gain = 0.000 ; free physical = 149 ; free virtual = 1657
-INFO: [Common 17-206] Exiting Vivado at Wed May 18 01:39:54 2016...
+synth_design: Time (s): cpu = 00:02:04 ; elapsed = 00:02:15 . Memory (MB): peak = 1850.066 ; gain = 851.113 ; free physical = 154 ; free virtual = 1468
+report_utilization: Time (s): cpu = 00:00:00.16 ; elapsed = 00:00:02 . Memory (MB): peak = 1882.082 ; gain = 0.000 ; free physical = 165 ; free virtual = 1470
+INFO: [Common 17-206] Exiting Vivado at Mon Jun  6 12:47:38 2016...

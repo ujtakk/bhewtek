@@ -1,3 +1,15 @@
+-makelib ies/xil_defaultlib \
+  "/opt/xilinx/Vivado/2016.1/data/ip/xpm/xpm_memory/hdl/xpm_memory_base.sv" \
+  "/opt/xilinx/Vivado/2016.1/data/ip/xpm/xpm_memory/hdl/xpm_memory_dpdistram.sv" \
+  "/opt/xilinx/Vivado/2016.1/data/ip/xpm/xpm_memory/hdl/xpm_memory_dprom.sv" \
+  "/opt/xilinx/Vivado/2016.1/data/ip/xpm/xpm_memory/hdl/xpm_memory_sdpram.sv" \
+  "/opt/xilinx/Vivado/2016.1/data/ip/xpm/xpm_memory/hdl/xpm_memory_spram.sv" \
+  "/opt/xilinx/Vivado/2016.1/data/ip/xpm/xpm_memory/hdl/xpm_memory_sprom.sv" \
+  "/opt/xilinx/Vivado/2016.1/data/ip/xpm/xpm_memory/hdl/xpm_memory_tdpram.sv" \
+-endlib
+-makelib ies/xpm \
+  "/ram/mnt_opt/opt/xilinx/Vivado/2016.1/data/ip/xpm/xpm_VCOMP.vhd" \
+-endlib
 -makelib ies/processing_system7_bfm_v2_0_5 \
   "../../../ipstatic/processing_system7_bfm_v2_0/hdl/processing_system7_bfm_v2_0_arb_wr.v" \
   "../../../ipstatic/processing_system7_bfm_v2_0/hdl/processing_system7_bfm_v2_0_arb_rd.v" \
@@ -38,6 +50,9 @@
 -endlib
 -makelib ies/xil_defaultlib \
   "../../../bd/zboard/ip/zboard_rst_processing_system7_0_100M_0/sim/zboard_rst_processing_system7_0_100M_0.vhd" \
+-endlib
+-makelib ies/xil_defaultlib \
+  "../../../bd/zboard/hdl/zboard.v" \
 -endlib
 -makelib ies/generic_baseblocks_v2_1_0 \
   "../../../ipstatic/generic_baseblocks_v2_1/hdl/verilog/generic_baseblocks_v2_1_carry_and.v" \
@@ -134,7 +149,6 @@
 -endlib
 -makelib ies/xil_defaultlib \
   "../../../bd/zboard/ip/zboard_auto_us_0/sim/zboard_auto_us_0.v" \
-  "../../../bd/zboard/hdl/zboard.v" \
 -endlib
 -makelib ies/xil_defaultlib \
   glbl.v

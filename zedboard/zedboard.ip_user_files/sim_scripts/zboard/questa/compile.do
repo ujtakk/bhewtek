@@ -1,8 +1,9 @@
 vlib work
 vlib msim
 
-vlib msim/processing_system7_bfm_v2_0_5
 vlib msim/xil_defaultlib
+vlib msim/xpm
+vlib msim/processing_system7_bfm_v2_0_5
 vlib msim/lib_cdc_v1_0_2
 vlib msim/proc_sys_reset_v5_0_9
 vlib msim/generic_baseblocks_v2_1_0
@@ -15,8 +16,9 @@ vlib msim/axi_clock_converter_v2_1_7
 vlib msim/blk_mem_gen_v8_3_2
 vlib msim/axi_dwidth_converter_v2_1_8
 
-vmap processing_system7_bfm_v2_0_5 msim/processing_system7_bfm_v2_0_5
 vmap xil_defaultlib msim/xil_defaultlib
+vmap xpm msim/xpm
+vmap processing_system7_bfm_v2_0_5 msim/processing_system7_bfm_v2_0_5
 vmap lib_cdc_v1_0_2 msim/lib_cdc_v1_0_2
 vmap proc_sys_reset_v5_0_9 msim/proc_sys_reset_v5_0_9
 vmap generic_baseblocks_v2_1_0 msim/generic_baseblocks_v2_1_0
@@ -28,6 +30,18 @@ vmap axi_protocol_converter_v2_1_8 msim/axi_protocol_converter_v2_1_8
 vmap axi_clock_converter_v2_1_7 msim/axi_clock_converter_v2_1_7
 vmap blk_mem_gen_v8_3_2 msim/blk_mem_gen_v8_3_2
 vmap axi_dwidth_converter_v2_1_8 msim/axi_dwidth_converter_v2_1_8
+
+vlog -work xil_defaultlib -64 -sv "+incdir+../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" "+incdir+../../../ipstatic/processing_system7_bfm_v2_0/hdl" "+incdir+../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" "+incdir+../../../ipstatic/processing_system7_bfm_v2_0/hdl" \
+"/opt/xilinx/Vivado/2016.1/data/ip/xpm/xpm_memory/hdl/xpm_memory_base.sv" \
+"/opt/xilinx/Vivado/2016.1/data/ip/xpm/xpm_memory/hdl/xpm_memory_dpdistram.sv" \
+"/opt/xilinx/Vivado/2016.1/data/ip/xpm/xpm_memory/hdl/xpm_memory_dprom.sv" \
+"/opt/xilinx/Vivado/2016.1/data/ip/xpm/xpm_memory/hdl/xpm_memory_sdpram.sv" \
+"/opt/xilinx/Vivado/2016.1/data/ip/xpm/xpm_memory/hdl/xpm_memory_spram.sv" \
+"/opt/xilinx/Vivado/2016.1/data/ip/xpm/xpm_memory/hdl/xpm_memory_sprom.sv" \
+"/opt/xilinx/Vivado/2016.1/data/ip/xpm/xpm_memory/hdl/xpm_memory_tdpram.sv" \
+
+vcom -work xpm -64 \
+"/ram/mnt_opt/opt/xilinx/Vivado/2016.1/data/ip/xpm/xpm_VCOMP.vhd" \
 
 vlog -work processing_system7_bfm_v2_0_5 -64 "+incdir+../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" "+incdir+../../../ipstatic/processing_system7_bfm_v2_0/hdl" "+incdir+../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" "+incdir+../../../ipstatic/processing_system7_bfm_v2_0/hdl" \
 "../../../ipstatic/processing_system7_bfm_v2_0/hdl/processing_system7_bfm_v2_0_arb_wr.v" \
@@ -69,6 +83,9 @@ vcom -work proc_sys_reset_v5_0_9 -64 \
 
 vcom -work xil_defaultlib -64 \
 "../../../bd/zboard/ip/zboard_rst_processing_system7_0_100M_0/sim/zboard_rst_processing_system7_0_100M_0.vhd" \
+
+vlog -work xil_defaultlib -64 "+incdir+../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" "+incdir+../../../ipstatic/processing_system7_bfm_v2_0/hdl" "+incdir+../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" "+incdir+../../../ipstatic/processing_system7_bfm_v2_0/hdl" \
+"../../../bd/zboard/hdl/zboard.v" \
 
 vlog -work generic_baseblocks_v2_1_0 -64 "+incdir+../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" "+incdir+../../../ipstatic/processing_system7_bfm_v2_0/hdl" "+incdir+../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" "+incdir+../../../ipstatic/processing_system7_bfm_v2_0/hdl" \
 "../../../ipstatic/generic_baseblocks_v2_1/hdl/verilog/generic_baseblocks_v2_1_carry_and.v" \
@@ -165,7 +182,6 @@ vlog -work axi_dwidth_converter_v2_1_8 -64 "+incdir+../../../ipstatic/axi_infras
 
 vlog -work xil_defaultlib -64 "+incdir+../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" "+incdir+../../../ipstatic/processing_system7_bfm_v2_0/hdl" "+incdir+../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog" "+incdir+../../../ipstatic/processing_system7_bfm_v2_0/hdl" \
 "../../../bd/zboard/ip/zboard_auto_us_0/sim/zboard_auto_us_0.v" \
-"../../../bd/zboard/hdl/zboard.v" \
 
 vlog -work xil_defaultlib "glbl.v"
 

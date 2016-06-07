@@ -59,19 +59,17 @@
 `timescale 1ns/1ps
 
 module axi_slave_top_wrapper #
-  (
-   parameter integer C_S_AXI_ID_WIDTH             = 1,
-   parameter integer C_S_AXI_ADDR_WIDTH            = 32,
-   parameter integer C_S_AXI_DATA_WIDTH            = 64,
-   //parameter integer C_S_AXI_AWSIZE_WIDTH          = 64,
-   //parameter integer C_S_AXI_ARSIZE_WIDTH          = 8,
-   parameter integer C_S_AXI_AWUSER_WIDTH          = 1,
-   parameter integer C_S_AXI_ARUSER_WIDTH          = 1,
-   parameter integer C_S_AXI_WUSER_WIDTH           = 1,
-   parameter integer C_S_AXI_RUSER_WIDTH           = 1,
-   parameter integer C_S_AXI_BUSER_WIDTH           = 1
-   )
-  (
+(
+    parameter integer C_S_AXI_ID_WIDTH             = 1,
+    parameter integer C_S_AXI_ADDR_WIDTH            = 32,
+    parameter integer C_S_AXI_DATA_WIDTH            = 64,
+    parameter integer C_S_AXI_AWUSER_WIDTH          = 1,
+    parameter integer C_S_AXI_ARUSER_WIDTH          = 1,
+    parameter integer C_S_AXI_WUSER_WIDTH           = 1,
+    parameter integer C_S_AXI_RUSER_WIDTH           = 1,
+    parameter integer C_S_AXI_BUSER_WIDTH           = 1
+)
+(
     // System Signals
     input wire ACLK,
     input wire ARESETN,
@@ -130,7 +128,7 @@ module axi_slave_top_wrapper #
     output wire [C_S_AXI_RUSER_WIDTH-1:0] S_AXI_RUSER,
     output wire                         S_AXI_RVALID,
     input  wire                         S_AXI_RREADY
-  );
+);
 `include "parameters.vh"
 <%- load "parameters.rb" -%>
 
@@ -181,7 +179,7 @@ module axi_slave_top_wrapper #
     **    1 => network parameters
     **    2 ~ => normal addresses
     */
-    // sm_cs: state machine current state
+    // state: state machine current state
     assign clk                              = ACLK;
     assign xrst                             = r_xrst;
     assign output_addr                      = r_output_addr;
@@ -228,318 +226,281 @@ module axi_slave_top_wrapper #
             r_read_output       <= read_output;
             case (S_AXI_AWADDR[29:28])
                 2'b01:
+                begin
                     r_req               <= S_AXI_WDATA[0];
                     r_input_we          <= S_AXI_WDATA[1];
                     r_weight_we         <= S_AXI_WDATA[<%=$core_log+2%>:2];
                     r_output_re         <= S_AXI_WDATA[<%=2*$core_log+2%>:<%=$core_log+3%>];
+                end
                 2'b10:
-                    r_fil_size          <= S_AXI_WDATA[<%=$lwidth-1%>:0]];
+                begin
+                    r_fil_size          <= S_AXI_WDATA[<%=$lwidth-1%>:0];
                     r_img_size          <= S_AXI_WDATA[<%=2*$lwidth-1%>:<%=$lwidth%>];
                     r_total_in          <= S_AXI_WDATA[<%=3*$lwidth-1%>:<%=2*$lwidth%>];
                     r_total_out         <= S_AXI_WDATA[<%=4*$lwidth-1%>:<%=3*$lwidth%>];
+                end
                 default:
+                begin
                     r_input_addr        <= S_AXI_AWADDR[<%=$insize%>:1];
                     r_weight_addr       <= S_AXI_AWADDR[<%=$insize+$wsize%>:<%=$insize+1%>];
                     r_write_input       <= S_AXI_WDATA[<%=$dwidth-1%>:0];
                     r_write_weight      <= S_AXI_WDATA[<%=2*$dwidth-1%>:<%=$dwidth%>];
+                end
             endcase
         end
 
     top top0(/*AUTOINST*/);
 
-    // Value of S_AXI_BRESP
-    localparam  RESP_OKAY   =    2'b00,
-                RESP_EXOKAY =    2'b01,
-                RESP_SLVERR =    2'b10,
-                RESP_DECERR =    2'b11;
-
-    // Value of S_AXI_ARBURST
-    localparam  AxBURST_FIXED =    2'b00,
-                AxBURST_INCR  =    2'b01,
-                AxBURST_WRAP  =    2'b10;
-
-    localparam  IDLE_WADDR =         1'b0,
-                AWREADY_HOLD_OFF =    1'b1;
-    reg         waddr_sm_cs;
-    reg         awready;
-    reg         awid;
-    reg         [C_S_AXI_ADDR_WIDTH-1:0]    waddr;
-    reg         [C_S_AXI_ID_WIDTH-1:0]    wid;
-    reg         [2-1:0]    awburst;
-
-    localparam  IDLE_WDATA =    1'b0,
-                WREADY_ASSERT =    1'b1;
-    reg         wdata_sm_cs;
-    reg         wready;
-
-    localparam  IDLE_WRES =        1'b0,
-                BVALID_ASSERT =    1'b1;
-    reg         wres_sm_cs;
-    reg         [2-1:0]    bresp;
-    reg         bvalid;
-
-    localparam  IDLE_RADDR =        1'b0,
-                ARREADY_HOLD_OFF =    1'b1;
-    reg         raddr_sm_cs;
-    reg         arready;
-    reg         [C_S_AXI_ID_WIDTH-1:0]    arid;
-    reg         [C_S_AXI_ADDR_WIDTH-1:0]    raddr;
-
-    localparam  IDLE_RDATA =    1'b0,
-                RVALID_ASSERT =    1'b1;
-    reg         rdata_sm_cs;
-    reg         rvalid;
-    reg         [C_S_AXI_ID_WIDTH-1:0]    rid;
-    reg         [1:0]    rresp;
-    reg         [8:0]    rdata_count;
-
-    localparam  IDLE_RLAST =     1'b0,
-                RLAST_ASSERT =    1'b1;
-    reg         rlast_sm_cs;
-    reg         rlast;
-
-    // Write Transaction
-    assign S_AXI_BUSER = 1'd0;
-
-    // waddr State Machine
-    // awready is normally 1. if S_AXI_AWVALID is 1 then awready is 0.
+    reg wready;
+    reg wdata_state;
     always @(posedge ACLK)
         if (!ARESETN)
         begin
-            waddr_sm_cs <= IDLE_WADDR;
-            awready     <= 1'b1;
-            awid        <= {C_S_AXI_ID_WIDTH{1'b0}};
-            awburst     <= 2'd0;
-        end
-        else
-            case (waddr_sm_cs)
-                /*
-                    when WADDR is idle, down awready.
-                    if bvalid is up, awready comes back.
-                        => what's bvalid ?
-
-                    solutions goes like:
-                        => bvalid indicates Write response valid.
-                           This signal indicates that a valid write response is available:
-                            1 = write response available
-                            0 = write response not available.
-                            (cf. http://mazsola.iit.uni-miskolc.hu/~drdani/docs_arm/AMBAaxi.pdf)
-                        => AWVALID typically asserts for a clock. so AWREADY deasserts when trans end.
-                */
-                IDLE_WADDR:
-                    if (S_AXI_AWVALID)
-                    begin
-                        waddr_sm_cs <= AWREADY_HOLD_OFF;
-                        awready     <= 1'b0;
-                        awid        <= S_AXI_AWID;
-                        awburst     <= S_AXI_AWBURST;
-                    end
-                AWREADY_HOLD_OFF: // when writing data
-                    if (bvalid)
-                    begin
-                        waddr_sm_cs <= IDLE_WADDR;
-                        awready     <= 1'b1;
-                    end
-            endcase
-
-    assign S_AXI_AWREADY = awready;
-
-    // waddr
-    always @(posedge ACLK)
-        if (!ARESETN)
-            waddr <= {C_S_AXI_ADDR_WIDTH{1'b0}};
-        else
-            if (waddr_sm_cs == IDLE_WADDR & S_AXI_AWVALID)
-                waddr <= S_AXI_AWADDR;
-            else if (wready & S_AXI_WVALID)
-                waddr <= waddr + C_S_AXI_DATA_WIDTH/8;
-
-    // wdata State Machine
-    always @(posedge ACLK)
-        if (!ARESETN)
-        begin
-            wdata_sm_cs <= IDLE_WDATA;
+            wdata_state <= IDLE_WDATA;
             wready      <= 1'b0;
         end
         else
-            case (wdata_sm_cs)
+            case (wdata_state)
                 IDLE_WDATA :
-                    if (waddr_sm_cs == IDLE_WADDR && S_AXI_AWVALID)
+                    if (r_ack & waddr_state == IDLE_WADDR && S_AXI_AWVALID)
                     begin // Write transaction start
-                        wdata_sm_cs <= WREADY_ASSERT;
+                        wdata_state <= WREADY_ASSERT;
                         wready <= 1'b1;
                     end
                 WREADY_ASSERT :
                     if (S_AXI_WLAST & S_AXI_WVALID)
                     begin    // Write transaction end
-                        wdata_sm_cs <= IDLE_WDATA;
+                        wdata_state <= IDLE_WDATA;
                         wready <= 1'b0;
                     end
             endcase
 
-    assign S_AXI_WREADY = wready;
-
-    assign S_AXI_BID = awid;
-    // Write Response State Machine
+    reg waddr_state;
+    reg awready;
+    reg awid;
+    localparam  IDLE_WADDR       = 1'b0,
+                AWREADY_HOLD_OFF = 1'b1;
     always @(posedge ACLK)
         if (!ARESETN)
         begin
-            wres_sm_cs <= IDLE_WRES;
-            bvalid     <= 1'b0;
+            waddr_state <= IDLE_WADDR;
+            awready     <= 1'b1;
+            awid        <= {C_S_AXI_ID_WIDTH{1'b0}};
         end
         else
-            case (wres_sm_cs)
-                /*
-                    bvalid stands for valid state of bus
-                */
-                IDLE_WRES :
-                    if (wdata_sm_cs == WREADY_ASSERT & S_AXI_WLAST & S_AXI_WVALID)
-                    begin    // Write transaction end
-                        wres_sm_cs <= BVALID_ASSERT;
-                        bvalid     <= 1'b1;
-                    end
-                BVALID_ASSERT :
-                    if (S_AXI_BREADY)
+            case (waddr_state)
+                IDLE_WADDR:
+                    if (S_AXI_AWVALID) // prepare for writing
                     begin
-                        wres_sm_cs <= IDLE_WRES;
-                        bvalid     <= 1'b0;
+                        waddr_state <= AWREADY_HOLD_OFF;
+                        awready     <= 1'b0;
+                        awid        <= S_AXI_AWID;
+                    end
+                AWREADY_HOLD_OFF: // when writing data
+                    if (bvalid) // when bus is valid
+                    begin
+                        waddr_state <= IDLE_WADDR;
+                        awready     <= 1'b1;
                     end
             endcase
 
-    assign S_AXI_BVALID = bvalid;
 
-    // bresp
+
+    reg bresp;
+    reg         [2-1:0]    awburst;
+    // Value of S_AXI_*RESP
+    localparam  RESP_OKAY   =    2'b00,
+                RESP_EXOKAY =    2'b01,
+                RESP_SLVERR =    2'b10,
+                RESP_DECERR =    2'b11;
+    // Value of S_AXI_ARBURST
+    localparam  AxBURST_FIXED =    2'b00,
+                AxBURST_INCR  =    2'b01,
+                AxBURST_WRAP  =    2'b10;
     // if S_AXI_AWBURST is INCR then return OKAY else return SLVERR
     always @(posedge ACLK)
         if (!ARESETN)
             bresp <= 2'b0;
         else
-            if (waddr_sm_cs == AWREADY_HOLD_OFF)
+            if (waddr_state == AWREADY_HOLD_OFF)
                 if (awburst == AxBURST_INCR) // The burst type is Addres Increment Type
                     bresp <= RESP_OKAY; // The Write Transaction is success
                 else
                     bresp <= RESP_SLVERR; // Error
 
-    assign S_AXI_BRESP = bresp;
 
-    // Read Transaction
-    assign S_AXI_RUSER = 0;
 
-    // raddr State Machine
-    // arready is normally 1. if S_AXI_ARVALID is 1 then arready is 0.
+    reg bvalid;
+    reg wres_state;
+    localparam  IDLE_WRES     = 1'b0,
+                BVALID_ASSERT = 1'b1;
+    localparam  IDLE_WDATA =    1'b0,
+                WREADY_ASSERT =    1'b1;
     always @(posedge ACLK)
         if (!ARESETN)
         begin
-            raddr_sm_cs <= IDLE_RADDR;
-            arready     <= 1'b1;
-            arid        <= {C_S_AXI_ID_WIDTH{1'b0}};
+            wres_state <= IDLE_WRES;
+            bvalid     <= 1'b0;
         end
         else
-            case (raddr_sm_cs)
-                IDLE_RADDR :
-                    if (S_AXI_ARVALID)
-                    begin
-                        raddr_sm_cs <= ARREADY_HOLD_OFF;
-                        arready     <= 1'b0;
-                        arid        <= S_AXI_ARID;
+            case (wres_state)
+                /*
+                    bvalid stands for valid state of bus
+                */
+                IDLE_WRES:
+                    if (wdata_state == WREADY_ASSERT & S_AXI_WLAST & S_AXI_WVALID)
+                    begin    // Write transaction end
+                        wres_state <= BVALID_ASSERT;
+                        bvalid     <= 1'b1;
                     end
-                ARREADY_HOLD_OFF :
-                    if (rvalid & S_AXI_RREADY & S_AXI_RLAST)
-                    begin // Read Transaction End
-                        raddr_sm_cs <= IDLE_RADDR;
-                        arready     <= 1'b1;
+                BVALID_ASSERT:
+                    if (S_AXI_BREADY)
+                    begin
+                        wres_state <= IDLE_WRES;
+                        bvalid     <= 1'b0;
                     end
             endcase
 
-    assign S_AXI_ARREADY = arready;
 
-    // raddr
-    always @(posedge ACLK)
-        if (!ARESETN)
-            raddr <= {C_S_AXI_ADDR_WIDTH{1'b0}};
-        else
-            if (raddr_sm_cs == IDLE_RADDR & S_AXI_ARVALID)
-                raddr <= S_AXI_ARADDR;
-            else if (rvalid & S_AXI_RREADY)
-                raddr <= raddr + C_S_AXI_ADDR_WIDTH/8;
 
-    // rdata State Machine
+    reg rvalid;
+    reg rdata_state;
+    reg [C_S_AXI_ID_WIDTH-1:0]    rid;
+    localparam  IDLE_RDATA =    1'b0,
+                RVALID_ASSERT =    1'b1;
     always @(posedge ACLK)
         if (!ARESETN)
         begin
-            rdata_sm_cs <= IDLE_RDATA;
-            rvalid      <= 1'b0;
+            rdata_state <= IDLE_RDATA;
+            rvalid     <= 1'b0;
             rid         <= {C_S_AXI_ID_WIDTH{1'b0}};
         end
         else
-            case (rdata_sm_cs)
-                IDLE_RDATA :
-                    if (raddr_sm_cs == IDLE_RADDR & S_AXI_ARVALID)
+            case (rdata_state)
+                IDLE_RDATA:
+                    if (r_ack & raddr_state == IDLE_RADDR & S_AXI_ARVALID)
                     begin
-                        rdata_sm_cs <= RVALID_ASSERT;
+                        rdata_state <= RVALID_ASSERT;
                         rvalid      <= 1'b1;
                     end
-                RVALID_ASSERT :
+                RVALID_ASSERT:
                     if (rlast & S_AXI_RREADY)
                     begin
-                        rdata_sm_cs <= IDLE_RDATA;
+                        rdata_state <= IDLE_RDATA;
                         rvalid      <= 1'b0;
                     end
             endcase
 
-    assign S_AXI_RVALID = rvalid;
-    assign S_AXI_RID = arid;
 
+
+
+    reg raddr_state;
+    reg arready;
+    reg arid;
+    localparam  IDLE_RADDR =        1'b0,
+                ARREADY_HOLD_OFF =    1'b1;
+    always @(posedge ACLK)
+        if (!ARESETN)
+        begin
+            raddr_state <= IDLE_RADDR;
+            arready     <= 1'b1;
+            arid        <= {C_S_AXI_ID_WIDTH{1'b0}};
+        end
+        else
+            case (raddr_state)
+                IDLE_RADDR:
+                    if (S_AXI_ARVALID)
+                    begin
+                        raddr_state <= ARREADY_HOLD_OFF;
+                        arready     <= 1'b0;
+                        arid        <= S_AXI_ARID;
+                    end
+                ARREADY_HOLD_OFF:
+                    if (rvalid & S_AXI_RREADY & S_AXI_RLAST)
+                    begin // Read Transaction End
+                        raddr_state <= IDLE_RADDR;
+                        arready     <= 1'b1;
+                    end
+            endcase
+
+
+
+    reg rresp;
     //     assign S_AXI_RRESP = RESP_OKAY;
     always @(posedge ACLK)
         if (!ARESETN)
             rresp <= RESP_OKAY;
-        else if (rdata_sm_cs == RVALID_ASSERT && rid != arid)
+        else if (rdata_state == RVALID_ASSERT && rid != arid)
             rresp <= RESP_SLVERR;
 
-    assign S_AXI_RRESP = rresp;
+
 
     // rdata_count
     // data amount to be transferred
     // indicates the burst length
+    reg rdata_count;
     always @(posedge ACLK)
         if (!ARESETN)
             rdata_count <= 9'd0;
         else
-            if (raddr_sm_cs == IDLE_RADDR & S_AXI_ARVALID)
+            if (raddr_state == IDLE_RADDR & S_AXI_ARVALID)
                 rdata_count <= {1'b0, S_AXI_ARLEN} + 9'd1;
             else if (rvalid & S_AXI_RREADY)
                 rdata_count <= rdata_count - 9'd1;
 
-    // rlast
+
+
+    reg rlast_state;
+    reg rlast;
+    localparam  IDLE_RLAST =     1'b0,
+                RLAST_ASSERT =    1'b1;
     always @(posedge ACLK)
         if (!ARESETN)
         begin
-            rlast_sm_cs <= IDLE_RLAST;
+            rlast_state <= IDLE_RLAST;
             rlast       <= 1'b0;
         end
         else
-            case (rlast_sm_cs)
-                IDLE_RLAST :
+            case(rlast_state)
+                IDLE_RLAST:
                     // rdata_count is 9'd2 and when transaction is issued
                     if (rdata_count == 9'd2 && (rvalid & S_AXI_RREADY))
                     begin
-                        rlast_sm_cs <= RLAST_ASSERT;
-                        rlast       <= 1'b1;
-                    end else if (raddr_sm_cs==IDLE_RADDR && S_AXI_ARVALID==1'b1 && S_AXI_ARLEN==8'd0)
-                    begin
-                    // 転送数が1の時はデータ転送の最初からrlast を1にする
-                        rlast_sm_cs <= RLAST_ASSERT;
+                        rlast_state <= RLAST_ASSERT;
                         rlast       <= 1'b1;
                     end
-                RLAST_ASSERT :
+                    else if (raddr_state==IDLE_RADDR && S_AXI_ARVALID==1'b1 && S_AXI_ARLEN==8'd0)
+                    begin
+                    // 転送数が1の時はデータ転送の最初からrlast を1にする
+                        rlast_state <= RLAST_ASSERT;
+                        rlast       <= 1'b1;
+                    end
+                RLAST_ASSERT:
                     if (rvalid & S_AXI_RREADY)
                     begin
-                        rlast_sm_cs <= IDLE_RLAST;
+                        rlast_state <= IDLE_RLAST;
                         rlast       <= 1'b0;
                     end
             endcase
 
-    assign S_AXI_RLAST = rlast;
+
+
+    assign S_AXI_AWREADY = awready;
+
+    // 計算中でなければよい
+    assign S_AXI_WREADY  = wready; // ack?
+
+    assign S_AXI_BID     = awid;
+    assign S_AXI_BRESP   = bresp;
+    assign S_AXI_BVALID  = bvalid;
+
+    assign S_AXI_ARREADY = arready;
+
+    assign S_AXI_RID     = arid;
+    //assign S_AXI_RDATA   = ; // top への割り当て
+    assign S_AXI_RRESP   = rresp;
+    assign S_AXI_RLAST   = rlast;
+    assign S_AXI_RUSER   = 1'b0;
+    assign S_AXI_RVALID  = rvalid; // ack?
 
 endmodule

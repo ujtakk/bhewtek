@@ -1,3 +1,4 @@
+vhdl xpm "/ram/mnt_opt/opt/xilinx/Vivado/2016.1/data/ip/xpm/xpm_VCOMP.vhd" 
 vhdl lib_cdc_v1_0_2 "../../../ipstatic/lib_cdc_v1_0/hdl/src/vhdl/cdc_sync.vhd" 
 vhdl proc_sys_reset_v5_0_9 "../../../ipstatic/proc_sys_reset_v5_0/hdl/src/vhdl/upcnt_n.vhd" 
 vhdl proc_sys_reset_v5_0_9 "../../../ipstatic/proc_sys_reset_v5_0/hdl/src/vhdl/sequence_psr.vhd" 

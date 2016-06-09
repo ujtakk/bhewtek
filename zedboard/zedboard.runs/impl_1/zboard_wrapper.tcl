@@ -129,3 +129,19 @@ if {$rc} {
   end_step route_design
 }
 
+start_step write_bitstream
+set rc [catch {
+  create_msg_db write_bitstream.pb
+  catch { write_mem_info -force zboard_wrapper.mmi }
+  write_bitstream -force zboard_wrapper.bit 
+  catch { write_sysdef -hwdef zboard_wrapper.hwdef -bitfile zboard_wrapper.bit -meminfo zboard_wrapper.mmi -file zboard_wrapper.sysdef }
+  catch {write_debug_probes -quiet -force debug_nets}
+  close_msg_db -file write_bitstream.pb
+} RESULT]
+if {$rc} {
+  step_failed write_bitstream
+  return -code error $RESULT
+} else {
+  end_step write_bitstream
+}
+

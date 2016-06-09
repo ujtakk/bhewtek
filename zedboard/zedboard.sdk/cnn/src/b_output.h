@@ -1,5 +1,5 @@
 // PATH: /home/work/takau/bhewtek/data/mnist/lenet/bwb_4/data*.bin
-u16 b_output[10] = {
+s16 b_output[10] = {
 0b0000000001011100,
 0b0000000000010010,
 0b1111111111101110,

@@ -1,5 +1,5 @@
 // PATH: /home/work/takau/bhewtek/data/mnist/lenet/bwb_2/data*.bin
-u16 b_conv2[50] = {
+s16 b_conv2[50] = {
 0b0000000000000110,
 0b0000000000001010,
 0b0000000000110010,

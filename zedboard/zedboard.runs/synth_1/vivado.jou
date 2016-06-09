@@ -2,8 +2,8 @@
 # Vivado v2016.1 (64-bit)
 # SW Build 1538259 on Fri Apr  8 15:45:23 MDT 2016
 # IP Build 1537824 on Fri Apr  8 04:28:57 MDT 2016
-# Start of session at: Mon Jun  6 12:45:04 2016
-# Process ID: 5157
+# Start of session at: Wed Jun  8 18:16:59 2016
+# Process ID: 16833
 # Current directory: /ram/home/work/takau/bhewtek/zedboard/zedboard.runs/synth_1
 # Command line: vivado -log zboard_wrapper.vds -mode batch -messageDb vivado.pb -notrace -source zboard_wrapper.tcl
 # Log file: /ram/home/work/takau/bhewtek/zedboard/zedboard.runs/synth_1/zboard_wrapper.vds

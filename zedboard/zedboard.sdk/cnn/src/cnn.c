@@ -54,6 +54,7 @@
 
 #include "cnn.h"
 #include "pmap1_flat.h"
+//#include "pmap2_flat.h"
 #include "w_conv2_flat.h"
 #include "b_conv2.h"
 #include "w_hidden.h"
@@ -91,28 +92,31 @@ void load_bias(s16 *bias_vector,
 {
 }
 
-void full_connect(u16 *input, u16 *output, u16 **weight,
-          u16 *bias, const int ilen, const int olen)
+// TODO: Give the address of two dim. array To two dim. pointer
+//       (Dont want to implement as dynamic array)
+//        => flat the array
+void full_connect(s16 *input, s16 *output, s16 *weight,
+          s16 *bias, const int ilen, const int olen)
 {
   int i,j;
-  u32 pro;
-  u16 sum=0;
-
+  int base = 0;
+  s32 pro;
+  s16 sum=0;
   for (i=0; i<olen; i++)
   {
     for (j=0; j<ilen; j++)
     {
-      pro = input[j] * weight[i][j] / (int)pow(2,8);
-      sum += (u16)pro;
-      xil_printf("%d : %d : %d : %d\n\r", i, j, pro, sum);
+      pro = input[j] * weight[base+j] / (int)pow(2,8);
+      sum += (s16)pro;
     }
 
     output[i] = sum + bias[i];
     sum=0;
+    base += ilen;
   }
 }
 
-void activate_1d(u16 *input,const int ilen){
+void activate_1d(s16 *input,const int ilen){
   int i;
   for(i=0;i<ilen;i++){
     if(input[i]<0){
@@ -169,11 +173,11 @@ u32 concat32_64(u16 upper, u16 lower)
 
 void post_data(s16 *input, s16 *weight)
 {
-  const int in_size    = N_F1 * PM1HEI * PM1WID;
-  const int w_unit     = N_F1 * FHEI * FWID;
-  const int w_size     = N_F2 * w_unit;
-  const int min_size     = w_size > in_size ? in_size : w_size;
-  const int max_size     = w_size > in_size ? w_size : in_size;
+  const int in_size  = N_F1 * PM1HEI * PM1WID;
+  const int w_unit   = N_F1 * FHEI * FWID;
+  const int w_size   = N_F2 * w_unit;
+  const int min_size = w_size > in_size ? in_size : w_size;
+  const int max_size = w_size > in_size ? w_size : in_size;
 
   int i;
   int core_num;
@@ -186,14 +190,14 @@ void post_data(s16 *input, s16 *weight)
     // Give enables
     if (i % w_unit == 0)
     {
-      addr_input &= mask_enable;
+      //addr_input &= mask_enable;
       core_num = (i / w_unit) % CORE + 1;
       enables = 0x2 | (core_num << 2);
-      Xil_Out32(addr_input, enables);
+      Xil_Out32(addr_enable, enables);
     }
 
     addr_input = (i << INSIZE) | i;
-    addr_input &= mask_address;
+    addr_input |= addr_base;
 
     if (i < min_size)
       data = (weight[i] << 16) | input[i];
@@ -205,9 +209,9 @@ void post_data(s16 *input, s16 *weight)
     Xil_Out32(addr_input, data);
   }
 
-  addr_input &= mask_parameter;
+  //addr_input &= mask_parameter;
   option = concat8_32(N_F2, N_F1, PM1HEI, FSIZE);
-  Xil_Out32(addr_input, option);
+  Xil_Out32(addr_parameter, option);
 
 }
 
@@ -224,7 +228,7 @@ void get_data(s16 *output)
   for (i=0; i<out_size; i++)
   {
     addr_output = i;
-    addr_output &= mask_address;
+    addr_output |= addr_base;
     data = Xil_In32(addr_output);
     output[i] = data & 0x0000FFFF;
   }
@@ -233,21 +237,24 @@ void get_data(s16 *output)
 
 void exec_core()
 {
-  int req = 0x1;
+  const int req = 0x1;
+  u32 recv;
   //int i=0;
 
-  UINTPTR addr_input = 0x0;
+  //UINTPTR addr_input = 0x0;
 
-  addr_input &= mask_enable;
-  Xil_Out32(addr_input, req);
+  //addr_input = mask_enable;
+  Xil_Out32(addr_enable, req);
 
   // when pl returns ack, return control to main.
-  //while (1)
-  //{
-    if (Xil_In32(0) & mask_ack)
+  while (1)
+  {
+    recv = Xil_In32(addr_base);
+    xil_printf("res: %d\n\r", recv);
+    if (recv & mask_ack)
       return;
     //printf("%d\n", i); i++;
-  //};
+  }
 }
 
 void print_result(s16 *output)
@@ -270,6 +277,9 @@ void print_result(s16 *output)
   }
 
   xil_printf("the answer is %d.\n\r", number);
+  //for (i=0; i<500; i++)
+  //  for (j=0; j<800; j++)
+  //    xil_printf("(%d, %d): %d\n\r", i, j, (pmap2_flat[j] * w_hidden[i][j])/(int)pow(2,8));
 }
 
 int main()
@@ -277,9 +287,9 @@ int main()
   //s16 pmap1[N_F1][PM1HEI][PM1WID];
   //s16 pmap2[N_F2][PM2HEI][PM2WID];
   //s16 w_conv2[N_F2][N_F1][FHEI][FWID];
-  u16 pmap2_flat[N_F2*PM2HEI*PM2WID];
-  u16 hidden[N_HL];
-  u16 output[LABEL];
+  s16 pmap2_flat[N_F2*PM2HEI*PM2WID];
+  s16 hidden[N_HL];
+  s16 output[LABEL];
 
   // These arrays are defined as global variables.
   /*
@@ -322,8 +332,7 @@ int main()
 
   // TODO: insert activate of conv2 to pl
   activate_1d(pmap2_flat, N_F2*PM2HEI*PM2WID);
-  xil_printf("classification ended\n\r");
-  printf("aa %d\n", pmap2_flat[10]);
+  xil_printf("activation ended\n\r");
 
   /*
    * calculate fully connected layers on CPU
@@ -331,7 +340,7 @@ int main()
    */
   full_connect(pmap2_flat, hidden,
                 w_hidden, b_hidden, PM2HEI*PM2WID*N_F2, N_HL);
-  xil_printf("classification ended\n\r");
+  xil_printf("fully-connect ended\n\r");
   activate_1d(hidden, N_HL);
 
   full_connect(hidden, output,

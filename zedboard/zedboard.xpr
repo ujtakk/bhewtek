@@ -176,6 +176,17 @@
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
+        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="hdl/zboard.hwdef"/>
+        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="hw_handoff/zboard_bd.tcl"/>
+        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="hw_handoff/zboard.hwh"/>
+        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="zboard_ooc.xdc"/>
+        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="ip/zboard_auto_us_0/zboard_auto_us_0.xci"/>
+        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="ip/zboard_auto_pc_0/zboard_auto_pc_0.xci"/>
+        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="hdl/zboard.v"/>
+        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="ip/zboard_rst_processing_system7_0_100M_0/zboard_rst_processing_system7_0_100M_0.xci"/>
+        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="ip/zboard_processing_system7_0_axi_periph_0/zboard_processing_system7_0_axi_periph_0.xci"/>
+        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="ip/zboard_axi_slave_top_wrapper_0_0/zboard_axi_slave_top_wrapper_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="zboard.bd" FileRelPathName="ip/zboard_processing_system7_0_0/zboard_processing_system7_0_0.xci"/>
       </File>
       <File Path="$PSRCDIR/sources_1/bd/zboard/hdl/zboard_wrapper.v">
         <FileInfo>

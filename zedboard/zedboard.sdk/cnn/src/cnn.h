@@ -30,7 +30,8 @@
 #define PM2HEI FM2HEI/PHEI
 #define PM2WID FM2WID/PWID
 
-const int mask_address   = 0x4FFFFFFF;
-const int mask_enable    = 0x5FFFFFFF;
-const int mask_parameter = 0x6FFFFFFF;
-const int mask_ack = 0x00010000;
+const int addr_init      = 0xF0000000;
+const int addr_base      = 0x40000000; //XPAR_AXI_SLAVE_TOP_WRAPPER_0_BASEADDR
+const int addr_enable    = 0x50000000;
+const int addr_parameter = 0x60000000;
+const int mask_ack       = 0x00010000;

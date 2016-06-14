@@ -18,7 +18,7 @@ module saif_rtl();
     end
 
     reg [DWIDTH-1:0] mem_in [2**INSIZE-1:0];
-    <%- for i in 0..$core-1 -%>
+    <%- for i in 0...$core -%>
     reg [DWIDTH-1:0] mem_w<%=i%> [2**WSIZE-1:0];
     <%- end -%>
 

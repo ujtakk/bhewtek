@@ -193,6 +193,7 @@ void post_data(s16 *input, s16 *weight)
       //addr_input &= mask_enable;
       core_num = (i / w_unit) % CORE + 1;
       enables = 0x2 | (core_num << 2);
+      xil_printf("test");
       Xil_Out32(addr_enable, enables);
     }
 

@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-CORE=64
+CORE=8
 rm -r tb
 
 for i in `seq 0 9`
@@ -8,9 +8,9 @@ do
     for j in `seq 1 10`
     do
         mkdir -p tb/tb${i}_${j}
-        sed -e "s;{NUM};${i};g" \
-            -e "s;{FILE};${j};g" \
-            -e "s;{CORE};${CORE};g" \
+        sed -e "s|{NUM}|${i}|g" \
+            -e "s|{FILE}|${j}|g" \
+            -e "s|{CORE}|${CORE}|g" \
             rtl_top.v > tb/tb${i}_${j}/tb${i}_${j}.v
         for n in *.v *.vh
         do

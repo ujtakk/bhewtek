@@ -8,7 +8,6 @@ IOC_DIR=.
 TARGET=test_top
 
 all: $(TARGET).com
-	make axi_slave_top_wrapper.v
 
 sim: $(TARGET).log
 

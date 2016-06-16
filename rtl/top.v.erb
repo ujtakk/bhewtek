@@ -71,7 +71,8 @@ module top(/*AUTOARG*/);
         .mem_we     (mem_output_we),
         .mem_addr   (mem_output_addr[OUTSIZE-1:0]),
     ); */
-    (* dont_touch = "true" *) sram_output mem_output<%=i%>(/*AUTOINST*/);
+    sram_output mem_output<%=i%>(/*AUTOINST*/);
+    //(* dont_touch = "true" *) sram_output mem_output<%=i%>(/*AUTOINST*/);
     <%- end -%>
 
     mux_output select_out(/*AUTOINST*/);

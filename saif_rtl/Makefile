@@ -18,4 +18,4 @@ auto:
 
 clean:
 	rm -f *.v *.vh *.rb
-	rm -rf saif/ tb/ maborosi.sh log
+	rm -rf saif*/ tb/ maborosi.sh log

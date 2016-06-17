@@ -20,8 +20,8 @@ do
     done
 done
 
-rm -r saif
-mkdir saif
+rm -r saif${CORE}
+mkdir saif${CORE}
 
 rm maborosi.sh
 

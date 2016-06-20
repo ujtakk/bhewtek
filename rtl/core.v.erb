@@ -30,7 +30,7 @@ module core(/*AUTOARG*/);
         .mem_we2     (1'b0),
         .mem_addr2   (mem_feat_addr[FACCUM-1:0]),
     ); */
-    (* dont_touch = "true" *) sram_feat mem_feat(/*AUTOINST*/);
+    sram_feat mem_feat(/*AUTOINST*/);
 
     /* accumulator AUTO_TEMPLATE (
         .total   (fmap[DWIDTH-1:0]),

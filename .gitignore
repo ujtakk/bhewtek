@@ -6,3 +6,16 @@
 *.com
 *.vstf
 Makefile.dep
+.Xil/
+saif_rtl/saif*/
+*.aux
+*.dvi
+*.fdb_latexmk
+*.fls
+*.pdf
+data/
+scripts/
+syn/alib-52/
+log
+*.jou
+

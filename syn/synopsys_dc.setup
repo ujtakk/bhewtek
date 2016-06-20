@@ -1,0 +1,13 @@
+set search_path [concat $search_path {
+/home/work/hiromoto/siliconsmart/rohm18/rohm18_1.8v
+} \
+]
+
+set target_library [list \
+ROHM181p8.db
+]
+
+set link_library [list {*} \
+ROHM181p8.db
+]
+

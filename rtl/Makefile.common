@@ -12,6 +12,10 @@ ifndef VERBOSE
 VERBOSE=0
 endif
 
+ifndef DIST
+DIST=dist
+endif
+
 ifeq ($(VERBOSE),1)
 #  quiet =
   E = true
@@ -25,6 +29,7 @@ endif
 ERUBY=erb -T -
 IVERILOG=iverilog
 ARCH=$(shell uname -m)
+
 ifeq ($(ARCH),x86_64)
 VCS=vcs +v2k -full64
 else
@@ -32,25 +37,18 @@ VCS=vcs +v2k
 endif
 
 ifeq ($(SIMULATOR),vsim)
-
 VLOG_OPT= +acc=rnbp +define+FAST_FUNC # -novopt # -lint
 VSIMOPTION= #$(VLOG_OPT)
-
 DO_SIM=test -f $* && rm -f $* ; time vsim $* $(VSIMOPTION) -c -do 'run -all; quit' | sed 's/^\# //'
 V_COMPILE=(test -d work || vlib work) && (vlog $(VLOG_OPT) $< > $@.log && touch $@) && (grep "^\*\* " $@.log || true) || (cat $@.log ; false)
-
 else
 ifeq ($(SIMULATOR),vcs)
-
 DO_SIM=make $* && time ./$*
 V_COMPILE=touch $@
-
 else
 ifeq ($(SIMULATOR),iverilog)
-
 DO_SIM=make $* && time ./$*
 V_COMPILE=touch $@
-
 endif
 endif
 endif
@@ -139,5 +137,5 @@ $(LINK_FILES):
 ################################################################
 dist:
 	$(MAKE) $(VFILES) $(VHFILES)
-	mkdir -p .dist
-	rsync -L -avz $(VFILES) $(VHFILES) .dist
+	mkdir -p $(DIST)
+	rsync -L -avz $(VFILES) $(VHFILES) $(DIST)

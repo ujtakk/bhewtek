@@ -1,0 +1,55 @@
+    /* rspb18_4kx16m8_g1 AUTO_TEMPLATE (
+        .ADR (input_addr[INSIZE-1:0] + mem_input_addr[INSIZE-1:0]),
+        .D   (write_input[DWIDTH-1:0]),
+        .WE  (mem_input_we),
+        .OE  (1'b1),
+        .ME  (1'b1),
+        .CLK (clk),
+        .WEM (2'b11),
+        .Q   (read_input[DWIDTH-1:0]),
+    ); */
+    rspb18_4kx16m8_g1 mem_input(/*AUTOINST*/);
+
+    /* rspb18_512x16m8_g1 AUTO_TEMPLATE (
+        .ADR (weight_addr<%=i%>[WSIZE-1:0] + mem_weight_addr<%=i%>[WSIZE-1:0]),
+        .D   (write_weight<%=i%>[DWIDTH-1:0]),
+        .WE  (mem_weight_we<%=i%>),
+        .OE  (1'b1),
+        .ME  (1'b1),
+        .CLK (clk),
+        .WEM (2'b11),
+        .Q   (read_weight<%=i%>[DWIDTH-1:0]),
+    ); */
+    rspb18_512x16m8_g1 mem_weight<%=i%>(/*AUTOINST*/);
+    
+    /* rspb18_1kx16m8_g1 AUTO_TEMPLATE (
+        .ADR (mem_output_addr<%=i%>[OUTSIZE-1:0]),
+        .D   (pmap<%=i%>[DWIDTH-1:0]),
+        .WE  (mem_output_we<%=i%>),
+        .OE  (1'b1),
+        .ME  (1'b1),
+        .CLK (clk),
+        .WEM (2'b11),
+        .Q   (),
+    ); */
+    rspb18_1kx16m8_g1 mem_output<%=i%>(/*AUTOINST*/);
+    
+    /* rdpb18_128x16_g1 AUTO_TEMPLATE (
+        .AA   (mem_feat_addr_d1[FACCUM-1:0]),
+        .CPA  (clk),
+        .CSBA (!mem_feat_we),
+        .OEBA (1'b0),
+        .WEBA (1'b0),
+        .REBA (1'b1),
+        .IA   (write_feat[DWIDTH-1:0]),
+        .OA   (),
+        .AB   (mem_feat_addr[FACCUM-1:0]),
+        .CPB  (clk),
+        .CSBB (1'b0),
+        .OEBB (1'b0),
+        .WEBB (1'b1),
+        .REBB (1'b0),
+        .IB   ({DWIDTH{1'b0}}),
+        .OB   (read_feat[DWIDTH-1:0]),
+    ); */
+    rdpb18_128x16_g1 mem_feat(/*AUTOINST*/);

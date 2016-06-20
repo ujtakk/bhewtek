@@ -54,7 +54,7 @@ module test_top();
     begin
       input_addr = i;
       write_input = mem_in[i];
-      #(STEP*2);
+      #(STEP*5);
     end
     input_we = 0;
     input_addr = 0;
@@ -240,13 +240,12 @@ module test_top();
           if (o_offset == 0)
             output_re = o_index % <%=$core%> + 1;
           output_addr = o_offset + o_unit*(o_index/<%=$core%>);
-          #(STEP);
-          if (i>0)
-            $display("%d : %d", i-1, $signed(read_output));
+          #(STEP*2);
+          $display("%d : %d", i, $signed(read_output));
         end
-          #(STEP);
-          output_re = 0;
-          $display("%d : %d", out_size-1, $signed(read_output));
+        output_re = 0;
+        //#(STEP*5);
+        //$display("%d : %d", out_size-1, $signed(read_output));
     end
   endtask
 

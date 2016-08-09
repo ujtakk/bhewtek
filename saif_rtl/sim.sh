@@ -36,6 +36,6 @@ done
 cat maborosi.sh | xargs -P 24 -I {} -t bash -c '{}'
 rm maborosi.sh
 
-rm -r tb
+#rm -r tb
 
 exit

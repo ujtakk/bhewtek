@@ -5,15 +5,15 @@ module accumulator(/*AUTOARG*/);
     input clk;
     input reset;
     input o_we;
-    input [DWIDTH-1:0] result;
-    input [DWIDTH-1:0] sum_old;
+    input signed [DWIDTH-1:0] result;
+    input signed [DWIDTH-1:0] sum_old;
 
     /*AUTOOUTPUT*/
-    output [DWIDTH-1:0] total;
-    output [DWIDTH-1:0] sum_wb;
+    output signed [DWIDTH-1:0] total;
+    output signed [DWIDTH-1:0] sum_wb;
 
     /*AUTOWIRE*/
-    wire [DWIDTH-1:0] sum;
+    wire signed [DWIDTH-1:0] sum;
 
     /*AUTOREG*/
 

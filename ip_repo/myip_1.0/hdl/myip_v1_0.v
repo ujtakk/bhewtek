@@ -136,6 +136,11 @@
    * port[7]                ack;
    */
 
+  wire probe0;
+  wire [FACCUM-1:0] probe1;
+  wire [DWIDTH-1:0] probe2;
+  wire [DWIDTH-1:0] probe3;
+
   assign clk          = s_axi_aclk;
   assign xrst         = s_axi_aresetn;
   assign req          = port0[0];
@@ -153,7 +158,11 @@
   assign output_addr  = port5[9:0];
 
   assign port6 = {16'b0 , read_output};
-  assign port7 = {31'b0, ack};
+  assign port7 = {probe3, 15'b0, ack};
+
+  assign probe0 = port0[8];
+  assign probe1 = port1[31:16];
+  assign probe2 = port0[31:16];
 
   top top0(/*AUTOINST*/
     // Outputs
@@ -174,7 +183,11 @@
     .weight_we			(weight_we[3:0]),
     .write_input		(write_input[DWIDTH-1:0]),
     .write_weight		(write_weight[DWIDTH-1:0]),
-    .xrst			(xrst)
+    .xrst			(xrst),
+    .probe0 (probe0),
+    .probe1 (probe1[FACCUM-1:0]),
+    .probe2 (probe2[DWIDTH-1:0]),
+    .probe3 (probe3[DWIDTH-1:0])
   );
 
 	// User logic ends

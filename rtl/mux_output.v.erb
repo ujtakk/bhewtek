@@ -6,11 +6,11 @@ module mux_output(/*AUTOARG*/);
     input clk;
     input [3:0] output_re;
     <%- for i in 0...$core -%>
-    input [DWIDTH-1:0] read_output<%=i%>;
+    input signed [DWIDTH-1:0] read_output<%=i%>;
     <%- end -%>
 
     /*AUTOOUTPUT*/
-    output [DWIDTH-1:0] read_output;
+    output signed [DWIDTH-1:0] read_output;
 
     /*AUTOWIRE*/
 

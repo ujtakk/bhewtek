@@ -4,11 +4,11 @@ module linebuf_feat(/*AUTOARG*/);
 
     /*AUTOINPUT*/
     input clk;
-    input [DWIDTH-1:0] read_data;
+    input signed [DWIDTH-1:0] read_data;
 
     /*AUTOOUTPUT*/
     <%- for i in 0...$psize**2 -%>
-    output [DWIDTH-1:0] pixel_feat<%=i%>;
+    output signed [DWIDTH-1:0] pixel_feat<%=i%>;
     <%- end -%>
 
     /*AUTOWIRE*/

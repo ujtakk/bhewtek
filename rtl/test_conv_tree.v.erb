@@ -3,73 +3,112 @@
 module test_conv_tree();
 `include "parameters.vh"
 <%- load "parameters.rb" -%>
+% num = 100
 
-    /*AUTOREGINPUT*/
+  parameter DATA_NUM = FSIZE**2;
 
-    /*AUTOWIRE*/
+  /*AUTOREGINPUT*/
+  <%- for n in 1..num -%>
+  reg [DWIDTH-1:0] xmem<%=n%>[0:DATA_NUM-1];
+  reg [DWIDTH-1:0] wmem<%=n%>[0:DATA_NUM-1];
+  <%- end -%>
+  reg signed [DWIDTH-1:0] omem[0:<%=num%>-1];
 
-    //clock
-    always
+  /*AUTOWIRE*/
+
+  integer i, j;
+
+  //clock
+  always
+  begin
+    clk = 0;
+    #(STEP/2);
+    clk = 1;
+    #(STEP/2);
+  end
+
+  integer fp;
+  initial
+  begin
+    <%- for n in 1..num -%>
+    read_x<%=n%>;
+    read_w<%=n%>;
+    #(STEP);
+    xrst=0;
+    <%-   for i in 0...$fsize**2 -%>
+    pixel<%=i%> = 0;
+    weight<%=i%> = 0;
+    <%-   end -%>
+    #(STEP);
+    xrst = 1;
+    #(STEP);
+    <%-   for i in 0...$fsize**2 -%>
+    pixel<%=i%>  = xmem<%=n%>[<%=i%>];
+    weight<%=i%> = wmem<%=n%>[<%=i%>];
+    <%-   end -%>
+    #(STEP*10);
+    omem[<%=n-1%>] = fmap;
+    #(STEP);
+    <%- end -%>
+    save_o;
+    $finish();
+  end
+
+  always
+  begin
+    #(STEP/2-1);
+    $display(
+      "%d: ", $time/STEP,
+      "%b", $signed(fmap)
+    );
+    #(STEP/2+1);
+  end
+  conv_tree dut0(/*AUTOINST*/);
+
+  <%- for n in 1..num -%>
+  task read_x<%=n%>;
+    reg [DWIDTH-1:0] val;
+    integer fd;
+    integer i;
+    integer c;
     begin
-        clk = 0;
-        #(STEP/2);
-        clk = 1;
-        #(STEP/2);
+      fd = $fopen("../input/input_x_<%=n%>.dat", "r");
+      // read data
+      for (i = 0; i < DATA_NUM; i = i + 1) begin
+        c = $fscanf(fd, "%d", val);
+        xmem<%=n%>[i] = val;
+      end
+      $fclose(fd);
     end
+  endtask
 
-    integer fp;
-    initial
+  task read_w<%=n%>;
+    reg [DWIDTH-1:0] val;
+    integer fd;
+    integer i;
+    integer c;
     begin
-        fp = $fopen("newtest");
-        #(STEP);
-        xrst=0;
-        <%- for i in 0...$fsize**2 -%>
-        pixel<%=i%> = 0;
-        weight<%=i%> = 0;
-        <%- end -%>
-        #(STEP);
-        xrst = 1;
-        #(STEP);
-        <%- for i in 0...$fsize**2 -%>
-        pixel<%=i%> = <%=i%>;
-        weight<%=i%> = <%=i%>;
-        <%- end -%>
-        #(STEP*10);
-        $finish();
+      fd = $fopen("../input/input_w_<%=n%>.dat", "r");
+      // read data
+      for (i = 0; i < DATA_NUM; i = i + 1) begin
+        c = $fscanf(fd, "%d", val);
+        wmem<%=n%>[i] = val;
+      end
+      $fclose(fd);
     end
+  endtask
+  <%- end -%>
 
-    always
+  task save_o;
+    integer fd;
+    integer i;
     begin
-        #(STEP/2-1);
-        <%- for i in 0...5 -%>
-        $display(
-            <%-   for j in 0...4 -%>
-            "%d ", pixel<%=5*i+j%>,
-            <%- end -%>
-            "%d | ", pixel<%=5*i+4%>,
-            <%-   for j in 0...4 -%>
-            "%d ", weight<%=5*i+j%>,
-            <%- end -%>
-            "%d ", weight<%=5*i+4%>
-        );
-        <%- end -%>
-        $display("output: %d\n", fmap);
-        $fdisplay(fp,
-            "%d ", dut0.xrst,
-            "%d ", pixel2,
-            "%d ", weight2,
-            //"%d ", dut0.r_pixel2,
-            //"%d ", dut0.r_weight2,
-            "%d ", dut0.sum0,
-            "%d ", dut0.sum2,
-            "%d ", dut0.sum5,
-            "%d ", dut0.sum20,
-            //"%d ", dut0.r_fmap,
-            "%d ", dut0.fmap,
-        );
-        #(STEP/2+1);
+      fd = $fopen("output.dat", "w");
+      for (i = 0; i < <%=num%>; i = i + 1) begin
+        $fdisplay(fd, "%4d", omem[i]);
+      end
+      $fclose(fd);
     end
-
-    conv_tree dut0(/*AUTOINST*/);
+  endtask
 
 endmodule

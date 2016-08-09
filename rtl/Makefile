@@ -15,3 +15,6 @@ sim: $(TARGET).log
 clean:
 	make clean-common
 	rm -f log.txt
+
+diff:
+	vimdiff $(TARGET).dat $(TARGET)_true.dat

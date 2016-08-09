@@ -30,3 +30,5 @@ bhewtek
 
 saif_rtlフォルダで、SAIFデータの収集を行う際には事前に
 rtlフォルダのparameters.rbの変数$projectをリポジトリの絶対パスに指定しなおしてください。
+
+bhewtek is nonsense.

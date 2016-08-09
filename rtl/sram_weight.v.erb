@@ -6,10 +6,10 @@ module sram_weight(/*AUTOARG*/);
     input clk;
     input mem_we;
     input [WSIZE-1:0] mem_addr;
-    input [DWIDTH-1:0] write_data;
+    input signed [DWIDTH-1:0] write_data;
 
     /*AUTOOUTPUT*/
-    output [DWIDTH-1:0] read_data;
+    output signed [DWIDTH-1:0] read_data;
 
     /*AUTOWIRE*/
 

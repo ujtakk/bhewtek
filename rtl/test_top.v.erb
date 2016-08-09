@@ -77,20 +77,20 @@ module test_top();
     //$toggle_start();
     #(STEP);
 
-    xrst = 0;
-    req = 0;
-    fil_size = FSIZE;
-    img_size = INSIZE;
-    total_in = N_F1;
-    total_out = N_F2;
-    input_addr = 0;
-    weight_addr = 0;
-    input_we = 0;
-    write_input = 0;
-    write_weight = 0;
-    weight_we = 4'd0;
-    output_addr = 0;
-    output_re = 0;
+    xrst          = 0;
+    req           = 0;
+    fil_size      = FSIZE;
+    img_size      = INSIZE;
+    total_in      = N_F1;
+    total_out     = N_F2;
+    input_addr    = 0;
+    weight_addr   = 0;
+    input_we      = 0;
+    write_input   = 0;
+    write_weight  = 0;
+    weight_we     = 4'd0;
+    output_addr   = 0;
+    output_re     = 0;
 
     #(STEP);
 
@@ -109,21 +109,7 @@ module test_top();
     #(STEP*10);
 
     write_output;
-
-    //<%- if $core == 2 -%>
-    //#(STEP*84510); // 2 core 16384
-    //<%- elsif $core == 4 -%>
-    //#(STEP*43950); // 4 core 8192
-    //<%- elsif $core == 8 -%>
-    ////#(STEP*23670); // 8 core 4096
-    //#(STEP*23690); // 8 core 4096
-    //<%- elsif $core == 16 -%>
-    //#(STEP*13530); // 16 core 2048
-    //<%- elsif $core == 32 -%>
-    //#(STEP*6770);  // 32 core 1024
-    //<%- elsif $core == 64 -%>
-    //#(STEP*3390);  // 64 core 512
-    //<%- end -%>
+    valid_memin;
 
     //$toggle_stop();
     //$toggle_report("<%=$project%>/saif_rtl/saif{CORE}/rtl_top{NUM}_{FILE}.saif", 1.0e-9, "test_top");
@@ -147,26 +133,39 @@ module test_top();
       "%d ", req,
       "%d ", ack,
       "| ",
-      "%d ", dut0.ctrl.r_state,
-      "%d ", dut0.ctrl.r_count_in,
-      "%d ", dut0.ctrl.r_count_out,
+      "%d ", dut0.core0.pixel_feat0,
+      "%d ", dut0.core0.pixel_feat1,
+      "%d ", dut0.core0.pixel_feat2,
+      "%d ", dut0.core0.pixel_feat3,
+      <%- for i in 0...8 -%>
+      "%d ", dut0.core<%=i%>.fmap,
+      <%- end -%>
       "| ",
-      "%d ", dut0.ctrl.r_wreg_x,
-      "%d ", dut0.ctrl.r_wreg_y,
-      "%d ", dut0.ctrl.wreg_valid,
-      "; ",
-      "%d ", dut0.ctrl.r_conv_x,
-      "%d ", dut0.ctrl.r_conv_y,
-      "%d ", dut0.ctrl.conv_valid,
-      "; ",
-      "%d ", dut0.ctrl.r_pool_x,
-      "%d ", dut0.ctrl.r_pool_y,
-      "%d ", dut0.ctrl.pool_valid,
-      "@@ ",
-      "%d ", dut0.ctrl.pool_end,
-      "%d ", dut0.ctrl.mem_output_we,
-      "%d ", dut0.ctrl.mem_output_addr,
-      "%d ", dut0.ctrl.ack,
+      <%- for i in 0...8 -%>
+      "%d ", dut0.read_output<%=i%>,
+      <%- end -%>
+      "%d ", read_output,
+      //"| ",
+      //"%d ", dut0.ctrl.r_state,
+      //"%d ", dut0.ctrl.r_count_in,
+      //"%d ", dut0.ctrl.r_count_out,
+      //"| ",
+      //"%d ", dut0.ctrl.r_wreg_x,
+      //"%d ", dut0.ctrl.r_wreg_y,
+      //"%d ", dut0.ctrl.wreg_valid,
+      //"; ",
+      //"%d ", dut0.ctrl.r_conv_x,
+      //"%d ", dut0.ctrl.r_conv_y,
+      //"%d ", dut0.ctrl.conv_valid,
+      //"; ",
+      //"%d ", dut0.ctrl.r_pool_x,
+      //"%d ", dut0.ctrl.r_pool_y,
+      //"%d ", dut0.ctrl.pool_valid,
+      //"@@ ",
+      //"%d ", dut0.ctrl.pool_end,
+      //"%d ", dut0.ctrl.mem_output_we,
+      //"%d ", dut0.ctrl.mem_output_addr,
+      //"%d ", dut0.ctrl.ack,
     );
     #(STEP/2+1);
   end
@@ -191,7 +190,7 @@ module test_top();
 
   task read_input;
     begin
-      <%- num = 0 -%><%- file = 1 -%>
+      <%- num = 2 -%><%- file = 4 -%>
       <%- for i in 0...$n_f1 -%>
       $readmemb("<%=$project%>/data/mnist/bpmap1/<%=num%>/data<%=file%>_<%=i%>.bin", mem_in, <%=($insize**2)*i%>, <%=($insize**2)*(i+1)-1%>);
       <%- end -%>
@@ -222,30 +221,49 @@ module test_top();
   endtask
 
   task write_output;
+    integer fd;
     integer i;
     integer out_size;
     integer o_unit;
     integer o_offset;
     integer o_index;
     begin
-        $display("");
-        $display("read_output");
-        $display("====================");
-        out_size = 800;
-        o_unit = 16;
-        for (i=0; i<out_size; i=i+1)
-        begin
-          o_offset = i % o_unit;
-          o_index  = i / o_unit;
-          if (o_offset == 0)
-            output_re = o_index % <%=$core%> + 1;
-          output_addr = o_offset + o_unit*(o_index/<%=$core%>);
-          #(STEP*2);
-          $display("%d : %d", i, $signed(read_output));
-        end
-        output_re = 0;
-        //#(STEP*5);
-        //$display("%d : %d", out_size-1, $signed(read_output));
+      fd = $fopen("test_top.dat", "w");
+      $display("");
+      $display("read_output");
+      $display("====================");
+      out_size = 800;
+      o_unit = 16;
+      for (i=0; i<out_size; i=i+1)
+      begin
+        o_offset = i % o_unit;
+        o_index  = i / o_unit;
+        if (o_offset == 0)
+          output_re = o_index % <%=$core%> + 1;
+        output_addr = o_offset + o_unit*(o_index/<%=$core%>);
+        #(STEP*2);
+        $display("%d : %d", i, read_output);
+        $fdisplay(fd, "%4d", read_output);
+      end
+      output_re = 0;
+      $fclose(fd);
+    end
+  endtask
+
+  task valid_memin;
+    integer i;
+    integer in_size;
+    begin
+      in_size = 2880;
+      for (i = 0; i < in_size; i = i + 1)
+      begin
+        #(STEP);
+        input_addr = i;
+        #(STEP);
+        if (dut0.read_input != mem_in[i])
+          $display("Fail: %d", i);
+      end
+      $display("valid_memin complete.");
     end
   endtask
 

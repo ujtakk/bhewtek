@@ -33,15 +33,16 @@ set_wire_load_mode enclosed
 
 set_max_area 0
 #compile_ultra -gate_clock
-compile_ultra
+#compile_ultra
 #set_fix_multiple_port_nets -all -buffer_constants
-#compile -power_effort high
+compile -power_effort high
 #ungroup -flatten -all
 #define_name_rules verilog -allowed "a-zA-Z0-9_" -remove_port_bus
 change_names -rules verilog -hierarchy
 check_design
 
 write -format verilog -hierarchy -output ./${RESULTS_DIR}/${DESIGN}.mapped.v
+write -format vhdl -hierarchy -output ./${RESULTS_DIR}/${DESIGN}.mapped.vhd
 write -format ddc -output ${RESULTS_DIR}/${DESIGN}.mapped.ddc
 write_sdf ./${RESULTS_DIR}/${DESIGN}.sdf
 write_sdc -nosplit -version 1.9 ./${RESULTS_DIR}/${DESIGN}.sdc

@@ -3,7 +3,7 @@ module conv_wreg(/*AUTOARG*/);
 <%- load "parameters.rb" -%>
 
     /*AUTOINPUT*/
-    input [DWIDTH-1:0] read_data;
+    input signed [DWIDTH-1:0] read_data;
     input wreg_we;
     input clk;
 

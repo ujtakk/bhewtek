@@ -2,8 +2,8 @@ RTL_DIR=$(PWD)/../rtl
 DESIGN=top
 
 dc:
-	make link
-	make clock
+	#make link
+	#make clock
 	TMPDIR=~/tmp dc_shell-t -f ./dc.tcl | tee dc.log
 
 pt:

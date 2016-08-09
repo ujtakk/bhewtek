@@ -131,7 +131,7 @@ module saif_rtl();
 
   task read_input;
     begin
-      <%- num = 0 -%><%- file = 1 -%>
+      <%- num = "{NUM}" -%><%- file = "{FILE}" -%>
       <%- for i in 0...$n_f1 -%>
       $readmemb("/home/work/takau/bhewtek/data/mnist/bpmap1/<%=num%>/data<%=file%>_<%=i%>.bin", mem_in, <%=($insize**2)*i%>, <%=($insize**2)*(i+1)-1%>);
       <%- end -%>

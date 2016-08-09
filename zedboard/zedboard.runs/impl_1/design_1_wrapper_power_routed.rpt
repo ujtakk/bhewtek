@@ -1,8 +1,8 @@
 Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2016.1 (lin64) Build 1538259 Fri Apr  8 15:45:23 MDT 2016
-| Date             : Tue Jun 21 00:24:50 2016
-| Host             : menorca running 64-bit unknown
+| Date             : Mon Aug  8 18:47:28 2016
+| Host             : saki running 64-bit Debian GNU/Linux 8.5 (jessie)
 | Command          : report_power -file design_1_wrapper_power_routed.rpt -pb design_1_wrapper_power_summary_routed.pb -rpx design_1_wrapper_power_routed.rpx
 | Design           : design_1_wrapper
 | Device           : xc7z020clg484-1
@@ -30,12 +30,12 @@ Table of Contents
 ----------
 
 +--------------------------+--------+
-| Total On-Chip Power (W)  | 2.231  |
-| Dynamic (W)              | 2.054  |
-| Device Static (W)        | 0.176  |
+| Total On-Chip Power (W)  | 2.401  |
+| Dynamic (W)              | 2.220  |
+| Device Static (W)        | 0.182  |
 | Effective TJA (C/W)      | 11.5   |
-| Max Ambient (C)          | 59.3   |
-| Junction Temperature (C) | 50.7   |
+| Max Ambient (C)          | 57.3   |
+| Junction Temperature (C) | 52.7   |
 | Confidence Level         | Medium |
 | Setting File             | ---    |
 | Simulation Activity File | ---    |
@@ -49,20 +49,20 @@ Table of Contents
 +-------------------------+-----------+----------+-----------+-----------------+
 | On-Chip                 | Power (W) | Used     | Available | Utilization (%) |
 +-------------------------+-----------+----------+-----------+-----------------+
-| Clocks                  |     0.051 |        3 |       --- |             --- |
-| Slice Logic             |     0.053 |    18762 |       --- |             --- |
-|   LUT as Logic          |     0.040 |     4515 |     53200 |            8.49 |
-|   CARRY4                |     0.007 |      919 |     13300 |            6.91 |
-|   Register              |     0.006 |    12177 |    106400 |           11.44 |
+| Clocks                  |     0.071 |        3 |       --- |             --- |
+| Slice Logic             |     0.136 |    38400 |       --- |             --- |
+|   LUT as Logic          |     0.118 |    12983 |     53200 |           24.40 |
+|   CARRY4                |     0.009 |     1275 |     13300 |            9.59 |
+|   Register              |     0.006 |    20799 |    106400 |           19.55 |
 |   LUT as Shift Register |     0.002 |      173 |     17400 |            0.99 |
-|   F7/F8 Muxes           |    <0.001 |       32 |     53200 |            0.06 |
-|   Others                |     0.000 |      308 |       --- |             --- |
-| Signals                 |     0.139 |    17363 |       --- |             --- |
+|   F7/F8 Muxes           |    <0.001 |     1632 |     53200 |            3.07 |
+|   Others                |     0.000 |      330 |       --- |             --- |
+| Signals                 |     0.236 |    34838 |       --- |             --- |
 | Block RAM               |     0.066 |       42 |       140 |           30.00 |
-| DSPs                    |     0.216 |      200 |       220 |           90.91 |
+| DSPs                    |     0.182 |      200 |       220 |           90.91 |
 | PS7                     |     1.529 |        1 |       --- |             --- |
-| Static Power            |     0.176 |          |           |                 |
-| Total                   |     2.231 |          |           |                 |
+| Static Power            |     0.182 |          |           |                 |
+| Total                   |     2.401 |          |           |                 |
 +-------------------------+-----------+----------+-----------+-----------------+
 
 
@@ -72,7 +72,7 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) |
 +-----------+-------------+-----------+-------------+------------+
-| Vccint    |       1.000 |     0.540 |       0.519 |      0.021 |
+| Vccint    |       1.000 |     0.708 |       0.685 |      0.023 |
 | Vccaux    |       1.800 |     0.022 |       0.000 |      0.022 |
 | Vcco33    |       3.300 |     0.001 |       0.000 |      0.001 |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |
@@ -81,11 +81,11 @@ Table of Contents
 | Vcco135   |       1.350 |     0.000 |       0.000 |      0.000 |
 | Vcco12    |       1.200 |     0.000 |       0.000 |      0.000 |
 | Vccaux_io |       1.800 |     0.000 |       0.000 |      0.000 |
-| Vccbram   |       1.000 |     0.010 |       0.006 |      0.004 |
+| Vccbram   |       1.000 |     0.011 |       0.006 |      0.005 |
 | MGTAVcc   |       1.000 |     0.000 |       0.000 |      0.000 |
 | MGTAVtt   |       1.200 |     0.000 |       0.000 |      0.000 |
 | MGTVccaux |       1.800 |     0.000 |       0.000 |      0.000 |
-| Vccpint   |       1.000 |     0.755 |       0.718 |      0.037 |
+| Vccpint   |       1.000 |     0.758 |       0.718 |      0.040 |
 | Vccpaux   |       1.800 |     0.061 |       0.051 |      0.010 |
 | Vccpll    |       1.800 |     0.017 |       0.014 |      0.003 |
 | Vcco_ddr  |       1.500 |     0.459 |       0.457 |      0.002 |
@@ -148,70 +148,78 @@ Table of Contents
 +--------------------------------------------------+-----------+
 | Name                                             | Power (W) |
 +--------------------------------------------------+-----------+
-| design_1_wrapper                                 |     2.054 |
-|   design_1_i                                     |     2.054 |
-|     myip_0                                       |     0.519 |
-|       inst                                       |     0.519 |
-|         myip_v1_0_S_AXI_inst                     |     0.004 |
-|         top0                                     |     0.515 |
+| design_1_wrapper                                 |     2.220 |
+|   design_1_i                                     |     2.220 |
+|     aaaasd_0                                     |     0.676 |
+|       inst                                       |     0.676 |
+|         aaaasd_v1_0_S_AXI_inst                   |     0.048 |
+|         top0                                     |     0.628 |
 |           buf_pix                                |     0.008 |
-|           core0                                  |     0.101 |
-|             buf_feat                             |     0.004 |
-|             conv                                 |     0.098 |
-|               tree                               |     0.096 |
-|               wreg                               |     0.002 |
-|             feat_accum                           |    <0.001 |
-|             pool                                 |    <0.001 |
-|           core1                                  |     0.048 |
+|           core0                                  |     0.062 |
 |             buf_feat                             |     0.003 |
-|             conv                                 |     0.044 |
-|               tree                               |     0.043 |
-|               wreg                               |     0.002 |
+|             conv                                 |     0.059 |
+|               tree                               |     0.057 |
+|               wreg                               |     0.001 |
 |             feat_accum                           |    <0.001 |
+|             mem_feat                             |    <0.001 |
 |             pool                                 |    <0.001 |
-|           core2                                  |     0.048 |
+|           core1                                  |     0.061 |
 |             buf_feat                             |     0.003 |
-|             conv                                 |     0.044 |
-|               tree                               |     0.043 |
-|               wreg                               |     0.002 |
+|             conv                                 |     0.057 |
+|               tree                               |     0.056 |
+|               wreg                               |     0.001 |
 |             feat_accum                           |    <0.001 |
+|             mem_feat                             |    <0.001 |
 |             pool                                 |    <0.001 |
-|           core3                                  |     0.049 |
-|             buf_feat                             |     0.004 |
-|             conv                                 |     0.045 |
-|               tree                               |     0.044 |
-|               wreg                               |     0.002 |
-|             feat_accum                           |    <0.001 |
-|             pool                                 |    <0.001 |
-|           core4                                  |     0.048 |
+|           core2                                  |     0.063 |
 |             buf_feat                             |     0.003 |
-|             conv                                 |     0.044 |
-|               tree                               |     0.043 |
-|               wreg                               |     0.002 |
+|             conv                                 |     0.059 |
+|               tree                               |     0.058 |
+|               wreg                               |     0.001 |
 |             feat_accum                           |    <0.001 |
+|             mem_feat                             |    <0.001 |
 |             pool                                 |    <0.001 |
-|           core5                                  |     0.048 |
-|             buf_feat                             |     0.004 |
-|             conv                                 |     0.044 |
-|               tree                               |     0.043 |
-|               wreg                               |     0.002 |
-|             feat_accum                           |    <0.001 |
-|             pool                                 |    <0.001 |
-|           core6                                  |     0.048 |
+|           core3                                  |     0.063 |
 |             buf_feat                             |     0.003 |
-|             conv                                 |     0.045 |
-|               tree                               |     0.043 |
-|               wreg                               |     0.002 |
+|             conv                                 |     0.060 |
+|               tree                               |     0.059 |
+|               wreg                               |     0.001 |
 |             feat_accum                           |    <0.001 |
+|             mem_feat                             |    <0.001 |
 |             pool                                 |    <0.001 |
-|           core7                                  |     0.047 |
+|           core4                                  |     0.063 |
 |             buf_feat                             |     0.003 |
-|             conv                                 |     0.044 |
-|               tree                               |     0.042 |
-|               wreg                               |     0.002 |
+|             conv                                 |     0.060 |
+|               tree                               |     0.058 |
+|               wreg                               |     0.001 |
 |             feat_accum                           |    <0.001 |
+|             mem_feat                             |    <0.001 |
 |             pool                                 |    <0.001 |
-|           ctrl                                   |     0.003 |
+|           core5                                  |     0.063 |
+|             buf_feat                             |     0.003 |
+|             conv                                 |     0.060 |
+|               tree                               |     0.058 |
+|               wreg                               |     0.001 |
+|             feat_accum                           |    <0.001 |
+|             mem_feat                             |    <0.001 |
+|             pool                                 |    <0.001 |
+|           core6                                  |     0.062 |
+|             buf_feat                             |     0.003 |
+|             conv                                 |     0.059 |
+|               tree                               |     0.057 |
+|               wreg                               |     0.001 |
+|             feat_accum                           |    <0.001 |
+|             mem_feat                             |    <0.001 |
+|             pool                                 |    <0.001 |
+|           core7                                  |     0.110 |
+|             buf_feat                             |     0.003 |
+|             conv                                 |     0.107 |
+|               tree                               |     0.106 |
+|               wreg                               |     0.001 |
+|             feat_accum                           |    <0.001 |
+|             mem_feat                             |    <0.001 |
+|             pool                                 |    <0.001 |
+|           ctrl                                   |     0.004 |
 |           dec_weight                             |    <0.001 |
 |           mem_input                              |     0.005 |
 |           mem_output0                            |    <0.001 |
@@ -231,13 +239,13 @@ Table of Contents
 |           mem_weight6                            |     0.007 |
 |           mem_weight7                            |     0.007 |
 |           select_out                             |    <0.001 |
-|     processing_system7_0                         |     1.530 |
-|       inst                                       |     1.530 |
-|     processing_system7_0_axi_periph              |     0.005 |
-|       s00_couplers                               |     0.005 |
-|         auto_pc                                  |     0.005 |
-|           inst                                   |     0.005 |
-|             gen_axilite.gen_b2s_conv.axilite_b2s |     0.005 |
+|     processing_system7_0                         |     1.538 |
+|       inst                                       |     1.538 |
+|     processing_system7_0_axi_periph              |     0.006 |
+|       s00_couplers                               |     0.006 |
+|         auto_pc                                  |     0.006 |
+|           inst                                   |     0.006 |
+|             gen_axilite.gen_b2s_conv.axilite_b2s |     0.006 |
 |               RD.ar_channel_0                    |     0.001 |
 |                 ar_cmd_fsm_0                     |    <0.001 |
 |                 cmd_translator_0                 |    <0.001 |
@@ -251,7 +259,7 @@ Table of Contents
 |                 aw_pipe                          |    <0.001 |
 |                 b_pipe                           |    <0.001 |
 |                 r_pipe                           |    <0.001 |
-|               WR.aw_channel_0                    |    <0.001 |
+|               WR.aw_channel_0                    |     0.001 |
 |                 aw_cmd_fsm_0                     |    <0.001 |
 |                 cmd_translator_0                 |    <0.001 |
 |                   incr_cmd_0                     |    <0.001 |

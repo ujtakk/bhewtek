@@ -1,7 +1,7 @@
 #!/bin/zsh
 
-LABEL=3
-NAME=4
+LABEL=$1
+NAME=$2
 
 # pmap1_flat
 cat << EOS > pmap1_flat.h

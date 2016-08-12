@@ -4,7 +4,6 @@ bhewtek
 ├── README.md
 ├── (zedboard)
       * ZedBoard用のワークディレクトリ．
-        !!! 現在はリンクを貼ったip_repo, ningenにて作業中 !!!
 ├── (cpp)
       * C++でのシミュレーション環境
         /home/takau/git/conv_src.git を参照されたい

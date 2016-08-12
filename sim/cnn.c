@@ -571,8 +571,8 @@ int main (int argc, char *argv[])
   fm_fm(ipmap1,ifmap2,if2weight,N_F1,N_F2,pm1hei,pm1wid,FHEI,FWID);
   for (i = 0; i < N_F2; i++) {
     max_pooling(ifmap2[i],ipmap2[i],pm1hei-FHEI+1,pm1wid-FWID+1);
-//    add_bias(ipmap2[i],ibias2[i],pm2hei,pm2wid);
-//    activate(ipmap2[i],pm2hei,pm2wid);
+    add_bias(ipmap2[i],ibias2[i],pm2hei,pm2wid);
+    activate(ipmap2[i],pm2hei,pm2wid);
   }
 
 #ifdef IPMAP1
@@ -596,19 +596,19 @@ int main (int argc, char *argv[])
         printf("%4d\n", ipmap2[i][j][k]);
 #endif
 
-//  // full connection layer
-//  flatten(ipmap2,ipmap2_flat,N_F2,pm2hei,pm2wid);
-//  full_connect(ipmap2_flat,ihunit,ihweight,ihbias,pm2hei*pm2wid*N_F2,N_HL);
-//  activate_1d(ihunit,N_HL);
-//
-//  // output layer
-//  full_connect(ihunit,ioutput,ioweight,iobias,N_HL,LABEL);
-//  for (i = 0;  i<LABEL; i++) {
-//    doutput[i] = ioutput[i]/pow(2,8);
-//  }
-//  for (i = 0;  i<LABEL; i++) {
-//    printf("%.8e\n",doutput[i]);
-//  }
+  // full connection layer
+  flatten(ipmap2,ipmap2_flat,N_F2,pm2hei,pm2wid);
+  full_connect(ipmap2_flat,ihunit,ihweight,ihbias,pm2hei*pm2wid*N_F2,N_HL);
+  activate_1d(ihunit,N_HL);
+
+  // output layer
+  full_connect(ihunit,ioutput,ioweight,iobias,N_HL,LABEL);
+  for (i = 0;  i<LABEL; i++) {
+    doutput[i] = ioutput[i]/pow(2,8);
+  }
+  for (i = 0;  i<LABEL; i++) {
+    printf("%d\n",ioutput[i]);
+  }
 
   // free memory
   ifree_2d(iinput,IMHEI);

@@ -10,6 +10,8 @@ $pool_delay = $conv_delay + 2;
 
 # Verilog parameter
 $dwidth = 16
+$in_hei = 28
+$pm1hei = 12
 $insize = 12
 $fsize = 5
 $psize = 2

@@ -151,20 +151,20 @@ module ctrl(/*AUTOARG*/);
     end
 
   assign mem_input_addr = input_addr + ((r_state == CONV || r_state == POOL)
-                      ? r_input_addr + 1
-                      : r_input_addr);
+                                          ? r_input_addr + 1
+                                          : r_input_addr);
 
   always @(posedge clk)
     if (!xrst)
       r_input_addr <= 0;
     else if (r_state == WAIT && req == 1 || pool_end)
-      r_input_addr <= input_addr;
+      r_input_addr <= 0;
     else if (r_state == CONV || r_state == POOL)
       r_input_addr <= r_input_addr + 1;
 
   assign mem_weight_addr = weight_addr + ((r_state == WREG)
-                          ? r_weight_addr + 1
-                          : r_weight_addr);
+                                            ? r_weight_addr + 1
+                                            : r_weight_addr);
 
   assign wreg_we = wreg_valid;
 
@@ -172,7 +172,7 @@ module ctrl(/*AUTOARG*/);
     if (!xrst)
       r_weight_addr <= 0;
     else if (r_state == WAIT && req == 1 || ack)
-      r_weight_addr <= weight_addr;
+      r_weight_addr <= 0;
     else if (r_state == WREG)
       r_weight_addr <= r_weight_addr + 1;
 
@@ -247,11 +247,11 @@ module ctrl(/*AUTOARG*/);
             && r_conv_x == r_img_w - 1 && r_conv_y == r_img_h - 1;
 
   //accum exec
-  assign mem_feat_we    = r_feat_we_d<%=$conv_delay%>;
-  assign mem_feat_rst   = r_feat_rst_d<%=$conv_delay%>;
+  assign mem_feat_we      = r_feat_we_d<%=$conv_delay%>;
+  assign mem_feat_rst     = r_feat_rst_d<%=$conv_delay%>;
   assign mem_feat_addr_d1 = r_feat_addr_d<%=$conv_delay+1%>;
-  assign mem_feat_addr  = r_feat_addr_d<%=$conv_delay%>;
-  assign conv_we      = r_conv_we_d<%=$conv_delay%>;
+  assign mem_feat_addr    = r_feat_addr_d<%=$conv_delay%>;
+  assign conv_we          = r_conv_we_d<%=$conv_delay%>;
 
   always @(posedge clk)
     if (r_state == CONV && conv_valid)

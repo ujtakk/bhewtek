@@ -1,8 +1,8 @@
 //Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2016.1 (lin64) Build 1538259 Fri Apr  8 15:45:23 MDT 2016
-//Date        : Mon Aug  8 18:39:01 2016
-//Host        : saki running 64-bit Debian GNU/Linux 8.5 (jessie)
+//Date        : Fri Aug 12 13:29:41 2016
+//Host        : menorca running 64-bit Debian GNU/Linux 8.5 (jessie)
 //Command     : generate_target design_1_wrapper.bd
 //Design      : design_1_wrapper
 //Purpose     : IP block netlist

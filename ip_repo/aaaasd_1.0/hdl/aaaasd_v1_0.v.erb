@@ -101,7 +101,10 @@
   wire [DWIDTH-1:0]  read_output;
   wire               ack;
 
-  wire [DWIDTH-1:0] probe;
+  wire [DWIDTH-1:0] probe_in;
+% for i in 0...8
+  wire [DWIDTH-1:0] probe_w<%=i%>;
+% end
 
   assign clk          = s_axi_aclk;
   assign xrst         = s_axi_aresetn;
@@ -119,9 +122,12 @@
   assign write_weight = port11[15:0];
   assign output_addr  = port12[9:0];
 
-  assign port13 = {16'b0 , read_output};
-  assign port14 = {16'b0, probe};
-  assign port15 = {31'b0, ack};
+  assign port255 = {31'b0, ack};
+  assign port254 = {{16{read_output[15]}}, read_output};
+  assign port253 = {{16{probe_in[15]}}, probe_in};
+% for i in 0...8
+  assign port<%=252-i%> = {{16{probe_w<%=i%>[15]}}, probe_w<%=i%>};
+% end
 
   //assign probe0 = port16[0];
   //assign probe1 = port17[15:0];
@@ -131,7 +137,10 @@
     // Outputs
     .ack          (ack),
     .read_output  (read_output[DWIDTH-1:0]),
-    .probe        (probe[DWIDTH-1:0]),
+    .probe_in        (probe_in[DWIDTH-1:0]),
+% for i in 0...8
+    .probe_w<%=i%>  (probe_w<%=i%>[DWIDTH-1:0]),
+% end
     // Inputs
     .clk          (clk),
     .fil_size     (fil_size[LWIDTH-1:0]),

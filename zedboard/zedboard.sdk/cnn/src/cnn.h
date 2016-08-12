@@ -1,5 +1,5 @@
-#ifndef CNN_H
-#define CNN_H
+#ifndef __CNN_H_
+#define __CNN_H_
 
 #define FWID    5
 #define FHEI    5
@@ -35,31 +35,5 @@
 
 #include "xparameters.h"
 #include "aaaasd.h"
-
-//const int reg_req       = XPAR_MYIP_0_S_AXI_BASEADDR + MYIP_S_AXI_SLV_REG0_OFFSET;
-//const int reg_enable    = XPAR_MYIP_0_S_AXI_BASEADDR + MYIP_S_AXI_SLV_REG1_OFFSET;
-//const int reg_param     = XPAR_MYIP_0_S_AXI_BASEADDR + MYIP_S_AXI_SLV_REG2_OFFSET;
-//const int reg_input     = XPAR_MYIP_0_S_AXI_BASEADDR + MYIP_S_AXI_SLV_REG3_OFFSET;
-//const int reg_weight    = XPAR_MYIP_0_S_AXI_BASEADDR + MYIP_S_AXI_SLV_REG4_OFFSET;
-//const int reg_out_addr  = XPAR_MYIP_0_S_AXI_BASEADDR + MYIP_S_AXI_SLV_REG5_OFFSET;
-//const int reg_out_val   = XPAR_MYIP_0_S_AXI_BASEADDR + MYIP_S_AXI_SLV_REG6_OFFSET;
-//const int reg_ack       = XPAR_MYIP_0_S_AXI_BASEADDR + MYIP_S_AXI_SLV_REG7_OFFSET;
-
-const int reg_req           = XPAR_AAAASD_0_S_AXI_BASEADDR + AAAASD_S_AXI_SLV_REG0_OFFSET;
-const int reg_output_re     = XPAR_AAAASD_0_S_AXI_BASEADDR + AAAASD_S_AXI_SLV_REG1_OFFSET;
-const int reg_weight_we     = XPAR_AAAASD_0_S_AXI_BASEADDR + AAAASD_S_AXI_SLV_REG2_OFFSET;
-const int reg_input_we      = XPAR_AAAASD_0_S_AXI_BASEADDR + AAAASD_S_AXI_SLV_REG3_OFFSET;
-const int reg_total_out     = XPAR_AAAASD_0_S_AXI_BASEADDR + AAAASD_S_AXI_SLV_REG4_OFFSET;
-const int reg_total_in      = XPAR_AAAASD_0_S_AXI_BASEADDR + AAAASD_S_AXI_SLV_REG5_OFFSET;
-const int reg_img_size      = XPAR_AAAASD_0_S_AXI_BASEADDR + AAAASD_S_AXI_SLV_REG6_OFFSET;
-const int reg_fil_size      = XPAR_AAAASD_0_S_AXI_BASEADDR + AAAASD_S_AXI_SLV_REG7_OFFSET;
-const int reg_input_addr    = XPAR_AAAASD_0_S_AXI_BASEADDR + AAAASD_S_AXI_SLV_REG8_OFFSET;
-const int reg_write_input   = XPAR_AAAASD_0_S_AXI_BASEADDR + AAAASD_S_AXI_SLV_REG9_OFFSET;
-const int reg_weight_addr   = XPAR_AAAASD_0_S_AXI_BASEADDR + AAAASD_S_AXI_SLV_REG10_OFFSET;
-const int reg_write_weight  = XPAR_AAAASD_0_S_AXI_BASEADDR + AAAASD_S_AXI_SLV_REG11_OFFSET;
-const int reg_output_addr   = XPAR_AAAASD_0_S_AXI_BASEADDR + AAAASD_S_AXI_SLV_REG12_OFFSET;
-const int reg_read_output   = XPAR_AAAASD_0_S_AXI_BASEADDR + AAAASD_S_AXI_SLV_REG13_OFFSET;
-const int reg_probe         = XPAR_AAAASD_0_S_AXI_BASEADDR + AAAASD_S_AXI_SLV_REG14_OFFSET;
-const int reg_ack           = XPAR_AAAASD_0_S_AXI_BASEADDR + AAAASD_S_AXI_SLV_REG15_OFFSET;
 
 #endif

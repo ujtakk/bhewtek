@@ -77,10 +77,9 @@ module test_top();
     //$toggle_start();
     #(STEP);
 
-    xrst          = 0;
     req           = 0;
     fil_size      = FSIZE;
-    img_size      = INSIZE;
+    img_size      = 12;
     total_in      = N_F1;
     total_out     = N_F2;
     input_addr    = 0;
@@ -91,10 +90,6 @@ module test_top();
     weight_we     = 4'd0;
     output_addr   = 0;
     output_re     = 0;
-
-    #(STEP);
-
-    xrst = 1;
 
     #(STEP*5);
 
@@ -192,7 +187,7 @@ module test_top();
     begin
       <%- num = 2 -%><%- file = 4 -%>
       <%- for i in 0...$n_f1 -%>
-      $readmemb("<%=$project%>/data/mnist/bpmap1/<%=num%>/data<%=file%>_<%=i%>.bin", mem_in, <%=($insize**2)*i%>, <%=($insize**2)*(i+1)-1%>);
+      $readmemb("<%=$project%>/data/mnist/bpmap1/<%=num%>/data<%=file%>_<%=i%>.bin", mem_in, <%=($pm1hei**2)*i%>, <%=($pm1hei**2)*(i+1)-1%>);
       <%- end -%>
     end
   endtask

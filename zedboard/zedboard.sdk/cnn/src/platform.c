@@ -92,14 +92,14 @@ init_platform()
      * Make sure that the ps7/psu_init.c and ps7/psu_init.h files are included
      * along with this example source files for compilation.
      */
-    /* ps7_init();*/
-    /* psu_init();*/
-    enable_caches();
+    /*ps7_init();*/
+    /*psu_init();*/
+    //enable_caches();
     init_uart();
 }
 
 void
 cleanup_platform()
 {
-    disable_caches();
+    //disable_caches();
 }

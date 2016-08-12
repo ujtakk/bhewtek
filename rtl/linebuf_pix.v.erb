@@ -16,7 +16,7 @@ module linebuf_pix(/*AUTOARG*/);
     /*AUTOREG*/
 
     <%- for y in 0...$fsize -%>
-    <%-   x_max = y == $fsize-1 ? $fsize : $insize -%>
+    <%-   x_max = y == $fsize-1 ? $fsize : $pm1hei -%>
     <%-   for x in 0...x_max -%>
     reg [DWIDTH-1:0]    r_pix<%=y%>_<%=x%>;
     <%-   end -%>
@@ -27,7 +27,7 @@ module linebuf_pix(/*AUTOARG*/);
     <%- end -%>
 
     <%- for y in 0...$fsize -%>
-    <%-   x_max = y == $fsize-1 ? $fsize : $insize -%>
+    <%-   x_max = y == $fsize-1 ? $fsize : $pm1hei -%>
     <%-   for x in 0...x_max -%>
     always @(posedge clk)
         <%- if x == x_max-1 -%>

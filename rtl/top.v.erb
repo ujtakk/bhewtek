@@ -5,12 +5,21 @@ module top(/*AUTOARG*/);
     /*AUTOINPUT*/
 
     /*AUTOOUTPUT*/
+    output signed [DWIDTH-1:0] probe_in;
+%   for i in 0...$core
+    output signed [DWIDTH-1:0] probe_w<%=i%>;
+%   end
 
     /*AUTOWIRE*/
 
     /*AUTOREG*/
 
     // AUTO_CONSTANT (DWIDTH)
+
+    assign probe_in = read_input;
+%   for i in 0...$core
+    assign probe_w<%=i%> = read_weight<%=i%>;
+%   end
 
     /* sram_input AUTO_TEMPLATE (
         .read_data  (read_input[DWIDTH-1:0]),

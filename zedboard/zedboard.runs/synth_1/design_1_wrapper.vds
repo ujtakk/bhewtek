@@ -2,8 +2,8 @@
 # Vivado v2016.1 (64-bit)
 # SW Build 1538259 on Fri Apr  8 15:45:23 MDT 2016
 # IP Build 1537824 on Fri Apr  8 04:28:57 MDT 2016
-# Start of session at: Mon Aug  8 18:39:34 2016
-# Process ID: 22762
+# Start of session at: Fri Aug 12 13:32:01 2016
+# Process ID: 7988
 # Current directory: /ram/home/work/takau/bhewtek/zedboard/zedboard.runs/synth_1
 # Command line: vivado -log design_1_wrapper.vds -mode batch -messageDb vivado.pb -notrace -source design_1_wrapper.tcl
 # Log file: /ram/home/work/takau/bhewtek/zedboard/zedboard.runs/synth_1/design_1_wrapper.vds
@@ -19,7 +19,7 @@ Starting synth_design
 Attempting to get a license for feature 'Synthesis' and/or device 'xc7z020'
 INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z020'
 INFO: Launching helper process for spawning children vivado processes
-INFO: Helper process launched with PID 22766 
+INFO: Helper process launched with PID 8590 
 WARNING: [Synth 8-2507] parameter declaration becomes local in aaaasd_v1_0 with formal parameter declaration list [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/src/parameters.vh:1]
 WARNING: [Synth 8-2507] parameter declaration becomes local in aaaasd_v1_0 with formal parameter declaration list [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/src/parameters.vh:2]
 WARNING: [Synth 8-2507] parameter declaration becomes local in aaaasd_v1_0 with formal parameter declaration list [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/src/parameters.vh:3]
@@ -34,7 +34,7 @@ WARNING: [Synth 8-2507] parameter declaration becomes local in aaaasd_v1_0 with 
 WARNING: [Synth 8-2507] parameter declaration becomes local in aaaasd_v1_0 with formal parameter declaration list [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/src/parameters.vh:12]
 WARNING: [Synth 8-2507] parameter declaration becomes local in aaaasd_v1_0 with formal parameter declaration list [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/src/parameters.vh:13]
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:09 ; elapsed = 00:00:10 . Memory (MB): peak = 1097.715 ; gain = 209.273 ; free physical = 29075 ; free virtual = 30582
+Starting RTL Elaboration : Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 1097.715 ; gain = 209.273 ; free physical = 1712 ; free virtual = 24350
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-638] synthesizing module 'design_1_wrapper' [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/hdl/design_1_wrapper.v:12]
 INFO: [Synth 8-638] synthesizing module 'design_1' [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/hdl/design_1.v:13]
@@ -61,7 +61,7 @@ INFO: [Synth 8-638] synthesizing module 'aaaasd_v1_0_S_AXI' [/ram/home/work/taka
 	Parameter ADDR_LSB bound to: 2 - type: integer 
 	Parameter OPT_MEM_ADDR_BITS bound to: 7 - type: integer 
 INFO: [Synth 8-226] default block is never used [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0_S_AXI.v:984]
-INFO: [Synth 8-226] default block is never used [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0_S_AXI.v:3147]
+INFO: [Synth 8-226] default block is never used [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0_S_AXI.v:3272]
 INFO: [Synth 8-256] done synthesizing module 'aaaasd_v1_0_S_AXI' (1#1) [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0_S_AXI.v:4]
 INFO: [Synth 8-638] synthesizing module 'top' [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/src/top.v:1]
 	Parameter DWIDTH bound to: 16 - type: integer 
@@ -298,6 +298,107 @@ INFO: [Synth 8-638] synthesizing module 'mux_output' [/ram/home/work/takau/bhewt
 	Parameter STEP bound to: 10 - type: integer 
 INFO: [Synth 8-256] done synthesizing module 'mux_output' (16#1) [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/src/mux_output.v:1]
 INFO: [Synth 8-256] done synthesizing module 'top' (17#1) [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/src/top.v:1]
+WARNING: [Synth 8-3848] Net port128 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:175]
+WARNING: [Synth 8-3848] Net port129 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:176]
+WARNING: [Synth 8-3848] Net port130 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:177]
+WARNING: [Synth 8-3848] Net port131 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:178]
+WARNING: [Synth 8-3848] Net port132 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:179]
+WARNING: [Synth 8-3848] Net port133 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:180]
+WARNING: [Synth 8-3848] Net port134 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:181]
+WARNING: [Synth 8-3848] Net port135 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:182]
+WARNING: [Synth 8-3848] Net port136 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:183]
+WARNING: [Synth 8-3848] Net port137 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:184]
+WARNING: [Synth 8-3848] Net port138 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:185]
+WARNING: [Synth 8-3848] Net port139 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:186]
+WARNING: [Synth 8-3848] Net port140 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:187]
+WARNING: [Synth 8-3848] Net port141 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:188]
+WARNING: [Synth 8-3848] Net port142 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:189]
+WARNING: [Synth 8-3848] Net port143 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:190]
+WARNING: [Synth 8-3848] Net port144 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:191]
+WARNING: [Synth 8-3848] Net port145 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:192]
+WARNING: [Synth 8-3848] Net port146 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:193]
+WARNING: [Synth 8-3848] Net port147 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:194]
+WARNING: [Synth 8-3848] Net port148 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:195]
+WARNING: [Synth 8-3848] Net port149 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:196]
+WARNING: [Synth 8-3848] Net port150 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:197]
+WARNING: [Synth 8-3848] Net port151 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:198]
+WARNING: [Synth 8-3848] Net port152 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:199]
+WARNING: [Synth 8-3848] Net port153 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:200]
+WARNING: [Synth 8-3848] Net port154 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:201]
+WARNING: [Synth 8-3848] Net port155 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:202]
+WARNING: [Synth 8-3848] Net port156 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:203]
+WARNING: [Synth 8-3848] Net port157 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:204]
+WARNING: [Synth 8-3848] Net port158 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:205]
+WARNING: [Synth 8-3848] Net port159 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:206]
+WARNING: [Synth 8-3848] Net port160 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:207]
+WARNING: [Synth 8-3848] Net port161 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:208]
+WARNING: [Synth 8-3848] Net port162 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:209]
+WARNING: [Synth 8-3848] Net port163 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:210]
+WARNING: [Synth 8-3848] Net port164 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:211]
+WARNING: [Synth 8-3848] Net port165 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:212]
+WARNING: [Synth 8-3848] Net port166 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:213]
+WARNING: [Synth 8-3848] Net port167 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:214]
+WARNING: [Synth 8-3848] Net port168 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:215]
+WARNING: [Synth 8-3848] Net port169 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:216]
+WARNING: [Synth 8-3848] Net port170 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:217]
+WARNING: [Synth 8-3848] Net port171 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:218]
+WARNING: [Synth 8-3848] Net port172 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:219]
+WARNING: [Synth 8-3848] Net port173 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:220]
+WARNING: [Synth 8-3848] Net port174 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:221]
+WARNING: [Synth 8-3848] Net port175 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:222]
+WARNING: [Synth 8-3848] Net port176 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:223]
+WARNING: [Synth 8-3848] Net port177 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:224]
+WARNING: [Synth 8-3848] Net port178 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:225]
+WARNING: [Synth 8-3848] Net port179 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:226]
+WARNING: [Synth 8-3848] Net port180 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:227]
+WARNING: [Synth 8-3848] Net port181 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:228]
+WARNING: [Synth 8-3848] Net port182 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:229]
+WARNING: [Synth 8-3848] Net port183 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:230]
+WARNING: [Synth 8-3848] Net port184 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:231]
+WARNING: [Synth 8-3848] Net port185 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:232]
+WARNING: [Synth 8-3848] Net port186 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:233]
+WARNING: [Synth 8-3848] Net port187 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:234]
+WARNING: [Synth 8-3848] Net port188 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:235]
+WARNING: [Synth 8-3848] Net port189 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:236]
+WARNING: [Synth 8-3848] Net port190 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:237]
+WARNING: [Synth 8-3848] Net port191 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:238]
+WARNING: [Synth 8-3848] Net port192 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:239]
+WARNING: [Synth 8-3848] Net port193 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:240]
+WARNING: [Synth 8-3848] Net port194 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:241]
+WARNING: [Synth 8-3848] Net port195 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:242]
+WARNING: [Synth 8-3848] Net port196 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:243]
+WARNING: [Synth 8-3848] Net port197 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:244]
+WARNING: [Synth 8-3848] Net port198 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:245]
+WARNING: [Synth 8-3848] Net port199 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:246]
+WARNING: [Synth 8-3848] Net port200 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:247]
+WARNING: [Synth 8-3848] Net port201 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:248]
+WARNING: [Synth 8-3848] Net port202 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:249]
+WARNING: [Synth 8-3848] Net port203 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:250]
+WARNING: [Synth 8-3848] Net port204 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:251]
+WARNING: [Synth 8-3848] Net port205 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:252]
+WARNING: [Synth 8-3848] Net port206 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:253]
+WARNING: [Synth 8-3848] Net port207 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:254]
+WARNING: [Synth 8-3848] Net port208 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:255]
+WARNING: [Synth 8-3848] Net port209 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:256]
+WARNING: [Synth 8-3848] Net port210 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:257]
+WARNING: [Synth 8-3848] Net port211 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:258]
+WARNING: [Synth 8-3848] Net port212 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:259]
+WARNING: [Synth 8-3848] Net port213 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:260]
+WARNING: [Synth 8-3848] Net port214 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:261]
+WARNING: [Synth 8-3848] Net port215 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:262]
+WARNING: [Synth 8-3848] Net port216 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:263]
+WARNING: [Synth 8-3848] Net port217 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:264]
+WARNING: [Synth 8-3848] Net port218 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:265]
+WARNING: [Synth 8-3848] Net port219 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:266]
+WARNING: [Synth 8-3848] Net port220 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:267]
+WARNING: [Synth 8-3848] Net port221 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:268]
+WARNING: [Synth 8-3848] Net port222 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:269]
+WARNING: [Synth 8-3848] Net port223 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:270]
+WARNING: [Synth 8-3848] Net port224 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:271]
+WARNING: [Synth 8-3848] Net port225 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:272]
+WARNING: [Synth 8-3848] Net port226 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:273]
+WARNING: [Synth 8-3848] Net port227 in module/entity aaaasd_v1_0 does not have driver. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:274]
+INFO: [Common 17-14] Message 'Synth 8-3848' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
 INFO: [Synth 8-256] done synthesizing module 'aaaasd_v1_0' (18#1) [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:4]
 INFO: [Synth 8-256] done synthesizing module 'design_1_aaaasd_0_0' (19#1) [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ip/design_1_aaaasd_0_0/synth/design_1_aaaasd_0_0.v:56]
 INFO: [Synth 8-638] synthesizing module 'design_1_processing_system7_0_0' [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/synth/design_1_processing_system7_0_0.v:59]
@@ -1272,7 +1373,7 @@ WARNING: [Synth 8-3331] design axi_protocol_converter_v2_1_8_b2s_rd_cmd_fsm has 
 WARNING: [Synth 8-3331] design axi_protocol_converter_v2_1_8_b2s_rd_cmd_fsm has unconnected port s_arlen[2]
 INFO: [Common 17-14] Message 'Synth 8-3331' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:37 ; elapsed = 00:00:40 . Memory (MB): peak = 1713.246 ; gain = 824.805 ; free physical = 28453 ; free virtual = 29970
+Finished RTL Elaboration : Time (s): cpu = 00:00:57 ; elapsed = 00:01:00 . Memory (MB): peak = 1716.246 ; gain = 827.805 ; free physical = 1217 ; free virtual = 23752
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -1281,8 +1382,109 @@ Report Check Netlist:
 +------+------------------+-------+---------+-------+------------------+
 |1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
 +------+------------------+-------+---------+-------+------------------+
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[31] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[30] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[29] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[28] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[27] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[26] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[25] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[24] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[23] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[22] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[21] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[20] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[19] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[18] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[17] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[16] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[15] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[14] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[13] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[12] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[11] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[10] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[9] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[8] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[7] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[6] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[5] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[4] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[3] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[2] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[1] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port128[0] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[31] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[30] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[29] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[28] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[27] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[26] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[25] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[24] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[23] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[22] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[21] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[20] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[19] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[18] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[17] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[16] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[15] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[14] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[13] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[12] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[11] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[10] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[9] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[8] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[7] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[6] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[5] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[4] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[3] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[2] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[1] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port129[0] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[31] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[30] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[29] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[28] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[27] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[26] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[25] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[24] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[23] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[22] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[21] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[20] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[19] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[18] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[17] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[16] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[15] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[14] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[13] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[12] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[11] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[10] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[9] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[8] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[7] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[6] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[5] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[4] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[3] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[2] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[1] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port130[0] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port131[31] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port131[30] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port131[29] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+WARNING: [Synth 8-3295] tying undriven pin aaaasd_v1_0_S_AXI_inst:port131[28] to constant 0 [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/hdl/aaaasd_v1_0.v:307]
+INFO: [Common 17-14] Message 'Synth 8-3295' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:39 ; elapsed = 00:00:43 . Memory (MB): peak = 1713.246 ; gain = 824.805 ; free physical = 28452 ; free virtual = 29969
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:01:01 ; elapsed = 00:01:05 . Memory (MB): peak = 1716.246 ; gain = 827.805 ; free physical = 1106 ; free virtual = 23604
 ---------------------------------------------------------------------------------
 INFO: [Netlist 29-17] Analyzing 13 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
@@ -1310,16 +1512,16 @@ INFO: [Project 1-111] Unisim Transformation Summary:
   FDR => FDRE: 12 instances
   SRL16 => SRL16E: 1 instances
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.03 . Memory (MB): peak = 2273.527 ; gain = 0.000 ; free physical = 28090 ; free virtual = 29607
+Constraint Validation Runtime : Time (s): cpu = 00:00:00.05 ; elapsed = 00:00:00.06 . Memory (MB): peak = 2231.527 ; gain = 0.000 ; free physical = 1149 ; free virtual = 23439
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:01:26 ; elapsed = 00:01:31 . Memory (MB): peak = 2273.527 ; gain = 1385.086 ; free physical = 28086 ; free virtual = 29603
+Finished Constraint Validation : Time (s): cpu = 00:02:41 ; elapsed = 00:02:46 . Memory (MB): peak = 2231.527 ; gain = 1343.086 ; free physical = 1304 ; free virtual = 23559
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7z020clg484-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:01:26 ; elapsed = 00:01:31 . Memory (MB): peak = 2273.527 ; gain = 1385.086 ; free physical = 28086 ; free virtual = 29603
+Finished Loading Part and Timing Information : Time (s): cpu = 00:02:41 ; elapsed = 00:02:46 . Memory (MB): peak = 2231.527 ; gain = 1343.086 ; free physical = 1307 ; free virtual = 23562
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
@@ -1333,7 +1535,7 @@ Applied set_property DONT_TOUCH = true for design_1_i/processing_system7_0_axi_p
 Applied set_property DONT_TOUCH = true for design_1_i/processing_system7_0_axi_periph/s00_couplers/auto_pc. (constraint file  auto generated constraint, line ).
 Applied set_property DONT_TOUCH = true for design_1_i/rst_processing_system7_0_100M. (constraint file  auto generated constraint, line ).
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:01:26 ; elapsed = 00:01:31 . Memory (MB): peak = 2273.527 ; gain = 1385.086 ; free physical = 28087 ; free virtual = 29604
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:02:41 ; elapsed = 00:02:47 . Memory (MB): peak = 2231.527 ; gain = 1343.086 ; free physical = 1105 ; free virtual = 23360
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-5544] ROM "r_weight_addr" won't be mapped to Block RAM because address size (2) smaller than threshold (5)
 WARNING: [Synth 8-3936] Found unconnected internal register 'r_pro24_reg' and it is trimmed from '32' to '23' bits. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/src/conv_tree.v:355]
@@ -1363,20 +1565,20 @@ WARNING: [Synth 8-3936] Found unconnected internal register 'r_pro1_reg' and it 
 WARNING: [Synth 8-3936] Found unconnected internal register 'r_pro0_reg' and it is trimmed from '32' to '23' bits. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/ac.jp/aaaasd_v1_0/src/conv_tree.v:307]
 INFO: [Synth 8-4471] merging register 'seq_cnt_en_reg' into 'from_sys_reg' [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/xilinx.com/proc_sys_reset_v5_0/hdl/src/vhdl/sequence_psr.vhd:222]
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:01:45 ; elapsed = 00:01:51 . Memory (MB): peak = 2273.527 ; gain = 1385.086 ; free physical = 28093 ; free virtual = 29611
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:03:15 ; elapsed = 00:03:21 . Memory (MB): peak = 2231.527 ; gain = 1343.086 ; free physical = 1183 ; free virtual = 23432
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
 +------+-----------------------+------------+----------+
 |      |RTL Partition          |Replication |Instances |
 +------+-----------------------+------------+----------+
-|1     |aaaasd_v1_0_S_AXI__GB0 |           1|     26718|
-|2     |aaaasd_v1_0_S_AXI__GB1 |           1|     17402|
-|3     |aaaasd_v1_0_S_AXI__GB2 |           1|     14246|
-|4     |aaaasd_v1_0_S_AXI__GB3 |           1|     15103|
-|5     |aaaasd_v1_0_S_AXI__GB4 |           1|     18841|
+|1     |aaaasd_v1_0_S_AXI__GB0 |           1|     30994|
+|2     |aaaasd_v1_0_S_AXI__GB1 |           1|     18459|
+|3     |aaaasd_v1_0_S_AXI__GB2 |           1|     12410|
+|4     |aaaasd_v1_0_S_AXI__GB3 |           1|     15631|
+|5     |aaaasd_v1_0_S_AXI__GB4 |           1|     18941|
 |6     |core                   |           8|      6345|
-|7     |top__GC0               |           1|      3635|
+|7     |top__GC0               |           1|      3610|
 |8     |design_1__GC0          |           1|      2858|
 +------+-----------------------+------------+----------+
 ---------------------------------------------------------------------------------
@@ -1427,7 +1629,7 @@ Detailed RTL Component Info :
 +---Muxes : 
 	   2 Input     66 Bit        Muxes := 4     
 	   2 Input     47 Bit        Muxes := 2     
-	   2 Input     32 Bit        Muxes := 267   
+	   2 Input     32 Bit        Muxes := 392   
 	   2 Input     16 Bit        Muxes := 32    
 	   2 Input     15 Bit        Muxes := 200   
 	   2 Input     14 Bit        Muxes := 2     
@@ -1459,7 +1661,7 @@ Detailed RTL Component Info :
 	                2 Bit    Registers := 2     
 	                1 Bit    Registers := 5     
 +---Muxes : 
-	   2 Input     32 Bit        Muxes := 259   
+	   2 Input     32 Bit        Muxes := 384   
 	   2 Input      1 Bit        Muxes := 4     
 Module conv_tree 
 Detailed RTL Component Info : 
@@ -1855,7 +2057,7 @@ BRAMs: 280 (col length: RAMB18 60 RAMB36 30)
 Finished Part Resource Summary
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-5580] Multithreading enabled for synth_design using a maximum of 4 processes.
-Start Parallel Synthesis Optimization  : Time (s): cpu = 00:01:47 ; elapsed = 00:01:52 . Memory (MB): peak = 2273.527 ; gain = 1385.086 ; free physical = 28093 ; free virtual = 29610
+Start Parallel Synthesis Optimization  : Time (s): cpu = 00:03:19 ; elapsed = 00:03:24 . Memory (MB): peak = 2231.527 ; gain = 1343.086 ; free physical = 1171 ; free virtual = 23420
 ---------------------------------------------------------------------------------
 Start Cross Boundary Optimization
 ---------------------------------------------------------------------------------
@@ -1940,21 +2142,21 @@ INFO: [Synth 8-4471] merging register 'ctrl/r_fea_h_reg[7:0]' into 'ctrl/r_fea_w
 INFO: [Synth 8-3936] Found unconnected internal register 'inst/gen_axilite.gen_b2s_conv.axilite_b2s/SI_REG/aw_pipe/m_payload_i_reg' and it is trimmed from '66' to '62' bits. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/xilinx.com/axi_register_slice_v2_1/hdl/verilog/axi_register_slice_v2_1_axic_register_slice.v:121]
 INFO: [Synth 8-3936] Found unconnected internal register 'inst/gen_axilite.gen_b2s_conv.axilite_b2s/SI_REG/ar_pipe/m_payload_i_reg' and it is trimmed from '66' to '62' bits. [/ram/home/work/takau/bhewtek/zedboard/zedboard.srcs/sources_1/bd/design_1/ipshared/xilinx.com/axi_register_slice_v2_1/hdl/verilog/axi_register_slice_v2_1_axic_register_slice.v:121]
 ---------------------------------------------------------------------------------
-Finished Cross Boundary Optimization : Time (s): cpu = 00:01:53 ; elapsed = 00:02:16 . Memory (MB): peak = 2273.527 ; gain = 1385.086 ; free physical = 26351 ; free virtual = 27869
+Finished Cross Boundary Optimization : Time (s): cpu = 00:03:29 ; elapsed = 00:04:04 . Memory (MB): peak = 2231.527 ; gain = 1343.086 ; free physical = 525 ; free virtual = 21911
 ---------------------------------------------------------------------------------
-Finished Parallel Reinference  : Time (s): cpu = 00:01:53 ; elapsed = 00:02:16 . Memory (MB): peak = 2273.527 ; gain = 1385.086 ; free physical = 26351 ; free virtual = 27869
+Finished Parallel Reinference  : Time (s): cpu = 00:03:29 ; elapsed = 00:04:04 . Memory (MB): peak = 2231.527 ; gain = 1343.086 ; free physical = 525 ; free virtual = 21911
 
 Report RTL Partitions: 
 +------+-----------------------+------------+----------+
 |      |RTL Partition          |Replication |Instances |
 +------+-----------------------+------------+----------+
-|1     |aaaasd_v1_0_S_AXI__GB0 |           1|     29213|
-|2     |aaaasd_v1_0_S_AXI__GB1 |           1|     18362|
-|3     |aaaasd_v1_0_S_AXI__GB2 |           1|     15558|
-|4     |aaaasd_v1_0_S_AXI__GB3 |           1|     16735|
-|5     |aaaasd_v1_0_S_AXI__GB4 |           1|     20727|
+|1     |aaaasd_v1_0_S_AXI__GB0 |           1|     34907|
+|2     |aaaasd_v1_0_S_AXI__GB1 |           1|     19451|
+|3     |aaaasd_v1_0_S_AXI__GB2 |           1|     13789|
+|4     |aaaasd_v1_0_S_AXI__GB3 |           1|     17245|
+|5     |aaaasd_v1_0_S_AXI__GB4 |           1|     23203|
 |6     |core                   |           8|      7594|
-|7     |top__GC0               |           1|      3425|
+|7     |top__GC0               |           1|      3400|
 |8     |design_1__GC0          |           1|      2979|
 +------+-----------------------+------------+----------+
 ---------------------------------------------------------------------------------
@@ -2086,21 +2288,21 @@ INFO: [Synth 8-3333] propagating constant 0 across sequential element (\axi_rres
 INFO: [Synth 8-3886] merging instance 'axi_bresp_reg[0]' (FDRE) to 'axi_bresp_reg[1]'
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (\axi_bresp_reg[1] )
 ---------------------------------------------------------------------------------
-Finished Area Optimization : Time (s): cpu = 00:02:02 ; elapsed = 00:02:24 . Memory (MB): peak = 2273.527 ; gain = 1385.086 ; free physical = 26104 ; free virtual = 27623
+Finished Area Optimization : Time (s): cpu = 00:03:46 ; elapsed = 00:04:20 . Memory (MB): peak = 2231.527 ; gain = 1343.086 ; free physical = 380 ; free virtual = 21586
 ---------------------------------------------------------------------------------
-Finished Parallel Area Optimization  : Time (s): cpu = 00:02:02 ; elapsed = 00:02:24 . Memory (MB): peak = 2273.527 ; gain = 1385.086 ; free physical = 26104 ; free virtual = 27623
+Finished Parallel Area Optimization  : Time (s): cpu = 00:03:46 ; elapsed = 00:04:20 . Memory (MB): peak = 2231.527 ; gain = 1343.086 ; free physical = 379 ; free virtual = 21586
 
 Report RTL Partitions: 
 +------+-----------------------+------------+----------+
 |      |RTL Partition          |Replication |Instances |
 +------+-----------------------+------------+----------+
-|1     |aaaasd_v1_0_S_AXI__GB0 |           1|      4086|
-|2     |aaaasd_v1_0_S_AXI__GB1 |           1|      8687|
-|3     |aaaasd_v1_0_S_AXI__GB2 |           1|      2649|
-|4     |aaaasd_v1_0_S_AXI__GB3 |           1|       296|
-|5     |aaaasd_v1_0_S_AXI__GB4 |           1|      2255|
+|1     |aaaasd_v1_0_S_AXI__GB0 |           1|      5928|
+|2     |aaaasd_v1_0_S_AXI__GB1 |           1|      9448|
+|3     |aaaasd_v1_0_S_AXI__GB2 |           1|      3722|
+|4     |aaaasd_v1_0_S_AXI__GB3 |           1|      4148|
+|5     |aaaasd_v1_0_S_AXI__GB4 |           1|      5615|
 |6     |core                   |           8|      4827|
-|7     |top__GC0               |           1|      2299|
+|7     |top__GC0               |           1|      2271|
 |8     |design_1__GC0          |           1|      1985|
 +------+-----------------------+------------+----------+
 ---------------------------------------------------------------------------------
@@ -2110,23 +2312,23 @@ Start Timing Optimization
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:02:14 ; elapsed = 00:02:36 . Memory (MB): peak = 2273.527 ; gain = 1385.086 ; free physical = 26101 ; free virtual = 27619
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:04:03 ; elapsed = 00:04:37 . Memory (MB): peak = 2231.527 ; gain = 1343.086 ; free physical = 373 ; free virtual = 21571
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:02:21 ; elapsed = 00:02:44 . Memory (MB): peak = 2273.527 ; gain = 1385.086 ; free physical = 26100 ; free virtual = 27620
+Finished Timing Optimization : Time (s): cpu = 00:04:19 ; elapsed = 00:04:54 . Memory (MB): peak = 2231.527 ; gain = 1343.086 ; free physical = 496 ; free virtual = 21653
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
 +------+-----------------------+------------+----------+
 |      |RTL Partition          |Replication |Instances |
 +------+-----------------------+------------+----------+
-|1     |aaaasd_v1_0_S_AXI__GB0 |           1|      4086|
-|2     |aaaasd_v1_0_S_AXI__GB1 |           1|      8687|
-|3     |aaaasd_v1_0_S_AXI__GB2 |           1|      2621|
-|4     |aaaasd_v1_0_S_AXI__GB3 |           1|       296|
-|5     |aaaasd_v1_0_S_AXI__GB4 |           1|      2239|
+|1     |aaaasd_v1_0_S_AXI__GB0 |           1|      4354|
+|2     |aaaasd_v1_0_S_AXI__GB1 |           1|      9448|
+|3     |aaaasd_v1_0_S_AXI__GB2 |           1|      2178|
+|4     |aaaasd_v1_0_S_AXI__GB3 |           1|      2096|
+|5     |aaaasd_v1_0_S_AXI__GB4 |           1|      1551|
 |6     |core                   |           8|      4827|
-|7     |top__GC0               |           1|      2299|
+|7     |top__GC0               |           1|      2271|
 |8     |design_1__GC0          |           1|      1985|
 +------+-----------------------+------------+----------+
 ---------------------------------------------------------------------------------
@@ -2286,6 +2488,38 @@ INFO: [Synth 8-4480] The timing for the instance inst/top0/core6/mem_feat/mem_re
 INFO: [Synth 8-4480] The timing for the instance inst/top0/core7/mem_feat/mem_reg (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
 INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_input/mem_reg_0 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
 INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_input/mem_reg_1 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight0/mem_reg_0 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight0/mem_reg_1 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight0/mem_reg_2 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight0/mem_reg_3 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight1/mem_reg_0 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight1/mem_reg_1 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight1/mem_reg_2 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight1/mem_reg_3 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight2/mem_reg_0 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight2/mem_reg_1 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight2/mem_reg_2 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight2/mem_reg_3 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight3/mem_reg_0 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight3/mem_reg_1 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight3/mem_reg_2 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight3/mem_reg_3 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight4/mem_reg_0 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight4/mem_reg_1 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight4/mem_reg_2 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight4/mem_reg_3 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight5/mem_reg_0 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight5/mem_reg_1 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight5/mem_reg_2 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight5/mem_reg_3 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight6/mem_reg_0 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight6/mem_reg_1 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight6/mem_reg_2 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight6/mem_reg_3 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight7/mem_reg_0 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight7/mem_reg_1 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight7/mem_reg_2 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
+INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_weight7/mem_reg_3 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
 INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_output0/mem_reg (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
 INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_output1/mem_reg (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
 INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_output2/mem_reg (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
@@ -2295,16 +2529,16 @@ INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_output5/mem_reg (
 INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_output6/mem_reg (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
 INFO: [Synth 8-4480] The timing for the instance inst/top0/mem_output7/mem_reg (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:02:40 ; elapsed = 00:03:02 . Memory (MB): peak = 2273.527 ; gain = 1385.086 ; free physical = 26081 ; free virtual = 27604
+Finished Technology Mapping : Time (s): cpu = 00:04:48 ; elapsed = 00:05:23 . Memory (MB): peak = 2231.527 ; gain = 1343.086 ; free physical = 670 ; free virtual = 21811
 ---------------------------------------------------------------------------------
-Finished Parallel Technology Mapping Optimization  : Time (s): cpu = 00:02:40 ; elapsed = 00:03:02 . Memory (MB): peak = 2273.527 ; gain = 1385.086 ; free physical = 26081 ; free virtual = 27604
+Finished Parallel Technology Mapping Optimization  : Time (s): cpu = 00:04:48 ; elapsed = 00:05:23 . Memory (MB): peak = 2231.527 ; gain = 1343.086 ; free physical = 670 ; free virtual = 21810
 
 Report RTL Partitions: 
 +-+--------------+------------+----------+
 | |RTL Partition |Replication |Instances |
 +-+--------------+------------+----------+
 +-+--------------+------------+----------+
-Finished Parallel Synthesis Optimization  : Time (s): cpu = 00:02:40 ; elapsed = 00:03:02 . Memory (MB): peak = 2273.527 ; gain = 1385.086 ; free physical = 26081 ; free virtual = 27604
+Finished Parallel Synthesis Optimization  : Time (s): cpu = 00:04:48 ; elapsed = 00:05:23 . Memory (MB): peak = 2231.527 ; gain = 1343.086 ; free physical = 667 ; free virtual = 21808
 ---------------------------------------------------------------------------------
 Start IO Insertion
 ---------------------------------------------------------------------------------
@@ -2338,7 +2572,7 @@ INFO: [Synth 8-4618] Found max_fanout attribute set to 20 on net \inst/gen_axili
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:02:44 ; elapsed = 00:03:06 . Memory (MB): peak = 2273.527 ; gain = 1385.086 ; free physical = 26080 ; free virtual = 27603
+Finished IO Insertion : Time (s): cpu = 00:04:53 ; elapsed = 00:05:28 . Memory (MB): peak = 2231.527 ; gain = 1343.086 ; free physical = 755 ; free virtual = 21896
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -2351,7 +2585,7 @@ Report Check Netlist:
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:02:44 ; elapsed = 00:03:06 . Memory (MB): peak = 2273.527 ; gain = 1385.086 ; free physical = 26080 ; free virtual = 27603
+Finished Renaming Generated Instances : Time (s): cpu = 00:04:53 ; elapsed = 00:05:28 . Memory (MB): peak = 2231.527 ; gain = 1343.086 ; free physical = 791 ; free virtual = 21932
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -2363,25 +2597,25 @@ Report RTL Partitions:
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:02:51 ; elapsed = 00:03:14 . Memory (MB): peak = 2273.527 ; gain = 1385.086 ; free physical = 26080 ; free virtual = 27603
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:05:01 ; elapsed = 00:05:36 . Memory (MB): peak = 2231.527 ; gain = 1343.086 ; free physical = 803 ; free virtual = 21943
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:02:51 ; elapsed = 00:03:14 . Memory (MB): peak = 2273.527 ; gain = 1385.086 ; free physical = 26080 ; free virtual = 27603
+Finished Renaming Generated Ports : Time (s): cpu = 00:05:01 ; elapsed = 00:05:36 . Memory (MB): peak = 2231.527 ; gain = 1343.086 ; free physical = 803 ; free virtual = 21943
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:02:52 ; elapsed = 00:03:14 . Memory (MB): peak = 2273.527 ; gain = 1385.086 ; free physical = 26080 ; free virtual = 27603
+Finished Handling Custom Attributes : Time (s): cpu = 00:05:02 ; elapsed = 00:05:37 . Memory (MB): peak = 2231.527 ; gain = 1343.086 ; free physical = 802 ; free virtual = 21942
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:02:52 ; elapsed = 00:03:15 . Memory (MB): peak = 2273.527 ; gain = 1385.086 ; free physical = 26080 ; free virtual = 27603
+Finished Renaming Generated Nets : Time (s): cpu = 00:05:02 ; elapsed = 00:05:37 . Memory (MB): peak = 2231.527 ; gain = 1343.086 ; free physical = 802 ; free virtual = 21942
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start ROM, RAM, DSP and Shift Register Reporting
@@ -2443,12 +2677,12 @@ Report Cell Usage:
 |2     |BUFG       |     1|
 |3     |CARRY4     |  1275|
 |4     |DSP48E1    |   200|
-|5     |LUT1       |  2964|
-|6     |LUT2       |   125|
-|7     |LUT3       |  1882|
-|8     |LUT4       |  1201|
-|9     |LUT5       |  1760|
-|10    |LUT6       |  6316|
+|5     |LUT1       |  2989|
+|6     |LUT2       |   203|
+|7     |LUT3       |  2158|
+|8     |LUT4       |  1237|
+|9     |LUT5       |  1431|
+|10    |LUT6       |  6644|
 |11    |MUXF7      |  1088|
 |12    |MUXF8      |   544|
 |13    |PS7        |     1|
@@ -2461,7 +2695,7 @@ Report Cell Usage:
 |20    |SRLC32E    |    47|
 |21    |FDCE       |  3753|
 |22    |FDR        |     8|
-|23    |FDRE       | 17092|
+|23    |FDRE       | 17218|
 |24    |FDSE       |    53|
 +------+-----------+------+
 
@@ -2469,78 +2703,78 @@ Report Instance Areas:
 +------+---------------------------------------------------+--------------------------------------------------------------+------+
 |      |Instance                                           |Module                                                        |Cells |
 +------+---------------------------------------------------+--------------------------------------------------------------+------+
-|1     |top                                                |                                                              | 38717|
-|2     |  design_1_i                                       |design_1                                                      | 38717|
-|3     |    aaaasd_0                                       |design_1_aaaasd_0_0                                           | 37218|
-|4     |      inst                                         |aaaasd_v1_0                                                   | 37218|
-|5     |        aaaasd_v1_0_S_AXI_inst                     |aaaasd_v1_0_S_AXI                                             | 13423|
-|6     |        top0                                       |top                                                           | 23795|
+|1     |top                                                |                                                              | 39257|
+|2     |  design_1_i                                       |design_1                                                      | 39257|
+|3     |    aaaasd_0                                       |design_1_aaaasd_0_0                                           | 37758|
+|4     |      inst                                         |aaaasd_v1_0                                                   | 37758|
+|5     |        aaaasd_v1_0_S_AXI_inst                     |aaaasd_v1_0_S_AXI                                             | 13613|
+|6     |        top0                                       |top                                                           | 24145|
 |7     |          buf_pix                                  |linebuf_pix                                                   |   464|
-|8     |          core0                                    |core                                                          |  2774|
+|8     |          core0                                    |core                                                          |  2790|
 |9     |            buf_feat                               |linebuf_feat_68                                               |   176|
-|10    |            conv                                   |conv_69                                                       |  2555|
+|10    |            conv                                   |conv_69                                                       |  2571|
 |11    |              tree                                 |conv_tree_73                                                  |  2171|
-|12    |              wreg                                 |conv_wreg_74                                                  |   384|
+|12    |              wreg                                 |conv_wreg_74                                                  |   400|
 |13    |            feat_accum                             |accumulator_70                                                |    20|
 |14    |            mem_feat                               |sram_feat_71                                                  |     1|
 |15    |            pool                                   |pool_72                                                       |    22|
-|16    |          core1                                    |core_5                                                        |  2774|
+|16    |          core1                                    |core_5                                                        |  2790|
 |17    |            buf_feat                               |linebuf_feat_61                                               |   176|
-|18    |            conv                                   |conv_62                                                       |  2555|
+|18    |            conv                                   |conv_62                                                       |  2571|
 |19    |              tree                                 |conv_tree_66                                                  |  2171|
-|20    |              wreg                                 |conv_wreg_67                                                  |   384|
+|20    |              wreg                                 |conv_wreg_67                                                  |   400|
 |21    |            feat_accum                             |accumulator_63                                                |    20|
 |22    |            mem_feat                               |sram_feat_64                                                  |     1|
 |23    |            pool                                   |pool_65                                                       |    22|
-|24    |          core2                                    |core_6                                                        |  2774|
+|24    |          core2                                    |core_6                                                        |  2790|
 |25    |            buf_feat                               |linebuf_feat_54                                               |   176|
-|26    |            conv                                   |conv_55                                                       |  2555|
+|26    |            conv                                   |conv_55                                                       |  2571|
 |27    |              tree                                 |conv_tree_59                                                  |  2171|
-|28    |              wreg                                 |conv_wreg_60                                                  |   384|
+|28    |              wreg                                 |conv_wreg_60                                                  |   400|
 |29    |            feat_accum                             |accumulator_56                                                |    20|
 |30    |            mem_feat                               |sram_feat_57                                                  |     1|
 |31    |            pool                                   |pool_58                                                       |    22|
-|32    |          core3                                    |core_7                                                        |  2774|
+|32    |          core3                                    |core_7                                                        |  2790|
 |33    |            buf_feat                               |linebuf_feat_47                                               |   176|
-|34    |            conv                                   |conv_48                                                       |  2555|
+|34    |            conv                                   |conv_48                                                       |  2571|
 |35    |              tree                                 |conv_tree_52                                                  |  2171|
-|36    |              wreg                                 |conv_wreg_53                                                  |   384|
+|36    |              wreg                                 |conv_wreg_53                                                  |   400|
 |37    |            feat_accum                             |accumulator_49                                                |    20|
 |38    |            mem_feat                               |sram_feat_50                                                  |     1|
 |39    |            pool                                   |pool_51                                                       |    22|
-|40    |          core4                                    |core_8                                                        |  2774|
+|40    |          core4                                    |core_8                                                        |  2790|
 |41    |            buf_feat                               |linebuf_feat_40                                               |   176|
-|42    |            conv                                   |conv_41                                                       |  2555|
+|42    |            conv                                   |conv_41                                                       |  2571|
 |43    |              tree                                 |conv_tree_45                                                  |  2171|
-|44    |              wreg                                 |conv_wreg_46                                                  |   384|
+|44    |              wreg                                 |conv_wreg_46                                                  |   400|
 |45    |            feat_accum                             |accumulator_42                                                |    20|
 |46    |            mem_feat                               |sram_feat_43                                                  |     1|
 |47    |            pool                                   |pool_44                                                       |    22|
-|48    |          core5                                    |core_9                                                        |  2774|
+|48    |          core5                                    |core_9                                                        |  2790|
 |49    |            buf_feat                               |linebuf_feat_33                                               |   176|
-|50    |            conv                                   |conv_34                                                       |  2555|
+|50    |            conv                                   |conv_34                                                       |  2571|
 |51    |              tree                                 |conv_tree_38                                                  |  2171|
-|52    |              wreg                                 |conv_wreg_39                                                  |   384|
+|52    |              wreg                                 |conv_wreg_39                                                  |   400|
 |53    |            feat_accum                             |accumulator_35                                                |    20|
 |54    |            mem_feat                               |sram_feat_36                                                  |     1|
 |55    |            pool                                   |pool_37                                                       |    22|
-|56    |          core6                                    |core_10                                                       |  2774|
+|56    |          core6                                    |core_10                                                       |  2790|
 |57    |            buf_feat                               |linebuf_feat_26                                               |   176|
-|58    |            conv                                   |conv_27                                                       |  2555|
+|58    |            conv                                   |conv_27                                                       |  2571|
 |59    |              tree                                 |conv_tree_31                                                  |  2171|
-|60    |              wreg                                 |conv_wreg_32                                                  |   384|
+|60    |              wreg                                 |conv_wreg_32                                                  |   400|
 |61    |            feat_accum                             |accumulator_28                                                |    20|
 |62    |            mem_feat                               |sram_feat_29                                                  |     1|
 |63    |            pool                                   |pool_30                                                       |    22|
-|64    |          core7                                    |core_11                                                       |  3199|
+|64    |          core7                                    |core_11                                                       |  3215|
 |65    |            buf_feat                               |linebuf_feat                                                  |   176|
-|66    |            conv                                   |conv                                                          |  2980|
+|66    |            conv                                   |conv                                                          |  2996|
 |67    |              tree                                 |conv_tree                                                     |  2596|
-|68    |              wreg                                 |conv_wreg                                                     |   384|
+|68    |              wreg                                 |conv_wreg                                                     |   400|
 |69    |            feat_accum                             |accumulator                                                   |    20|
 |70    |            mem_feat                               |sram_feat                                                     |     1|
 |71    |            pool                                   |pool                                                          |    22|
-|72    |          ctrl                                     |ctrl                                                          |   616|
+|72    |          ctrl                                     |ctrl                                                          |   614|
 |73    |          dec_weight                               |decoder                                                       |     8|
 |74    |          mem_input                                |sram_input                                                    |     2|
 |75    |          mem_output0                              |sram_output                                                   |     1|
@@ -2552,14 +2786,14 @@ Report Instance Areas:
 |81    |          mem_output6                              |sram_output_17                                                |     1|
 |82    |          mem_output7                              |sram_output_18                                                |     1|
 |83    |          mem_weight0                              |sram_weight                                                   |     4|
-|84    |          mem_weight1                              |sram_weight_19                                                |     4|
-|85    |          mem_weight2                              |sram_weight_20                                                |     4|
+|84    |          mem_weight1                              |sram_weight_19                                                |    36|
+|85    |          mem_weight2                              |sram_weight_20                                                |    36|
 |86    |          mem_weight3                              |sram_weight_21                                                |     4|
-|87    |          mem_weight4                              |sram_weight_22                                                |     4|
-|88    |          mem_weight5                              |sram_weight_23                                                |     4|
-|89    |          mem_weight6                              |sram_weight_24                                                |     4|
-|90    |          mem_weight7                              |sram_weight_25                                                |     4|
-|91    |          select_out                               |mux_output                                                    |    48|
+|87    |          mem_weight4                              |sram_weight_22                                                |    36|
+|88    |          mem_weight5                              |sram_weight_23                                                |    36|
+|89    |          mem_weight6                              |sram_weight_24                                                |    36|
+|90    |          mem_weight7                              |sram_weight_25                                                |    36|
+|91    |          select_out                               |mux_output                                                    |    80|
 |92    |    processing_system7_0                           |design_1_processing_system7_0_0                               |   244|
 |93    |      inst                                         |processing_system7_v5_5_processing_system7                    |   244|
 |94    |    processing_system7_0_axi_periph                |design_1_processing_system7_0_axi_periph_0                    |  1189|
@@ -2597,11 +2831,11 @@ Report Instance Areas:
 |126   |          SEQ_COUNTER                              |upcnt_n                                                       |    13|
 +------+---------------------------------------------------+--------------------------------------------------------------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:02:52 ; elapsed = 00:03:15 . Memory (MB): peak = 2273.527 ; gain = 1385.086 ; free physical = 26080 ; free virtual = 27603
+Finished Writing Synthesis Report : Time (s): cpu = 00:05:02 ; elapsed = 00:05:37 . Memory (MB): peak = 2231.527 ; gain = 1343.086 ; free physical = 802 ; free virtual = 21942
 ---------------------------------------------------------------------------------
 Synthesis finished with 0 errors, 0 critical warnings and 37 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:02:07 ; elapsed = 00:02:28 . Memory (MB): peak = 2273.527 ; gain = 701.719 ; free physical = 26080 ; free virtual = 27604
-Synthesis Optimization Complete : Time (s): cpu = 00:02:52 ; elapsed = 00:03:15 . Memory (MB): peak = 2273.527 ; gain = 1385.086 ; free physical = 26085 ; free virtual = 27603
+Synthesis Optimization Runtime : Time (s): cpu = 00:03:24 ; elapsed = 00:03:58 . Memory (MB): peak = 2231.527 ; gain = 704.719 ; free physical = 802 ; free virtual = 21942
+Synthesis Optimization Complete : Time (s): cpu = 00:05:02 ; elapsed = 00:05:37 . Memory (MB): peak = 2231.527 ; gain = 1343.086 ; free physical = 807 ; free virtual = 21942
 INFO: [Project 1-571] Translating synthesized netlist
 INFO: [Netlist 29-17] Analyzing 1534 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
@@ -2613,9 +2847,9 @@ INFO: [Project 1-111] Unisim Transformation Summary:
   SRL16 => SRL16E: 1 instances
 
 INFO: [Common 17-83] Releasing license: Synthesis
-407 Infos, 147 Warnings, 0 Critical Warnings and 0 Errors encountered.
+441 Infos, 347 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:02:57 ; elapsed = 00:03:18 . Memory (MB): peak = 2313.258 ; gain = 1315.312 ; free physical = 28040 ; free virtual = 29558
-write_checkpoint: Time (s): cpu = 00:00:06 ; elapsed = 00:00:05 . Memory (MB): peak = 2346.273 ; gain = 33.016 ; free physical = 28035 ; free virtual = 29558
-report_utilization: Time (s): cpu = 00:00:00.25 ; elapsed = 00:00:00.36 . Memory (MB): peak = 2346.273 ; gain = 0.000 ; free physical = 28035 ; free virtual = 29558
-INFO: [Common 17-206] Exiting Vivado at Mon Aug  8 18:43:08 2016...
+synth_design: Time (s): cpu = 00:05:09 ; elapsed = 00:05:42 . Memory (MB): peak = 2271.258 ; gain = 1273.312 ; free physical = 2360 ; free virtual = 23497
+write_checkpoint: Time (s): cpu = 00:00:08 ; elapsed = 00:00:07 . Memory (MB): peak = 2304.273 ; gain = 33.016 ; free physical = 2561 ; free virtual = 23702
+report_utilization: Time (s): cpu = 00:00:00.42 ; elapsed = 00:00:00.61 . Memory (MB): peak = 2304.273 ; gain = 0.000 ; free physical = 2333 ; free virtual = 23474
+INFO: [Common 17-206] Exiting Vivado at Fri Aug 12 13:38:08 2016...

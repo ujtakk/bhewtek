@@ -1,4 +1,7 @@
-.PHONY: data dist clean
+.PHONY: impl data dist clean
+
+impl:
+	vivado -mode batch -source flow.tcl
 
 data:
 	rsync -av okinawa:/home/work/takau/bhewtek/data ./

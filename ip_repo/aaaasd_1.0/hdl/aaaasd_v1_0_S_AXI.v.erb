@@ -17,7 +17,7 @@
     // Users to add ports here
 
 % for i in 0...256
-%   if i == 13 or i == 14 or i == 15 then
+%   if i >= 128 then
   input [C_S_AXI_DATA_WIDTH-1:0] port<%=i%>,
 %   else
   output [C_S_AXI_DATA_WIDTH-1:0] port<%=i%>,
@@ -2788,7 +2788,7 @@
       else
       begin
 % for i in 0...256
-%   if i == 13 or i == 14 or i == 15 then
+%   if i >= 128 then
         slv_reg<%=i%> <= port<%=i%>;
 %   end
 % end
@@ -3180,7 +3180,7 @@
   // Add user logic here
 
 % for i in 0...256
-%   unless i == 13 or i == 14 or i == 15 then
+%   unless i >= 128 then
   assign port<%=i%> = slv_reg<%=i%>[C_S_AXI_DATA_WIDTH-1:0];
 %   end
 % end

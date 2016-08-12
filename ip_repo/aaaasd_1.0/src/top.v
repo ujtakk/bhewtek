@@ -1,6 +1,7 @@
 module top(/*AUTOARG*/
    // Outputs
-   probe, read_output, ack,
+   read_output, ack, probe_in, probe_w0, probe_w1, probe_w2, probe_w3,
+   probe_w4, probe_w5, probe_w6, probe_w7,
    // Inputs
    xrst, write_weight, write_input, weight_we, weight_addr, total_out,
    total_in, req, output_re, output_addr, input_we, input_addr,
@@ -31,8 +32,16 @@ module top(/*AUTOARG*/
     // Beginning of automatic outputs (from unused autoinst outputs)
     output		ack;			// From ctrl of ctrl.v
     output signed [DWIDTH-1:0] read_output;	// From select_out of mux_output.v
-    output signed [DWIDTH-1:0] probe;
     // End of automatics
+    output signed [DWIDTH-1:0] probe_in;
+    output signed [DWIDTH-1:0] probe_w0;
+    output signed [DWIDTH-1:0] probe_w1;
+    output signed [DWIDTH-1:0] probe_w2;
+    output signed [DWIDTH-1:0] probe_w3;
+    output signed [DWIDTH-1:0] probe_w4;
+    output signed [DWIDTH-1:0] probe_w5;
+    output signed [DWIDTH-1:0] probe_w6;
+    output signed [DWIDTH-1:0] probe_w7;
 
     /*AUTOWIRE*/
     // Beginning of automatic wires (for undeclared instantiated-module outputs)
@@ -104,7 +113,15 @@ module top(/*AUTOARG*/
 
     // AUTO_CONSTANT (DWIDTH)
 
-    assign probe = read_input;
+    assign probe_in = read_input;
+    assign probe_w0 = read_weight0;
+    assign probe_w1 = read_weight1;
+    assign probe_w2 = read_weight2;
+    assign probe_w3 = read_weight3;
+    assign probe_w4 = read_weight4;
+    assign probe_w5 = read_weight5;
+    assign probe_w6 = read_weight6;
+    assign probe_w7 = read_weight7;
 
     /* sram_input AUTO_TEMPLATE (
         .read_data  (read_input[DWIDTH-1:0]),

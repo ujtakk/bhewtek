@@ -25,6 +25,15 @@ module test_top();
   /*AUTOWIRE*/
   // Beginning of automatic wires (for undeclared instantiated-module outputs)
   wire			ack;			// From dut0 of top.v
+  wire signed [DWIDTH-1:0] probe_in;		// From dut0 of top.v
+  wire signed [DWIDTH-1:0] probe_w0;		// From dut0 of top.v
+  wire signed [DWIDTH-1:0] probe_w1;		// From dut0 of top.v
+  wire signed [DWIDTH-1:0] probe_w2;		// From dut0 of top.v
+  wire signed [DWIDTH-1:0] probe_w3;		// From dut0 of top.v
+  wire signed [DWIDTH-1:0] probe_w4;		// From dut0 of top.v
+  wire signed [DWIDTH-1:0] probe_w5;		// From dut0 of top.v
+  wire signed [DWIDTH-1:0] probe_w6;		// From dut0 of top.v
+  wire signed [DWIDTH-1:0] probe_w7;		// From dut0 of top.v
   wire signed [DWIDTH-1:0] read_output;		// From dut0 of top.v
   // End of automatics
 
@@ -170,24 +179,19 @@ module test_top();
     //$toggle_start();
     #(STEP);
 
-    xrst = 0;
-    req = 0;
-    fil_size = FSIZE;
-    img_size = INSIZE;
-    total_in = N_F1;
-    total_out = N_F2;
-    input_addr = 0;
-    weight_addr = 0;
-    input_we = 0;
-    write_input = 0;
-    write_weight = 0;
-    weight_we = 4'd0;
-    output_addr = 0;
-    output_re = 0;
-
-    #(STEP);
-
-    xrst = 1;
+    req           = 0;
+    fil_size      = FSIZE;
+    img_size      = INSIZE;
+    total_in      = N_F1;
+    total_out     = N_F2;
+    input_addr    = 0;
+    weight_addr   = 0;
+    input_we      = 0;
+    write_input   = 0;
+    write_weight  = 0;
+    weight_we     = 4'd0;
+    output_addr   = 0;
+    output_re     = 0;
 
     #(STEP*5);
 
@@ -202,6 +206,7 @@ module test_top();
     #(STEP*10);
 
     write_output;
+    valid_memin;
 
     //$toggle_stop();
     //$toggle_report("/home/work/takau/bhewtek/saif_rtl/saif{CORE}/rtl_top{NUM}_{FILE}.saif", 1.0e-9, "test_top");
@@ -281,6 +286,15 @@ module test_top();
 	   // Outputs
 	   .ack				(ack),
 	   .read_output			(read_output[DWIDTH-1:0]),
+	   .probe_in			(probe_in[DWIDTH-1:0]),
+	   .probe_w0			(probe_w0[DWIDTH-1:0]),
+	   .probe_w1			(probe_w1[DWIDTH-1:0]),
+	   .probe_w2			(probe_w2[DWIDTH-1:0]),
+	   .probe_w3			(probe_w3[DWIDTH-1:0]),
+	   .probe_w4			(probe_w4[DWIDTH-1:0]),
+	   .probe_w5			(probe_w5[DWIDTH-1:0]),
+	   .probe_w6			(probe_w6[DWIDTH-1:0]),
+	   .probe_w7			(probe_w7[DWIDTH-1:0]),
 	   // Inputs
 	   .clk				(clk),
 	   .fil_size			(fil_size[LWIDTH-1:0]),
@@ -1517,6 +1531,23 @@ module test_top();
       end
       output_re = 0;
       $fclose(fd);
+    end
+  endtask
+
+  task valid_memin;
+    integer i;
+    integer in_size;
+    begin
+      in_size = 2880;
+      for (i = 0; i < in_size; i = i + 1)
+      begin
+        #(STEP);
+        input_addr = i;
+        #(STEP);
+        if (dut0.read_input != mem_in[i])
+          $display("Fail: %d", i);
+      end
+      $display("valid_memin complete.");
     end
   endtask
 

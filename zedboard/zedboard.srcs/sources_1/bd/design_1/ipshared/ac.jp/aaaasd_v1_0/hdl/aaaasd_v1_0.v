@@ -607,7 +607,15 @@
   wire [DWIDTH-1:0]  read_output;
   wire               ack;
 
-  wire [DWIDTH-1:0] probe;
+  wire [DWIDTH-1:0] probe_in;
+  wire [DWIDTH-1:0] probe_w0;
+  wire [DWIDTH-1:0] probe_w1;
+  wire [DWIDTH-1:0] probe_w2;
+  wire [DWIDTH-1:0] probe_w3;
+  wire [DWIDTH-1:0] probe_w4;
+  wire [DWIDTH-1:0] probe_w5;
+  wire [DWIDTH-1:0] probe_w6;
+  wire [DWIDTH-1:0] probe_w7;
 
   assign clk          = s_axi_aclk;
   assign xrst         = s_axi_aresetn;
@@ -625,9 +633,17 @@
   assign write_weight = port11[15:0];
   assign output_addr  = port12[9:0];
 
-  assign port13 = {16'b0 , read_output};
-  assign port14 = {16'b0, probe};
-  assign port15 = {31'b0, ack};
+  assign port255 = {31'b0, ack};
+  assign port254 = {{16{read_output[15]}}, read_output};
+  assign port253 = {{16{probe_in[15]}}, probe_in};
+  assign port252 = {{16{probe_w0[15]}}, probe_w0};
+  assign port251 = {{16{probe_w1[15]}}, probe_w1};
+  assign port250 = {{16{probe_w2[15]}}, probe_w2};
+  assign port249 = {{16{probe_w3[15]}}, probe_w3};
+  assign port248 = {{16{probe_w4[15]}}, probe_w4};
+  assign port247 = {{16{probe_w5[15]}}, probe_w5};
+  assign port246 = {{16{probe_w6[15]}}, probe_w6};
+  assign port245 = {{16{probe_w7[15]}}, probe_w7};
 
   //assign probe0 = port16[0];
   //assign probe1 = port17[15:0];
@@ -637,7 +653,15 @@
     // Outputs
     .ack          (ack),
     .read_output  (read_output[DWIDTH-1:0]),
-    .probe        (probe[DWIDTH-1:0]),
+    .probe_in        (probe_in[DWIDTH-1:0]),
+    .probe_w0  (probe_w0[DWIDTH-1:0]),
+    .probe_w1  (probe_w1[DWIDTH-1:0]),
+    .probe_w2  (probe_w2[DWIDTH-1:0]),
+    .probe_w3  (probe_w3[DWIDTH-1:0]),
+    .probe_w4  (probe_w4[DWIDTH-1:0]),
+    .probe_w5  (probe_w5[DWIDTH-1:0]),
+    .probe_w6  (probe_w6[DWIDTH-1:0]),
+    .probe_w7  (probe_w7[DWIDTH-1:0]),
     // Inputs
     .clk          (clk),
     .fil_size     (fil_size[LWIDTH-1:0]),

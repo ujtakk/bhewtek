@@ -7,6 +7,7 @@ $core_log = (Math.log($core)/Math.log(2)).to_i
 $tech = nil # rohm
 $conv_delay = 5;
 $pool_delay = $conv_delay + 2;
+$max_size = 32;
 
 # Verilog parameter
 $dwidth = 16

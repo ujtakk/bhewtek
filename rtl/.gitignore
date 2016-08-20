@@ -1,0 +1,12 @@
+*~
+*.v
+*.vh
+log.txt
+*.log
+*[^(dep)]*.in
+*.com
+*.vstf
+*.dat
+Makefile.dep
+work/
+transcript

@@ -5,9 +5,12 @@ $project = '/home/work/takau/bhewtek'
 $core = 8
 $core_log = (Math.log($core)/Math.log(2)).to_i
 $tech = nil # rohm
-$conv_delay = 5;
-$pool_delay = $conv_delay + 2;
 $max_size = 32;
+$d_convbuf = 14;
+$d_conv = 5;
+$d_poolbuf = 10;
+$d_pool = 3;
+#$d_pool = $d_conv + 3;
 
 # Verilog parameter
 $dwidth = 16

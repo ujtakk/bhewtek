@@ -135,13 +135,6 @@ EOF
         sdata=data.gsub(/\/\/.*$/,"").gsub(/\/\*.*?\*\//,"").gsub(/\s+/," ")
         v_files+=_submodules(sdata)
         r=v_files
-#### hack
-        if @filename=~/^sramw_\d+_(\d+_\d+)/
-            r+=["ioconv_sram_#{$1}","sram_2_#{$1}","sramip_2_#{$1}"]
-        elsif @filename=~/^sramw_(\d+_\d+)/
-            r+=["ioconv_sram_#{$1}","sram_#{$1}","sramip_#{$1}"]
-        end
-#### end of hack
         r=r.uniq.sort
         return r
     end

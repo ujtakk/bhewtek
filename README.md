@@ -1,9 +1,9 @@
 # Convolutional Neural Network Engine
 
 bhewtek
-├── README.md
-├── (zedboard)
-      * ZedBoard用のワークディレクトリ．
+├─- README.md
+├─- (zedboard)
+      * work directory for ZedBoard
 ├── (cpp)
       * C++でのシミュレーション環境
         /home/takau/git/conv_src.git を参照されたい

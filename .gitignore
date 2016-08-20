@@ -1,14 +1,3 @@
-rtl/*~
-rtl/*.v
-rtl/*.vh
-rtl/log.txt
-*.log
-rtl/*[^(dep)]*.in
-rtl/*.com
-rtl/*.vstf
-rtl/Makefile.dep
-rtl/work/
-rtl/transcript
 .Xil/
 saif_rtl/saif*/
 doc/*.aux
@@ -20,5 +9,6 @@ data/
 dist/
 scripts/
 syn/alib-52/
+*.log
 log
 *.jou

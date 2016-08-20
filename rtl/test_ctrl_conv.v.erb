@@ -1,0 +1,127 @@
+`timescale 1ns/1ps
+
+module test_ctrl_conv();
+`include "parameters.vh"
+<%- load "parameters.rb" -%>
+
+  parameter S_CORE_WAIT   = 'd0;
+  parameter S_CORE_WEIGHT = 'd1;
+  parameter S_CORE_INPUT  = 'd2;
+  parameter S_CORE_OUTPUT = 'd3;
+
+  /*AUTOREGINPUT*/
+
+  /*AUTOWIRE*/
+
+  //clock
+  always
+  begin
+    clk = 0;
+    #(STEP/2);
+    clk = 1;
+    #(STEP/2);
+  end
+
+  //flow
+  initial
+  begin
+    xrst = 0;
+    #(STEP);
+    xrst = 1;
+    core_state = 0;
+    first_input = 0;
+    in_begin = 0;
+    in_valid = 0;
+    in_end = 0;
+    img_size = 0;
+    fil_size = 0;
+    #(STEP);
+    img_size = 12;
+    fil_size = 5;
+    in_send;
+    //while (!out_end) #(STEP);
+    #(STEP*10);
+    $finish();
+  end
+
+  //display
+  always
+  begin
+    #(STEP/2-1);
+    $display(
+      "%5d: ", $time/STEP,
+      "%d ", dut0.r_state,
+      "%d ", dut0.r_core_state,
+      "| ",
+      "%d ", xrst,
+      "%d ", in_begin,
+      "%d ", in_valid,
+      "%d ", in_end,
+      "%d ", core_state,
+      "%d ", img_size,
+      "%d ", fil_size,
+      "%d ", first_input,
+      "| ",
+      "%d ", out_begin,
+      "%d ", out_valid,
+      "%d ", out_end,
+      "%d ", wreg_we,
+      "%d ", mem_feat_we,
+      "%d ", mem_feat_rst,
+      "%d ", mem_feat_addr,
+      "%d ", mem_feat_addr_d1,
+      "| ",
+      "%d ", dut0.r_conv_x_d0,
+      "%d ", dut0.r_conv_y_d0,
+      "%d ", dut0.conv_begin,
+      "%d ", dut0.conv_valid,
+      "%d ", dut0.conv_end,
+    );
+    #(STEP/2+1);
+  end
+
+  ctrl_conv dut0(/*AUTOINST*/);
+
+  task in_send;
+    integer i, j, k, l;
+    begin
+      for (i = 0; i < 7; i = i + 1) begin
+        // weight
+        core_state = S_CORE_WEIGHT;
+        in_valid = 1;
+        for (j = 0; j < 5; j = j + 1) begin
+          for (k = 0; k < 5; k = k + 1) begin
+            if (j == 0 && k == 0) in_begin = 1;
+            #(STEP);
+            if (j == 0 && k == 0) in_begin = 0;
+          end
+        end
+
+        // input
+        core_state = S_CORE_INPUT;
+        for (j = 0; j < 19; j = j + 1) begin
+          if (j == 0) first_input = 1;
+          for (k = 0; k < 12; k = k + 1) begin
+            for (l = 0; l < 12; l = l + 1) begin
+              #(STEP);
+            end
+          end
+          if (j == 0) first_input = 0;
+        end
+
+        // output
+        core_state = S_CORE_OUTPUT;
+        for (j = 0; j < 12; j = j + 1) begin
+          for (k = 0; k < 12; k = k + 1) begin
+            if (j == 11 && k == 11) in_end = 1;
+            #(STEP);
+            if (j == 11 && k == 11) in_end = 0;
+          end
+        end
+        in_valid = 0;
+      end
+      core_state = 0;
+    end
+  endtask
+
+endmodule

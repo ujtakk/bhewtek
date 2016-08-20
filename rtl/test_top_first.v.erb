@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module test_top();
+module test_top_first();
 `include "parameters.vh"
 <%- load "parameters.rb" -%>
 
@@ -79,9 +79,9 @@ module test_top();
 
     req           = 0;
     fil_size      = FSIZE;
-    img_size      = 12;
-    total_in      = N_F1;
-    total_out     = N_F2;
+    img_size      = 28;
+    total_in      = 1;
+    total_out     = N_F1;
     input_addr    = 0;
     weight_addr   = 0;
     input_we      = 0;
@@ -100,7 +100,6 @@ module test_top();
     req = 0;
 
     while(!ack) #(STEP);
-    //#(STEP*200000);
 
     #(STEP*10);
 
@@ -187,28 +186,28 @@ module test_top();
   task read_input;
     begin
       <%- num = 2 -%><%- file = 4 -%>
-      <%- for i in 0...$n_f1 -%>
-      $readmemb("<%=$project%>/data/mnist/bpmap1/<%=num%>/data<%=file%>_<%=i%>.bin", mem_in, <%=($pm1hei**2)*i%>, <%=($pm1hei**2)*(i+1)-1%>);
+      <%- for i in 0...1 -%>
+      $readmemb("<%=$project%>/data/mnist/binput/<%=num%>/data<%=file%>.bin", mem_in, <%=(28**2)*i%>, <%=(28**2)*(i+1)-1%>);
       <%- end -%>
     end
   endtask
 
   task read_weight;
     begin
-      <%- for i in 0...$n_f2/$core -%>
-      <%-   for j in 0...$n_f1 -%>
+      <%- for i in 0...$n_f1/$core -%>
+      <%-   for j in 0...1 -%>
       <%-   for k in 0...$core -%>
-      $readmemb("<%=$project%>/data/mnist/lenet/bwb_2/data<%=$core*i+k%>_<%=j%>.bin", mem_w<%=k%>, <%=($fsize**2)*($n_f1*i+j)%>, <%=($fsize**2)*($n_f1*i+j+1)-1%>);
+      $readmemb("<%=$project%>/data/mnist/lenet/bwb_1/data<%=$core*i+k%>_<%=j%>.bin", mem_w<%=k%>, <%=($fsize**2)*(1*i+j)%>, <%=($fsize**2)*(1*i+j+1)-1%>);
       <%-   end -%>
       <%-   end -%>
       <%- end -%>
-      <%- if $n_f2 % $core != 0 -%>
-      <%-   for j in 0...$n_f1 -%>
+      <%- if $n_f1 % $core != 0 -%>
+      <%-   for j in 0...1 -%>
       <%-   for k in 0...$core -%>
-      <%-     if ($n_f2 - ($n_f2 % $core) + k) < $n_f2 -%>
-      $readmemb("<%=$project%>/data/mnist/lenet/bwb_2/data<%=$n_f2-($n_f2%$core)+k%>_<%=j%>.bin", mem_w<%=k%>, <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%>, <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%>);
+      <%-     if ($n_f1 - ($n_f1 % $core) + k) < $n_f1 -%>
+      $readmemb("<%=$project%>/data/mnist/lenet/bwb_1/data<%=$n_f1-($n_f1%$core)+k%>_<%=j%>.bin", mem_w<%=k%>, <%=($fsize**2)*(1*($n_f1/$core)+j)%>, <%=($fsize**2)*(1*($n_f1/$core)+j+1)-1%>);
       <%-     else -%>
-      $readmemb("<%=$project%>/data/mnist/lenet/bwb_2/null.bin", mem_w<%=k%>, <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%>, <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%>);
+      $readmemb("<%=$project%>/data/mnist/lenet/bwb_1/null.bin", mem_w<%=k%>, <%=($fsize**2)*(1*($n_f1/$core)+j)%>, <%=($fsize**2)*(1*($n_f1/$core)+j+1)-1%>);
       <%-     end -%>
       <%-   end -%>
       <%-   end -%>
@@ -224,12 +223,12 @@ module test_top();
     integer o_offset;
     integer o_index;
     begin
-      fd = $fopen("test_top.dat", "w");
+      fd = $fopen("test_top_first.dat", "w");
       $display("");
       $display("read_output");
       $display("====================");
-      out_size = 800;
-      o_unit = 16;
+      out_size = 2880;
+      o_unit = 144;
       for (i=0; i<out_size; i=i+1)
       begin
         o_offset = i % o_unit;
@@ -250,7 +249,7 @@ module test_top();
     integer i;
     integer in_size;
     begin
-      in_size = 2880;
+      in_size = 784;
       for (i = 0; i < in_size; i = i + 1)
       begin
         #(STEP);

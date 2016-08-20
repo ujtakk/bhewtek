@@ -2,10 +2,10 @@ module ctrl(/*AUTOARG*/);
 `include "parameters.vh"
 <%- load "parameters.rb" -%>
 
-  parameter WAIT = 'd0;
-  parameter WREG = 'd1;
-  parameter CONV = 'd2;
-  parameter POOL = 'd3;
+  parameter S_WAIT = 'd0;
+  parameter S_WREG = 'd1;
+  parameter S_CONV = 'd2;
+  parameter S_POOL = 'd3;
 
   /*AUTOINPUT*/
   input clk;
@@ -67,59 +67,59 @@ module ctrl(/*AUTOARG*/);
   reg [LWIDTH-1:0] r_total_out;
   reg [LWIDTH-1:0] r_count_in;
   reg [LWIDTH-1:0] r_count_out;
-  <%- for i in 0...$conv_delay+1 -%>
+  <%- for i in 0...$d_conv+1 -%>
   reg r_feat_we_d<%=i%>;
   reg r_feat_rst_d<%=i%>;
   reg [FACCUM-1:0] r_feat_addr_d<%=i%>;
   reg r_conv_we_d<%=i%>;
   <%- end -%>
-  reg [FACCUM-1:0] r_feat_addr_d<%=$conv_delay+1%>;
-  <% for i in 0..$pool_delay+1 -%>
+  reg [FACCUM-1:0] r_feat_addr_d<%=$d_conv+1%>;
+  <% for i in 0..$d_pool+1 -%>
   reg r_pool_we_d<%=i%>;
   reg r_ack_d<%=i%>;
   <%- end -%>
-  reg r_ack_d<%=$pool_delay+2%>;
+  reg r_ack_d<%=$d_pool+2%>;
   reg [OUTSIZE-1:0] r_output_addr;
 
   //main FSM
   always @(posedge clk)
     if (!xrst)
     begin
-      r_state <= WAIT;
+      r_state <= S_WAIT;
       r_count_in <= 0;
       r_count_out <= 0;
     end
     else
       case (r_state)
-        WAIT:
+        S_WAIT:
           if (req)
-            r_state <= WREG;
+            r_state <= S_WREG;
 
-        WREG:
+        S_WREG:
           if (wreg_end)
             if (r_count_in == r_total_in - 1)
-              r_state <= POOL;
+              r_state <= S_POOL;
             else
-              r_state <= CONV;
+              r_state <= S_CONV;
 
-        CONV:
+        S_CONV:
           if (conv_end)
           begin
-            r_state  <= WREG;
+            r_state  <= S_WREG;
             r_count_in <= r_count_in + 1;
           end
 
-        POOL:
+        S_POOL:
           if (pool_end)
             if (r_count_out + <%=$core%> < r_total_out)
             begin
-              r_state <= WREG;
+              r_state <= S_WREG;
               r_count_in <= 0;
               r_count_out <= r_count_out + <%=$core%>;
             end
             else
             begin
-              r_state <= WAIT;
+              r_state <= S_WAIT;
               r_count_in <= 0;
               r_count_out <= 0;
             end
@@ -138,7 +138,7 @@ module ctrl(/*AUTOARG*/);
       r_fea_w <= 0;
       r_fea_h <= 0;
     end
-    else if (r_state == WAIT && req)
+    else if (r_state == S_WAIT && req)
     begin
       r_total_in  <= total_in;
       r_total_out <= total_out;
@@ -150,31 +150,50 @@ module ctrl(/*AUTOARG*/);
       r_fea_h <= img_h - fil_h + 1;
     end
 
-  assign mem_input_addr = input_addr + ((r_state == CONV || r_state == POOL)
+  assign mem_input_addr = input_addr + ((r_state == S_CONV || r_state == S_POOL)
                                           ? r_input_addr + 1
                                           : r_input_addr);
 
   always @(posedge clk)
     if (!xrst)
       r_input_addr <= 0;
-    else if (r_state == WAIT && req == 1 || pool_end)
+    else if (r_state == S_WAIT && req == 1 || pool_end)
       r_input_addr <= 0;
-    else if (r_state == CONV || r_state == POOL)
+    else if (r_state == S_CONV || r_state == S_POOL)
       r_input_addr <= r_input_addr + 1;
 
-  assign mem_weight_addr = weight_addr + ((r_state == WREG)
+  assign mem_weight_addr = weight_addr + ((r_state == S_WREG)
                                             ? r_weight_addr + 1
                                             : r_weight_addr);
-
-  assign wreg_we = wreg_valid;
 
   always @(posedge clk)
     if (!xrst)
       r_weight_addr <= 0;
-    else if (r_state == WAIT && req == 1 || ack)
+    else if (r_state == S_WAIT && req == 1 || ack)
       r_weight_addr <= 0;
-    else if (r_state == WREG)
+    else if (r_state == S_WREG)
       r_weight_addr <= r_weight_addr + 1;
+
+
+
+//==============================================================================
+//==============================================================================
+
+
+
+  assign wreg_we = wreg_valid;
+
+  assign wreg_start = (r_state == S_WREG)
+                        && r_wreg_x == 0
+                        && r_wreg_y == 0;
+
+  assign wreg_valid = (r_state == S_WREG)
+                        && 0 <= r_wreg_x && r_wreg_x < r_fil_w
+                        && 0 <= r_wreg_y && r_wreg_y < r_fil_h;
+
+  assign wreg_end   = (r_state == S_WREG)
+                        && r_wreg_x == r_fil_w - 1
+                        && r_wreg_y == r_fil_h - 1;
 
   always @(posedge clk)
     if (wreg_valid)
@@ -186,9 +205,9 @@ module ctrl(/*AUTOARG*/);
   always @(posedge clk)
     if (!xrst)
       r_wreg_x <= 0;
-    else if (r_state == WAIT)
+    else if (r_state == S_WAIT)
       r_wreg_x <= 0;
-    else if (r_state == WREG)
+    else if (r_state == S_WREG)
       if (r_wreg_x == r_fil_w - 1)
         r_wreg_x <= 0;
       else
@@ -197,31 +216,21 @@ module ctrl(/*AUTOARG*/);
   always @(posedge clk)
     if (!xrst)
       r_wreg_y <= 0;
-    else if (r_state == WAIT)
+    else if (r_state == S_WAIT)
       r_wreg_y <= 0;
-    else if (r_state == WREG && r_wreg_x == r_fil_w - 1)
+    else if (r_state == S_WREG && r_wreg_x == r_fil_w - 1)
       if (r_wreg_y == r_fil_h - 1)
         r_wreg_y <= 0;
       else
         r_wreg_y <= r_wreg_y + 1;
 
-  assign wreg_start = (r_state == WREG
-            && r_wreg_x == 0 && r_wreg_y == 0);
-
-  assign wreg_valid = (r_state == WREG
-            && r_wreg_x >= 0 && r_wreg_x < r_fil_w
-            && r_wreg_y >=0 && r_wreg_y < r_fil_h);
-
-  assign wreg_end   = (r_state == WREG
-            && r_wreg_x == r_fil_w - 1 && r_wreg_y == r_fil_h - 1);
-
   //conv exec
   always @(posedge clk)
     if (!xrst)
       r_conv_x <= 0;
-    else if (r_state == WAIT)
+    else if (r_state == S_WAIT)
       r_conv_x <= 0;
-    else if ((r_state == CONV || r_state == POOL))
+    else if ((r_state == S_CONV || r_state == S_POOL))
       if (r_conv_x == r_img_w - 1)
         r_conv_x <= 0;
       else
@@ -230,71 +239,41 @@ module ctrl(/*AUTOARG*/);
   always @(posedge clk)
     if (!xrst)
       r_conv_y <= 0;
-    else if (r_state == WAIT)
+    else if (r_state == S_WAIT)
       r_conv_y <= 0;
-    else if ((r_state == CONV || r_state == POOL) && r_conv_x == r_img_w - 1)
+    else if ((r_state == S_CONV || r_state == S_POOL) && r_conv_x == r_img_w - 1)
       if (r_conv_y == r_img_h - 1)
         r_conv_y <= 0;
       else
         r_conv_y <= r_conv_y + 1;
 
-  assign conv_start = (r_state == CONV || r_state == POOL)
+  assign conv_start = (r_state == S_CONV || r_state == S_POOL)
             && r_conv_x == r_fil_w - 1 && r_conv_y == r_fil_h - 1;
-  assign conv_valid = (r_state == CONV || r_state == POOL)
+  assign conv_valid = (r_state == S_CONV || r_state == S_POOL)
             && r_conv_x >= r_fil_w - 1 && r_conv_x < r_img_w
             && r_conv_y >= r_fil_h - 1 && r_conv_y < r_img_h;
-  assign conv_end   = (r_state == CONV || r_state == POOL)
+  assign conv_end   = (r_state == S_CONV || r_state == S_POOL)
             && r_conv_x == r_img_w - 1 && r_conv_y == r_img_h - 1;
 
   //accum exec
-  assign mem_feat_we      = r_feat_we_d<%=$conv_delay%>;
-  assign mem_feat_rst     = r_feat_rst_d<%=$conv_delay%>;
-  assign mem_feat_addr_d1 = r_feat_addr_d<%=$conv_delay+1%>;
-  assign mem_feat_addr    = r_feat_addr_d<%=$conv_delay%>;
-  assign conv_we          = r_conv_we_d<%=$conv_delay%>;
+  assign mem_feat_we      = r_feat_we_d<%=$d_conv%>;
+  assign mem_feat_rst     = r_feat_rst_d<%=$d_conv%>;
+  assign mem_feat_addr_d1 = r_feat_addr_d<%=$d_conv+1%>;
+  assign mem_feat_addr    = r_feat_addr_d<%=$d_conv%>;
+  assign conv_we          = r_conv_we_d<%=$d_conv%>;
 
   always @(posedge clk)
-    if (r_state == CONV && conv_valid)
+    if (r_state == S_CONV && conv_valid)
       r_feat_we_d0 <= 1;
     else
       r_feat_we_d0 <= 0;
 
-  always @(posedge clk)
-    if (r_state == CONV && conv_valid && r_count_in == 0)
-      r_feat_rst_d0 <= 1;
-    else
-      r_feat_rst_d0 <= 0;
-
-  <%- for i in 1...$conv_delay+1 -%>
+  <%- for i in 1...$d_conv+1 -%>
   always @(posedge clk)
     if (!xrst)
       r_feat_we_d<%=i%> <= 0;
     else
       r_feat_we_d<%=i%> <= r_feat_we_d<%=i-1%>;
-  <%- end -%>
-
-  <%- for i in 1..$conv_delay+1 -%>
-  always @(posedge clk)
-    if (!xrst)
-      r_feat_addr_d<%=i%> <= 0;
-    else
-      r_feat_addr_d<%=i%> <= r_feat_addr_d<%=i-1%>;
-  <%- end -%>
-
-  <%- for i in 1...$conv_delay+1 -%>
-  always @(posedge clk)
-    if (!xrst)
-      r_feat_rst_d<%=i%> <= 0;
-    else
-      r_feat_rst_d<%=i%> <= r_feat_rst_d<%=i-1%>;
-  <%- end -%>
-
-  <%- for i in 1...$conv_delay+1 -%>
-  always @(posedge clk)
-    if (!xrst)
-      r_conv_we_d<%=i%> <= 0;
-    else
-      r_conv_we_d<%=i%> <= r_conv_we_d<%=i-1%>;
   <%- end -%>
 
   always @(posedge clk)
@@ -305,18 +284,62 @@ module ctrl(/*AUTOARG*/);
     else if (conv_valid)
       r_feat_addr_d0 <= r_feat_addr_d0 + 1;
 
+  <%- for i in 1..$d_conv+1 -%>
   always @(posedge clk)
-    if (r_state == POOL && conv_valid)
-      r_conv_we_d0 <= 1;
+    <%- if i == 0 -%>
+    <%- else -%>
+    if (!xrst)
+      r_feat_addr_d<%=i%> <= 0;
     else
-      r_conv_we_d0 <= 0;
+      r_feat_addr_d<%=i%> <= r_feat_addr_d<%=i-1%>;
+    <%- end -%>
+  <%- end -%>
+
+  always @(posedge clk)
+    if (r_state == S_CONV && conv_valid && r_count_in == 0)
+      r_feat_rst_d0 <= 1;
+    else
+      r_feat_rst_d0 <= 0;
+
+  <%- for i in 1...$d_conv+1 -%>
+  always @(posedge clk)
+    <%- if i == 0 -%>
+    <%- else -%>
+    if (!xrst)
+      r_feat_rst_d<%=i%> <= 0;
+    else
+      r_feat_rst_d<%=i%> <= r_feat_rst_d<%=i-1%>;
+    <%- end -%>
+  <%- end -%>
+
+  <%- for i in 0...$d_conv+1 -%>
+  always @(posedge clk)
+    <%- if i == 0 -%>
+    if (r_state == S_POOL && conv_valid)
+      r_conv_we_d<%=i%> <= 1;
+    else
+      r_conv_we_d<%=i%> <= 0;
+    <%- else -%>
+    if (!xrst)
+      r_conv_we_d<%=i%> <= 0;
+    else
+      r_conv_we_d<%=i%> <= r_conv_we_d<%=i-1%>;
+    <%- end -%>
+  <%- end -%>
+
+
+
+//==============================================================================
+//==============================================================================
+
+
 
   always @(posedge clk)
     if (!xrst)
       r_pool_x <= 0;
-    else if (r_state == WAIT)
+    else if (r_state == S_WAIT)
       r_pool_x <= 0;
-    else if (r_state == POOL && conv_valid)
+    else if (r_state == S_POOL && conv_valid)
       if (r_pool_x == r_fea_w - 1)
         r_pool_x <= 0;
       else
@@ -325,27 +348,27 @@ module ctrl(/*AUTOARG*/);
   always @(posedge clk)
     if (!xrst)
       r_pool_y <= 0;
-    else if (r_state == WAIT)
+    else if (r_state == S_WAIT)
       r_pool_y <= 0;
-    else if (r_state == POOL && conv_valid && r_pool_x == r_fea_w - 1)
+    else if (r_state == S_POOL && conv_valid && r_pool_x == r_fea_w - 1)
       if (r_pool_y == r_fea_h - 1)
         r_pool_y <= 0;
       else
         r_pool_y <= r_pool_y + 1;
 
-  assign pool_start = r_state == POOL
+  assign pool_start = r_state == S_POOL
             && r_pool_x == 1 && r_pool_y == 1;
 
-  assign pool_valid = r_state == POOL
+  assign pool_valid = r_state == S_POOL
             && r_pool_x >= 1 && r_pool_x < r_fea_w
             && r_pool_y >= 1 && r_pool_y < r_fea_h;
 
-  assign pool_end   = r_state == POOL
+  assign pool_end   = r_state == S_POOL
             && r_pool_x == r_fea_w - 1 && r_pool_y == r_fea_h - 1;
 
   //pool exec
-  assign pool_we     = r_pool_we_d<%=$pool_delay%>;
-  assign mem_output_we   = r_pool_we_d<%=$pool_delay+1%>;
+  assign pool_we     = r_pool_we_d<%=$d_pool%>;
+  assign mem_output_we   = r_pool_we_d<%=$d_pool+1%>;
   assign mem_output_addr = output_addr + r_output_addr;
 
   always @(posedge clk)
@@ -354,7 +377,7 @@ module ctrl(/*AUTOARG*/);
     else
       r_pool_we_d0 <= 0;
 
-  <%- for i in 1..$pool_delay+1 -%>
+  <%- for i in 1..$d_pool+1 -%>
   always @(posedge clk)
     if (!xrst)
       r_pool_we_d<%=i%> <= 0;
@@ -368,11 +391,11 @@ module ctrl(/*AUTOARG*/);
       r_output_addr <= 0;
     else if (ack)
       r_output_addr <= 0;
-    else if (r_pool_we_d<%=$pool_delay+1%>)
+    else if (r_pool_we_d<%=$d_pool+1%>)
       r_output_addr <= r_output_addr + 1;
 
   //assign ack = pool_end && r_count_out + <%=$core%> >= r_total_out;
-  assign ack = r_ack_d<%=$pool_delay+2%>;
+  assign ack = r_ack_d<%=$d_pool+2%>;
 
   always @(posedge clk)
     if (!xrst)
@@ -382,7 +405,7 @@ module ctrl(/*AUTOARG*/);
     else if (pool_end && r_count_out + <%=$core%> >= r_total_out)
       r_ack_d0 <= 1;
 
-  <%- for i in 1..$pool_delay+2 -%>
+  <%- for i in 1..$d_pool+2 -%>
   always @(posedge clk)
     if (!xrst)
       r_ack_d<%=i%> <= 0;

@@ -1,0 +1,6 @@
+*.dat
+*.out
+*.o
+*.cmi
+*.cmo
+*.cmx

@@ -1,3 +1,182 @@
+# -*- makefile -*-
+
+###
+# This is common Makefile for ERB descripted Verilog sources.
+#
+# Include this file and Makefile.dep from normal Makefile.
+###
+
+###
+# below is the template for dep.in script.
+# write the definition of this macro on Makefile that includes VERBMakefile
+###
+
+#-----------------------------------------------------------
+#define DEP_IN
+### -*- text -*-
+### ignore list
+#
+#ignore_file {
+#}
+#
+#ignore_com {
+#}
+#endef
+#export DEP_IN
+#-----------------------------------------------------------
+
+.SUFFIXES: .com .v .vo .obj .eps .dat .bin .v.erb .v.in .log .run .run.g .vh .vh.erb .info .sim .dot .png .reg .reg.erb
+
+ifndef SIMULATOR
+SIMULATOR=vsim
+# SIMULATOR=vcs
+# SIMULATOR=iverilog
+endif
+
+ifndef VERBOSE
+VERBOSE=0
+endif
+
+ifndef DIST
+DIST=dist
+endif
+
+ifeq ($(VERBOSE),1)
+#  quiet =
+  E = true
+  Q =
+else
+#  quiet=quiet_
+  E =
+  Q = @
+endif
+
+ERUBY=erb -T -
+IVERILOG=iverilog
+ARCH=$(shell uname -m)
+
+ifeq ($(ARCH),x86_64)
+VCS=vcs +v2k -full64
+else
+VCS=vcs +v2k
+endif
+
+ifeq ($(SIMULATOR),vsim)
+VLOG_OPT= +acc=rnbp +define+FAST_FUNC # -novopt # -lint
+VSIMOPTION= #$(VLOG_OPT)
+DO_SIM=test -f $* && rm -f $* ; time vsim $* $(VSIMOPTION) -c -do 'run -all; quit' | sed 's/^\# //'
+V_COMPILE=(test -d work || vlib work) && (vlog $(VLOG_OPT) $< > $@.log && touch $@) && (grep "^\*\* " $@.log || true) || (cat $@.log ; false)
+else
+ifeq ($(SIMULATOR),vcs)
+DO_SIM=make $* && time ./$*
+V_COMPILE=touch $@
+else
+ifeq ($(SIMULATOR),iverilog)
+DO_SIM=make $* && time ./$*
+V_COMPILE=touch $@
+endif
+endif
+endif
+
+.com.sim:
+	$(DO_SIM)
+
+.com.log:
+	$(DO_SIM) 2>&1 | tee $@
+
+#### log suppressed
+.v.com:
+	@$(E) echo "  COMPILE (.v)      $<"
+	$(Q)$(V_COMPILE)
+.vo.com:
+	@$(E) echo "  COMPILE (.vo)     $<"
+	$(Q)$(V_COMPILE)
+.v.erb.v.in:
+	@$(E) echo "  ERUBY (.v.erb)    $<"
+	$(Q)(rm -f $@ ; $(ERUBY) $< > $@ || (rm -f $@ ; false))
+	$(Q)chmod 444 $@
+.vh.erb.vh:
+	@$(E) echo "  ERUBY (.vh.erb)   $<"
+	$(Q)(rm -f $@ ; $(ERUBY) $< > $@ || (rm -f $@ ; false))
+	$(Q)chmod 444 $@
+.v.in.v:
+	@$(E) echo "  VMODE (.v.in) (B) $<"
+	$(Q)(rm -f $@ ; cp $< $@ ; chmod 644 $@ ; \
+		LANG=C emacs --batch --no-site-file \
+		--eval '(setq large-file-warning-threshold nil)' $@ \
+		-l verilog-mode -f verilog-auto -f save-buffer \
+		> $@.log 2>&1 || (rm -f $@ ; cat $@.log ; false))
+	$(Q)chmod 444 $@
+
+.v.dot:
+	./dep.rb --dot $< > $@
+.dot.png:
+	dot -Tpng $< > $@
+.dot.svg:
+	dot -Tsvg $< > $@
+
+work:
+ifeq ($(SIMULATOR),vsim)
+	vlib $@
+endif
+
+Makefile.dep:
+	cat Makefile | grep -v Makefile.dep | $(MAKE) -f - dep.rb dep.in
+	./dep.rb $(TARGET) > $@ || rm -f $@
+
+dep.rb:
+	echo "$$DEP_RB" > dep.rb
+	chmod 744 dep.rb
+
+dep.in:
+	echo "$$DEP_IN" > dep.in
+
+compile.all: $(TARGET:=.com)
+
+VERBFILES=$(wildcard *.v.erb)
+VHERBFILES=$(wildcard *.vh.erb)
+VINFILES=$(wildcard *.v.in)
+
+clean-common:
+	rm -f *~
+	rm -f *.com *.log
+	rm -f _*
+	rm -f Makefile.dep
+	rm -f dep.rb dep.in
+
+	### vsim
+	rm -f vsim.wlf transcript
+	rm -rf work csrc
+
+	### vcs
+	rm -f default.cfg vcdplus.vpd vcs.key
+	rm -rf *.daidir
+
+	rm -f $(VERBFILES:.v.erb=.v)
+	rm -f $(VERBFILES:.v.erb=.v.in)
+	rm -f $(VHERBFILES:.vh.erb=.vh)
+	rm -f $(VINFILES:.v.in=.v)
+
+	rm -f $(TARGET)
+
+	rm -f $(LINK_FILES)
+
+$(LINK_FILES):
+	(cd $(IOC_DIR)/ ; $(MAKE) $@)
+	ln -sf $(IOC_DIR)/$@ .
+
+############################################################
+# dist target
+############################################################
+dist:
+	$(MAKE) $(VFILES) $(VHFILES)
+	mkdir -p $(DIST)
+	rsync -L -avz $(VFILES) $(VHFILES) $(DIST)
+
+############################################################
+# ruby macro definition
+############################################################
+define DEP_RB
 #!/usr/bin/env ruby
 
 require 'optparse'
@@ -13,7 +192,7 @@ class VFile
       @@ignore_com=[]
       data_hash={}
       data=open(file).read
-      data=data.gsub(/#.*$/,"")
+      data=data.gsub(/#.*$$/,"")
       data=data.gsub(/\s+/im," ")
       data.scan(/(\S+)\s*\{(.*?)\}/).each do |i|
         type,d=i
@@ -32,7 +211,7 @@ class VFile
   def initialize(module_name)
     @module_name=module_name
     @filename=module_name+".v"
-    @filename_body,@filename_ext=@filename.scan(/^([^.]*)\.(.*)$/)[0]
+    @filename_body,@filename_ext=@filename.scan(/^([^.]*)\.(.*)$$/)[0]
     @dep=nil
   end
   def have_v_in
@@ -73,7 +252,7 @@ EOF
 EOF
       files<< com
       c.each do |i|
-        if i=~/\.vh$/
+        if i=~/\.vh$$/
           files<< i
         end
       end
@@ -132,14 +311,14 @@ EOF
   end
   def submodules
     v_files=_submodules(data)
-    sdata=data.gsub(/\/\/.*$/,"").gsub(/\/\*.*?\*\//,"").gsub(/\s+/," ")
+    sdata=data.gsub(/\/\/.*$$/,"").gsub(/\/\*.*?\*\//,"").gsub(/\s+/," ")
     v_files+=_submodules(sdata)
     r=v_files
     r=r.uniq.sort
     return r
   end
   def includes
-    v_files=data.scan(/^\s*`include\s+"([^"]*)"\s*$/).map do |i|
+    v_files=data.scan(/^\s*`include\s+"([^"]*)"\s*$$/).map do |i|
       [i[0]]+VHFile.new(i[0]).includes
     end
     return v_files.flatten.uniq
@@ -168,7 +347,7 @@ end
 class VHFile < VFile
   def initialize(filename)
     @filename=filename # +".v"
-    @filename_body,@filename_ext=@filename.scan(/^([^.]*)\.(.*)$/)[0]
+    @filename_body,@filename_ext=@filename.scan(/^([^.]*)\.(.*)$$/)[0]
     @dep=nil
   end
 end
@@ -204,7 +383,7 @@ top_vfiles_s=top_vfiles.map{|t|
   files_all+=files
 
   f=files.uniq
-  f.delete_if{|i| not i=~/\.v$/}
+  f.delete_if{|i| not i=~/\.v$$/}
   f.delete_if{|i| i=~/^alt/}
   k=t.module_name
   r+="\n"
@@ -212,12 +391,12 @@ top_vfiles_s=top_vfiles.map{|t|
   r+="#{f*" \\\n"}\n"
   r+="\n"
   b=[]
-  b<< "#{k}: $(#{k}_FILES) $(#{k}_FILES_OPT)"
-  b<< "ifeq ($(SIMULATOR),vcs)"
-  b<< "\t$(VCS) -o $@ $(#{k}_FILES) $(#{k}_FILES_OPT)\n"
+  b<< "#{k}: $$(#{k}_FILES) $$(#{k}_FILES_OPT)"
+  b<< "ifeq ($$(SIMULATOR),vcs)"
+  b<< "\t$$(VCS) -o $$@ $$(#{k}_FILES) $$(#{k}_FILES_OPT)\n"
   b<< "else"
-  b<< "ifeq ($(SIMULATOR),iverilog)"
-  b<< "\t$(IVERILOG) -o $@ $(#{k}_FILES) $(#{k}_FILES_OPT)\n"
+  b<< "ifeq ($$(SIMULATOR),iverilog)"
+  b<< "\t$$(IVERILOG) -o $$@ $$(#{k}_FILES) $$(#{k}_FILES_OPT)\n"
   b<< "endif"
   b<< "endif"
   r+=b.map{|i| i+"\n"}*""
@@ -236,7 +415,7 @@ class VFiles < Array
     "VFILES"
   end
   def purge(f)
-    f.delete_if{|i| not i=~/\.v$/}
+    f.delete_if{|i| not i=~/\.v$$/}
     f.delete_if{|i| i=~/^alt/}
   end
 end
@@ -245,7 +424,7 @@ class VHFiles < VFiles
     "VHFILES"
   end
   def purge(f)
-    f.delete_if{|i| not i=~/\.vh$/}
+    f.delete_if{|i| not i=~/\.vh$$/}
     f.delete_if{|i| i=~/^alt/}
   end
 end
@@ -256,10 +435,12 @@ if options.mode==:make
   print VHFiles.new(files.dup).to_s
   print top_vfiles_s*"\n"
 elsif options.mode==:dc
-  files.delete_if{|i| not i=~/\.v$/}
+  files.delete_if{|i| not i=~/\.v$$/}
   print files.uniq.map{|i| "read_file -format verilog #{i}\n"}*""
 elsif options.mode==:dot
   top_vfiles.each do |t|
     print t.to_dot
   end
 end
+endef
+export DEP_RB

@@ -39,8 +39,8 @@ module test_ctrl_conv();
     img_size = 12;
     fil_size = 5;
     in_send;
-    //while (!out_end) #(STEP);
-    #(STEP*10);
+    while (!out_end) #(STEP);
+    #(STEP*5);
     $finish();
   end
 
@@ -71,8 +71,8 @@ module test_ctrl_conv();
       "%d ", mem_feat_addr,
       "%d ", mem_feat_addr_d1,
       "| ",
-      "%d ", dut0.r_conv_x_d0,
-      "%d ", dut0.r_conv_y_d0,
+      "%d ", dut0.r_conv_x,
+      "%d ", dut0.r_conv_y,
       "%d ", dut0.conv_begin,
       "%d ", dut0.conv_valid,
       "%d ", dut0.conv_end,

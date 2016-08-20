@@ -3,11 +3,11 @@
 # SIMULATOR=vcs
 # SIMULATOR=iverilog
 IOC_DIR=.
-TARGET=test/test_ctrl_core
+TARGET=test_linebuf
 DIST=../dist
 
 include Makefile.dep
-include VERBMakefile
+include $(IOC_DIR)/VERBMakefile
 
 .PHONY: all sim clean
 all: $(TARGET).com
@@ -15,10 +15,9 @@ sim: $(TARGET).log
 clean:
 	make clean-common
 	rm -f log.txt
-	rm -f vish_stacktrace.vstf
 
 diff:
-	vimdiff $(TARGET).dat $(TARGET)_pseudo_true.dat
+	vimdiff $(TARGET).dat ../$(TARGET)_pix.dat
 
 define DEP_IN
 ## -*- text -*-

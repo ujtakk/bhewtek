@@ -1,0 +1,172 @@
+ /* AUTO_LISP(setq verilog-auto-output-ignore-regexp
+    (verilog-regexp-words `(
+      <%- for i in 0..5 -%>
+      "read_mem<%=i%>"
+      <%- end -%>
+  )))*/
+module linebuf(/*AUTOARG*/);
+`include "parameters.vh"
+<%- load "parameters.rb" -%>
+  parameter BSIZE = 5;
+
+  parameter S_WAIT   = 'd0;
+  parameter S_CHARGE = 'd1;
+  parameter S_ACTIVE = 'd2;
+
+  /*AUTOINPUT*/
+  input xrst;
+  input buf_en;
+  input [LWIDTH-1:0] img_size;
+  input [LWIDTH-1:0] fil_size;
+  input signed [DWIDTH-1:0] buf_input;
+
+  /*AUTOOUTPUT*/
+  <%- for i in 0...$fsize -%>
+  <%-   for j in 0...$fsize -%>
+  output signed [DWIDTH-1:0] buf_output<%=i%>_<%=j%>;
+  <%-   end -%>
+  <%- end -%>
+
+  /*AUTOWIRE*/
+  wire [8-1:0]              mem_linebuf_we;
+  wire [BSIZE-1:0]          mem_linebuf_addr;
+  <%- for i in 0..$fsize -%>
+  wire signed [DWIDTH-1:0]  read_mem<%=i%>;
+  <%- end -%>
+
+  /*AUTOREG*/
+  reg [4-1:0]             r_select;
+  reg [2-1:0]             r_state;
+  reg [2-1:0]             r_state_d1;
+  reg [BSIZE-1:0]         r_addr_count;
+  reg [3-1:0]             r_mem_count;
+  reg [LWIDTH-1:0]        r_line_count;
+  reg [8-1:0]             r_linebuf_we;
+  reg signed [DWIDTH-1:0] r_buf_input;
+  <%- for i in 0...$fsize -%>
+  <%-   for j in 0...$fsize -%>
+  reg signed [DWIDTH-1:0] r_pixel<%=i%>_<%=j%>;
+  <%-   end -%>
+  <%- end -%>
+
+
+
+
+
+  always @(posedge clk or negedge xrst)
+    if (!xrst)
+      r_state <= S_WAIT;
+    else
+      case (r_state)
+        S_WAIT:
+          if (buf_en)
+            r_state <= S_CHARGE;
+        S_CHARGE:
+          if (r_mem_count == fil_size - 1 && r_addr_count == img_size - 1)
+            r_state <= S_ACTIVE;
+        S_ACTIVE:
+          if (r_line_count == img_size && r_addr_count == img_size - 1)
+            r_state <= S_WAIT;
+        default:
+          r_state <= S_WAIT;
+      endcase
+
+  always @(posedge clk or negedge xrst)
+    r_state_d1 <= r_state;
+
+  always @(posedge clk or negedge xrst)
+      r_buf_input <= buf_input;
+
+
+
+
+
+  assign mem_linebuf_addr = r_addr_count;
+
+  always @(posedge clk or negedge xrst)
+    if (!xrst)
+      r_addr_count <= 0;
+    else if (r_state == S_CHARGE || r_state == S_ACTIVE)
+      if (r_addr_count == img_size - 1)
+        r_addr_count <= 0;
+      else
+        r_addr_count <= r_addr_count + 1;
+    else
+      r_addr_count <= 0;
+
+
+
+
+
+  assign mem_linebuf_we = {8{(r_state == S_CHARGE || r_state == S_ACTIVE)}}
+                          & (1 << r_mem_count);
+
+  always @(posedge clk or negedge xrst)
+    if (!xrst)
+      r_mem_count <= 0;
+    else if (r_state == S_CHARGE || r_state == S_ACTIVE)
+      if ((r_line_count == img_size || r_mem_count == fil_size) && r_addr_count == img_size - 1)
+        r_mem_count <= 0;
+      else if (r_addr_count == img_size - 1)
+        r_mem_count <= r_mem_count + 1;
+      else
+        r_mem_count <= r_mem_count;
+    else
+      r_mem_count <= 0;
+
+  always @(posedge clk or negedge xrst)
+    if (!xrst)
+      r_line_count <= 0;
+    else if (r_state == S_CHARGE || r_state == S_ACTIVE)
+      if (r_line_count == img_size && r_addr_count == img_size - 1)
+        r_line_count <= 0;
+      else if (r_addr_count == img_size - 1)
+        r_line_count <= r_line_count + 1;
+      else
+        r_line_count <= r_line_count;
+    else
+      r_line_count <= 0;
+
+  always @(posedge clk)
+    r_select <= r_mem_count;
+
+
+
+
+
+  <%- for i in 0...$fsize -%>
+  <%-   for j in 0...$fsize -%>
+  assign buf_output<%=i%>_<%=j%> = r_pixel<%=i%>_<%=j%>;
+  always @(posedge clk or negedge xrst)
+    if (!xrst)
+      r_pixel<%=i%>_<%=j%> <= 0;
+    <%- if j == 4 -%>
+    else if (r_state_d1 == S_ACTIVE)
+        case (r_select)
+          <%- for k in 0..$fsize -%>
+          4'd<%=k%>:    r_pixel<%=i%>_<%=j%> <= read_mem<%=(i + k + 1) % ($fsize + 1)%>;
+          <%- end -%>
+          default: r_pixel<%=i%>_<%=j%> <= 0;
+        endcase
+    else
+      r_pixel<%=i%>_<%=j%> <= 0;
+    <%- else -%>
+    else
+      r_pixel<%=i%>_<%=j%> <= r_pixel<%=i%>_<%=j+1%>;
+    <%- end -%>
+
+  <%-   end -%>
+  <%- end -%>
+
+  <%- for i in 0..$fsize -%>
+  /* mem_linebuf AUTO_TEMPLATE (
+      .mem_we     (mem_linebuf_we[<%=i%>]),
+      .mem_addr   (mem_linebuf_addr[BSIZE-1:0]),
+      .write_data (r_buf_input[DWIDTH-1:0]),
+      .read_data  (read_mem<%=i%>[DWIDTH-1:0]),
+  ); */
+  mem_linebuf buff<%=i%>(/*AUTOINST*/);
+
+  <%- end -%>
+
+endmodule

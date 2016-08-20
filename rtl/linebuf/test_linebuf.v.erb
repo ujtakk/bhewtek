@@ -1,0 +1,81 @@
+`timescale 1ns/1ps
+
+module test_linebuf();
+`include "parameters.vh"
+
+  /*AUTOREGINPUT*/
+
+  /*AUTOWIRE*/
+
+  //clock
+  always
+  begin
+    clk = 0;
+    #(STEP/2);
+    clk = 1;
+    #(STEP/2);
+  end
+
+  integer i;
+  integer fp;
+  //flow
+  initial
+  begin
+    fp = $fopen("test_linebuf.dat");
+    xrst = 0;
+    #(STEP);
+    xrst = 1;
+    buf_en = 1;
+    img_size = 12;
+    fil_size = 5;
+    buf_input = 0;
+    #(STEP);
+    buf_en = 0;
+    for (i = 1; i < 12**2; i = i + 1)
+    begin
+      buf_input = i;
+      #(STEP);
+    end
+    #(STEP*30);
+    $finish();
+  end
+
+  //display
+  always
+  begin
+    #(STEP/2-1);
+    $display(
+      "%4d: ", $time/STEP,
+      "| ",
+      "%4d ", buf_input,
+      "%1d ", dut0.buf_en,
+      "%1d ", dut0.r_state,
+      "| ",
+      "%2d ", dut0.r_mem_count,
+      "%2d ", dut0.r_addr_count,
+      "%2d ", dut0.r_line_count,
+      "%2d ", dut0.mem_linebuf_we[0],
+      "%3d ", dut0.read_mem0,
+      "%3d ", dut0.r_buf_input,
+      "| ",
+      "%3d ", dut0.r_pixel0_4,
+      "%3d ", dut0.r_pixel1_4,
+      "%3d ", dut0.r_pixel2_4,
+      "%3d ", dut0.r_pixel3_4,
+      "%3d ", dut0.r_pixel4_4,
+    );
+    $fdisplay(fp, "TIME: %4d 4d", $time/STEP, buf_input);
+    <%- for i in 0...5 -%>
+    $fdisplay(fp,
+      <%- for j in 0...5 -%>
+      "%3d ", buf_output<%=i%>_<%=j%>,
+      <%- end -%>
+    );
+    <%- end -%>
+    $fdisplay(fp, "");
+    #(STEP/2+1);
+  end
+
+  linebuf dut0(/*AUTOINST*/);
+
+endmodule

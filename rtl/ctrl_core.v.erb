@@ -17,8 +17,8 @@ module ctrl_core(/*AUTOARG*/);
   input [INSIZE-1:0]  input_addr;
   input [WSIZE-1:0]   weight_addr;
   input [OUTSIZE-1:0] output_addr;
-  input [LWIDTH-1:0]  total_in;
   input [LWIDTH-1:0]  total_out;
+  input [LWIDTH-1:0]  total_in;
   input [LWIDTH-1:0]  img_size;
   input [LWIDTH-1:0]  fil_size;
 
@@ -130,9 +130,10 @@ module ctrl_core(/*AUTOARG*/);
 // weight control
 //==========================================================
 
-  assign mem_weight_addr  = weight_addr + (r_state == S_WEIGHT)
-                                            ? r_weight_addr + 1
-                                            : r_weight_addr;
+  //assign mem_weight_addr  = weight_addr + (r_state == S_WEIGHT)
+  //                                          ? r_weight_addr + 1
+  //                                          : r_weight_addr;
+  assign mem_weight_addr = weight_addr + r_weight_addr;
 
   assign s_weight_end     = r_bias;
 
@@ -141,26 +142,30 @@ module ctrl_core(/*AUTOARG*/);
       r_weight_addr <= 0;
     else if (ack)
       r_weight_addr <= 0;
-    else if (r_state == S_WEIGHT)
+    else if (r_state == S_WEIGHT && !r_bias)
       r_weight_addr <= r_weight_addr + 1;
 
   always @(posedge clk)
-    if (r_state == S_WEIGHT)
+    if (!xrst)
+      r_weight_x <= 0;
+    else if (r_state == S_WAIT)
+      r_weight_x <= 0;
+    else if (r_state == S_WEIGHT && !r_bias)
       if (r_weight_x == r_fil_size - 1)
         r_weight_x <= 0;
       else
         r_weight_x <= r_weight_x + 1;
-    else
-      r_weight_x <= 0;
 
   always @(posedge clk)
-    if (r_state == S_WEIGHT && r_weight_x == r_fil_size - 1)
+    if (!xrst)
+      r_weight_y <= 0;
+    else if (r_state == S_WAIT)
+      r_weight_y <= 0;
+    else if (r_state == S_WEIGHT && !r_bias && r_weight_x == r_fil_size - 1)
       if (r_weight_y == r_fil_size - 1)
         r_weight_y <= 0;
       else
         r_weight_y <= r_weight_y + 1;
-    else
-      r_weight_y <= 0;
 
   always @(posedge clk)
     if (r_state == S_WEIGHT)
@@ -179,8 +184,7 @@ module ctrl_core(/*AUTOARG*/);
 
   assign s_input_end    = (r_state == S_INPUT)
                             && r_input_x == r_img_size - 1
-                            && r_input_y == r_img_size - 1
-                            && r_count_in == r_total_in - 2;
+                            && r_input_y == r_img_size - 1;
 
   always @(posedge clk)
     if (!xrst)
@@ -191,22 +195,26 @@ module ctrl_core(/*AUTOARG*/);
       r_input_addr <= r_input_addr + 1;
 
   always @(posedge clk)
-    if (r_state == S_INPUT || r_state == S_OUTPUT)
+    if (!xrst)
+      r_input_x <= 0;
+    else if (r_state == S_WAIT)
+      r_input_x <= 0;
+    else if (r_state == S_INPUT || r_state == S_OUTPUT)
       if (r_input_x == r_img_size - 1)
         r_input_x <= 0;
       else
         r_input_x <= r_input_x + 1;
-    else
-      r_input_x <= 0;
 
   always @(posedge clk)
-    if ((r_state == S_INPUT || r_state == S_OUTPUT) && r_input_x == r_img_size - 1)
+    if (!xrst)
+      r_input_y <= 0;
+    else if (r_state == S_WAIT)
+      r_input_y <= 0;
+    else if ((r_state == S_INPUT || r_state == S_OUTPUT) && r_input_x == r_img_size - 1)
       if (r_input_y == r_img_size - 1)
         r_input_y <= 0;
       else
         r_input_y <= r_input_y + 1;
-    else
-      r_input_y <= 0;
 
 //==========================================================
 // output control

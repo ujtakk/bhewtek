@@ -3,7 +3,7 @@
 # SIMULATOR=vcs
 # SIMULATOR=iverilog
 IOC_DIR=.
-TARGET=test/test_ctrl_core
+TARGET=test_top
 DIST=../dist
 
 include Makefile.dep
@@ -17,8 +17,12 @@ clean:
 	rm -f log.txt
 	rm -f vish_stacktrace.vstf
 
+log:
+	vim $(TARGET).log
+
 diff:
 	vimdiff $(TARGET).dat $(TARGET)_pseudo_true.dat
+	#vimdiff $(TARGET).log $(TARGET)_true.dat
 
 define DEP_IN
 ## -*- text -*-

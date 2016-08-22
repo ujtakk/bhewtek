@@ -40,11 +40,15 @@ module test_ctrl_core();
     total_in = 20;
     img_size = 12;
     fil_size = 5;
+    #(STEP);
+    req = 0;
     <%- 7.times do -%>
     #(STEP*3500);
     in_end = 1;
+    #(STEP);
+    in_end = 0;
     <%- end -%>
-    //while (!ack) #(STEP);
+    while (!ack) #(STEP);
     #(STEP*5);
     $finish();
 
@@ -92,6 +96,7 @@ module test_ctrl_core();
       "%d ", dut0.s_weight_end,
       "%d ", dut0.s_input_end,
       "%d ", dut0.s_output_end,
+      "%d ", dut0.r_wait_back,
     );
     #(STEP/2+1);
   end

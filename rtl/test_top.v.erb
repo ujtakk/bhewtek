@@ -33,6 +33,7 @@ module test_top();
     fp = $fopen("log.txt");
 
     xrst = 0;
+    req = 0;
 
     input_addr = 0;
     write_input = 0;
@@ -100,12 +101,12 @@ module test_top();
     req = 0;
 
     while(!ack) #(STEP);
-    //#(STEP*200000);
 
     #(STEP*10);
 
     write_output;
     valid_memin;
+    //valid_memw;
 
     //$toggle_stop();
     //$toggle_report("<%=$project%>/saif_rtl/saif{CORE}/rtl_top{NUM}_{FILE}.saif", 1.0e-9, "test_top");
@@ -115,24 +116,24 @@ module test_top();
   always
   begin
     #(STEP/2-1);
-    if (dut0.mem_output_we)
-      $display(
-        "%5d: ", $time/STEP,
-        <%- for i in 0...$core -%>
-        "%d ", $signed(dut0.pmap<%=i%>),
-        <%- end -%>
-      );
+    //if (dut0.mem_output_we)
+    //  $display(
+    //    "%5d: ", $time/STEP,
+    //    <%- for i in 0...$core -%>
+    //    "%d ", $signed(dut0.pmap<%=i%>),
+    //    <%- end -%>
+    //  );
 
-    $fdisplay(fp,
+    $display(
       "%5d: ", $time/STEP,
       "%d ", xrst,
       "%d ", req,
       "%d ", ack,
       "| ",
-      "%d ", dut0.core0.pixel_feat0,
-      "%d ", dut0.core0.pixel_feat1,
-      "%d ", dut0.core0.pixel_feat2,
-      "%d ", dut0.core0.pixel_feat3,
+      //"%d ", dut0.core0.pixel_feat0,
+      //"%d ", dut0.core0.pixel_feat1,
+      //"%d ", dut0.core0.pixel_feat2,
+      //"%d ", dut0.core0.pixel_feat3,
       <%- for i in 0...8 -%>
       "%d ", dut0.core<%=i%>.fmap,
       <%- end -%>
@@ -260,6 +261,25 @@ module test_top();
           $display("Fail: %d", i);
       end
       $display("valid_memin complete.");
+    end
+  endtask
+
+  task valid_memw;
+    integer i;
+    integer w_size;
+    begin
+      w_size = 50*20*5*5;
+      <%- $core.times do |i| -%>
+      for (i = 0; i < w_size; i = i + 1)
+      begin
+        #(STEP);
+        weight_addr = i;
+        #(STEP);
+        if (dut0.read_weight<%=i%> != mem_w<%=i%>[i])
+          $display("Fail: %d", i);
+      end
+      <%- end -%>
+      $display("valid_memw complete.");
     end
   endtask
 

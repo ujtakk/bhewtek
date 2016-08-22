@@ -6,9 +6,9 @@ $core = 8
 $core_log = (Math.log($core)/Math.log(2)).to_i
 $tech = nil # rohm
 $max_size = 32;
-$d_convbuf = 14;
+$d_convbuf = 0;#14;
 $d_conv = 5;
-$d_poolbuf = 10;
+$d_poolbuf = 0;#10;
 $d_pool = 3;
 #$d_pool = $d_conv + 3;
 

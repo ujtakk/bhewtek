@@ -42,12 +42,10 @@ module top(/*AUTOARG*/);
   linebuf_pix buf_pix(/*AUTOINST*/);
 
   /* ctrl AUTO_TEMPLATE (
-      .fil_h (fil_size[LWIDTH-1:0]),
-      .fil_w (fil_size[LWIDTH-1:0]),
-      .img_h (img_size[LWIDTH-1:0]),
-      .img_w (img_size[LWIDTH-1:0]),
+      .img_size (img_size[LWIDTH-1:0]),
+      .fil_size (fil_size[LWIDTH-1:0]),
   ); */
-  newctrl ctrl(/*AUTOINST*/);
+  ctrl ctrl(/*AUTOINST*/);
 
   <%- for i in 0...$core -%>
   /* core AUTO_TEMPLATE (

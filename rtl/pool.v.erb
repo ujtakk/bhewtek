@@ -31,7 +31,10 @@ module pool(/*AUTOARG*/);
   assign pmap = r_max;
 
   always @(posedge clk)
-    if(o_we) r_max <= max;
+    if (!xrst)
+      r_max <= 0;
+    else if (o_we)
+      r_max <= max;
 
   <%- for i in 0...$psize**2 -%>
   always @(posedge clk)

@@ -61,6 +61,7 @@ module ctrl_core(/*AUTOARG*/);
   reg               r_out_valid;
   reg               r_out_end;
   reg               r_wait_back;
+  reg               r_first_input;
 
 //==========================================================
 // core control
@@ -131,16 +132,22 @@ module ctrl_core(/*AUTOARG*/);
       r_fea_size  <= img_size - fil_size + 1;
     end
 
-  assign first_input = (r_state == S_INPUT) && r_count_in == 0;
+  assign first_input = r_first_input;
+
+  always @(posedge clk)
+    if (!xrst)
+      r_first_input <= 0;
+    else
+      r_first_input <= (r_state == S_INPUT) && r_count_in == 0;
 
 //==========================================================
 // weight control
 //==========================================================
 
-  assign mem_weight_addr  = weight_addr + (r_state == S_WEIGHT)
-                                            ? r_weight_addr + 1
-                                            : r_weight_addr;
-  //assign mem_weight_addr = weight_addr + r_weight_addr;
+  //assign mem_weight_addr  = weight_addr + (r_state == S_WEIGHT)
+  //                                          ? r_weight_addr + 1
+  //                                          : r_weight_addr;
+  assign mem_weight_addr = weight_addr + r_weight_addr;
 
   assign s_weight_end     = (r_state == S_WEIGHT)
                               && r_weight_x == r_fil_size - 1
@@ -191,10 +198,10 @@ module ctrl_core(/*AUTOARG*/);
 // input control
 //==========================================================
 
-  assign mem_input_addr = input_addr + (r_state == S_INPUT || r_state == S_OUTPUT)
-                                          ? r_input_addr + 1
-                                          : r_input_addr;
-  //assign mem_input_addr = input_addr + r_input_addr;
+  //assign mem_input_addr = input_addr + (r_state == S_INPUT || r_state == S_OUTPUT)
+  //                                        ? r_input_addr + 1
+  //                                        : r_input_addr;
+  assign mem_input_addr = input_addr + r_input_addr;
 
   assign s_input_end    = (r_state == S_INPUT)
                             && r_input_x == r_img_size - 1
@@ -270,14 +277,9 @@ module ctrl_core(/*AUTOARG*/);
     else
       <%- case n -%>
       <%- when "begin" -%>
-      r_out_begin <= (r_state == S_WEIGHT)
-                        && r_count_in == 0
-                        && r_weight_x == 0 && r_weight_y == 0
-                        && !r_bias
-                  || (r_state == S_INPUT || r_state == S_OUTPUT)
-                        && r_input_x == 0
-                        && r_input_y == 0
-                        && !r_wait_back;
+      r_out_begin <= req
+                        || r_weight_x == r_fil_size - 1 && r_weight_y == r_fil_size - 1;
+//                      || r_bias;
       <%- when "valid" -%>
       r_out_valid <= (r_state != S_WAIT && !r_wait_back);
       <%- when "end" -%>

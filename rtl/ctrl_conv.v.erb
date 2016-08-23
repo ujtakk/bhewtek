@@ -52,14 +52,14 @@ module ctrl_conv(/*AUTOARG*/);
   reg               r_conv_valid_d<%=i%>;
   reg               r_conv_end_d<%=i%>;
   <%- end -%>
-  <%- for i in 0..$d_conv -%>
+  <%- for i in 0...$d_conv -%>
   reg               r_feat_we_d<%=i%>;
   reg               r_feat_rst_d<%=i%>;
   reg               r_out_begin_d<%=i%>;
   reg               r_out_valid_d<%=i%>;
   reg               r_out_end_d<%=i%>;
   <%- end -%>
-  <%- for i in 0..$d_conv+1 -%>
+  <%- for i in 0..$d_conv -%>
   reg [FACCUM-1:0]  r_feat_addr_d<%=i%>;
   <%- end -%>
 
@@ -135,8 +135,7 @@ module ctrl_conv(/*AUTOARG*/);
 //==========================================================
 
   assign wreg_we = (r_state == S_ACTIVE)
-                    && (r_core_state == S_CORE_WEIGHT)
-                    && r_in_valid;
+                    && (r_core_state == S_CORE_WEIGHT);
 
 //==========================================================
 // conv control
@@ -157,7 +156,7 @@ module ctrl_conv(/*AUTOARG*/);
       <%- when "begin" -%>
       r_conv_begin_d0 <= (r_state == S_ACTIVE)
                             && (r_core_state == S_CORE_INPUT || r_core_state == S_CORE_OUTPUT)
-                            && r_conv_x == r_fil_size - 1
+                            && r_conv_x == r_fil_size - 2
                             && r_conv_y == r_fil_size - 1;
       <%- when "valid" -%>
       r_conv_valid_d0 <= (r_state == S_ACTIVE)
@@ -214,18 +213,18 @@ module ctrl_conv(/*AUTOARG*/);
 // feat-accum control
 //==========================================================
 
-  assign mem_feat_we      = r_feat_we_d<%=$d_conv%>;
-  assign mem_feat_rst     = r_feat_rst_d<%=$d_conv%>;
-  assign mem_feat_addr    = r_feat_addr_d<%=$d_conv%>;
-  assign mem_feat_addr_d1 = r_feat_addr_d<%=$d_conv+1%>;
+  assign mem_feat_we      = r_feat_we_d<%=$d_conv-1%>;
+  assign mem_feat_rst     = r_feat_rst_d<%=$d_conv-1%>;
+  assign mem_feat_addr    = r_feat_addr_d<%=$d_conv-1%>;
+  assign mem_feat_addr_d1 = r_feat_addr_d<%=$d_conv%>;
 
-  <%- for i in 0..$d_conv -%>
+  <%- for i in 0...$d_conv -%>
   always @(posedge clk)
     <%- if i == 0 -%>
     if (!xrst)
       r_feat_we_d0 <= 0;
     else
-      r_feat_we_d0 <= conv_valid;
+      r_feat_we_d0 <= !r_last_input_d<%=$d_convbuf%> && conv_valid;
     <%- else -%>
     if (!xrst)
       r_feat_we_d<%=i%> <= 0;
@@ -234,7 +233,7 @@ module ctrl_conv(/*AUTOARG*/);
     <%- end -%>
   <%- end -%>
 
-  <%- for i in 0..$d_conv -%>
+  <%- for i in 0...$d_conv -%>
   always @(posedge clk)
     <%- if i == 0 -%>
     if (!xrst)
@@ -249,7 +248,7 @@ module ctrl_conv(/*AUTOARG*/);
     <%- end -%>
   <%- end -%>
 
-  <%- for i in 0..$d_conv+1 -%>
+  <%- for i in 0..$d_conv -%>
   always @(posedge clk)
     <%- if i == 0 -%>
     if (!xrst)
@@ -270,18 +269,18 @@ module ctrl_conv(/*AUTOARG*/);
 // output control
 //==========================================================
 
-  assign out_begin  = r_out_begin_d<%=$d_conv%>;
-  assign out_valid  = r_out_valid_d<%=$d_conv%>;
-  assign out_end    = r_out_end_d<%=$d_conv%>;
+  assign out_begin  = r_out_begin_d<%=$d_conv-1%>;
+  assign out_valid  = r_out_valid_d<%=$d_conv-1%>;
+  assign out_end    = r_out_end_d<%=$d_conv-1%>;
 
   <%- for n in ["begin", "valid", "end"] -%>
-  <%-   for i in 0..$d_conv -%>
+  <%-   for i in 0...$d_conv -%>
   always @(posedge clk)
     <%- if i == 0 -%>
-    if (conv_<%=n%> && r_last_input_d<%=$d_convbuf%>)
-      r_out_<%=n%>_d0 <= 1;
-    else
+    if (!xrst)
       r_out_<%=n%>_d0 <= 0;
+    else
+      r_out_<%=n%>_d0 <= conv_<%=n%> && r_last_input_d<%=$d_convbuf%>;
     <%- else -%>
     if (!xrst)
       r_out_<%=n%>_d<%=i%> <= 0;

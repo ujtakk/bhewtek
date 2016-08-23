@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module test_ctrl();
+module test_newctrl();
 `include "parameters.vh"
 <%- load "parameters.rb" -%>
 
@@ -20,7 +20,7 @@ module test_ctrl();
     integer fp;
     initial
     begin
-      fp = $fopen("test_ctrl_true.dat");
+      fp = $fopen("test_ctrl.dat");
         xrst = 0;
         #(STEP);
         xrst = 1;
@@ -32,7 +32,6 @@ module test_ctrl();
         total_out = 50;
         img_size = 12;
         fil_size = 5;
-        #(STEP);
         #(STEP);
         req = 1;
         #(STEP);
@@ -72,11 +71,30 @@ module test_ctrl();
           "%d ", mem_output_we,
           "%d ", mem_output_addr,
           "| ",
-          "%d ", dut0.ctrl.r_conv_x,
-          "%d ", dut0.ctrl.r_conv_y,
+          "%d: ", dut0.ctrl_core.r_state,
+          "%d ", dut0.ctrl_core.out_begin,
+          "%d ", dut0.ctrl_core.out_valid,
+          "%d ", dut0.ctrl_core.out_end,
+          "%d ", dut0.ctrl_core.r_input_addr,
+          "%d ", dut0.ctrl_core.r_weight_addr,
           "| ",
-          "%d ", dut0.ctrl.r_pool_x,
-          "%d ", dut0.ctrl.r_pool_y,
+          "%d: ", dut0.ctrl_conv.r_state,
+          "%d: ", dut0.ctrl_conv.r_core_state,
+          "%d ", dut0.ctrl_conv.out_begin,
+          "%d ", dut0.ctrl_conv.out_valid,
+          "%d ", dut0.ctrl_conv.out_end,
+          "%d ", dut0.ctrl_conv.r_conv_x,
+          "%d ", dut0.ctrl_conv.r_conv_y,
+          "| ",
+          "%d: ", dut0.ctrl_pool.r_state,
+          "%d ", dut0.ctrl_pool.out_begin,
+          "%d ", dut0.ctrl_pool.out_valid,
+          "%d ", dut0.ctrl_pool.out_end,
+          "%d ", dut0.ctrl_pool.r_in_valid,
+          "%d ", dut0.ctrl_pool.r_pool_x,
+          "%d ", dut0.ctrl_pool.r_pool_y,
+          "%d ", dut0.ctrl_pool.r_pool_exec_x,
+          "%d ", dut0.ctrl_pool.r_pool_exec_y,
         );
         $fdisplay(fp,
           "%5d: ", $time/STEP,
@@ -104,15 +122,15 @@ module test_ctrl();
           "%d ", mem_output_we,
           "%d ", mem_output_addr,
           "| ",
-          "%d ", dut0.ctrl.r_conv_x,
-          "%d ", dut0.ctrl.r_conv_y,
+          "%d ", dut0.ctrl_conv.r_conv_x,
+          "%d ", dut0.ctrl_conv.r_conv_y,
           "| ",
-          "%d ", dut0.ctrl.r_pool_x,
-          "%d ", dut0.ctrl.r_pool_y,
+          "%d ", dut0.ctrl_pool.r_pool_x,
+          "%d ", dut0.ctrl_pool.r_pool_y,
         );
         #(STEP/2+1);
     end
 
-    ctrl dut0(/*AUTOINST*/);
+    newctrl dut0(/*AUTOINST*/);
 
 endmodule

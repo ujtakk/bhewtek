@@ -130,18 +130,11 @@ module test_top();
       "%d ", req,
       "%d ", ack,
       "| ",
-      //"%d ", dut0.core0.pixel_feat0,
-      //"%d ", dut0.core0.pixel_feat1,
-      //"%d ", dut0.core0.pixel_feat2,
-      //"%d ", dut0.core0.pixel_feat3,
-      <%- for i in 0...8 -%>
-      "%d ", dut0.core<%=i%>.fmap,
-      <%- end -%>
+      "%d ", dut0.read_input,
       "| ",
-      <%- for i in 0...8 -%>
-      "%d ", dut0.read_output<%=i%>,
+      <%- for i in 0...25 -%>
+      "%3d ", dut0.pixel<%=i%>,
       <%- end -%>
-      "%d ", read_output,
       //"| ",
       //"%d ", dut0.ctrl.r_state,
       //"%d ", dut0.ctrl.r_count_in,

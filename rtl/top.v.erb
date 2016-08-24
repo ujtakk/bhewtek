@@ -41,6 +41,17 @@ module top(/*AUTOARG*/);
   ); */
   linebuf_pix buf_pix(/*AUTOINST*/);
 
+%#  /* linebuf AUTO_TEMPLATE (
+%#      .buf_en     (buf_pix_en),
+%#      .buf_input  (read_input[DWIDTH-1:0]),
+%#      <%- for i in 0...$fsize -%>
+%#      <%-   for j in 0...$fsize -%>
+%#      .buf_output<%=i%>_<%=j%> (pixel<%=i*$fsize+j%>[DWIDTH-1:0]),
+%#      <%-   end -%>
+%#      <%- end -%>
+%#  ); */
+%#  linebuf buf_pix(/*AUTOINST*/);
+
   /* newctrl AUTO_TEMPLATE (
   ); */
   newctrl ctrl(/*AUTOINST*/);

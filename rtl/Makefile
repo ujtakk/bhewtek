@@ -16,6 +16,7 @@ clean:
 	make clean-common
 	rm -f log.txt
 	rm -f vish_stacktrace.vstf
+	rm -f $(TARGET)
 
 log:
 	vim $(TARGET).log

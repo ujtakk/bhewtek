@@ -17,7 +17,8 @@ module newctrl(/*AUTOARG*/);
   /*AUTOOUTPUT*/
   output                ack;
   output                wreg_we;
-  output                buf_en;
+  output                buf_pix_en;
+  output                buf_feat_en;
   output                conv_we;
   output                pool_we;
   output [INSIZE-1:0]   mem_input_addr;
@@ -45,7 +46,9 @@ module newctrl(/*AUTOARG*/);
 
   assign conv_we = out_conv_valid;
   assign pool_we = out_pool_valid;
-  assign buf_en = out_core_begin;
+
+  assign buf_pix_en = out_core_begin;
+  //assign buf_feat_en = out_core_begin;
 
 //====================================================================
 // control modules

@@ -35,6 +35,7 @@ module linebuf(/*AUTOARG*/);
   <%- end -%>
 
   /*AUTOREG*/
+  reg r_buf_en;
   reg [4-1:0]             r_select;
   reg [2-1:0]             r_state;
   reg [2-1:0]             r_state_d1;
@@ -59,7 +60,7 @@ module linebuf(/*AUTOARG*/);
     else
       case (r_state)
         S_WAIT:
-          if (buf_en)
+          if (r_buf_en)
             r_state <= S_CHARGE;
         S_CHARGE:
           if (r_mem_count == fil_size - 1 && r_addr_count == img_size - 1)
@@ -72,11 +73,22 @@ module linebuf(/*AUTOARG*/);
       endcase
 
   always @(posedge clk or negedge xrst)
-    r_state_d1 <= r_state;
+    if (!xrst)
+      r_state_d1 <= 0;
+    else
+      r_state_d1 <= r_state;
 
   always @(posedge clk or negedge xrst)
+    if (!xrst)
+      r_buf_input <= buf_input;
+    else
       r_buf_input <= buf_input;
 
+  always @(posedge clk or negedge xrst)
+    if (!xrst)
+      r_buf_en <= 0;
+    else
+      r_buf_en <= buf_en;
 
 
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # ERB parameter
-$project = '/Users/pitchw0w/work/bhewtek'
+$project = `pwd`+'/bhewtek'
 $core = 8
 $core_log = (Math.log($core)/Math.log(2)).to_i
 $tech = nil # rohm

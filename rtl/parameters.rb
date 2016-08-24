@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # ERB parameter
-$project = '/home/work/takau/bhewtek'
+$project = '/Users/pitchw0w/work/bhewtek'
 $core = 8
 $core_log = (Math.log($core)/Math.log(2)).to_i
 $tech = nil # rohm
@@ -9,7 +9,7 @@ $max_size = 32;
 $d_convbuf = 0;#14;
 $d_conv = 5;
 $d_poolbuf = 0;#10;
-$d_pool = 3;
+$d_pool = 2;
 #$d_pool = $d_conv + 3;
 
 # Verilog parameter

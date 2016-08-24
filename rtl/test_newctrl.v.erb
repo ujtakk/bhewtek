@@ -20,7 +20,7 @@ module test_newctrl();
     integer fp;
     initial
     begin
-      fp = $fopen("test_ctrl.dat");
+      fp = $fopen("test_newctrl.dat");
         xrst = 0;
         #(STEP);
         xrst = 1;
@@ -98,16 +98,16 @@ module test_newctrl();
         );
         $fdisplay(fp,
           "%5d: ", $time/STEP,
-          "| ",
-          "%d ", xrst,
-          "%d ", req,
-          "%d ", input_addr,
-          "%d ", weight_addr,
-          "%d ", output_addr,
-          "%d ", total_in,
-          "%d ", total_out,
-          "%d ", img_size,
-          "%d ", fil_size,
+          //"| ",
+          //"%d ", xrst,
+          //"%d ", req,
+          //"%d ", input_addr,
+          //"%d ", weight_addr,
+          //"%d ", output_addr,
+          //"%d ", total_in,
+          //"%d ", total_out,
+          //"%d ", img_size,
+          //"%d ", fil_size,
           "| ",
           "%d ", ack,
           "%d ", wreg_we,

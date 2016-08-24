@@ -41,11 +41,9 @@ module top(/*AUTOARG*/);
   ); */
   linebuf_pix buf_pix(/*AUTOINST*/);
 
-  /* ctrl AUTO_TEMPLATE (
-      .img_size (img_size[LWIDTH-1:0]),
-      .fil_size (fil_size[LWIDTH-1:0]),
+  /* newctrl AUTO_TEMPLATE (
   ); */
-  ctrl ctrl(/*AUTOINST*/);
+  newctrl ctrl(/*AUTOINST*/);
 
   <%- for i in 0...$core -%>
   /* core AUTO_TEMPLATE (

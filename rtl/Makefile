@@ -3,7 +3,7 @@
 # SIMULATOR=vcs
 SIMULATOR=iverilog
 IOC_DIR=.
-TARGET=test_newctrl
+TARGET=test_top
 DIST=../dist
 
 include Makefile.dep
@@ -21,8 +21,8 @@ log:
 	vim $(TARGET).log
 
 diff:
-	#vimdiff $(TARGET).dat $(TARGET)_true.dat
-	vimdiff test_ctrl.dat test_ctrl_true.dat
+	vimdiff $(TARGET).dat $(TARGET)_true.dat
+	#vimdiff test_ctrl.dat test_ctrl_true.dat
 
 define DEP_IN
 ## -*- text -*-

@@ -75,16 +75,10 @@ module ctrl_pool(/*AUTOARG*/);
 
   always @(posedge clk)
     if (!xrst)
-      r_in_valid  <= 0;
-    else
-      r_in_valid  <= in_valid;
-
-  always @(posedge clk)
-    if (!xrst)
       r_pool_x <= 0;
     else if (r_state == S_WAIT)
       r_pool_x <= 0;
-    else if (r_state == S_ACTIVE && r_in_valid)
+    else if (r_state == S_ACTIVE && in_valid)
       if (r_pool_x == r_fea_size - 1)
         r_pool_x <= 0;
       else
@@ -95,7 +89,7 @@ module ctrl_pool(/*AUTOARG*/);
       r_pool_y <= 0;
     else if (r_state == S_WAIT)
       r_pool_y <= 0;
-    else if (r_state == S_ACTIVE && r_in_valid && r_pool_x == r_fea_size - 1)
+    else if (r_state == S_ACTIVE && in_valid && r_pool_x == r_fea_size - 1)
       if (r_pool_y == r_fea_size - 1)
         r_pool_y <= 0;
       else
@@ -106,7 +100,7 @@ module ctrl_pool(/*AUTOARG*/);
       r_pool_exec_x <= 0;
     else if (r_state == S_WAIT)
       r_pool_exec_x <= 0;
-    else if (r_state == S_ACTIVE && r_in_valid)
+    else if (r_state == S_ACTIVE && in_valid)
       if (r_pool_exec_x == r_pool_size - 1)
         r_pool_exec_x <= 0;
       else
@@ -117,7 +111,7 @@ module ctrl_pool(/*AUTOARG*/);
       r_pool_exec_y <= 0;
     else if (r_state == S_WAIT)
       r_pool_exec_y <= 0;
-    else if (r_state == S_ACTIVE && r_in_valid && r_pool_x == r_fea_size - 1)
+    else if (r_state == S_ACTIVE && in_valid && r_pool_x == r_fea_size - 1)
       if (r_pool_exec_y == r_pool_size - 1)
         r_pool_exec_y <= 0;
       else
@@ -166,12 +160,12 @@ module ctrl_pool(/*AUTOARG*/);
 // output control
 //==========================================================
 
-  assign out_begin  = r_out_begin_d<%=$d_pool-2-1%>;
-  assign out_valid  = r_out_valid_d<%=$d_pool-2-1%>;
-  assign out_end    = r_out_end_d<%=$d_pool-2-1%>;
+  assign out_begin  = r_out_begin_d<%=$d_pool-1%>;
+  assign out_valid  = r_out_valid_d<%=$d_pool-1%>;
+  assign out_end    = r_out_end_d<%=$d_pool-1%>;
 
   <%- for n in ["begin", "valid", "end"] -%>
-  <%-   for i in 0...$d_pool-2 -%>
+  <%-   for i in 0...$d_pool -%>
   always @(posedge clk)
     <%- if i == 0 -%>
     if (!xrst)

@@ -2,6 +2,11 @@ module newctrl(/*AUTOARG*/);
 `include "parameters.vh"
 <%- load "parameters.rb" -%>
 
+  parameter S_CORE_WAIT   = 'd0;
+  parameter S_CORE_WEIGHT = 'd1;
+  parameter S_CORE_INPUT  = 'd2;
+  parameter S_CORE_OUTPUT = 'd3;
+
   /*AUTOINPUT*/
   input               clk;
   input               xrst;
@@ -43,12 +48,20 @@ module newctrl(/*AUTOARG*/);
   <%- end -%>
 
   /*AUTOREG*/
+  reg r_buf_pix_en;
 
   assign conv_we = out_conv_valid;
   assign pool_we = out_pool_valid;
 
-  assign buf_pix_en = out_core_begin;
+  assign buf_pix_en = r_buf_pix_en;
   //assign buf_feat_en = out_core_begin;
+
+  always @(posedge clk)
+    if (!xrst)
+      r_buf_pix_en <= 0;
+    else
+      r_buf_pix_en <= (core_state == S_CORE_INPUT || core_state == S_CORE_OUTPUT)
+                        && out_core_begin;
 
 //====================================================================
 // control modules

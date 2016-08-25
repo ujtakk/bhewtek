@@ -130,10 +130,10 @@ module test_top();
       "%d ", req,
       "%d ", ack,
       "| ",
-      "%d ", dut0.read_input,
+      "%d ", dut0.ctrl.out_conv_valid,
       "| ",
-      <%- for i in 0...25 -%>
-      "%3d ", dut0.pixel<%=i%>,
+      <%- for i in 0...8 -%>
+      "%3d ", dut0.core<%=i%>.result,
       <%- end -%>
       //"| ",
       //"%d ", dut0.ctrl.r_state,

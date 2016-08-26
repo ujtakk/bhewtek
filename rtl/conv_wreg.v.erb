@@ -16,7 +16,7 @@ module conv_wreg(/*AUTOARG*/);
 
   /*AUTOREG*/
   <%- for i in 0...$fsize**2 -%>
-  reg [DWIDTH-1:0] r_weight<%=i%>;
+  reg signed [DWIDTH-1:0] r_weight<%=i%>;
   <%- end -%>
 
   <%- for i in 0...$fsize**2 -%>

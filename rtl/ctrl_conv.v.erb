@@ -25,7 +25,6 @@ module ctrl_conv(/*AUTOARG*/);
   output              out_begin;
   output              out_valid;
   output              out_end;
-  output              wreg_we;
   output              mem_feat_we;
   output              mem_feat_rst;
   output [FACCUM-1:0] mem_feat_addr;
@@ -45,7 +44,7 @@ module ctrl_conv(/*AUTOARG*/);
   reg [LWIDTH-1:0]  r_fea_size;
   reg [LWIDTH-1:0]  r_conv_x;
   reg [LWIDTH-1:0]  r_conv_y;
-  <%- for i in 0..$d_convbuf -%>
+  <%- for i in 0...$d_pixelbuf -%>
   reg               r_first_input_d<%=i%>;
   reg               r_last_input_d<%=i%>;
   reg               r_conv_begin_d<%=i%>;
@@ -131,22 +130,16 @@ module ctrl_conv(/*AUTOARG*/);
         r_conv_y <= r_conv_y + 1;
 
 //==========================================================
-// wreg control
-//==========================================================
-
-  assign wreg_we = (r_state == S_ACTIVE)
-                    && (r_core_state == S_CORE_WEIGHT);
-
-//==========================================================
 // conv control
 //==========================================================
 
-  assign conv_begin = r_conv_begin_d<%=$d_convbuf%>;
-  assign conv_valid = r_conv_valid_d<%=$d_convbuf%>;
-  assign conv_end   = r_conv_end_d<%=$d_convbuf%>;
+% if $old
+  assign conv_begin = r_conv_begin_d<%=$d_pixelbuf-1%>;
+  assign conv_valid = r_conv_valid_d<%=$d_pixelbuf-1%>;
+  assign conv_end   = r_conv_end_d<%=$d_pixelbuf-1%>;
 
   <%- for n in ["begin", "valid", "end"] -%>
-  <%-   for i in 0..$d_convbuf -%>
+  <%-   for i in 0...$d_pixelbuf -%>
   always @(posedge clk)
     <%- if i == 0 -%>
     if (!xrst)
@@ -178,8 +171,39 @@ module ctrl_conv(/*AUTOARG*/);
     <%- end -%>
   <%-   end -%>
   <%- end -%>
+% else
+  assign conv_begin = r_conv_begin_d0;
+  assign conv_valid = r_conv_valid_d0;
+  assign conv_end   = r_conv_end_d0;
 
-  <%- for i in 0..$d_convbuf -%>
+  <%- for n in ["begin", "valid", "end"] -%>
+  always @(posedge clk)
+    if (!xrst)
+      r_conv_<%=n%>_d0 <= 0;
+    else
+      <%- case n -%>
+      <%- when "begin" -%>
+      r_conv_begin_d0 <= (r_state == S_ACTIVE)
+                            && (r_core_state == S_CORE_INPUT || r_core_state == S_CORE_OUTPUT)
+                            && r_conv_x == r_fil_size - 2
+                            && r_conv_y == r_fil_size - 1;
+      <%- when "valid" -%>
+      r_conv_valid_d0 <= (r_state == S_ACTIVE)
+                            && (r_core_state == S_CORE_INPUT || r_core_state == S_CORE_OUTPUT)
+                            && r_conv_x >= r_fil_size - 1
+                            && r_conv_y >= r_fil_size - 1;
+      <%- when "end" -%>
+      r_conv_end_d0   <= (r_state == S_ACTIVE)
+                            && (r_core_state == S_CORE_INPUT || r_core_state == S_CORE_OUTPUT)
+                            && r_conv_x == r_img_size - 1
+                            && r_conv_y == r_img_size - 1;
+      <%- else -%>
+      <%- end -%>
+  <%- end -%>
+% end
+
+% if $old
+  <%- for i in 0...$d_pixelbuf -%>
   always @(posedge clk)
     <%- if i == 0 -%>
     if (!xrst)
@@ -193,8 +217,16 @@ module ctrl_conv(/*AUTOARG*/);
       r_first_input_d<%=i%> <= r_first_input_d<%=i-1%>;
     <%- end -%>
   <%- end -%>
+% else
+  always @(posedge clk)
+    if (!xrst)
+      r_first_input_d0  <= 0;
+    else
+      r_first_input_d0  <= first_input;
+% end
 
-  <%- for i in 0..$d_convbuf -%>
+% if $old
+  <%- for i in 0...$d_pixelbuf -%>
   always @(posedge clk)
     <%- if i == 0 -%>
     if (!xrst)
@@ -208,6 +240,13 @@ module ctrl_conv(/*AUTOARG*/);
       r_last_input_d<%=i%> <= r_last_input_d<%=i-1%>;
     <%- end -%>
   <%- end -%>
+% else
+  always @(posedge clk)
+    if (!xrst)
+      r_last_input_d0  <= 0;
+    else
+      r_last_input_d0  <= r_core_state == S_CORE_OUTPUT;
+% end
 
 //==========================================================
 // feat-accum control
@@ -224,7 +263,11 @@ module ctrl_conv(/*AUTOARG*/);
     if (!xrst)
       r_feat_we_d0 <= 0;
     else
-      r_feat_we_d0 <= !r_last_input_d<%=$d_convbuf%> && conv_valid;
+% if $old
+      r_feat_we_d0 <= !r_last_input_d<%=$d_pixelbuf-1%> && conv_valid;
+% else
+      r_feat_we_d0 <= !r_last_input_d0 && conv_valid;
+% end
     <%- else -%>
     if (!xrst)
       r_feat_we_d<%=i%> <= 0;
@@ -239,7 +282,11 @@ module ctrl_conv(/*AUTOARG*/);
     if (!xrst)
       r_feat_rst_d0 <= 0;
     else
-      r_feat_rst_d0 <= conv_valid && r_first_input_d<%=$d_convbuf%>;
+% if $old
+      r_feat_rst_d0 <= conv_valid && r_first_input_d<%=$d_pixelbuf-1%>;
+% else
+      r_feat_rst_d0 <= conv_valid && r_first_input_d0;
+% end
     <%- else -%>
     if (!xrst)
       r_feat_rst_d<%=i%> <= 0;
@@ -280,7 +327,8 @@ module ctrl_conv(/*AUTOARG*/);
     if (!xrst)
       r_out_<%=n%>_d0 <= 0;
     else
-      r_out_<%=n%>_d0 <= conv_<%=n%> && r_last_input_d<%=$d_convbuf%>;
+      //r_out_<%=n%>_d0 <= conv_<%=n%> && r_last_input_d<%=$d_pixelbuf-1%>;
+      r_out_<%=n%>_d0 <= conv_<%=n%> && r_last_input_d0;
     <%- else -%>
     if (!xrst)
       r_out_<%=n%>_d<%=i%> <= 0;

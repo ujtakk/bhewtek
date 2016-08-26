@@ -28,16 +28,28 @@ module ctrl_core(/*AUTOARG*/);
   output                out_begin;
   output                out_valid;
   output                out_end;
+  output                buf_pix_en;
   output [INSIZE-1:0]   mem_input_addr;
   output [WSIZE-1:0]    mem_weight_addr;
   output                mem_output_we;
   output [OUTSIZE-1:0]  mem_output_addr;
   output                first_input;
+  output              wreg_we;
 
   /*AUTOWIRE*/
   wire s_weight_end;
   wire s_input_end;
   wire s_output_end;
+% if $old
+% else
+  wire [2-1:0]      r_state_d0;
+  wire              r_first_input_d0;
+  wire [LWIDTH-1:0] r_weight_x_d0;
+  wire [LWIDTH-1:0] r_weight_y_d0;
+  wire              r_out_begin_d0;
+  wire              r_out_valid_d0;
+  wire              r_out_end_d0;
+% end
 
   /*AUTOREG*/
   reg [2-1:0]       r_state;
@@ -63,12 +75,26 @@ module ctrl_core(/*AUTOARG*/);
   reg               r_out_end;
   reg               r_wait_back;
   reg               r_first_input;
+  <%- for i in 0...$d_pixelbuf -%>
+  reg               r_wreg_we_d<%=i%>;
+  <%- end -%>
+% if $old
+% else
+  <%- for i in 1...$d_pixelbuf -%>
+  reg [2-1:0]       r_state_d<%=i%>;
+  reg [LWIDTH-1:0]  r_weight_x_d<%=i%>;
+  reg [LWIDTH-1:0]  r_weight_y_d<%=i%>;
+  reg               r_out_begin_d<%=i%>;
+  reg               r_out_valid_d<%=i%>;
+  reg               r_out_end_d<%=i%>;
+  reg               r_first_input_d<%=i%>;
+  <%- end -%>
+% end
+  reg r_buf_pix_en;
 
 //==========================================================
 // core control
 //==========================================================
-
-  assign core_state = r_state;
 
   //main FSM
   always @(posedge clk)
@@ -114,6 +140,21 @@ module ctrl_core(/*AUTOARG*/);
             end
       endcase
 
+% if $old
+  assign core_state = r_state;
+% else
+  assign core_state = r_state_d<%=$d_pixelbuf-1%>;
+
+  assign r_state_d0 = r_state;
+  <%- for i in 1...$d_pixelbuf -%>
+  always @(posedge clk)
+    if (!xrst)
+      r_state_d<%=i%> <= 0;
+    else
+      r_state_d<%=i%> <= r_state_d<%=i-1%>;
+  <%- end -%>
+% end
+
   //wait exec (initialize)
   always @(posedge clk)
     if (!xrst)
@@ -133,21 +174,32 @@ module ctrl_core(/*AUTOARG*/);
       r_fea_size  <= img_size - fil_size + 1;
     end
 
-  assign first_input = r_first_input;
-
   always @(posedge clk)
     if (!xrst)
       r_first_input <= 0;
     else
       r_first_input <= (r_state == S_INPUT) && r_count_in == 0;
 
+% if $old
+  assign first_input = r_first_input;
+% else
+  assign first_input = r_first_input_d<%=$d_pixelbuf-1%>;
+
+  assign r_first_input_d0 = r_first_input;
+
+  <%- for i in 1...$d_pixelbuf -%>
+  always @(posedge clk)
+    if (!xrst)
+      r_first_input_d<%=i%> <= 0;
+    else
+      r_first_input_d<%=i%> <= r_first_input_d<%=i-1%>;
+  <%- end -%>
+% end
+
 //==========================================================
 // weight control
 //==========================================================
 
-  //assign mem_weight_addr  = weight_addr + (r_state == S_WEIGHT)
-  //                                          ? r_weight_addr + 1
-  //                                          : r_weight_addr;
   assign mem_weight_addr = weight_addr + r_weight_addr;
 
   assign s_weight_end     = (r_state == S_WEIGHT)
@@ -155,6 +207,7 @@ module ctrl_core(/*AUTOARG*/);
                               && r_weight_y == r_fil_size - 1;
   //assign s_weight_end     = r_bias;
 
+% if $old
   always @(posedge clk)
     if (!xrst)
       r_weight_addr <= 0;
@@ -165,6 +218,18 @@ module ctrl_core(/*AUTOARG*/);
       r_weight_addr <= 0;
     else if (r_state == S_WEIGHT)
       r_weight_addr <= r_weight_addr + 1;
+% else
+  always @(posedge clk)
+    if (!xrst)
+      r_weight_addr <= 0;
+    else if (r_count_out + <%=$core%> >= r_total_out
+              && r_count_in == r_total_in - 1
+              && r_weight_x_d<%=$d_pixelbuf-1%> == r_fil_size - 1
+              && r_weight_y_d<%=$d_pixelbuf-1%> == r_fil_size - 1)
+      r_weight_addr <= 0;
+    else if (r_state_d<%=$d_pixelbuf-1%> == S_WEIGHT)
+      r_weight_addr <= r_weight_addr + 1;
+% end
 
   always @(posedge clk)
     if (!xrst)
@@ -182,11 +247,32 @@ module ctrl_core(/*AUTOARG*/);
       r_weight_y <= 0;
     else if (r_state == S_WAIT)
       r_weight_y <= 0;
-    else if (r_state == S_WEIGHT && !r_bias && r_weight_x == r_fil_size - 1)
+    else if (r_state == S_WEIGHT
+              && !r_bias && r_weight_x == r_fil_size - 1)
       if (r_weight_y == r_fil_size - 1)
         r_weight_y <= 0;
       else
         r_weight_y <= r_weight_y + 1;
+
+% if $old
+% else
+  assign r_weight_x_d0 = r_weight_x;
+  assign r_weight_y_d0 = r_weight_y;
+
+  <%- for i in 1...$d_pixelbuf -%>
+  always @(posedge clk)
+    if (!xrst)
+    begin
+      r_weight_x_d<%=i%> <= 0;
+      r_weight_y_d<%=i%> <= 0;
+    end
+    else
+    begin
+      r_weight_x_d<%=i%> <= r_weight_x_d<%=i-1%>;
+      r_weight_y_d<%=i%> <= r_weight_y_d<%=i-1%>;
+    end
+  <%- end -%>
+% end
 
   always @(posedge clk)
     //if (r_state == S_WEIGHT)
@@ -194,14 +280,37 @@ module ctrl_core(/*AUTOARG*/);
     //else
       r_bias <= 0;
 
+//==========================================================
+// wreg control
+//==========================================================
+
+% if $old
+  //assign wreg_we = (r_state == S_WEIGHT);
+  assign wreg_we = r_wreg_we_d0;
+% else
+  assign wreg_we = r_wreg_we_d<%=$d_pixelbuf-1%>;
+% end
+
+  <%- for i in 0...$d_pixelbuf -%>
+  always @(posedge clk)
+    <%- if i == 0 -%>
+    if (!xrst)
+      r_wreg_we_d0 <= 0;
+    else
+      r_wreg_we_d0 <= (r_state == S_WEIGHT);
+    <%- else -%>
+    if (!xrst)
+      r_wreg_we_d<%=i%> <= 0;
+    else
+      r_wreg_we_d<%=i%> <= r_wreg_we_d<%=i-1%>;
+    <%- end -%>
+  <%- end -%>
+
 
 //==========================================================
 // input control
 //==========================================================
 
-  //assign mem_input_addr = input_addr + (r_state == S_INPUT || r_state == S_OUTPUT)
-  //                                        ? r_input_addr + 1
-  //                                        : r_input_addr;
   assign mem_input_addr = input_addr + r_input_addr;
 
   assign s_input_end    = (r_state == S_INPUT)
@@ -241,6 +350,15 @@ module ctrl_core(/*AUTOARG*/);
       else
         r_input_y <= r_input_y + 1;
 
+  assign buf_pix_en = r_buf_pix_en;
+
+  always @(posedge clk)
+    if (!xrst)
+      r_buf_pix_en <= 0;
+    else
+      r_buf_pix_en <= (r_state == S_INPUT || core_state == S_OUTPUT)
+                        && r_out_begin;
+
 //==========================================================
 // output control
 //==========================================================
@@ -250,10 +368,15 @@ module ctrl_core(/*AUTOARG*/);
   assign mem_output_we    = r_output_we;
   assign mem_output_addr  = output_addr + r_output_addr;
 
+% if $old
   assign out_begin        = r_out_begin;
   assign out_valid        = r_out_valid;
   assign out_end          = r_out_end;
-
+% else
+  assign out_begin        = r_out_begin_d<%=$d_pixelbuf-1%>;
+  assign out_valid        = r_out_valid_d<%=$d_pixelbuf-1%>;
+  assign out_end          = r_out_end_d<%=$d_pixelbuf-1%>;
+% end
   assign s_output_end     = (r_state == S_OUTPUT) && in_end;
 
   always @(posedge clk)
@@ -296,6 +419,17 @@ module ctrl_core(/*AUTOARG*/);
                         && r_input_y == r_img_size - 1;
       <%- else -%>
       <%- end -%>
+% if $old
+% else
+  assign r_out_<%=n%>_d0 = r_out_<%=n%>;
+  <%-     for i in 1...$d_pixelbuf -%>
+  always @(posedge clk)
+    if (!xrst)
+      r_out_<%=n%>_d<%=i%> <= 0;
+    else
+      r_out_<%=n%>_d<%=i%> <= r_out_<%=n%>_d<%=i-1%>;
+  <%-     end -%>
+% end
   <%- end -%>
 
   always @(posedge clk)

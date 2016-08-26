@@ -1,7 +1,7 @@
 #### notice, don't forget update Makefile.dep
 #### (make compile.all USE_CACHE=0; ...; rm -f Makefile.dep; make Makefile.dep)
 # SIMULATOR=vcs
-SIMULATOR=iverilog
+# SIMULATOR=iverilog
 IOC_DIR=.
 TARGET=test_top
 DIST=../dist
@@ -22,7 +22,7 @@ log:
 	vim $(TARGET).log
 
 diff:
-	vimdiff $(TARGET).dat $(TARGET)_true.dat
+	vimdiff $(TARGET).dat $(TARGET)_pseudo_true.dat
 	#vimdiff test_ctrl.dat test_ctrl_true.dat
 
 define DEP_IN

@@ -21,6 +21,7 @@ module ctrl_core(/*AUTOARG*/);
   input [LWIDTH-1:0]  total_in;
   input [LWIDTH-1:0]  img_size;
   input [LWIDTH-1:0]  fil_size;
+  input [LWIDTH-1:0]  pool_size;
 
   /*AUTOOUTPUT*/
   output                ack;
@@ -34,7 +35,8 @@ module ctrl_core(/*AUTOARG*/);
   output                mem_output_we;
   output [OUTSIZE-1:0]  mem_output_addr;
   output                first_input;
-  output              wreg_we;
+  output                wreg_we;
+  output [LWIDTH-1:0]   fea_size;
 
   /*AUTOWIRE*/
   wire s_weight_end;
@@ -59,6 +61,7 @@ module ctrl_core(/*AUTOARG*/);
   reg [LWIDTH-1:0]  r_img_size;
   reg [LWIDTH-1:0]  r_fil_size;
   reg [LWIDTH-1:0]  r_fea_size;
+  reg [LWIDTH-1:0]  r_pool_size;
   reg [LWIDTH-1:0]  r_count_out;
   reg [LWIDTH-1:0]  r_count_in;
   reg [LWIDTH-1:0]  r_weight_x;
@@ -155,6 +158,8 @@ module ctrl_core(/*AUTOARG*/);
   <%- end -%>
 % end
 
+  assign fea_size = r_fea_size;
+
   //wait exec (initialize)
   always @(posedge clk)
     if (!xrst)
@@ -164,6 +169,7 @@ module ctrl_core(/*AUTOARG*/);
       r_img_size  <= 0;
       r_fil_size  <= 0;
       r_fea_size  <= 0;
+      r_pool_size  <= 0;
     end
     else if (r_state == S_WAIT && req)
     begin
@@ -172,6 +178,7 @@ module ctrl_core(/*AUTOARG*/);
       r_img_size  <= img_size;
       r_fil_size  <= fil_size;
       r_fea_size  <= img_size - fil_size + 1;
+      r_pool_size  <= pool_size;
     end
 
   always @(posedge clk)
@@ -356,7 +363,7 @@ module ctrl_core(/*AUTOARG*/);
     if (!xrst)
       r_buf_pix_en <= 0;
     else
-      r_buf_pix_en <= (r_state == S_INPUT || core_state == S_OUTPUT)
+      r_buf_pix_en <= (r_state == S_INPUT || r_state == S_OUTPUT)
                         && r_out_begin;
 
 //==========================================================

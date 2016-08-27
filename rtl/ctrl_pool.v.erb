@@ -15,6 +15,7 @@ module ctrl_pool(/*AUTOARG*/);
   input [LWIDTH-1:0]  pool_size;
 
   /*AUTOOUTPUT*/
+  output buf_feat_en;
   output out_begin;
   output out_valid;
   output out_end;
@@ -42,6 +43,7 @@ module ctrl_pool(/*AUTOARG*/);
   reg               r_out_valid_d<%=i%>;
   reg               r_out_end_d<%=i%>;
   <%- end -%>
+  reg r_buf_feat_en;
 
 //==========================================================
 // main FSM
@@ -119,6 +121,14 @@ module ctrl_pool(/*AUTOARG*/);
 //==========================================================
 // pool control
 //==========================================================
+
+  assign buf_feat_en = r_buf_feat_en;
+
+  always @(posedge clk)
+    if (!xrst)
+      r_buf_feat_en <= 0;
+    else
+      r_buf_feat_en <= in_begin;
 
   assign pool_begin = r_pool_begin_d<%=$d_poolbuf%>;
   assign pool_valid = r_pool_valid_d<%=$d_poolbuf%>;

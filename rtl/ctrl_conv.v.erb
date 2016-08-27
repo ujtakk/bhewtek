@@ -266,7 +266,8 @@ module ctrl_conv(/*AUTOARG*/);
 % if $old
       r_feat_we_d0 <= !r_last_input_d<%=$d_pixelbuf-1%> && conv_valid;
 % else
-      r_feat_we_d0 <= !r_last_input_d0 && conv_valid;
+      //r_feat_we_d0 <= !r_last_input_d0 && conv_valid;
+      r_feat_we_d0 <= conv_valid;
 % end
     <%- else -%>
     if (!xrst)

@@ -45,6 +45,8 @@ module top(/*AUTOARG*/);
   /* linebuf AUTO_TEMPLATE (
       .buf_en     (buf_pix_en),
       .buf_input  (read_input[DWIDTH-1:0]),
+      .img_size (img_size[LWIDTH-1:0]),
+      .fil_size (fil_size[LWIDTH-1:0]),
       <%- for i in 0...$fsize -%>
       <%-   for j in 0...$fsize -%>
       .buf_output<%=i%>_<%=j%> (pixel<%=i*$fsize+j%>[DWIDTH-1:0]),

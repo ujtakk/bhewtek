@@ -80,6 +80,7 @@ module test_top();
 
     req           = 0;
     fil_size      = FSIZE;
+    pool_size     = PSIZE;
     img_size      = 12;
     total_in      = N_F1;
     total_out     = N_F2;
@@ -116,61 +117,42 @@ module test_top();
   always
   begin
     #(STEP/2-1);
-      $display(
-        "%d ", dut0.read_input,
-        <%- 25.times do |i| -%>
-        "%d ", dut0.pixel<%=i%>,
-        <%- end -%>
-      );
-%#    $display(
-%#      //"%5d: ", $time/STEP,
-%#      //"%d ", xrst,
-%#      //"%d ", req,
-%#      //"%d ", ack,
-%#      //"| ",
-%#      //"%d ", dut0.ctrl.out_core_valid,
-%#      "%d ", dut0.ctrl.ctrl_conv.r_conv_x,
-%#      "%d ", dut0.ctrl.ctrl_conv.r_conv_y,
-%#      "| ",
-%#      "%d ", dut0.ctrl.ctrl_conv.conv_valid,
-%#      <%- 25.times do |i| -%>
-%#      "%4d ", dut0.core0.conv.tree.pixel<%=i%>,
-%#      <%- end -%>
-%#      //"%4d ", dut0.core0.conv.tree.weight0,
-%#      //"| ",
-%#      //"%4d ", dut0.core0.conv.wreg.read_data,
-%#      //"%d ", dut0.core0.conv.wreg.wreg_we,
-%#
-%#      //<%- for i in 0...25 -%>
-%#      //"%4d ", dut0.core0.conv.wreg.r_weight<%=i%>,
-%#      //<%- end -%>
-%#
-%#      //"| ",
-%#      //<%- for i in 0...8 -%>
-%#      //"%4d ", dut0.core<%=i%>.pmap,
-%#      //<%- end -%>
-%#      //"@@ ",
-%#      //"%d ", dut0.ctrl.mem_output_we,
-%#      //"%d ", dut0.ctrl.mem_output_addr,
-%#      //"| ",
-%#      //"%d: ", dut0.ctrl.ctrl_core.r_state,
-%#      //"%d ",  dut0.ctrl.ctrl_core.out_begin,
-%#      //"%d ",  dut0.ctrl.ctrl_core.out_valid,
-%#      //"%d ",  dut0.ctrl.ctrl_core.out_end,
-%#      //"| ",
-%#      //"%d: ", dut0.ctrl.ctrl_conv.r_state,
-%#      //"%d: ", dut0.ctrl.ctrl_conv.r_core_state,
-%#      //"%d ",  dut0.ctrl.ctrl_conv.out_begin,
-%#      //"%d ",  dut0.ctrl.ctrl_conv.out_valid,
-%#      //"%d ",  dut0.ctrl.ctrl_conv.out_end,
-%#      ////"%d ",  dut0.ctrl.ctrl_conv.wreg_we,
-%#      ////"%d ",  dut0.ctrl.ctrl_conv.conv_valid,
-%#      //"| ",
-%#      //"%d: ", dut0.ctrl.ctrl_pool.r_state,
-%#      //"%d ",  dut0.ctrl.ctrl_pool.out_begin,
-%#      //"%d ",  dut0.ctrl.ctrl_pool.out_valid,
-%#      //"%d ",  dut0.ctrl.ctrl_pool.out_end,
-%#    );
+%#      if (dut0.ctrl.ctrl_conv.conv_valid)
+%#      begin
+%#        $display("TIME: %d", $time/STEP);
+%#        <%- 5.times do |i| -%>
+%#        $display(
+%#          <%- 5.times do |j| -%>
+%#          "%5d", dut0.pixel<%=5*i+j%>,
+%#          <%- end -%>
+%#        );
+%#        <%- end -%>
+%#        $display();
+%#      end
+    $display(
+      "%5d: ", $time/STEP,
+      "%d ", xrst,
+      "%d ", req,
+      "%d ", ack,
+      "%d ", dut0.ctrl.ctrl_core.r_count_out,
+      "%d ", dut0.ctrl.ctrl_core.r_count_in,
+      "| ",
+      "%d: ", dut0.ctrl.ctrl_core.r_state,
+      "%d ",  dut0.ctrl.ctrl_core.out_begin,
+      "%d ",  dut0.ctrl.ctrl_core.out_valid,
+      "%d ",  dut0.ctrl.ctrl_core.out_end,
+      "| ",
+      "%d: ", dut0.ctrl.ctrl_conv.r_state,
+      "%d: ", dut0.ctrl.ctrl_conv.r_core_state,
+      "%d ",  dut0.ctrl.ctrl_conv.out_begin,
+      "%d ",  dut0.ctrl.ctrl_conv.out_valid,
+      "%d ",  dut0.ctrl.ctrl_conv.out_end,
+      "| ",
+      "%d: ", dut0.ctrl.ctrl_pool.r_state,
+      "%d ",  dut0.ctrl.ctrl_pool.out_begin,
+      "%d ",  dut0.ctrl.ctrl_pool.out_valid,
+      "%d ",  dut0.ctrl.ctrl_pool.out_end,
+    );
     #(STEP/2+1);
   end
 

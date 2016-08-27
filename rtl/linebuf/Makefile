@@ -19,6 +19,9 @@ clean:
 diff:
 	vimdiff $(TARGET).dat ../$(TARGET)_pix.dat
 
+log:
+	vim $(TARGET).log
+
 define DEP_IN
 ## -*- text -*-
 ## ignore list

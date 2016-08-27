@@ -6,15 +6,16 @@ $project = `pwd`.chomp.split('/rtl')[0]
 $core = 8
 $core_log = (Math.log($core)/Math.log(2)).to_i
 $tech = nil # rohm
-$max_size = 32;
+$max_size = 32
 if $old
   $d_pixelbuf = 1
+  $d_poolbuf  = 1
 else
-  $d_pixelbuf = 11
+  $d_pixelbuf = 15
+  $d_poolbuf  = 10
 end
-$d_conv = 5;
-$d_poolbuf = 0;#10;
-$d_pool = 2;
+$d_conv = 5
+$d_pool = 2
 #$d_pool = $d_conv + 3;
 
 # Verilog parameter

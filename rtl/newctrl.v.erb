@@ -22,9 +22,9 @@ module newctrl(/*AUTOARG*/);
   /*AUTOOUTPUT*/
   output                ack;
   output                wreg_we;
-  output                buf_feat_en;
   output                conv_we;
   output                pool_we;
+  output                buf_feat_en;
   output [INSIZE-1:0]   mem_input_addr;
   output [WSIZE-1:0]    mem_weight_addr;
   output                mem_feat_we;
@@ -47,11 +47,6 @@ module newctrl(/*AUTOARG*/);
   <%- end -%>
 
   /*AUTOREG*/
-
-  assign conv_we = out_conv_valid;
-  assign pool_we = out_pool_valid;
-
-  //assign buf_feat_en = out_core_begin;
 
 
 //====================================================================
@@ -85,7 +80,6 @@ module newctrl(/*AUTOARG*/);
       .in_<%=n%>    (in_pool_<%=n%>),
       .out_<%=n%>  (out_pool_<%=n%>),
       <%- end -%>
-      .fea_size (8'd8),
       .pool_size (8'd2),
   ); */
   ctrl_pool ctrl_pool(/*AUTOINST*/);

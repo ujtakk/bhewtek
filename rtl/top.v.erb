@@ -36,12 +36,11 @@ module top(/*AUTOARG*/);
   sram_weight mem_weight<%=i%>(/*AUTOINST*/);
   <%- end -%>
 
-%if $old
-  /* linebuf_pix AUTO_TEMPLATE (
-      .read_data (read_input[DWIDTH-1:0]),
-  ); */
-  linebuf_pix buf_pix(/*AUTOINST*/);
-%else
+%#  /* linebuf_pix AUTO_TEMPLATE (
+%#      .read_data (read_input[DWIDTH-1:0]),
+%#  ); */
+%#  linebuf_pix buf_pix(/*AUTOINST*/);
+
   /* linebuf AUTO_TEMPLATE (
       .buf_en     (buf_pix_en),
       .buf_input  (read_input[DWIDTH-1:0]),
@@ -54,7 +53,6 @@ module top(/*AUTOARG*/);
       <%- end -%>
   ); */
   linebuf buf_pix(/*AUTOINST*/);
-%end
 
   newctrl ctrl(/*AUTOINST*/);
 

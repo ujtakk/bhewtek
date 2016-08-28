@@ -3,6 +3,7 @@
 module test_top();
 `include "parameters.vh"
 <%- load "parameters.rb" -%>
+<%- num = 2 -%><%- file = 4 -%>
 
   /*AUTOREGINPUT*/
 
@@ -28,52 +29,55 @@ module test_top();
   begin
     //$set_toggle_region(test_top.dut0);
 
-    mem_clear;
+    //mem_clear;
+    mem_clear_direct;
 
     fp = $fopen("log.txt");
 
     xrst = 0;
     req = 0;
 
+    input_we = 0;
     input_addr = 0;
     write_input = 0;
-    input_we = 0;
 
     weight_we = 4'd0;
     weight_addr = 0;
     write_weight = 0;
 
-    output_addr = 0;
     output_re = 0;
+    output_addr = 0;
 
     #(STEP);
     xrst = 1;
 
-    read_input;
-    input_we = 1;
-    for (i=0; i<2**INSIZE; i=i+1)
-    begin
-      input_addr = i;
-      write_input = mem_in[i];
-      #(STEP*5);
-    end
-    input_we = 0;
-    input_addr = 0;
-    write_input = 0;
+    read_input_direct;
+    //read_input;
+    //input_we = 1;
+    //for (i=0; i<2**INSIZE; i=i+1)
+    //begin
+    //  input_addr = i;
+    //  write_input = mem_in[i];
+    //  #(STEP);
+    //end
+    //input_we = 0;
+    //input_addr = 0;
+    //write_input = 0;
 
-    read_weight;
-    <%- for n in 0...$core -%>
-    weight_we = 4'd<%=n+1%>;
-    for (i=0; i<2**WSIZE; i=i+1)
-    begin
-      weight_addr = i;
-      write_weight = mem_w<%=n%>[i];
-      #(STEP*2);
-    end
-    weight_we = 4'd0;
-    weight_addr = 0;
-    write_weight = 0;
-    <%- end -%>
+    read_weight_direct;
+    //read_weight;
+    //<%- for n in 0...$core -%>
+    //weight_we = 4'd<%=n+1%>;
+    //for (i=0; i<2**WSIZE; i=i+1)
+    //begin
+    //  weight_addr = i;
+    //  write_weight = mem_w<%=n%>[i];
+    //  #(STEP);
+    //end
+    //weight_we = 4'd0;
+    //weight_addr = 0;
+    //write_weight = 0;
+    //<%- end -%>
 
     //$toggle_start();
     #(STEP);
@@ -93,17 +97,17 @@ module test_top();
     output_addr   = 0;
     output_re     = 0;
 
-    #(STEP*5);
+    #(STEP);
 
     req = 1;
 
-    #(STEP*5);
+    #(STEP);
 
     req = 0;
 
-    while(!ack) #(STEP);
+    //while(!ack) #(STEP);
 
-    #(STEP*10);
+    #(STEP*30010);
 
     //valid_memin;
     //valid_memw;
@@ -114,12 +118,15 @@ module test_top();
     $finish();
   end
 
+  reg r_ack;
+  always @(ack) r_ack <= ack;
+
   always
   begin
     #(STEP/2-1);
 %#      if (dut0.ctrl.ctrl_conv.conv_valid)
 %#      begin
-%#        $display("TIME: %d", $time/STEP);
+%#        //$display("TIME: %d", $time/STEP);
 %#        <%- 5.times do |i| -%>
 %#        $display(
 %#          <%- 5.times do |j| -%>
@@ -129,29 +136,75 @@ module test_top();
 %#        <%- end -%>
 %#        $display();
 %#      end
+    if (!r_ack)
+      //$display(
+      //  <%- 25.times do |i| -%>
+      //  "%5d", dut0.core0.conv.wreg.r_weight<%=i%>,
+      //  <%- end -%>
+      //);
     $display(
-      "%5d: ", $time/STEP,
-      "%d ", xrst,
-      "%d ", req,
-      "%d ", ack,
-      "%d ", dut0.ctrl.ctrl_core.r_count_out,
-      "%d ", dut0.ctrl.ctrl_core.r_count_in,
+      //"%5d: ", $time/STEP,
+      "%2d", xrst,
+      "%2d", req,
+      "%2d", ack,
+      //"| ",
+      //"%5d", dut0.read_input,
+      //"%2d", dut0.buf_pix_en,
+      //"%d", dut0.ctrl.ctrl_core.mem_input_addr,
+      //"%d", dut0.ctrl.ctrl_core.mem_weight_addr,
+      //"%d", dut0.ctrl.ctrl_core.mem_output_we,
+      //"%d", dut0.ctrl.ctrl_core.mem_output_addr,
+      //"| ",
+      //"%d:", dut0.ctrl.ctrl_core.r_state,
+      //"%d", dut0.ctrl.ctrl_core.r_count_out,
+      //"%d", dut0.ctrl.ctrl_core.r_count_in,
+      //"; ",
+      //"%2d",  dut0.wreg_we,
+      //"%5d",  dut0.read_weight0,
+      //"%5d",  dut0.read_input,
+      //"%2d",  dut0.ctrl.ctrl_core.r_out_begin_d0,
+      //"%2d",  dut0.ctrl.ctrl_core.r_out_valid_d0,
+      //"%2d",  dut0.ctrl.ctrl_core.out_valid,
+      //"%2d",  dut0.ctrl.ctrl_core.r_out_end_d0,
+      //"; ",
+      //"%3d",  dut0.ctrl.ctrl_core.r_weight_x,
+      //"%3d",  dut0.ctrl.ctrl_core.r_weight_y,
+      //"; ",
+      //"%3d",  dut0.ctrl.ctrl_core.r_input_x,
+      //"%3d",  dut0.ctrl.ctrl_core.r_input_y,
       "| ",
-      "%d: ", dut0.ctrl.ctrl_core.r_state,
-      "%d ",  dut0.ctrl.ctrl_core.out_begin,
-      "%d ",  dut0.ctrl.ctrl_core.out_valid,
-      "%d ",  dut0.ctrl.ctrl_core.out_end,
+      "%d:", dut0.ctrl.ctrl_conv.r_state,
+      "%d:", dut0.ctrl.ctrl_conv.r_core_state,
+      "; ",
+      "%5d",  dut0.core0.fmap,
+      "%2d",  dut0.ctrl.ctrl_conv.out_begin,
+      "%2d",  dut0.ctrl.ctrl_conv.out_valid,
+      "%2d",  dut0.ctrl.ctrl_conv.out_end,
+      "%2d", dut0.ctrl.ctrl_conv.conv_we,
+      "; ",
+      "%3d",  dut0.ctrl.ctrl_conv.r_conv_x,
+      "%3d",  dut0.ctrl.ctrl_conv.r_conv_y,
+      "; ",
+      "%4d ", dut0.core0.write_feat,
+      "%2d", dut0.ctrl.ctrl_conv.mem_feat_we,
+      "%d", dut0.ctrl.ctrl_conv.mem_feat_addr,
+      "%2d", dut0.ctrl.ctrl_conv.r_last_input,
+      "%2d", dut0.ctrl.ctrl_conv.r_conv_end,
       "| ",
-      "%d: ", dut0.ctrl.ctrl_conv.r_state,
-      "%d: ", dut0.ctrl.ctrl_conv.r_core_state,
-      "%d ",  dut0.ctrl.ctrl_conv.out_begin,
-      "%d ",  dut0.ctrl.ctrl_conv.out_valid,
-      "%d ",  dut0.ctrl.ctrl_conv.out_end,
+      "%d:", dut0.ctrl.ctrl_pool.r_state,
+      "; ",
+      "%5d",  dut0.core0.pmap,
+      "%2d",  dut0.ctrl.ctrl_pool.out_begin,
+      "%2d",  dut0.ctrl.ctrl_pool.out_valid,
+      "%2d",  dut0.ctrl.ctrl_pool.out_end,
+      "%2d", dut0.ctrl.ctrl_pool.pool_we,
+      "; ",
+      "%3d",  dut0.ctrl.ctrl_pool.r_pool_x,
+      "%3d",  dut0.ctrl.ctrl_pool.r_pool_y,
       "| ",
-      "%d: ", dut0.ctrl.ctrl_pool.r_state,
-      "%d ",  dut0.ctrl.ctrl_pool.out_begin,
-      "%d ",  dut0.ctrl.ctrl_pool.out_valid,
-      "%d ",  dut0.ctrl.ctrl_pool.out_end,
+% 4.times do |i|
+      "%4d", dut0.core0.pool.r_pixel_feat<%=i%>,
+% end
     );
     #(STEP/2+1);
   end
@@ -174,11 +227,34 @@ module test_top();
     end
   endtask
 
+  task mem_clear_direct;
+    begin
+      for (i=0; i<2**INSIZE; i=i+1)
+      begin
+        dut0.mem_input.mem[i] = {DWIDTH{1'b0}};
+      end
+
+      <%- for i in 0...$core -%>
+      for (i=0; i<2**WSIZE; i=i+1)
+      begin
+        dut0.mem_weight<%=i%>.mem[i] = {DWIDTH{1'b0}};
+      end
+      <%- end -%>
+    end
+  endtask
+
   task read_input;
     begin
-      <%- num = 2 -%><%- file = 4 -%>
       <%- for i in 0...$n_f1 -%>
       $readmemb("<%=$project%>/data/mnist/bpmap1/<%=num%>/data<%=file%>_<%=i%>.bin", mem_in, <%=($pm1hei**2)*i%>, <%=($pm1hei**2)*(i+1)-1%>);
+      <%- end -%>
+    end
+  endtask
+
+  task read_input_direct;
+    begin
+      <%- for i in 0...$n_f1 -%>
+      $readmemb("<%=$project%>/data/mnist/bpmap1/<%=num%>/data<%=file%>_<%=i%>.bin", dut0.mem_input.mem, <%=($pm1hei**2)*i%>, <%=($pm1hei**2)*(i+1)-1%>);
       <%- end -%>
     end
   endtask
@@ -199,6 +275,29 @@ module test_top();
       $readmemb("<%=$project%>/data/mnist/lenet/bwb_2/data<%=$n_f2-($n_f2%$core)+k%>_<%=j%>.bin", mem_w<%=k%>, <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%>, <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%>);
       <%-     else -%>
       $readmemb("<%=$project%>/data/mnist/lenet/bwb_2/null.bin", mem_w<%=k%>, <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%>, <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%>);
+      <%-     end -%>
+      <%-   end -%>
+      <%-   end -%>
+      <%- end -%>
+    end
+  endtask
+
+  task read_weight_direct;
+    begin
+      <%- for i in 0...$n_f2/$core -%>
+      <%-   for j in 0...$n_f1 -%>
+      <%-   for k in 0...$core -%>
+      $readmemb("<%=$project%>/data/mnist/lenet/bwb_2/data<%=$core*i+k%>_<%=j%>.bin", dut0.mem_weight<%=k%>.mem, <%=($fsize**2)*($n_f1*i+j)%>, <%=($fsize**2)*($n_f1*i+j+1)-1%>);
+      <%-   end -%>
+      <%-   end -%>
+      <%- end -%>
+      <%- if $n_f2 % $core != 0 -%>
+      <%-   for j in 0...$n_f1 -%>
+      <%-   for k in 0...$core -%>
+      <%-     if ($n_f2 - ($n_f2 % $core) + k) < $n_f2 -%>
+      $readmemb("<%=$project%>/data/mnist/lenet/bwb_2/data<%=$n_f2-($n_f2%$core)+k%>_<%=j%>.bin", dut0.mem_weight<%=k%>.mem, <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%>, <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%>);
+      <%-     else -%>
+      $readmemb("<%=$project%>/data/mnist/lenet/bwb_2/null.bin", dut0.mem_weight<%=k%>.mem, <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%>, <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%>);
       <%-     end -%>
       <%-   end -%>
       <%-   end -%>

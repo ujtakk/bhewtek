@@ -218,7 +218,7 @@ top_vfiles_s=top_vfiles.map{|t|
   r+="
 "
   b=[]
-  b<< "#{k}: $(#{k}_FILES) $(#{k}_FILES_OPT)"
+  b<< "#{k}.out: $(#{k}_FILES) $(#{k}_FILES_OPT)"
   b<< "ifeq ($(SIMULATOR),vcs)"
   b<< "	$(VCS) -o $@ $(#{k}_FILES) $(#{k}_FILES_OPT)
 "

@@ -19,6 +19,7 @@ module ctrl_pool(/*AUTOARG*/);
   output out_begin;
   output out_valid;
   output out_end;
+  output pool_we;
 
   /*AUTOWIRE*/
   wire pool_begin;
@@ -33,7 +34,7 @@ module ctrl_pool(/*AUTOARG*/);
   reg [LWIDTH-1:0]  r_pool_y;
   reg [LWIDTH-1:0]  r_pool_exec_x;
   reg [LWIDTH-1:0]  r_pool_exec_y;
-  <%- for i in 0..$d_poolbuf -%>
+  <%- for i in 0...$d_poolbuf -%>
   reg               r_pool_begin_d<%=i%>;
   reg               r_pool_valid_d<%=i%>;
   reg               r_pool_end_d<%=i%>;
@@ -68,7 +69,7 @@ module ctrl_pool(/*AUTOARG*/);
       r_fea_size  <= 0;
       r_pool_size <= 0;
     end
-    else if (in_begin && r_state == S_WAIT)
+    else if (r_state == S_WAIT && in_begin)
     begin
       r_fea_size  <= fea_size;
       r_pool_size <= pool_size;
@@ -130,12 +131,12 @@ module ctrl_pool(/*AUTOARG*/);
     else
       r_buf_feat_en <= in_begin;
 
-  assign pool_begin = r_pool_begin_d<%=$d_poolbuf%>;
-  assign pool_valid = r_pool_valid_d<%=$d_poolbuf%>;
-  assign pool_end   = r_pool_end_d<%=$d_poolbuf%>;
+  assign pool_begin = r_pool_begin_d<%=$d_poolbuf-1%>;
+  assign pool_valid = r_pool_valid_d<%=$d_poolbuf-1%>;
+  assign pool_end   = r_pool_end_d<%=$d_poolbuf-1%>;
 
   <%- for n in ["begin", "valid", "end"] -%>
-  <%-   for i in 0..$d_poolbuf -%>
+  <%-   for i in 0...$d_poolbuf -%>
   always @(posedge clk)
     <%- if i == 0 -%>
     if (!xrst)
@@ -173,6 +174,8 @@ module ctrl_pool(/*AUTOARG*/);
   assign out_valid  = r_out_valid_d<%=$d_pool-1%>;
   assign out_end    = r_out_end_d<%=$d_pool-1%>;
 
+  assign pool_we    = r_out_valid_d<%=$d_pool-2%>;
+
   <%- for n in ["begin", "valid", "end"] -%>
   <%-   for i in 0...$d_pool -%>
   always @(posedge clk)
@@ -189,5 +192,13 @@ module ctrl_pool(/*AUTOARG*/);
     <%- end -%>
   <%-   end -%>
   <%- end -%>
+
+  assign buf_feat_en = r_buf_feat_en;
+
+  always @(posedge clk)
+    if (!xrst)
+      r_buf_feat_en <= 0;
+    else
+      r_buf_feat_en <= (r_state == S_ACTIVE) && in_begin;
 
 endmodule

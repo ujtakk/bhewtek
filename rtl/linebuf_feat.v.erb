@@ -16,7 +16,7 @@ module linebuf_feat(/*AUTOARG*/);
   /*AUTOREG*/
 
   <%- for y in 0...$psize -%>
-  <%-   x_max = y == $psize-1 ? $psize : $pm1hei -%>
+  <%-   x_max = y == $psize-1 ? $psize : $fm2hei -%>
   <%-   for x in 0...x_max -%>
   reg [DWIDTH-1:0]  r_pix<%=y%>_<%=x%>;
   <%-   end -%>
@@ -27,7 +27,7 @@ module linebuf_feat(/*AUTOARG*/);
   <%- end -%>
 
   <%- for y in 0...$psize -%>
-  <%-   x_max = y == $psize-1 ? $psize : $pm1hei -%>
+  <%-   x_max = y == $psize-1 ? $psize : $fm2hei -%>
   <%-   for x in 0...x_max -%>
   always @(posedge clk)
     <%- if x == x_max-1 -%>

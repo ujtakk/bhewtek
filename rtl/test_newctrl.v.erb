@@ -38,7 +38,6 @@ module test_newctrl();
         req = 0;
         while (!ack) #(STEP);
         #(STEP*5);
-        //#(STEP*25000);
         $finish();
     end
 
@@ -75,8 +74,8 @@ module test_newctrl();
           "%d ", dut0.ctrl_core.out_begin,
           "%d ", dut0.ctrl_core.out_valid,
           "%d ", dut0.ctrl_core.out_end,
-          "%d ", dut0.ctrl_core.r_input_addr,
-          "%d ", dut0.ctrl_core.r_weight_addr,
+          "%d ", dut0.ctrl_core.r_count_out,
+          "%d ", dut0.ctrl_core.r_count_in,
           "| ",
           "%d: ", dut0.ctrl_conv.r_state,
           "%d: ", dut0.ctrl_conv.r_core_state,

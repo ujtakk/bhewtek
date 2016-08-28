@@ -21,8 +21,11 @@ clean:
 log:
 	vim $(TARGET).log
 
+edit:
+	vim $(TARGET).v.erb
+
 diff:
-	vimdiff $(TARGET).dat $(TARGET)_pseudo_true.dat
+	vimdiff $(TARGET).dat $(TARGET)_true.dat
 	#vimdiff test_ctrl.dat test_ctrl_true.dat
 
 define DEP_IN

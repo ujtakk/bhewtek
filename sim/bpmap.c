@@ -529,35 +529,35 @@ int main(int argc, char *argv[]){
   // load data
   int r;
 
-  sprintf(filename, "/home/work/takau/bhewtek/data/mnist/input/%d/data%d.txt", atoi(argv[1]), atoi(argv[2]));
+  sprintf(filename, "../data/mnist/input/%d/data%d.txt", atoi(argv[1]), atoi(argv[2]));
   r = load_image(filename,dinput,iinput,IMHEI,IMWID);
   if (r==-1) return -1;
 #endif
 
   for(i=0;i<N_F1;i++){
-    sprintf(filename,"/home/work/takau/lazy_core/data/weight/wb_1/data%d.txt",i);
+    sprintf(filename,"../data/mnist/lenet/wb_1/data%d.txt",i);
     load_data(filename,df1weight[i],if1weight[i],&dbias1[i],&ibias1[i],FHEI,FWID);
   }
 
   for(i=0;i<N_F1;i++){
     for(j=0;j<N_F2;j++){
-      sprintf(filename,"/home/work/takau/lazy_core/data/weight/wb_2/data%d_%d.txt",j,i);
+      sprintf(filename,"../data/mnist/lenet/wb_2/data%d_%d.txt",j,i);
       load_w(filename,df2weight[i][j],if2weight[i][j],FHEI,FWID);
     }
   }
 
   for(i=0;i<N_F2;i++){
-    sprintf(filename,"/home/work/takau/lazy_core/data/weight/wb_2/data%d.txt",i);
+    sprintf(filename,"../data/mnist/lenet/wb_2/data%d.txt",i);
     load_b(filename,&dbias2[i],&ibias2[i]);
   }
 
   for(i=0;i<N_HL;i++){
-    sprintf(filename,"/home/work/takau/lazy_core/data/weight/wb_3/data%d.txt",i);
+    sprintf(filename,"../data/mnist/lenet/wb_3/data%d.txt",i);
     load_data_1d(filename,dhweight[i],ihweight[i],&dhbias[i],&ihbias[i],pm2hei*pm2wid*N_F2);
   }
 
   for(i=0;i<LABEL;i++){
-    sprintf(filename,"/home/work/takau/lazy_core/data/weight/wb_4/data%d.txt",i);
+    sprintf(filename,"../data/mnist/lenet/wb_4/data%d.txt",i);
     load_data_1d(filename,doweight[i],ioweight[i],&dobias[i],&iobias[i],N_HL);
   }
   FILE *fp;
@@ -567,8 +567,8 @@ int main(int argc, char *argv[]){
   for(i=0;i<N_F1;i++){
     conv(iinput,if1weight[i],ifmap1[i],IMHEI,IMWID,FHEI,FWID);
     max_pooling(ifmap1[i],ipmap1[i],IMHEI-FHEI+1,IMWID-FWID+1);
-    //add_bias(ipmap1[i],ibias1[i],pm1hei,pm1wid);
-    //activate(ipmap1[i],pm1hei,pm1wid);
+    add_bias(ipmap1[i],ibias1[i],pm1hei,pm1wid);
+    activate(ipmap1[i],pm1hei,pm1wid);
   }
 
 /*feature map1 to feature map2*/
@@ -605,7 +605,7 @@ int main(int argc, char *argv[]){
   int b, l;
   for(i=0; i<1; i++){
     for(j=0; j<N_F1; j++){
-      sprintf(filename, "/home/work/takau/bhewtek/data/mnist/lenet/iwb_1/data%d_%d.dat", j, i);
+      sprintf(filename, "../data/mnist/lenet/iwb_1/data%d_%d.dat", j, i);
       fp = fopen(filename, "w");
       for(k=0; k<FHEI; k++)
         for(l=0; l<FWID; l++)
@@ -616,7 +616,7 @@ int main(int argc, char *argv[]){
 
   for(i=0; i<1; i++){
     for(j=0; j<N_F1; j++){
-      sprintf(filename, "/home/work/takau/bhewtek/data/mnist/lenet/bwb_1/data%d_%d.bin", j, i);
+      sprintf(filename, "../data/mnist/lenet/bwb_1/data%d_%d.bin", j, i);
       fp = fopen(filename, "w");
       for(k=0; k<FHEI; k++){
         for(l=0; l<FWID; l++){
@@ -634,14 +634,14 @@ int main(int argc, char *argv[]){
   }
 
   for(i=0; i<N_F1; i++){
-    sprintf(filename, "/home/work/takau/bhewtek/data/mnist/lenet/iwb_1/data%d.dat", i);
+    sprintf(filename, "../data/mnist/lenet/iwb_1/data%d.dat", i);
     fp = fopen(filename, "w");
     fprintf(fp, "%d\n", ibias1[i]);
     fclose(fp);
   }
 
   for(i=0; i<N_F1; i++){
-    sprintf(filename, "/home/work/takau/bhewtek/data/mnist/lenet/bwb_1/data%d.bin", i);
+    sprintf(filename, "../data/mnist/lenet/bwb_1/data%d.bin", i);
     fp = fopen(filename, "w");
     if(ibias1[i] >= 0)
       for(b=0; b<16; b++)
@@ -656,7 +656,7 @@ int main(int argc, char *argv[]){
   printf("test2\n");
   for(i=0; i<N_F1; i++){
     for(j=0; j<N_F2; j++){
-      sprintf(filename, "/home/work/takau/bhewtek/data/mnist/lenet/test_iwb_2/data%d_%d.dat", j, i);
+      sprintf(filename, "../data/mnist/lenet/test_iwb_2/data%d_%d.dat", j, i);
       fp = fopen(filename, "w");
       for(k=0; k<FHEI; k++)
         for(l=0; l<FWID; l++)
@@ -667,7 +667,7 @@ int main(int argc, char *argv[]){
 
   for(i=0; i<N_F1; i++){
     for(j=0; j<N_F2; j++){
-      sprintf(filename, "/home/work/takau/bhewtek/data/mnist/lenet/test_bwb_2/data%d_%d.bin", j, i);
+      sprintf(filename, "../data/mnist/lenet/test_bwb_2/data%d_%d.bin", j, i);
       fp = fopen(filename, "w");
       for(k=0; k<FHEI; k++){
         for(l=0; l<FWID; l++){
@@ -685,14 +685,14 @@ int main(int argc, char *argv[]){
   }
 
   for(i=0; i<N_F2; i++){
-    sprintf(filename, "/home/work/takau/bhewtek/data/mnist/lenet/test_iwb_2/data%d.dat", i);
+    sprintf(filename, "../data/mnist/lenet/test_iwb_2/data%d.dat", i);
     fp = fopen(filename, "w");
     fprintf(fp, "%d\n", ibias2[i]);
     fclose(fp);
   }
 
   for(i=0; i<N_F2; i++){
-    sprintf(filename, "/home/work/takau/bhewtek/data/mnist/lenet/test_bwb_2/data%d.bin", i);
+    sprintf(filename, "../data/mnist/lenet/test_bwb_2/data%d.bin", i);
     fp = fopen(filename, "w");
     if(ibias2[i] >= 0)
       for(b=0; b<16; b++)
@@ -706,7 +706,7 @@ int main(int argc, char *argv[]){
 
   printf("test3\n");
   for(i=0; i<N_HL; i++){
-    sprintf(filename, "/home/work/takau/bhewtek/data/mnist/lenet/iwb_3/data%d.dat", i);
+    sprintf(filename, "../data/mnist/lenet/iwb_3/data%d.dat", i);
     fp = fopen(filename, "w");
     for(j=0; j<pm2hei*pm2wid*N_F2; j++)
       fprintf(fp, "%d\n", ihweight[i][j]);
@@ -715,7 +715,7 @@ int main(int argc, char *argv[]){
   }
 
   for(i=0; i<N_HL; i++){
-    sprintf(filename, "/home/work/takau/bhewtek/data/mnist/lenet/bwb_3/data%d.bin", i);
+    sprintf(filename, "../data/mnist/lenet/bwb_3/data%d.bin", i);
     fp = fopen(filename, "w");
     for(j=0; j<pm2hei*pm2wid*N_F2; j++){
       //fprintf(fp, "%d\n", ihweight[i][j]);
@@ -740,7 +740,7 @@ int main(int argc, char *argv[]){
 
   printf("test4\n");
   for(i=0; i<LABEL; i++){
-    sprintf(filename, "/home/work/takau/bhewtek/data/mnist/lenet/iwb_4/data%d.dat", i);
+    sprintf(filename, "../data/mnist/lenet/iwb_4/data%d.dat", i);
     fp = fopen(filename, "w");
     for(j=0; j<N_HL; j++)
       fprintf(fp, "%d\n", ioweight[i][j]);
@@ -749,7 +749,7 @@ int main(int argc, char *argv[]){
   }
 
   for(i=0; i<LABEL; i++){
-    sprintf(filename, "/home/work/takau/bhewtek/data/mnist/lenet/bwb_4/data%d.bin", i);
+    sprintf(filename, "../data/mnist/lenet/bwb_4/data%d.bin", i);
     fp = fopen(filename, "w");
     for(j=0; j<N_HL; j++){
       if(ioweight[i][j] >= 0)
@@ -772,43 +772,71 @@ int main(int argc, char *argv[]){
 #endif
 
 #ifdef CALC
-  sprintf(filename, "/home/work/takau/bhewtek/data/mnist/binput/%d/data%d.bin", atoi(argv[1]), atoi(argv[2]));
-  fp = fopen(filename, "w");
-  for(j=0; j<IMHEI; j++){
-    for(k=0; k<IMWID; k++){
-      if(iinput[j][k] >= 0)
-        for(b=0; b<16; b++)
-          fprintf(fp, "%d", (iinput[j][k]>>(15-b)) % 2);
-      else
-        for(b=0; b<16; b++)
-          fprintf(fp, "%d", (((-iinput[j][k] ^ 0xFFFF)+1)>>(15-b)) % 2);
-      fprintf(fp, "\n");
-    }
-  }
-  fclose(fp);
+//  sprintf(filename, "../data/mnist/binput/%d/data%d.bin", atoi(argv[1]), atoi(argv[2]));
+//  fp = fopen(filename, "w");
+//  for(j=0; j<IMHEI; j++){
+//    for(k=0; k<IMWID; k++){
+//      if(iinput[j][k] >= 0)
+//        for(b=0; b<16; b++)
+//          fprintf(fp, "%d", (iinput[j][k]>>(15-b)) % 2);
+//      else
+//        for(b=0; b<16; b++)
+//          fprintf(fp, "%d", (((-iinput[j][k] ^ 0xFFFF)+1)>>(15-b)) % 2);
+//      fprintf(fp, "\n");
+//    }
+//  }
+//  fclose(fp);
+//
+//  for(i=0; i<N_F1; i++){
+//    sprintf(filename, "../data/mnist/ipmap1_true/%d/data%d_%d.dat", atoi(argv[1]), atoi(argv[2]), i);
+//    fp = fopen(filename, "w");
+//    for(j=0; j<pm1hei; j++){
+//      for(k=0; k<pm1wid; k++){
+//        fprintf(fp, "%d\n", ipmap1[i][j][k]);
+//      }
+//    }
+//    fclose(fp);
+//  }
+//
+//  for(i=0; i<N_F1; i++){
+//    sprintf(filename, "../data/mnist/bpmap1_true/%d/data%d_%d.bin", atoi(argv[1]), atoi(argv[2]), i);
+//    fp = fopen(filename, "w");
+//    for(j=0; j<pm1hei; j++){
+//      for(k=0; k<pm1wid; k++){
+//        if(ipmap1[i][j][k] >= 0)
+//          for(b=0; b<16; b++)
+//            fprintf(fp, "%d", (ipmap1[i][j][k]>>(15-b)) % 2);
+//        else
+//          for(b=0; b<16; b++)
+//            fprintf(fp, "%d", (((-ipmap1[i][j][k] ^ 0xFFFF)+1)>>(15-b)) % 2);
+//        fprintf(fp, "\n");
+//      }
+//    }
+//    fclose(fp);
+//  }
 
   for(i=0; i<N_F1; i++){
-    sprintf(filename, "/home/work/takau/bhewtek/data/mnist/ipmap1_true/%d/data%d_%d.dat", atoi(argv[1]), atoi(argv[2]), i);
+    sprintf(filename, "../data/mnist/ifmap2_true/%d/data%d_%d.dat", atoi(argv[1]), atoi(argv[2]), i);
     fp = fopen(filename, "w");
-    for(j=0; j<pm1hei; j++){
-      for(k=0; k<pm1wid; k++){
-        fprintf(fp, "%d\n", ipmap1[i][j][k]);
+    for(j=0; j<pm1hei-FHEI+1; j++){
+      for(k=0; k<pm1wid-FWID+1; k++){
+        fprintf(fp, "%d\n", ifmap2[i][j][k]);
       }
     }
     fclose(fp);
   }
 
   for(i=0; i<N_F1; i++){
-    sprintf(filename, "/home/work/takau/bhewtek/data/mnist/bpmap1_true/%d/data%d_%d.bin", atoi(argv[1]), atoi(argv[2]), i);
+    sprintf(filename, "../data/mnist/bfmap2_true/%d/data%d_%d.bin", atoi(argv[1]), atoi(argv[2]), i);
     fp = fopen(filename, "w");
-    for(j=0; j<pm1hei; j++){
-      for(k=0; k<pm1wid; k++){
-        if(ipmap1[i][j][k] >= 0)
+    for(j=0; j<pm1hei-FHEI+1; j++){
+      for(k=0; k<pm1wid-FWID+1; k++){
+        if(ifmap2[i][j][k] >= 0)
           for(b=0; b<16; b++)
-            fprintf(fp, "%d", (ipmap1[i][j][k]>>(15-b)) % 2);
+            fprintf(fp, "%d", (ifmap2[i][j][k]>>(15-b)) % 2);
         else
           for(b=0; b<16; b++)
-            fprintf(fp, "%d", (((-ipmap1[i][j][k] ^ 0xFFFF)+1)>>(15-b)) % 2);
+            fprintf(fp, "%d", (((-ifmap2[i][j][k] ^ 0xFFFF)+1)>>(15-b)) % 2);
         fprintf(fp, "\n");
       }
     }
@@ -816,7 +844,7 @@ int main(int argc, char *argv[]){
   }
 
 //  for(i=0; i<N_F2; i++){
-//    sprintf(filename, "/home/work/takau/bhewtek/data/mnist/ipmap2_true/%d/data%d_%d.dat", atoi(argv[1]), atoi(argv[2]), i);
+//    sprintf(filename, "../data/mnist/ipmap2_true/%d/data%d_%d.dat", atoi(argv[1]), atoi(argv[2]), i);
 //    fp = fopen(filename, "w");
 //    for(j=0; j<pm2hei; j++)
 //      for(k=0; k<pm2wid; k++)
@@ -825,7 +853,7 @@ int main(int argc, char *argv[]){
 //  }
 //
 //  for(i=0; i<N_F2; i++){
-//    sprintf(filename, "/home/work/takau/bhewtek/data/mnist/bpmap2_true/%d/data%d_%d.bin", atoi(argv[1]), atoi(argv[2]), i);
+//    sprintf(filename, "../data/mnist/bpmap2_true/%d/data%d_%d.bin", atoi(argv[1]), atoi(argv[2]), i);
 //    fp = fopen(filename, "w");
 //    for(j=0; j<pm2hei; j++){
 //      for(k=0; k<pm2wid; k++){

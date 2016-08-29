@@ -1,13 +1,18 @@
 #!/usr/bin/env ruby
 
 # ERB parameter
+$old = false
 $project = `pwd`.chomp.split('/rtl')[0]
 $core = 8
 $core_log = (Math.log($core)/Math.log(2)).to_i
 $tech = nil # rohm
 $max_size = 32
 $d_pixelbuf = 15
-$d_poolbuf  = 1#10
+if $old
+  $d_poolbuf  = 1
+else
+  $d_poolbuf  = 14
+end
 $d_conv  = 5
 $d_accum = 1
 $d_pool  = 2

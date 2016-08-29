@@ -29,6 +29,7 @@
 
 ifndef SIMULATOR
 SIMULATOR=vsim
+# SIMULATOR=xsim
 # SIMULATOR=vcs
 # SIMULATOR=iverilog
 endif
@@ -61,6 +62,15 @@ else
 VCS=vcs +v2k
 endif
 
+ifeq ($(SIMULATOR),xsim)
+XVLOG_OPT= #-work work #+acc=rnbp +define+FAST_FUNC # -novopt # -lint
+XSIMOPTION= #$(XVLOG_OPT)
+XELABOPTION= -debug typical -nolog
+LNAME=`echo $* | tr "A-Z" "a-z"`
+ELAB_SIM=xelab $(XELABOPTION) $(LNAME) -s $(LNAME)_sim > /dev/null 2>&1
+DO_SIM= test -f $(LNAME)_sim && rm -f $(LNAME)_sim ; time xsim $(LNAME)_sim $(XSIMOPTION) -R | sed 's/^\# //'
+V_COMPILE=(xvlog $(XVLOG_OPT) $< > $@.log && touch $@) && (grep "^\*\* " $@.log || true) || (cat $@.log ; false)
+else
 ifeq ($(SIMULATOR),vsim)
 VLOG_OPT= +acc=rnbp +define+FAST_FUNC # -novopt # -lint
 VSIMOPTION= #$(VLOG_OPT)
@@ -72,17 +82,30 @@ DO_SIM=make $* && time ./$*
 V_COMPILE=touch $@
 else
 ifeq ($(SIMULATOR),iverilog)
-DO_SIM=make $*.out && time ./$*.out
+DO_SIM=make $* && time ./$*
 V_COMPILE=touch $@
+endif
 endif
 endif
 endif
 
 .com.sim:
+ifeq ($(SIMULATOR),xsim)
+	@$(E) echo "  ELABORATE         $*"
+	$(Q)$(ELAB_SIM)
 	$(DO_SIM)
+else
+	$(DO_SIM)
+endif
 
 .com.log:
+ifeq ($(SIMULATOR),xsim)
+	@$(E) echo "  ELABORATE         $*"
+	$(Q)$(ELAB_SIM)
+	$(DO_SIM)
+else
 	$(DO_SIM) 2>&1 | tee $@
+endif
 
 #### log suppressed
 .v.com:
@@ -148,6 +171,11 @@ clean-common:
 	rm -f vsim.wlf transcript
 	rm -rf work csrc
 
+	### xsim
+	rm -rf xsim.dir
+	rm -f *.jou *.pb
+	rm -f *.wdb
+
 	### vcs
 	rm -f default.cfg vcdplus.vpd vcs.key
 	rm -rf *.daidir
@@ -157,7 +185,7 @@ clean-common:
 	rm -f $(VHERBFILES:.vh.erb=.vh)
 	rm -f $(VINFILES:.v.in=.v)
 
-	rm -f *.out
+	rm -f $(TARGET)
 
 	rm -f $(LINK_FILES)
 
@@ -391,7 +419,7 @@ top_vfiles_s=top_vfiles.map{|t|
   r+="#{f*" \\\n"}\n"
   r+="\n"
   b=[]
-  b<< "#{k}.out: $$(#{k}_FILES) $$(#{k}_FILES_OPT)"
+  b<< "#{k}: $$(#{k}_FILES) $$(#{k}_FILES_OPT)"
   b<< "ifeq ($$(SIMULATOR),vcs)"
   b<< "\t$$(VCS) -o $$@ $$(#{k}_FILES) $$(#{k}_FILES_OPT)\n"
   b<< "else"

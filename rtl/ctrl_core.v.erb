@@ -36,7 +36,8 @@ module ctrl_core(/*AUTOARG*/);
   output                first_input;
   output                last_input;
   output                wreg_we;
-  output [LWIDTH-1:0]   fea_size;
+  output [LWIDTH-1:0]   w_img_size;
+  output [LWIDTH-1:0]   w_fil_size;
 
   /*AUTOWIRE*/
   wire s_weight_end;
@@ -147,7 +148,8 @@ module ctrl_core(/*AUTOARG*/);
     <%- end -%>
   <%- end -%>
 
-  assign fea_size = r_fea_size;
+  assign w_img_size = r_img_size;
+  assign w_fil_size = r_fil_size;
 
   //wait exec (initialize)
   always @(posedge clk)
@@ -157,7 +159,6 @@ module ctrl_core(/*AUTOARG*/);
       r_total_out <= 0;
       r_img_size  <= 0;
       r_fil_size  <= 0;
-      r_fea_size  <= 0;
     end
     else if (r_state == S_WAIT && req)
     begin
@@ -165,7 +166,6 @@ module ctrl_core(/*AUTOARG*/);
       r_total_out <= total_out;
       r_img_size  <= img_size;
       r_fil_size  <= fil_size;
-      r_fea_size  <= img_size - fil_size + 1;
     end
 
   assign first_input = r_first_input_d<%=$d_pixelbuf-1%>;

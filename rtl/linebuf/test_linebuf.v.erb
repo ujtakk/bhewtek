@@ -26,8 +26,8 @@ module test_linebuf();
     #(STEP);
     xrst = 1;
     buf_en = 1;
-    img_size = 12;
-    fil_size = 5;
+    img_size = 8;
+    fil_size = 2;
     buf_input = 20;
     #(STEP);
     buf_en = 0;
@@ -45,24 +45,28 @@ module test_linebuf();
   begin
     #(STEP/2-1);
     $display(
-      "%4d: ", $time/STEP,
-      "| ",
-      "%4d ", buf_input,
-      "%1d ", dut0.buf_en,
+      "%3d: ", $time/STEP,
       "%1d ", dut0.r_state,
+      "| ",
+      "%3d ", buf_input,
+      "%1d ", dut0.buf_en,
+      "%b ",  dut0.mem_linebuf_we,
+      "%d ",  dut0.mem_linebuf_addr,
       "| ",
       "%2d ", dut0.r_mem_count,
       "%2d ", dut0.r_addr_count,
       "%2d ", dut0.r_line_count,
-      "%2d ", dut0.mem_linebuf_we[0],
+      "%d ", dut0.r_select,
       "%3d ", dut0.read_mem0,
       "%3d ", dut0.r_buf_input,
+      "%3d ", dut0.buf_input,
+      <%-# 5.times do |i| -%>
       "| ",
-      "%3d ", dut0.r_pixel0_4,
-      "%3d ", dut0.r_pixel1_4,
-      "%3d ", dut0.r_pixel2_4,
-      "%3d ", dut0.r_pixel3_4,
-      "%3d ", dut0.r_pixel4_4,
+      <%-   5.times do |j| -%>
+%#      "%3d ", dut0.r_pixel<%=j%>_<%=i%>,
+      "%3d ", dut0.r_pixel<%=j%>_4,
+      <%-   end -%>
+      <%-# end -%>
     );
     $fdisplay(fp, "TIME: %4d 4d", $time/STEP, buf_input);
     <%- for i in 0...5 -%>

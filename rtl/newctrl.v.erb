@@ -33,6 +33,10 @@ module newctrl(/*AUTOARG*/);
   output [FACCUM-1:0]   mem_feat_addr_d1;
   output                mem_output_we;
   output [OUTSIZE-1:0]  mem_output_addr;
+  output [LWIDTH-1:0]   w_img_size;
+  output [LWIDTH-1:0]   w_fil_size;
+  output [LWIDTH-1:0]   w_fea_size;
+  output [LWIDTH-1:0]   w_pool_size;
 
   /*AUTOWIRE*/
   <%- for n in ["begin", "valid", "end"] -%>
@@ -80,7 +84,6 @@ module newctrl(/*AUTOARG*/);
       .in_<%=n%>    (in_pool_<%=n%>),
       .out_<%=n%>  (out_pool_<%=n%>),
       <%- end -%>
-      .pool_size (8'd2),
   ); */
   ctrl_pool ctrl_pool(/*AUTOINST*/);
 

@@ -28,4 +28,9 @@ module mem_linebuf(/*AUTOARG*/);
 
     assign read_data = mem[addr_reg];
 
+    integer i;
+    initial
+      for (i = 0; i < 2**BSIZE; i = i + 1)
+        mem[i] = 0;
+
 endmodule

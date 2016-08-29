@@ -17,8 +17,8 @@ module ctrl_conv(/*AUTOARG*/);
   input               in_valid;
   input               in_end;
   input [2-1:0]       core_state;
-  input [LWIDTH-1:0]  img_size;
-  input [LWIDTH-1:0]  fil_size;
+  input [LWIDTH-1:0]  w_img_size;
+  input [LWIDTH-1:0]  w_fil_size;
   input               first_input;
   input               last_input;
 
@@ -31,6 +31,7 @@ module ctrl_conv(/*AUTOARG*/);
   output [FACCUM-1:0] mem_feat_addr;
   output [FACCUM-1:0] mem_feat_addr_d1;
   output              conv_we;
+  output [LWIDTH-1:0] w_fea_size;
 
   /*AUTOWIRE*/
   wire conv_begin;
@@ -90,6 +91,8 @@ module ctrl_conv(/*AUTOARG*/);
     else
       r_core_state <= core_state;
 
+  assign w_fea_size = r_fea_size;
+
   always @(posedge clk)
     if (!xrst)
     begin
@@ -99,9 +102,9 @@ module ctrl_conv(/*AUTOARG*/);
     end
     else if (r_state == S_WAIT && in_begin)
     begin
-      r_img_size  <= img_size;
-      r_fil_size  <= fil_size;
-      r_fea_size  <= img_size - fil_size + 1;
+      r_img_size  <= w_img_size;
+      r_fil_size  <= w_fil_size;
+      r_fea_size  <= w_img_size - w_fil_size + 1;
     end
 
   always @(posedge clk)

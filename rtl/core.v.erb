@@ -3,8 +3,6 @@ module core(/*AUTOARG*/);
 <%- load "parameters.rb" -%>
 
   /*AUTOINPUT*/
-  input [LWIDTH-1:0] fea_size;
-  input [LWIDTH-1:0] pool_size;
 
   /*AUTOOUTPUT*/
 
@@ -43,6 +41,7 @@ module core(/*AUTOARG*/);
   ); */
   accumulator feat_accum(/*AUTOINST*/);
 
+% if $old
   /* linebuf_feat AUTO_TEMPLATE (
       <%- for i in 0...$psize**2 -%>
       .pixel_feat<%=i%> (pixel_feat<%=i%>[DWIDTH-1:0]),
@@ -50,20 +49,20 @@ module core(/*AUTOARG*/);
       .read_data        (fmap[DWIDTH-1:0]),
   ); */
   linebuf_feat buf_feat(/*AUTOINST*/);
-
-%#  /* linebuf AUTO_TEMPLATE (
-%#      .buf_en     (buf_feat_en),
-%#      .buf_input  (fmap[DWIDTH-1:0]),
-%#      .img_size   (8'd8),
-%#      .fil_size   (8'd2),
-%#      <%- for i in 0...$psize -%>
-%#      <%-   for j in 0...$psize -%>
-%#      .buf_output<%=i%>_<%=j%> (pixel_feat<%=i*$psize+j%>[DWIDTH-1:0]),
-%#      <%-   end -%>
-%#      <%- end -%>
-%#  ); */
-%#  linebuf buf_feat(/*AUTOINST*/);
-
+% else
+  /* linebuf AUTO_TEMPLATE (
+      .buf_en     (buf_feat_en),
+      .buf_input  (fmap[DWIDTH-1:0]),
+      .img_size   (w_fea_size[LWIDTH-1:0]),
+      .fil_size   (w_pool_size[LWIDTH-1:0]),
+      <%- for i in 0...$psize -%>
+      <%-   for j in 0...$psize -%>
+      .buf_output<%=i%>_<%=j%> (pixel_feat<%=i*$psize+j%>[DWIDTH-1:0]),
+      <%-   end -%>
+      <%- end -%>
+  ); */
+  linebuf buf_feat(/*AUTOINST*/);
+% end
   /* pool AUTO_TEMPLATE (
       .pmap             (pmap[DWIDTH-1:0]),
       .o_we             (pool_we),

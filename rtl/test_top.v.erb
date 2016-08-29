@@ -105,9 +105,7 @@ module test_top();
 
     req = 0;
 
-    //while(!ack) #(STEP);
-
-    #(STEP*30010);
+    while(!ack) #(STEP);
 
     //valid_memin;
     //valid_memw;
@@ -124,13 +122,13 @@ module test_top();
   always
   begin
     #(STEP/2-1);
-%#      if (dut0.ctrl.ctrl_conv.conv_valid)
+%#      if (dut0.ctrl.ctrl_pool.pool_valid)
 %#      begin
 %#        //$display("TIME: %d", $time/STEP);
-%#        <%- 5.times do |i| -%>
+%#        <%- 2.times do |i| -%>
 %#        $display(
-%#          <%- 5.times do |j| -%>
-%#          "%5d", dut0.pixel<%=5*i+j%>,
+%#          <%- 2.times do |j| -%>
+%#          "%5d", dut0.core1.pixel_feat<%=2*i+j%>,
 %#          <%- end -%>
 %#        );
 %#        <%- end -%>
@@ -194,6 +192,9 @@ module test_top();
       "%d:", dut0.ctrl.ctrl_pool.r_state,
       "; ",
       "%5d",  dut0.core0.pmap,
+      " @ %1d",  dut0.core0.buf_feat_en,
+      "%5d",  dut0.core0.w_fea_size,
+      "%5d",  dut0.core0.w_pool_size,
       "%2d",  dut0.ctrl.ctrl_pool.out_begin,
       "%2d",  dut0.ctrl.ctrl_pool.out_valid,
       "%2d",  dut0.ctrl.ctrl_pool.out_end,
@@ -202,9 +203,9 @@ module test_top();
       "%3d",  dut0.ctrl.ctrl_pool.r_pool_x,
       "%3d",  dut0.ctrl.ctrl_pool.r_pool_y,
       "| ",
-% 4.times do |i|
-      "%4d", dut0.core0.pool.r_pixel_feat<%=i%>,
-% end
+      <%- 4.times do |i| -%>
+      "%4d", dut0.core1.pool.r_pixel_feat<%=i%>,
+      <%- end -%>
     );
     #(STEP/2+1);
   end

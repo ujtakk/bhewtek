@@ -154,8 +154,7 @@ EOF
       r<< "node_#{@filename_body}->node_#{i};"
       k
     }
-    r.flatten*"
-"
+    r.flatten*"\n"
   end
   def to_dot
     <<EOF
@@ -208,28 +207,20 @@ top_vfiles_s=top_vfiles.map{|t|
   f.delete_if{|i| not i=~/\.v$/}
   f.delete_if{|i| i=~/^alt/}
   k=t.module_name
-  r+="
-"
-  r+="#{k}_FILES= \
-"
-  r+="#{f*" \
-"}
-"
-  r+="
-"
+  r+="\n"
+  r+="#{k}_FILES= \\\n"
+  r+="#{f*" \\\n"}\n"
+  r+="\n"
   b=[]
-  b<< "#{k}.out: $(#{k}_FILES) $(#{k}_FILES_OPT)"
+  b<< "#{k}: $(#{k}_FILES) $(#{k}_FILES_OPT)"
   b<< "ifeq ($(SIMULATOR),vcs)"
-  b<< "	$(VCS) -o $@ $(#{k}_FILES) $(#{k}_FILES_OPT)
-"
+  b<< "\t$(VCS) -o $@ $(#{k}_FILES) $(#{k}_FILES_OPT)\n"
   b<< "else"
   b<< "ifeq ($(SIMULATOR),iverilog)"
-  b<< "	$(IVERILOG) -o $@ $(#{k}_FILES) $(#{k}_FILES_OPT)
-"
+  b<< "\t$(IVERILOG) -o $@ $(#{k}_FILES) $(#{k}_FILES_OPT)\n"
   b<< "endif"
   b<< "endif"
-  r+=b.map{|i| i+"
-"}*""
+  r+=b.map{|i| i+"\n"}*""
   r
 }
 files=files_all
@@ -238,12 +229,8 @@ class VFiles < Array
   def to_s
     f=self.uniq
     f=purge(f)
-    f=f.sort*" \
-"+"
-"
-    "#{name}= \
-#{f}
-"
+    f=f.sort*" \\\n"+"\n"
+    "#{name}= \\\n#{f}\n"
   end
   def name
     "VFILES"
@@ -264,16 +251,13 @@ class VHFiles < VFiles
 end
 
 if options.mode==:make
-  print "## -*- makefile -*-
-"
+  print "## -*- makefile -*-\n"
   print VFiles.new(files.dup).to_s
   print VHFiles.new(files.dup).to_s
-  print top_vfiles_s*"
-"
+  print top_vfiles_s*"\n"
 elsif options.mode==:dc
   files.delete_if{|i| not i=~/\.v$/}
-  print files.uniq.map{|i| "read_file -format verilog #{i}
-"}*""
+  print files.uniq.map{|i| "read_file -format verilog #{i}\n"}*""
 elsif options.mode==:dot
   top_vfiles.each do |t|
     print t.to_dot

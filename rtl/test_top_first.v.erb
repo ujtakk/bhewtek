@@ -3,6 +3,7 @@
 module test_top_first();
 `include "parameters.vh"
 <%- load "parameters.rb" -%>
+<%- num = 2 -%><%- file = 4 -%>
 
   /*AUTOREGINPUT*/
 
@@ -28,57 +29,60 @@ module test_top_first();
   begin
     //$set_toggle_region(test_top.dut0);
 
-    mem_clear;
-
-    fp = $fopen("log.txt");
+    //mem_clear;
+    mem_clear_direct;
 
     xrst = 0;
+    req = 0;
 
+    input_we = 0;
     input_addr = 0;
     write_input = 0;
-    input_we = 0;
 
     weight_we = 4'd0;
     weight_addr = 0;
     write_weight = 0;
 
-    output_addr = 0;
     output_re = 0;
+    output_addr = 0;
 
     #(STEP);
     xrst = 1;
 
-    read_input;
-    input_we = 1;
-    for (i=0; i<2**INSIZE; i=i+1)
-    begin
-      input_addr = i;
-      write_input = mem_in[i];
-      #(STEP*5);
-    end
-    input_we = 0;
-    input_addr = 0;
-    write_input = 0;
+    read_input_direct;
+    //read_input;
+    //input_we = 1;
+    //for (i=0; i<2**INSIZE; i=i+1)
+    //begin
+    //  input_addr = i;
+    //  write_input = mem_in[i];
+    //  #(STEP);
+    //end
+    //input_we = 0;
+    //input_addr = 0;
+    //write_input = 0;
 
-    read_weight;
-    <%- for n in 0...$core -%>
-    weight_we = 4'd<%=n+1%>;
-    for (i=0; i<2**WSIZE; i=i+1)
-    begin
-      weight_addr = i;
-      write_weight = mem_w<%=n%>[i];
-      #(STEP*2);
-    end
-    weight_we = 4'd0;
-    weight_addr = 0;
-    write_weight = 0;
-    <%- end -%>
+    read_weight_direct;
+    //read_weight;
+    //<%- for n in 0...$core -%>
+    //weight_we = 4'd<%=n+1%>;
+    //for (i=0; i<2**WSIZE; i=i+1)
+    //begin
+    //  weight_addr = i;
+    //  write_weight = mem_w<%=n%>[i];
+    //  #(STEP);
+    //end
+    //weight_we = 4'd0;
+    //weight_addr = 0;
+    //write_weight = 0;
+    //<%- end -%>
 
     //$toggle_start();
     #(STEP);
 
     req           = 0;
     fil_size      = FSIZE;
+    pool_size     = PSIZE;
     img_size      = 28;
     total_in      = 1;
     total_out     = N_F1;
@@ -91,20 +95,20 @@ module test_top_first();
     output_addr   = 0;
     output_re     = 0;
 
-    #(STEP*5);
+    #(STEP);
 
     req = 1;
 
-    #(STEP*5);
+    #(STEP);
 
     req = 0;
 
     while(!ack) #(STEP);
-
     #(STEP*10);
 
-    write_output;
-    valid_memin;
+    //valid_memin;
+    //valid_memw;
+    //write_output;
 
     //$toggle_stop();
     //$toggle_report("<%=$project%>/saif_rtl/saif{CORE}/rtl_top{NUM}_{FILE}.saif", 1.0e-9, "test_top");
@@ -114,54 +118,61 @@ module test_top_first();
   always
   begin
     #(STEP/2-1);
-    if (dut0.mem_output_we)
-      $display(
-        "%5d: ", $time/STEP,
-        <%- for i in 0...$core -%>
-        "%d ", $signed(dut0.pmap<%=i%>),
-        <%- end -%>
-      );
+    //if (dut0.mem_output_we)
+    //  $display(
+    //    "%5d: ", $time/STEP,
+    //    <%- for i in 0...$core -%>
+    //    "%d ", $signed(dut0.pmap<%=i%>),
+    //    <%- end -%>
+    //  );
 
-    $fdisplay(fp,
-      "%5d: ", $time/STEP,
+    $display(
+      //"%5d: ", $time/STEP,
       "%d ", xrst,
       "%d ", req,
       "%d ", ack,
       "| ",
-      "%d ", dut0.core0.pixel_feat0,
-      "%d ", dut0.core0.pixel_feat1,
-      "%d ", dut0.core0.pixel_feat2,
-      "%d ", dut0.core0.pixel_feat3,
-      <%- for i in 0...8 -%>
-      "%d ", dut0.core<%=i%>.fmap,
-      <%- end -%>
+      "%4d ", dut0.read_input,
+      "%4d ", dut0.read_weight0,
+      "%4d ", dut0.core0.fmap,
+      "%4d ", dut0.core0.pixel_feat0,
+      "%4d ", dut0.core0.pixel_feat1,
+      "%4d ", dut0.core0.pixel_feat2,
+      "%4d ", dut0.core0.pixel_feat3,
+      "%4d ", dut0.core0.pmap,
+      "%4d ", dut0.read_output0,
       "| ",
-      <%- for i in 0...8 -%>
-      "%d ", dut0.read_output<%=i%>,
-      <%- end -%>
-      "%d ", read_output,
-      //"| ",
-      //"%d ", dut0.ctrl.r_state,
-      //"%d ", dut0.ctrl.r_count_in,
-      //"%d ", dut0.ctrl.r_count_out,
-      //"| ",
-      //"%d ", dut0.ctrl.r_wreg_x,
-      //"%d ", dut0.ctrl.r_wreg_y,
-      //"%d ", dut0.ctrl.wreg_valid,
-      //"; ",
-      //"%d ", dut0.ctrl.r_conv_x,
-      //"%d ", dut0.ctrl.r_conv_y,
-      //"%d ", dut0.ctrl.conv_valid,
-      //"; ",
-      //"%d ", dut0.ctrl.r_pool_x,
-      //"%d ", dut0.ctrl.r_pool_y,
-      //"%d ", dut0.ctrl.pool_valid,
-      //"@@ ",
-      //"%d ", dut0.ctrl.pool_end,
-      //"%d ", dut0.ctrl.mem_output_we,
-      //"%d ", dut0.ctrl.mem_output_addr,
-      //"%d ", dut0.ctrl.ack,
+      "%d: ", dut0.ctrl.ctrl_core.r_state,
+      "%d ", dut0.ctrl.ctrl_core.r_count_in,
+      "%d ", dut0.ctrl.ctrl_core.r_count_out,
+      "%d ", dut0.ctrl.ctrl_core.out_begin,
+      "%d ", dut0.ctrl.ctrl_core.out_valid,
+      "; ",
+      "%d ", dut0.ctrl.ctrl_core.r_weight_x,
+      "%d ", dut0.ctrl.ctrl_core.r_weight_y,
+      "%d ", dut0.ctrl.mem_weight_addr,
+      "; ",
+      "%d ", dut0.ctrl.ctrl_core.r_input_x,
+      "%d ", dut0.ctrl.ctrl_core.r_input_y,
+      "%d ", dut0.ctrl.mem_input_addr,
+      "| ",
+      "%d: ", dut0.ctrl.ctrl_conv.r_state,
+      "%d: ", dut0.ctrl.ctrl_conv.out_valid,
+      "; ",
+      "%d ", dut0.ctrl.ctrl_conv.r_conv_x,
+      "%d ", dut0.ctrl.ctrl_conv.r_conv_y,
+      "| ",
+      "%d: ", dut0.ctrl.ctrl_pool.r_state,
+      "%d: ", dut0.ctrl.ctrl_pool.out_valid,
+      "; ",
+      "%d ", dut0.ctrl.ctrl_pool.r_pool_x,
+      "%d ", dut0.ctrl.ctrl_pool.r_pool_y,
+      "== ",
+      "%d ", dut0.ctrl.mem_output_we,
+      "%d ", dut0.ctrl.mem_output_addr,
+      "%d ", dut0.ctrl.ack,
     );
+
     #(STEP/2+1);
   end
 
@@ -183,11 +194,34 @@ module test_top_first();
     end
   endtask
 
+  task mem_clear_direct;
+    begin
+      for (i=0; i<2**INSIZE; i=i+1)
+      begin
+        dut0.mem_input.mem[i] = {DWIDTH{1'b0}};
+      end
+
+      <%- for i in 0...$core -%>
+      for (i=0; i<2**WSIZE; i=i+1)
+      begin
+        dut0.mem_weight<%=i%>.mem[i] = {DWIDTH{1'b0}};
+      end
+      <%- end -%>
+    end
+  endtask
+
   task read_input;
     begin
-      <%- num = 2 -%><%- file = 4 -%>
       <%- for i in 0...1 -%>
       $readmemb("<%=$project%>/data/mnist/binput/<%=num%>/data<%=file%>.bin", mem_in, <%=(28**2)*i%>, <%=(28**2)*(i+1)-1%>);
+      <%- end -%>
+    end
+  endtask
+
+  task read_input_direct;
+    begin
+      <%- for i in 0...1 -%>
+      $readmemb("<%=$project%>/data/mnist/binput/<%=num%>/data<%=file%>.bin", dut0.mem_input.mem, <%=($in_hei**2)*i%>, <%=($in_hei**2)*(i+1)-1%>);
       <%- end -%>
     end
   endtask
@@ -215,6 +249,44 @@ module test_top_first();
     end
   endtask
 
+  task read_weight_direct;
+    begin
+      <%- for i in 0...$n_f1/$core -%>
+      <%-   for j in 0...1 -%>
+      <%-   for k in 0...$core -%>
+      $readmemb(
+        "<%=$project%>/data/mnist/lenet/bwb_1/data<%=$core*i+k%>_<%=j%>.bin",
+        dut0.mem_weight<%=k%>.mem,
+        <%=($fsize**2)*(1*i+j)%>,
+        <%=($fsize**2)*(1*i+j+1)-1%>
+      );
+      <%-   end -%>
+      <%-   end -%>
+      <%- end -%>
+      <%- if $n_f1 % $core != 0 -%>
+      <%-   for j in 0...1 -%>
+      <%-   for k in 0...$core -%>
+      <%-     if ($n_f1 - ($n_f1 % $core) + k) < $n_f1 -%>
+      $readmemb(
+        "<%=$project%>/data/mnist/lenet/bwb_1/data<%=$n_f1-($n_f1%$core)+k%>_<%=j%>.bin",
+        dut0.mem_weight<%=k%>.mem,
+        <%=($fsize**2)*(1*($n_f1/$core)+j)%>,
+        <%=($fsize**2)*(1*($n_f1/$core)+j+1)-1%>
+      );
+      <%-     else -%>
+      $readmemb(
+        "<%=$project%>/data/mnist/lenet/bwb_1/null.bin",
+        dut0.mem_weight<%=k%>.mem,
+        <%=($fsize**2)*(1*($n_f1/$core)+j)%>,
+        <%=($fsize**2)*(1*($n_f1/$core)+j+1)-1%>
+      );
+      <%-     end -%>
+      <%-   end -%>
+      <%-   end -%>
+      <%- end -%>
+    end
+  endtask
+
   task write_output;
     integer fd;
     integer i;
@@ -224,9 +296,6 @@ module test_top_first();
     integer o_index;
     begin
       fd = $fopen("test_top_first.dat", "w");
-      $display("");
-      $display("read_output");
-      $display("====================");
       out_size = 2880;
       o_unit = 144;
       for (i=0; i<out_size; i=i+1)
@@ -237,8 +306,7 @@ module test_top_first();
           output_re = o_index % <%=$core%> + 1;
         output_addr = o_offset + o_unit*(o_index/<%=$core%>);
         #(STEP*2);
-        $display("%d : %d", i, read_output);
-        $fdisplay(fd, "%4d", read_output);
+        $fdisplay(fd, "%0d", read_output);
       end
       output_re = 0;
       $fclose(fd);
@@ -259,6 +327,25 @@ module test_top_first();
           $display("Fail: %d", i);
       end
       $display("valid_memin complete.");
+    end
+  endtask
+
+  task valid_memw;
+    integer i;
+    integer w_size;
+    begin
+      w_size = 20*1*5*5;
+      <%- $core.times do |i| -%>
+      for (i = 0; i < w_size; i = i + 1)
+      begin
+        #(STEP);
+        weight_addr = i;
+        #(STEP);
+        if (dut0.read_weight<%=i%> != mem_w<%=i%>[i])
+          $display("Fail: %d", i);
+      end
+      <%- end -%>
+      $display("valid_memw complete.");
     end
   endtask
 

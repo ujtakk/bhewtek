@@ -3,9 +3,9 @@ module sram_output(/*AUTOARG*/);
   parameter WORDS = 2 ** OUTSIZE;
 
   /*AUTOINPUT*/
-  input clk;
-  input mem_we;
-  input [OUTSIZE-1:0] mem_addr;
+  input                     clk;
+  input                     mem_we;
+  input [OUTSIZE-1:0]       mem_addr;
   input signed [DWIDTH-1:0] write_data;
 
   /*AUTOOUTPUT*/
@@ -15,8 +15,8 @@ module sram_output(/*AUTOARG*/);
 
   /*AUTOREG*/
 
-  reg [DWIDTH-1:0] mem [WORDS-1:0];
-  reg [DWIDTH-1:0] addr_reg;
+  reg signed [DWIDTH-1:0] mem [WORDS-1:0];
+  reg [DWIDTH-1:0]        addr_reg;
 
   always @(posedge clk)
   begin

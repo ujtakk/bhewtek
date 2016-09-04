@@ -69,18 +69,17 @@ module ctrl_core(/*AUTOARG*/);
   reg               r_out_end;
   reg               r_wait_back;
   reg               r_first_input;
-  <%- for i in 0...$d_pixelbuf -%>
-  reg               r_wreg_we_d<%=i%>;
-  reg [2-1:0]       r_state_d<%=i%>;
-  reg [LWIDTH-1:0]  r_weight_x_d<%=i%>;
-  reg [LWIDTH-1:0]  r_weight_y_d<%=i%>;
-  reg               r_out_begin_d<%=i%>;
-  reg               r_out_valid_d<%=i%>;
-  reg               r_out_end_d<%=i%>;
-  reg               r_first_input_d<%=i%>;
-  reg               r_last_input_d<%=i%>;
-  <%- end -%>
+  reg [2-1:0]       r_state_d [<%=$d_pixelbuf%>-1:0];
+  reg [LWIDTH-1:0]  r_weight_x_d [<%=$d_pixelbuf%>-1:0];
+  reg [LWIDTH-1:0]  r_weight_y_d [<%=$d_pixelbuf%>-1:0];
+  reg               r_wreg_we_d [<%=$d_pixelbuf%>-1:0];
+  reg               r_out_begin_d [<%=$d_pixelbuf%>-1:0];
+  reg               r_out_valid_d [<%=$d_pixelbuf%>-1:0];
+  reg               r_out_end_d [<%=$d_pixelbuf%>-1:0];
+  reg               r_first_input_d [<%=$d_pixelbuf%>-1:0];
+  reg               r_last_input_d [<%=$d_pixelbuf%>-1:0];
   reg               r_buf_pix_en;
+  reg [LWIDTH-1:0]  r_d_pixelbuf;
 
 //==========================================================
 // core control
@@ -119,7 +118,7 @@ module ctrl_core(/*AUTOARG*/);
 
         S_OUTPUT:
           if (s_output_end)
-            if (r_count_out + <%=$core%> >= r_total_out)
+            if (r_count_out + CORE >= r_total_out)
             begin
               r_state     <= S_WAIT;
               r_count_out <= 0;
@@ -127,24 +126,25 @@ module ctrl_core(/*AUTOARG*/);
             else
             begin
               r_state     <= S_WEIGHT;
-              r_count_out <= r_count_out + <%=$core%>;
+              r_count_out <= r_count_out + CORE;
             end
       endcase
 
-  assign core_state = r_state_d<%=$d_pixelbuf-1%>;
+  //assign core_state = r_state_d[<%=$d_pixelbuf-1%>];
+  assign core_state = r_state_d[r_d_pixelbuf];
 
   <%- for i in 1...$d_pixelbuf -%>
   always @(posedge clk)
     <%- if i == 1 -%>
     if (!xrst)
-      r_state_d<%=i%> <= 0;
+      r_state_d[<%=i%>] <= 0;
     else
-      r_state_d<%=i%> <= r_state;
+      r_state_d[<%=i%>] <= r_state;
     <%- else -%>
     if (!xrst)
-      r_state_d<%=i%> <= 0;
+      r_state_d[<%=i%>] <= 0;
     else
-      r_state_d<%=i%> <= r_state_d<%=i-1%>;
+      r_state_d[<%=i%>] <= r_state_d[<%=i-1%>];
     <%- end -%>
   <%- end -%>
 
@@ -159,6 +159,7 @@ module ctrl_core(/*AUTOARG*/);
       r_total_out <= 0;
       r_img_size  <= 0;
       r_fil_size  <= 0;
+      r_d_pixelbuf <= 0;
     end
     else if (r_state == S_WAIT && req)
     begin
@@ -166,34 +167,37 @@ module ctrl_core(/*AUTOARG*/);
       r_total_out <= total_out;
       r_img_size  <= img_size;
       r_fil_size  <= fil_size;
+      r_d_pixelbuf <= img_size-fil_size+8-1;
     end
 
-  assign first_input = r_first_input_d<%=$d_pixelbuf-1%>;
-  assign last_input  = r_last_input_d<%=$d_pixelbuf-1%>;
+  //assign first_input = r_first_input_d[<%=$d_pixelbuf-1%>];
+  //assign last_input  = r_last_input_d[<%=$d_pixelbuf-1%>];
+  assign first_input = r_first_input_d[r_d_pixelbuf];
+  assign last_input  = r_last_input_d[r_d_pixelbuf];
 
   <%- for i in 0...$d_pixelbuf -%>
   always @(posedge clk)
     <%- if i == 0 -%>
     if (!xrst)
     begin
-      r_first_input_d0 <= 0;
-      r_last_input_d0  <= 0;
+      r_first_input_d[0] <= 0;
+      r_last_input_d[0]  <= 0;
     end
     else
     begin
-      r_first_input_d0 <= (r_state == S_INPUT) && r_count_in == 0;
-      r_last_input_d0  <= (r_state == S_INPUT) && r_count_in == r_total_in - 1;
+      r_first_input_d[0] <= (r_state == S_INPUT) && r_count_in == 0;
+      r_last_input_d[0]  <= (r_state == S_INPUT) && r_count_in == r_total_in - 1;
     end
     <%- else -%>
     if (!xrst)
     begin
-      r_first_input_d<%=i%> <= 0;
-      r_last_input_d<%=i%>  <= 0;
+      r_first_input_d[<%=i%>] <= 0;
+      r_last_input_d[<%=i%>]  <= 0;
     end
     else
     begin
-      r_first_input_d<%=i%> <= r_first_input_d<%=i-1%>;
-      r_last_input_d<%=i%>  <= r_last_input_d<%=i-1%>;
+      r_first_input_d[<%=i%>] <= r_first_input_d[<%=i-1%>];
+      r_last_input_d[<%=i%>]  <= r_last_input_d[<%=i-1%>];
     end
     <%- end -%>
   <%- end -%>
@@ -212,12 +216,15 @@ module ctrl_core(/*AUTOARG*/);
   always @(posedge clk)
     if (!xrst)
       r_weight_addr <= 0;
-    else if (r_count_out + <%=$core%> >= r_total_out
+    else if (r_count_out + CORE >= r_total_out
               && r_count_in == r_total_in - 1
-              && r_weight_x_d<%=$d_pixelbuf-1%> == r_fil_size - 1
-              && r_weight_y_d<%=$d_pixelbuf-1%> == r_fil_size - 1)
+              //&& r_weight_x_d[<%=$d_pixelbuf-1%>] == r_fil_size - 1
+              //&& r_weight_y_d[<%=$d_pixelbuf-1%>] == r_fil_size - 1)
+              && r_weight_x_d[r_d_pixelbuf] == r_fil_size - 1
+              && r_weight_y_d[r_d_pixelbuf] == r_fil_size - 1)
       r_weight_addr <= 0;
-    else if (r_state_d<%=$d_pixelbuf-1%> == S_WEIGHT)
+    //else if (r_state_d[<%=$d_pixelbuf-1%>] == S_WEIGHT)
+    else if (r_state_d[r_d_pixelbuf] == S_WEIGHT)
       r_weight_addr <= r_weight_addr + 1;
 
   always @(posedge clk)
@@ -248,24 +255,24 @@ module ctrl_core(/*AUTOARG*/);
     <%- if i == 1 -%>
     if (!xrst)
     begin
-      r_weight_x_d<%=i%> <= 0;
-      r_weight_y_d<%=i%> <= 0;
+      r_weight_x_d[<%=i%>] <= 0;
+      r_weight_y_d[<%=i%>] <= 0;
     end
     else
     begin
-      r_weight_x_d<%=i%> <= r_weight_x;
-      r_weight_y_d<%=i%> <= r_weight_y;
+      r_weight_x_d[<%=i%>] <= r_weight_x;
+      r_weight_y_d[<%=i%>] <= r_weight_y;
     end
     <%- else -%>
     if (!xrst)
     begin
-      r_weight_x_d<%=i%> <= 0;
-      r_weight_y_d<%=i%> <= 0;
+      r_weight_x_d[<%=i%>] <= 0;
+      r_weight_y_d[<%=i%>] <= 0;
     end
     else
     begin
-      r_weight_x_d<%=i%> <= r_weight_x_d<%=i-1%>;
-      r_weight_y_d<%=i%> <= r_weight_y_d<%=i-1%>;
+      r_weight_x_d[<%=i%>] <= r_weight_x_d[<%=i-1%>];
+      r_weight_y_d[<%=i%>] <= r_weight_y_d[<%=i-1%>];
     end
     <%- end -%>
   <%- end -%>
@@ -280,23 +287,23 @@ module ctrl_core(/*AUTOARG*/);
 // wreg control
 //==========================================================
 
-  assign wreg_we = r_wreg_we_d<%=$d_pixelbuf-1%>;
+  //assign wreg_we = r_wreg_we_d[<%=$d_pixelbuf-1%>];
+  assign wreg_we = r_wreg_we_d[r_d_pixelbuf];
 
   <%- for i in 0...$d_pixelbuf -%>
   always @(posedge clk)
     <%- if i == 0 -%>
     if (!xrst)
-      r_wreg_we_d0 <= 0;
+      r_wreg_we_d[0] <= 0;
     else
-      r_wreg_we_d0 <= (r_state == S_WEIGHT);
+      r_wreg_we_d[0] <= (r_state == S_WEIGHT);
     <%- else -%>
     if (!xrst)
-      r_wreg_we_d<%=i%> <= 0;
+      r_wreg_we_d[<%=i%>] <= 0;
     else
-      r_wreg_we_d<%=i%> <= r_wreg_we_d<%=i-1%>;
+      r_wreg_we_d[<%=i%>] <= r_wreg_we_d[<%=i-1%>];
     <%- end -%>
   <%- end -%>
-
 
 //==========================================================
 // input control
@@ -350,7 +357,7 @@ module ctrl_core(/*AUTOARG*/);
     if (!xrst)
       r_buf_pix_en <= 0;
     else
-      r_buf_pix_en <= (r_state == S_INPUT) && r_out_begin_d0;
+      r_buf_pix_en <= (r_state == S_INPUT) && r_out_begin_d[0];
 
 //==========================================================
 // output control
@@ -361,9 +368,12 @@ module ctrl_core(/*AUTOARG*/);
   assign mem_output_we    = r_output_we;
   assign mem_output_addr  = output_addr + r_output_addr;
 
-  assign out_begin        = r_out_begin_d<%=$d_pixelbuf-1%>;
-  assign out_valid        = r_out_valid_d<%=$d_pixelbuf-1%>;
-  assign out_end          = r_out_end_d<%=$d_pixelbuf-1%>;
+  //assign out_begin        = r_out_begin_d[<%=$d_pixelbuf-1%>];
+  //assign out_valid        = r_out_valid_d[<%=$d_pixelbuf-1%>];
+  //assign out_end          = r_out_end_d[<%=$d_pixelbuf-1%>];
+  assign out_begin        = r_out_begin_d[r_d_pixelbuf];
+  assign out_valid        = r_out_valid_d[r_d_pixelbuf];
+  assign out_end          = r_out_end_d[r_d_pixelbuf];
 
   assign s_output_end     = (r_state == S_OUTPUT) && in_end;
 
@@ -372,7 +382,7 @@ module ctrl_core(/*AUTOARG*/);
       r_ack <= 0;
     else if (req)
       r_ack <= 0;
-    else if (in_end && r_count_out + <%=$core%> >= r_total_out)
+    else if (s_output_end && r_count_out + CORE >= r_total_out)
       r_ack <= 1;
 
   always @(posedge clk)
@@ -394,26 +404,26 @@ module ctrl_core(/*AUTOARG*/);
   always @(posedge clk)
     <%- if i == 0 -%>
     if (!xrst)
-      r_out_<%=n%>_d0 <= 0;
+      r_out_<%=n%>_d[0] <= 0;
     else
       <%- case n -%>
       <%- when "begin" -%>
-      r_out_begin_d0 <= req
+      r_out_begin_d[0] <= req
                         || s_weight_end
-                        || (r_count_in != r_total_in - 1) && s_input_end
-                        || (r_count_out + <%=$core%> < r_total_out) && s_output_end;
+                        || s_input_end  && (r_count_in != r_total_in - 1);
+                        //|| s_output_end && (r_count_out + CORE < r_total_out);
       <%- when "valid" -%>
-      r_out_valid_d0 <= (r_state == S_WEIGHT || r_state == S_INPUT);
+      r_out_valid_d[0] <= (r_state == S_WEIGHT || r_state == S_INPUT);
       <%- when "end" -%>
       //r_out_end_d0   <= (r_count_in == r_total_in - 1) && s_input_end;
-      r_out_end_d0   <= s_weight_end || s_input_end;
+      r_out_end_d[0]   <= s_weight_end || s_input_end;
       <%- else -%>
       <%- end -%>
     <%- else -%>
     if (!xrst)
-      r_out_<%=n%>_d<%=i%> <= 0;
+      r_out_<%=n%>_d[<%=i%>] <= 0;
     else
-      r_out_<%=n%>_d<%=i%> <= r_out_<%=n%>_d<%=i-1%>;
+      r_out_<%=n%>_d[<%=i%>] <= r_out_<%=n%>_d[<%=i-1%>];
     <%- end -%>
   <%-   end -%>
   <%- end -%>

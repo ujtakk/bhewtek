@@ -7,11 +7,11 @@ $core = 8
 $core_log = (Math.log($core)/Math.log(2)).to_i
 $tech = nil # rohm
 $max_size = 32
-$d_pixelbuf = 15
+$d_pixelbuf = 32
 if $old
   $d_poolbuf  = 1
 else
-  $d_poolbuf  = 14
+  $d_poolbuf  = 32
 end
 $d_conv  = 5
 $d_accum = 1

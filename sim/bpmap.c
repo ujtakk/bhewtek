@@ -772,6 +772,15 @@ int main(int argc, char *argv[]){
 #endif
 
 #ifdef CALC
+  sprintf(filename, "../data/mnist/iinput/%d/data%d.dat", atoi(argv[1]), atoi(argv[2]));
+  fp = fopen(filename, "w");
+  for(j=0; j<IMHEI; j++){
+    for(k=0; k<IMWID; k++){
+      fprintf(fp, "%d\n", iinput[j][k]);
+    }
+  }
+
+//  fclose(fp);
 //  sprintf(filename, "../data/mnist/binput/%d/data%d.bin", atoi(argv[1]), atoi(argv[2]));
 //  fp = fopen(filename, "w");
 //  for(j=0; j<IMHEI; j++){
@@ -815,33 +824,33 @@ int main(int argc, char *argv[]){
 //    fclose(fp);
 //  }
 
-  for(i=0; i<N_F1; i++){
-    sprintf(filename, "../data/mnist/ifmap2_true/%d/data%d_%d.dat", atoi(argv[1]), atoi(argv[2]), i);
-    fp = fopen(filename, "w");
-    for(j=0; j<pm1hei-FHEI+1; j++){
-      for(k=0; k<pm1wid-FWID+1; k++){
-        fprintf(fp, "%d\n", ifmap2[i][j][k]);
-      }
-    }
-    fclose(fp);
-  }
-
-  for(i=0; i<N_F1; i++){
-    sprintf(filename, "../data/mnist/bfmap2_true/%d/data%d_%d.bin", atoi(argv[1]), atoi(argv[2]), i);
-    fp = fopen(filename, "w");
-    for(j=0; j<pm1hei-FHEI+1; j++){
-      for(k=0; k<pm1wid-FWID+1; k++){
-        if(ifmap2[i][j][k] >= 0)
-          for(b=0; b<16; b++)
-            fprintf(fp, "%d", (ifmap2[i][j][k]>>(15-b)) % 2);
-        else
-          for(b=0; b<16; b++)
-            fprintf(fp, "%d", (((-ifmap2[i][j][k] ^ 0xFFFF)+1)>>(15-b)) % 2);
-        fprintf(fp, "\n");
-      }
-    }
-    fclose(fp);
-  }
+//  for(i=0; i<N_F1; i++){
+//    sprintf(filename, "../data/mnist/ifmap2_true/%d/data%d_%d.dat", atoi(argv[1]), atoi(argv[2]), i);
+//    fp = fopen(filename, "w");
+//    for(j=0; j<pm1hei-FHEI+1; j++){
+//      for(k=0; k<pm1wid-FWID+1; k++){
+//        fprintf(fp, "%d\n", ifmap2[i][j][k]);
+//      }
+//    }
+//    fclose(fp);
+//  }
+//
+//  for(i=0; i<N_F1; i++){
+//    sprintf(filename, "../data/mnist/bfmap2_true/%d/data%d_%d.bin", atoi(argv[1]), atoi(argv[2]), i);
+//    fp = fopen(filename, "w");
+//    for(j=0; j<pm1hei-FHEI+1; j++){
+//      for(k=0; k<pm1wid-FWID+1; k++){
+//        if(ifmap2[i][j][k] >= 0)
+//          for(b=0; b<16; b++)
+//            fprintf(fp, "%d", (ifmap2[i][j][k]>>(15-b)) % 2);
+//        else
+//          for(b=0; b<16; b++)
+//            fprintf(fp, "%d", (((-ifmap2[i][j][k] ^ 0xFFFF)+1)>>(15-b)) % 2);
+//        fprintf(fp, "\n");
+//      }
+//    }
+//    fclose(fp);
+//  }
 
 //  for(i=0; i<N_F2; i++){
 //    sprintf(filename, "../data/mnist/ipmap2_true/%d/data%d_%d.dat", atoi(argv[1]), atoi(argv[2]), i);

@@ -3,9 +3,9 @@ module sram_weight(/*AUTOARG*/);
   parameter WORDS = 2 ** WSIZE;
 
   /*AUTOINPUT*/
-  input clk;
-  input mem_we;
-  input [WSIZE-1:0] mem_addr;
+  input                     clk;
+  input                     mem_we;
+  input [WSIZE-1:0]         mem_addr;
   input signed [DWIDTH-1:0] write_data;
 
   /*AUTOOUTPUT*/
@@ -16,7 +16,7 @@ module sram_weight(/*AUTOARG*/);
   /*AUTOREG*/
 
   reg signed [DWIDTH-1:0] mem [WORDS-1:0];
-  reg [DWIDTH-1:0] addr_reg;
+  reg [DWIDTH-1:0]        addr_reg;
 
   always @(posedge clk)
   begin

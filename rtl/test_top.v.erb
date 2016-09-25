@@ -117,47 +117,9 @@ module test_top();
     $finish();
   end
 
-  reg r_ack;
-  always @(ack) r_ack <= ack;
-
   always
   begin
     #(STEP/2-1);
-    if (!r_ack)
-    $display(
-      //"%5d: ", $time/STEP,
-      "%2d", xrst,
-      "%2d", req,
-      "%2d", ack,
-      "| ",
-      "%4d ", dut0.read_input,
-      "%2d ", dut0.buf_pix_en,
-      "%d ", dut0.ctrl.ctrl_core.mem_input_addr,
-      "%d ", dut0.ctrl.ctrl_core.mem_weight_addr,
-      "%d ", dut0.ctrl.ctrl_core.mem_output_we,
-      "%d ", dut0.ctrl.ctrl_core.mem_output_addr,
-      "| ",
-      "%d:", dut0.ctrl.ctrl_core.r_state,
-      "%d", dut0.ctrl.ctrl_core.r_count_out,
-      "%d", dut0.ctrl.ctrl_core.r_count_in,
-      "| ",
-      "%d", dut0.ctrl.ctrl_core.out_begin,
-      "%d", dut0.ctrl.ctrl_core.out_valid,
-      "%d", dut0.ctrl.ctrl_core.out_end,
-      "%d", dut0.ctrl.ctrl_conv.out_begin,
-      "%d", dut0.ctrl.ctrl_conv.out_valid,
-      "%d", dut0.ctrl.ctrl_conv.out_end,
-      "%d", dut0.ctrl.ctrl_pool.out_begin,
-      "%d", dut0.ctrl.ctrl_pool.out_valid,
-      "%d", dut0.ctrl.ctrl_pool.out_end,
-      "| ",
-      "%2d", dut0.ctrl.ctrl_core.r_d_pixelbuf,
-      "%3d", dut0.ctrl.ctrl_core.first_input,
-      "%3d", dut0.ctrl.ctrl_core.last_input,
-      "%3d", dut0.ctrl.ctrl_core.out_begin,
-      "%3d", dut0.ctrl.ctrl_core.out_valid,
-      "%3d", dut0.ctrl.ctrl_core.out_end,
-    );
     #(STEP/2+1);
   end
 
@@ -239,7 +201,12 @@ module test_top();
       <%- for i in 0...$n_f2/$core -%>
       <%-   for j in 0...$n_f1 -%>
       <%-   for k in 0...$core -%>
-      $readmemb("<%=$project%>/data/mnist/lenet/bwb_2/data<%=$core*i+k%>_<%=j%>.bin", dut0.mem_weight<%=k%>.mem, <%=($fsize**2)*($n_f1*i+j)%>, <%=($fsize**2)*($n_f1*i+j+1)-1%>);
+      $readmemb(
+        "<%=$project%>/data/mnist/lenet/bwb_2/data<%=$core*i+k%>_<%=j%>.bin",
+        dut0.mem_weight<%=k%>.mem,
+        <%=($fsize**2)*($n_f1*i+j)%>,
+        <%=($fsize**2)*($n_f1*i+j+1)-1%>
+      );
       <%-   end -%>
       <%-   end -%>
       <%- end -%>
@@ -247,9 +214,19 @@ module test_top();
       <%-   for j in 0...$n_f1 -%>
       <%-   for k in 0...$core -%>
       <%-     if ($n_f2 - ($n_f2 % $core) + k) < $n_f2 -%>
-      $readmemb("<%=$project%>/data/mnist/lenet/bwb_2/data<%=$n_f2-($n_f2%$core)+k%>_<%=j%>.bin", dut0.mem_weight<%=k%>.mem, <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%>, <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%>);
+      $readmemb(
+        "<%=$project%>/data/mnist/lenet/bwb_2/data<%=$n_f2-($n_f2%$core)+k%>_<%=j%>.bin",
+        dut0.mem_weight<%=k%>.mem,
+        <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%>,
+        <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%>
+      );
       <%-     else -%>
-      $readmemb("<%=$project%>/data/mnist/lenet/bwb_2/null.bin", dut0.mem_weight<%=k%>.mem, <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%>, <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%>);
+      $readmemb(
+        "<%=$project%>/data/mnist/lenet/bwb_2/null.bin",
+        dut0.mem_weight<%=k%>.mem,
+        <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%>,
+        <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%>
+      );
       <%-     end -%>
       <%-   end -%>
       <%-   end -%>
@@ -266,9 +243,6 @@ module test_top();
     integer o_index;
     begin
       fd = $fopen("test_top.dat", "w");
-      $display("");
-      $display("read_output");
-      $display("====================");
       out_size = 800;
       o_unit = 16;
       for (i=0; i<out_size; i=i+1)
@@ -279,8 +253,7 @@ module test_top();
           output_re = o_index % <%=$core%> + 1;
         output_addr = o_offset + o_unit*(o_index/<%=$core%>);
         #(STEP*2);
-        $display("%d : %d", i, read_output);
-        $fdisplay(fd, "%4d", read_output);
+        $fdisplay(fd, "%0d", read_output);
       end
       output_re = 0;
       $fclose(fd);

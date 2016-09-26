@@ -2,61 +2,74 @@ module core(/*AUTOARG*/);
 `include "parameters.vh"
 <%- load "parameters.rb" -%>
 
-    /*AUTOINPUT*/
+  /*AUTOINPUT*/
 
-    /*AUTOOUTPUT*/
+  /*AUTOOUTPUT*/
 
-    /*AUTOWIRE*/
+  /*AUTOWIRE*/
 
-    /*AUTOREG*/
+  /*AUTOREG*/
 
-    // AUTO_CONSTANT (DWIDTH)
+  // AUTO_CONSTANT (DWIDTH)
 
-    /* conv AUTO_TEMPLATE (
-        .fmap      (result[DWIDTH-1:0]),
-        .wreg_we   (wreg_we),
-        .read_data (read_weight[DWIDTH-1:0]),
-    ); */
-    conv conv(/*AUTOINST*/);
+  /* conv AUTO_TEMPLATE (
+      .fmap       (result[DWIDTH-1:0]),
+      .wreg_we    (wreg_we),
+      .read_data  (read_weight[DWIDTH-1:0]),
+  ); */
+  conv conv(/*AUTOINST*/);
 
-    /* sram_feat AUTO_TEMPLATE (
-        //.read_data1  ({DWIDTH{1'b0}}),
-        .read_data1  (),
-        .write_data1 (write_feat[DWIDTH-1:0]),
-        .mem_we1     (mem_feat_we),
-        .mem_addr1   (mem_feat_addr_d1[FACCUM-1:0]),
-        .read_data2  (read_feat[DWIDTH-1:0]),
-        .write_data2 ({DWIDTH{1'b0}}),
-        .mem_we2     (1'b0),
-        .mem_addr2   (mem_feat_addr[FACCUM-1:0]),
-    ); */
-    sram_feat mem_feat(/*AUTOINST*/);
+  /* sram_feat AUTO_TEMPLATE (
+      .read_data1   (),
+      .write_data1  (write_feat[DWIDTH-1:0]),
+      .mem_we1      (mem_feat_we),
+      .mem_addr1    (mem_feat_addr_d1[FACCUM-1:0]),
+      .read_data2   (read_feat[DWIDTH-1:0]),
+      .write_data2  ({DWIDTH{1'b0}}),
+      .mem_we2      (1'b0),
+      .mem_addr2    (mem_feat_addr[FACCUM-1:0]),
+  ); */
+  sram_feat mem_feat(/*AUTOINST*/);
 
-    /* accumulator AUTO_TEMPLATE (
-        .total   (fmap[DWIDTH-1:0]),
-        .result  (result[DWIDTH-1:0]),
-        .o_we    (conv_we),
-        .reset   (mem_feat_rst),
-        .sum_old (read_feat[DWIDTH-1:0]),
-        .sum_wb  (write_feat[DWIDTH-1:0]),
-    ); */
-    accumulator feat_accum(/*AUTOINST*/);
+  /* accumulator AUTO_TEMPLATE (
+      .total    (fmap[DWIDTH-1:0]),
+      .result   (result[DWIDTH-1:0]),
+      .o_we     (conv_we),
+      .reset    (mem_feat_rst),
+      .sum_old  (read_feat[DWIDTH-1:0]),
+      .sum_wb   (write_feat[DWIDTH-1:0]),
+  ); */
+  accumulator feat_accum(/*AUTOINST*/);
 
-    /* linebuf_feat AUTO_TEMPLATE (
-        <%- for i in 0...$psize**2 -%>
-        .pixel_feat<%=i%> (pixel_feat<%=i%>[DWIDTH-1:0]),
-        <%- end -%>
-        .read_data        (fmap[DWIDTH-1:0]),
-    ); */
-    linebuf_feat buf_feat(/*AUTOINST*/);
-
-    /* pool AUTO_TEMPLATE (
-        .pmap             (pmap[DWIDTH-1:0]),
-        .o_we             (pool_we),
-        <%- for i in 0...$psize**2 -%>
-        .pixel_feat<%=i%> (pixel_feat<%=i%>[DWIDTH-1:0]),
-        <%- end -%>
-    ); */
-    pool pool(/*AUTOINST*/);
+% if $old
+  /* linebuf_feat AUTO_TEMPLATE (
+      <%- for i in 0...$psize**2 -%>
+      .pixel_feat<%=i%> (pixel_feat<%=i%>[DWIDTH-1:0]),
+      <%- end -%>
+      .read_data        (fmap[DWIDTH-1:0]),
+  ); */
+  linebuf_feat buf_feat(/*AUTOINST*/);
+% else
+  /* linebuf AUTO_TEMPLATE (
+      .buf_en     (buf_feat_en),
+      .buf_input  (fmap[DWIDTH-1:0]),
+      .img_size   (w_fea_size[LWIDTH-1:0]),
+      .fil_size   (w_pool_size[LWIDTH-1:0]),
+      <%- for i in 0...$psize -%>
+      <%-   for j in 0...$psize -%>
+      .buf_output<%=i%>_<%=j%> (pixel_feat<%=i*$psize+j%>[DWIDTH-1:0]),
+      <%-   end -%>
+      <%- end -%>
+  ); */
+  linebuf buf_feat(/*AUTOINST*/);
+% end
+  /* pool AUTO_TEMPLATE (
+      .pmap             (pmap[DWIDTH-1:0]),
+      .o_we             (pool_we),
+      <%- for i in 0...$psize**2 -%>
+      .pixel_feat<%=i%> (pixel_feat<%=i%>[DWIDTH-1:0]),
+      <%- end -%>
+  ); */
+  pool pool(/*AUTOINST*/);
 
 endmodule

@@ -2,35 +2,30 @@ module mux_output(/*AUTOARG*/);
 `include "parameters.vh"
 <%- load "parameters.rb" -%>
 
-    /*AUTOINPUT*/
-    input clk;
-    input [3:0] output_re;
-    <%- for i in 0...$core -%>
-    input signed [DWIDTH-1:0] read_output<%=i%>;
-    <%- end -%>
+  /*AUTOINPUT*/
+  input clk;
+  input [<%=$core_log%>:0] output_re;
+  <%- for i in 0...$core -%>
+  input signed [DWIDTH-1:0] read_output<%=i%>;
+  <%- end -%>
 
-    /*AUTOOUTPUT*/
-    output signed [DWIDTH-1:0] read_output;
+  /*AUTOOUTPUT*/
+  output signed [DWIDTH-1:0] read_output;
 
-    /*AUTOWIRE*/
+  /*AUTOWIRE*/
 
-    /*AUTOREG*/
-    reg [DWIDTH-1:0] r_output;
+  /*AUTOREG*/
+  reg [DWIDTH-1:0] r_output;
 
-    assign read_output = r_output;
+  assign read_output = r_output;
 
-    always @(posedge clk)
-        case (output_re)
-            4'd0: r_output <= {DWIDTH{1'b0}};
-            4'd1: r_output <= read_output0;
-            4'd2: r_output <= read_output1;
-            4'd3: r_output <= read_output2;
-            4'd4: r_output <= read_output3;
-            4'd5: r_output <= read_output4;
-            4'd6: r_output <= read_output5;
-            4'd7: r_output <= read_output6;
-            4'd8: r_output <= read_output7;
-            default: r_output <= {DWIDTH{1'b0}};
-        endcase
+  always @(posedge clk)
+    case (output_re)
+      4'd0:     r_output <= {DWIDTH{1'b0}};
+      <%- for i in 0...$core -%>
+      4'd<%=i+1%>:     r_output <= read_output<%=i%>;
+      <%- end -%>
+      default:  r_output <= {DWIDTH{1'b0}};
+    endcase
 
 endmodule

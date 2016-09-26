@@ -20,70 +20,95 @@ module test_ctrl();
     integer fp;
     initial
     begin
-        fp = $fopen("ctrl_log.txt");
-        #(STEP);
+      fp = $fopen("test_newctrl_true.dat");
         xrst = 0;
-        req = 0;
-        in_addr = 0;
-        w_addr = 0;
-        n_in = 20;
-        n_out = 50;
-        img_w = 12;
-        img_h = 12;
-        fil_w = 5;
-        fil_h = 5;
         #(STEP);
         xrst = 1;
-        #(STEP*5);
+        req = 0;
+        input_addr = 0;
+        weight_addr = 0;
+        output_addr = 0;
+        total_in = 20;
+        total_out = 50;
+        img_size = 12;
+        fil_size = 5;
+        #(STEP);
+        #(STEP);
         req = 1;
         #(STEP);
         req = 0;
-        #(STEP*63367);
+        while (!ack) #(STEP);
+        #(STEP*5);
+        //#(STEP*25000);
         $finish();
     end
 
     always
     begin
         #(STEP/2-1);
+        $display(
+          "%5d: ", $time/STEP,
+          "| ",
+          "%d ", xrst,
+          "%d ", req,
+          "%d ", input_addr,
+          "%d ", weight_addr,
+          "%d ", output_addr,
+          "%d ", total_in,
+          "%d ", total_out,
+          "%d ", img_size,
+          "%d ", fil_size,
+          "| ",
+          "%d ", ack,
+          "%d ", wreg_we,
+          "%d ", conv_we,
+          "%d ", pool_we,
+          "%d ", mem_input_addr,
+          "%d ", mem_weight_addr,
+          "%d ", mem_feat_we,
+          "%d ", mem_feat_rst,
+          "%d ", mem_feat_addr,
+          "%d ", mem_feat_addr_d1,
+          "%d ", mem_output_we,
+          "%d ", mem_output_addr,
+          "| ",
+          "%d ", dut0.ctrl.r_conv_x,
+          "%d ", dut0.ctrl.r_conv_y,
+          "| ",
+          "%d ", dut0.ctrl.r_pool_x,
+          "%d ", dut0.ctrl.r_pool_y,
+        );
         $fdisplay(fp,
-            "%d ", xrst,
-            "%d ", req,
-            "| ",
-            <%- for i in 0...4 -%>
-            "%d ", wreg_we<%=i%>,
-            "%d ", acc_we<%=i%>,
-            "%d ", pool_we<%=i%>,
-            "%d ", mem_faccum_we<%=i%>,
-            "%d ", mem_faccum_addr<%=i%>,
-            "%d ", mem_faccum_addr<%=i%>_f1,
-            ";",
-            <%- end -%>
-            "%d ", mem_input_addr,
-            "%d ", mem_weight_addr,
-            "%d ", ack,
-            "| ",
-            "%d ", dut0.r_wreg,
-            "%d ", dut0.r_w_x,
-            "%d ", dut0.r_w_y,
-            "%d ", dut0.wreg_start,
-            "%d ", dut0.wreg_valid,
-            "%d ", dut0.wreg_end,
-            "; ",
-            "%d ", dut0.r_x,
-            "%d ", dut0.r_y,
-            "%d ", dut0.conv_start,
-            "%d ", dut0.conv_valid,
-            "%d ", dut0.conv_end,
-            "; ",
-            "%d ", dut0.r_p_x,
-            "%d ", dut0.r_p_y,
-            "%d ", dut0.pool_start,
-            "%d ", dut0.pool_valid,
-            "%d ", dut0.pool_end,
-            "| ",
-            "%d ", dut0.r_state,
-            "%d ", dut0.r_c_in,
-            "%d ", dut0.r_c_out,
+          "%5d: ", $time/STEP,
+          //"| ",
+          //"%d ", xrst,
+          //"%d ", req,
+          //"%d ", input_addr,
+          //"%d ", weight_addr,
+          //"%d ", output_addr,
+          //"%d ", total_in,
+          //"%d ", total_out,
+          //"%d ", img_size,
+          //"%d ", fil_size,
+          "| ",
+          "%d ", ack,
+          "%d ", wreg_we,
+          "%d ", conv_we,
+          "%d ", pool_we,
+          "%d ", mem_input_addr,
+          "%d ", mem_weight_addr,
+          "%d ", mem_feat_we,
+          "%d ", mem_feat_rst,
+          "%d ", mem_feat_addr,
+          "%d ", mem_feat_addr_d1,
+          "%d ", mem_output_we,
+          "%d ", mem_output_addr,
+          "| ",
+          "%d ", dut0.ctrl.r_conv_x,
+          "%d ", dut0.ctrl.r_conv_y,
+          "| ",
+          "%d ", dut0.ctrl.r_pool_x,
+          "%d ", dut0.ctrl.r_pool_y,
         );
         #(STEP/2+1);
     end

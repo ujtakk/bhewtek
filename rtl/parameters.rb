@@ -1,28 +1,38 @@
 #!/usr/bin/env ruby
 
 # ERB parameter
-$project = '/home/work/takau/bhewtek'
+$old = false
+$project = `pwd`.chomp.split('/rtl')[0]
 $core = 8
 $core_log = (Math.log($core)/Math.log(2)).to_i
 $tech = nil # rohm
-$conv_delay = 5;
-$pool_delay = $conv_delay + 2;
-$max_size = 32;
+$max_size = 32
+$d_pixelbuf = 32
+if $old
+  $d_poolbuf  = 1
+else
+  $d_poolbuf  = 32
+end
+$d_conv  = 5
+$d_accum = 1
+$d_pool  = 2
+#$d_pool = $d_conv + 3;
 
 # Verilog parameter
 $dwidth = 16
 $in_hei = 28
 $pm1hei = 12
-$insize = 12
+$fm2hei = 8
+$insize = 20#12
 $fsize = 5
 $psize = 2
 $n_f1 = 20
 $n_f2 = 50
-$outsize = 10
-$wsize = 13
-$ifmsize = 9
-$faccum = 7
-$paccum = 8
+$outsize = 20#10
+$wsize = 20#13
+$ifmsize = 20#9
+$faccum = 20#7
+$paccum = 20#8
 $lwidth = 8
 $step = 10
 

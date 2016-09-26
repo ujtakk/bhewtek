@@ -135,9 +135,9 @@ module ctrl_pool(/*AUTOARG*/);
     else
       r_buf_feat_en <= in_begin;
 
-  //assign pool_begin = r_pool_begin_d[<%=$d_poolbuf-1%>];
-  //assign pool_valid = r_pool_valid_d[<%=$d_poolbuf-1%>];
-  //assign pool_end   = r_pool_end_d[<%=$d_poolbuf-1%>];
+  // assign pool_begin = r_pool_begin_d[<%=$d_poolbuf-1%>];
+  // assign pool_valid = r_pool_valid_d[<%=$d_poolbuf-1%>];
+  // assign pool_end   = r_pool_end_d[<%=$d_poolbuf-1%>];
 
   assign pool_begin = r_pool_begin_d[r_d_poolbuf];
   assign pool_valid = r_pool_valid_d[r_d_poolbuf];

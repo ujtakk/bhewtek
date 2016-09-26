@@ -155,19 +155,19 @@ module ctrl_core(/*AUTOARG*/);
   always @(posedge clk)
     if (!xrst)
     begin
-      r_total_in  <= 0;
-      r_total_out <= 0;
-      r_img_size  <= 0;
-      r_fil_size  <= 0;
-      r_d_pixelbuf <= 0;
+      r_total_in    <= 0;
+      r_total_out   <= 0;
+      r_img_size    <= 0;
+      r_fil_size    <= 0;
+      r_d_pixelbuf  <= 0;
     end
     else if (r_state == S_WAIT && req)
     begin
-      r_total_in  <= total_in;
-      r_total_out <= total_out;
-      r_img_size  <= img_size;
-      r_fil_size  <= fil_size;
-      r_d_pixelbuf <= img_size-fil_size+8-1;
+      r_total_in    <= total_in;
+      r_total_out   <= total_out;
+      r_img_size    <= img_size;
+      r_fil_size    <= fil_size;
+      r_d_pixelbuf  <= img_size - fil_size + 8 - 1;
     end
 
   //assign first_input = r_first_input_d[<%=$d_pixelbuf-1%>];
@@ -278,9 +278,9 @@ module ctrl_core(/*AUTOARG*/);
   <%- end -%>
 
   always @(posedge clk)
-    //if (r_state == S_WEIGHT)
+    // if (r_state == S_WEIGHT)
     //  r_bias <= r_weight_x == r_fil_size - 1 && r_weight_y == r_fil_size - 1;
-    //else
+    // else
       r_bias <= 0;
 
 //==========================================================
@@ -318,7 +318,7 @@ module ctrl_core(/*AUTOARG*/);
   always @(posedge clk)
     if (!xrst)
       r_input_addr <= 0;
-    //else if ((r_count_in == r_total_in - 1
+    // else if ((r_count_in == r_total_in - 1
     //            && r_input_x == r_img_size - 1
     //            && r_input_y == r_img_size - 1)
     //          || r_wait_back)
@@ -368,9 +368,9 @@ module ctrl_core(/*AUTOARG*/);
   assign mem_output_we    = r_output_we;
   assign mem_output_addr  = output_addr + r_output_addr;
 
-  //assign out_begin        = r_out_begin_d[<%=$d_pixelbuf-1%>];
-  //assign out_valid        = r_out_valid_d[<%=$d_pixelbuf-1%>];
-  //assign out_end          = r_out_end_d[<%=$d_pixelbuf-1%>];
+  // assign out_begin        = r_out_begin_d[<%=$d_pixelbuf-1%>];
+  // assign out_valid        = r_out_valid_d[<%=$d_pixelbuf-1%>];
+  // assign out_end          = r_out_end_d[<%=$d_pixelbuf-1%>];
   assign out_begin        = r_out_begin_d[r_d_pixelbuf];
   assign out_valid        = r_out_valid_d[r_d_pixelbuf];
   assign out_end          = r_out_end_d[r_d_pixelbuf];
@@ -411,7 +411,7 @@ module ctrl_core(/*AUTOARG*/);
       r_out_begin_d[0] <= req
                         || s_weight_end
                         || s_input_end  && (r_count_in != r_total_in - 1);
-                        //|| s_output_end && (r_count_out + CORE < r_total_out);
+                        // || s_output_end && (r_count_out + CORE < r_total_out);
       <%- when "valid" -%>
       r_out_valid_d[0] <= (r_state == S_WEIGHT || r_state == S_INPUT);
       <%- when "end" -%>
@@ -428,13 +428,13 @@ module ctrl_core(/*AUTOARG*/);
   <%-   end -%>
   <%- end -%>
 
-  //always @(posedge clk)
-  //  if (!xrst)
-  //    r_wait_back <= 0;
-  //  else if (r_state == S_OUTPUT)
-  //    if (r_input_x == r_img_size - 1 && r_input_y == r_img_size - 1)
-  //      r_wait_back <= 1;
-  //    else if (in_end)
-  //      r_wait_back <= 0;
+  // always @(posedge clk)
+  //   if (!xrst)
+  //     r_wait_back <= 0;
+  //   else if (r_state == S_OUTPUT)
+  //     if (r_input_x == r_img_size - 1 && r_input_y == r_img_size - 1)
+  //       r_wait_back <= 1;
+  //     else if (in_end)
+  //       r_wait_back <= 0;
 
 endmodule

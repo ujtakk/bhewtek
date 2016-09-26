@@ -1,17 +1,23 @@
 #### notice, don't forget update Makefile.dep
 #### (make compile.all USE_CACHE=0; ...; rm -f Makefile.dep; make Makefile.dep)
 # SIMULATOR=vcs
-SIMULATOR=iverilog
+# SIMULATOR=iverilog
 IOC_DIR=.
 TARGET=test_top_first
+# TARGET=test_top
 DIST=../dist
 
 include Makefile.dep
 include VERBMakefile
 
-.PHONY: all sim clean
-all: $(TARGET).com
+.PHONY: all file sim clean
 sim: $(TARGET).log
+file: $(TARGET).com
+
+all:
+	make clean
+	make sim
+
 clean:
 	make clean-common
 	rm -f log.txt

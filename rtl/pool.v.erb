@@ -24,9 +24,17 @@ module pool(/*AUTOARG*/);
   reg signed [DWIDTH-1:0] r_pixel_feat<%=i%>;
   <%- end -%>
 
-  assign max_0 = (r_pixel_feat0 > r_pixel_feat1) ? r_pixel_feat0 : r_pixel_feat1;
-  assign max_1 = (r_pixel_feat2 > r_pixel_feat3) ? r_pixel_feat2 : r_pixel_feat3;
-  assign max = (max_0 > max_1) ? max_0 : max_1;
+  assign max_0  = (r_pixel_feat0 > r_pixel_feat1)
+                ? r_pixel_feat0
+                : r_pixel_feat1;
+
+  assign max_1  = (r_pixel_feat2 > r_pixel_feat3)
+                ? r_pixel_feat2
+                : r_pixel_feat3;
+
+  assign max  = (max_0 > max_1)
+              ? max_0
+              : max_1;
 
   assign pmap = r_max;
 

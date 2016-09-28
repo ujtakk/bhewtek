@@ -1,0 +1,58 @@
+module xxhash32_lut(/*AUTOARG*/);
+//`include "parameters.vh"
+
+  /*AUTOINPUT*/
+  input clk;
+  input xrst;
+  input [4:0] query;
+
+  /*AUTOOUTPUT*/
+  output [2:0] code;
+
+  /*AUTOWIRE*/
+
+  /*AUTOREG*/
+  reg [4:0] r_query;
+  reg [2:0] r_code;
+
+  always @(posedge clk or negedge xrst)
+    if (!xrst)
+      r_query <= 0;
+    else
+      r_query <= query;
+
+  always @(posedge clk or negedge xrst)
+    if (!xrst)
+      r_code <= 0;
+    else
+      case (r_query)
+        5'd1:  r_code <= 3;
+        5'd2:  r_code <= 4;
+        5'd3:  r_code <= 3;
+        5'd4:  r_code <= 4;
+        5'd5:  r_code <= 3;
+        5'd6:  r_code <= 3;
+        5'd7:  r_code <= 4;
+        5'd8:  r_code <= 5;
+        5'd9:  r_code <= 1;
+        5'd10: r_code <= 5;
+        5'd11: r_code <= 1;
+        5'd12: r_code <= 2;
+        5'd13: r_code <= 3;
+        5'd14: r_code <= 1;
+        5'd15: r_code <= 3;
+        5'd16: r_code <= 2;
+        5'd17: r_code <= 2;
+        5'd18: r_code <= 4;
+        5'd19: r_code <= 1;
+        5'd20: r_code <= 4;
+        5'd21: r_code <= 5;
+        5'd22: r_code <= 5;
+        5'd23: r_code <= 1;
+        5'd24: r_code <= 2;
+        5'd25: r_code <= 3;
+      endcase
+
+    assign code = r_code;
+
+endmodule

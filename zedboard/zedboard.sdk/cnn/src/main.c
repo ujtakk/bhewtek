@@ -12,9 +12,9 @@
 #include "misc.h"
 
 #include "data/input_flat.h"
-//#include "data/pmap1_flat.h"
-#include "data/pmap1_flat_true.h"
-#include "data/pmap2_flat_true.h"
+// #include "data/pmap1_flat.h"
+// #include "data/pmap1_flat_true.h"
+// #include "data/pmap2_flat_true.h"
 
 #include "data/w_conv1_flat.h"
 #include "data/b_conv1.h"
@@ -25,13 +25,11 @@
 #include "data/w_output.h"
 #include "data/b_output.h"
 
-int main (void)
+int main(void)
 {
-  int i, j, k, l;
-  int tmp;
-  //s16 pmap1[N_F1][PM1HEI][PM1WID];
-  //s16 pmap2[N_F2][PM2HEI][PM2WID];
-  //s16 w_conv2[N_F2][N_F1][FHEI][FWID];
+  // s16 pmap1[N_F1][PM1HEI][PM1WID];
+  // s16 pmap2[N_F2][PM2HEI][PM2WID];
+  // s16 w_conv2[N_F2][N_F1][FHEI][FWID];
   s16 pmap1_flat[N_F1*PM1HEI*PM1WID] = {};
   s16 pmap2_flat[N_F2*PM2HEI*PM2WID] = {};
   s16 hidden[N_HL];
@@ -52,10 +50,9 @@ int main (void)
    */
 
   // Clear the screen
-  for (i=0; i<60; i++) xil_printf("\n\r");
+  for (int i=0; i<100; i++) xil_printf("\n\r");
 
   init_platform();
-  //test_platform();
 
   // TODO: load data from the SD card using Linux
   /*
@@ -69,26 +66,14 @@ int main (void)
    * load_bias(b_hidden, LABEL);
    */
 
-  post_data(input_flat, w_conv1_flat, N_F1, 1, IMHEI, FHEI);
+  // First Layer
+  post_data(input_flat, w_conv1_flat, N_F1, 1, IMHEI, FHEI, PHEI);
   exec_core();
-  probe_in(input_flat, 1, IMHEI);
-  probe_w(w_conv1_flat, 20, 1, FSIZE);
   get_data(pmap1_flat, N_F1, PM1HEI);
-  //// begin debug ==========================================================
-  //tmp = 0;
-  //for (i=0; i<20; i++) {
-  //  for (j=0; j<144; j++) {
-  //    if (pmap1_flat[144*i+j] != pmap1_flat_true[144*i+j]) {
-  //      printf("fail: %5d    %5d\n", pmap1_flat[144*i+j], pmap1_flat_true[144*i+j]);
-  //      tmp++;
-  //    }
-  //  }
-  //}
-  //printf("%d\n", tmp);
-  //// end debug ============================================================
   post_process(pmap1_flat, b_conv1, N_F1, PM1HEI);
 
-  post_data(pmap1_flat, w_conv2_flat, N_F2, N_F1, PM1HEI, FHEI);
+  // Second Layer
+  post_data(pmap1_flat, w_conv2_flat, N_F2, N_F1, PM1HEI, FHEI, PHEI);
   exec_core();
   get_data(pmap2_flat, N_F2, PM2HEI);
   post_process(pmap2_flat, b_conv2, N_F2, PM2HEI);

@@ -3,9 +3,9 @@
 # SIMULATOR=vcs
 # SIMULATOR=iverilog
 IOC_DIR=.
-TARGET=test_top_first
-# TARGET=test_top
-DIST=../dist
+# TARGET=test_top_first
+TARGET=test_top
+DIST=../ip_repo/copro_1.0/src/
 
 include Makefile.dep
 include VERBMakefile

@@ -20,13 +20,13 @@
 
 /******************************************************************/
 
-/* Definitions for driver AAAASD */
-#define XPAR_AAAASD_NUM_INSTANCES 1
+/* Definitions for driver COPRO */
+#define XPAR_COPRO_NUM_INSTANCES 1
 
-/* Definitions for peripheral AAAASD_0 */
-#define XPAR_AAAASD_0_DEVICE_ID 0
-#define XPAR_AAAASD_0_S_AXI_BASEADDR 0x43C00000
-#define XPAR_AAAASD_0_S_AXI_HIGHADDR 0x43C0FFFF
+/* Definitions for peripheral COPRO_0 */
+#define XPAR_COPRO_0_DEVICE_ID 0
+#define XPAR_COPRO_0_S_AXI_BASEADDR 0x43C00000
+#define XPAR_COPRO_0_S_AXI_HIGHADDR 0x43C0FFFF
 
 
 /******************************************************************/

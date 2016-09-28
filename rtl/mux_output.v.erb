@@ -4,6 +4,7 @@ module mux_output(/*AUTOARG*/);
 
   /*AUTOINPUT*/
   input clk;
+  input xrst;
   input [<%=$core_log%>:0] output_re;
   <%- for i in 0...$core -%>
   input signed [DWIDTH-1:0] read_output<%=i%>;
@@ -20,12 +21,15 @@ module mux_output(/*AUTOARG*/);
   assign read_output = r_output;
 
   always @(posedge clk)
-    case (output_re)
-      4'd0:     r_output <= {DWIDTH{1'b0}};
-      <%- for i in 0...$core -%>
-      4'd<%=i+1%>:     r_output <= read_output<%=i%>;
-      <%- end -%>
-      default:  r_output <= {DWIDTH{1'b0}};
-    endcase
+    if (!xrst)
+      r_output <= 0;
+    else
+      case (output_re)
+        4'd0:     r_output <= {DWIDTH{1'b0}};
+        <%- for i in 0...$core -%>
+        4'd<%=i+1%>:     r_output <= read_output<%=i%>;
+        <%- end -%>
+        default:  r_output <= {DWIDTH{1'b0}};
+      endcase
 
 endmodule

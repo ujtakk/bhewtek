@@ -1,3 +1,12 @@
+/* AUTO_LISP(setq verilog-auto-output-ignore-regexp
+    (verilog-regexp-words `(
+      <%- for n in ["begin", "valid", "end"] -%>
+      "out_core_<%=n%>"
+      "out_conv_<%=n%>"
+      "out_pool_<%=n%>"
+      <%- end -%>
+   ))) */
+
 module newctrl(/*AUTOARG*/);
 `include "parameters.vh"
 <%- load "parameters.rb" -%>

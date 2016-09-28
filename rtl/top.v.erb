@@ -1,16 +1,37 @@
+<%- load "parameters.rb" -%>
+
+// Template to ignore unnecessary output ports.
+// enumerate in quoted list of verilog-regexp-words.
+/* AUTO_LISP (setq verilog-auto-output-ignore-regexp
+    (verilog-regexp-words `(
+      ""
+   ))) */
+
 module top(/*AUTOARG*/);
 `include "parameters.vh"
-<%- load "parameters.rb" -%>
 
   /*AUTOINPUT*/
 
   /*AUTOOUTPUT*/
+% if $debug
+  output signed [DWIDTH-1:0] probe_in;
+%   $core.times do |i|
+  output signed [DWIDTH-1:0] probe_w<%=i%>;
+%   end
+% end
 
   /*AUTOWIRE*/
 
   /*AUTOREG*/
 
   // AUTO_CONSTANT (DWIDTH)
+
+% if $debug
+  assign probe_in = read_input;
+%   $core.times do |i|
+  assign probe_w<%=i%> = read_weight<%=i%>;
+%   end
+% end
 
   /* sram_input AUTO_TEMPLATE (
       .read_data  (read_input[DWIDTH-1:0]),
@@ -35,11 +56,6 @@ module top(/*AUTOARG*/);
   ); */
   sram_weight mem_weight<%=i%>(/*AUTOINST*/);
   <%- end -%>
-
-%#  /* linebuf_pix AUTO_TEMPLATE (
-%#      .read_data (read_input[DWIDTH-1:0]),
-%#  ); */
-%#  linebuf_pix buf_pix(/*AUTOINST*/);
 
   /* linebuf AUTO_TEMPLATE (
       .buf_en     (buf_pix_en),

@@ -94,12 +94,12 @@ init_platform()
      */
     /*ps7_init();*/
     /*psu_init();*/
-    //enable_caches();
+    enable_caches();
     init_uart();
 }
 
 void
 cleanup_platform()
 {
-    //disable_caches();
+    disable_caches();
 }

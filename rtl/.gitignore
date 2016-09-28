@@ -10,3 +10,5 @@ log.txt
 Makefile.dep
 work/
 transcript
+dep.rb
+dep.in

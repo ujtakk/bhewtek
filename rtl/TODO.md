@@ -1,5 +1,3 @@
-* Divide Proj into dir tree
+* Divide Project into dir tree (separate test modules!)
 * ERB description
   - for -> each
-
-* pool madeha itteruppoi ?

@@ -147,7 +147,7 @@ module ctrl_pool(/*AUTOARG*/);
   <%-   for i in 0...$d_poolbuf -%>
   always @(posedge clk)
     if (!xrst)
-      r_pool_<%=n%>_d <= 0;
+      r_pool_<%=n%>_d[<%=i%>] <= 0;
     <%- if i == 0 -%>
     else
       <%- case n -%>

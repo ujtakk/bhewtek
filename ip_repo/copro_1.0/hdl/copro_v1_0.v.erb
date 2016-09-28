@@ -1,0 +1,173 @@
+% load "axi.rb"
+
+`timescale 1 ns / 1 ps
+
+module copro_v1_0 #
+  (
+    // Users to add parameters here
+
+    // User parameters ends
+    // Do not modify the parameters beyond this line
+
+
+    // Parameters of Axi Slave Bus Interface s_axi
+    parameter integer C_s_axi_DATA_WIDTH  = 32,
+    parameter integer C_s_axi_ADDR_WIDTH  = 10
+  )
+  (
+    // Users to add ports here
+
+    // User ports ends
+    // Do not modify the ports beyond this line
+
+
+    // Ports of Axi Slave Bus Interface s_axi
+    input wire  s_axi_aclk,
+    input wire  s_axi_aresetn,
+    input wire [C_s_axi_ADDR_WIDTH-1 : 0] s_axi_awaddr,
+    input wire [2 : 0] s_axi_awprot,
+    input wire  s_axi_awvalid,
+    output wire  s_axi_awready,
+    input wire [C_s_axi_DATA_WIDTH-1 : 0] s_axi_wdata,
+    input wire [(C_s_axi_DATA_WIDTH/8)-1 : 0] s_axi_wstrb,
+    input wire  s_axi_wvalid,
+    output wire  s_axi_wready,
+    output wire [1 : 0] s_axi_bresp,
+    output wire  s_axi_bvalid,
+    input wire  s_axi_bready,
+    input wire [C_s_axi_ADDR_WIDTH-1 : 0] s_axi_araddr,
+    input wire [2 : 0] s_axi_arprot,
+    input wire  s_axi_arvalid,
+    output wire  s_axi_arready,
+    output wire [C_s_axi_DATA_WIDTH-1 : 0] s_axi_rdata,
+    output wire [1 : 0] s_axi_rresp,
+    output wire  s_axi_rvalid,
+    input wire  s_axi_rready
+  );
+// Instantiation of Axi Bus Interface s_axi
+% for i in 0...$port
+  wire [C_s_axi_DATA_WIDTH-1:0]	port<%=i%>;
+% end
+
+  copro_v1_0_s_axi # (
+    .C_S_AXI_DATA_WIDTH(C_s_axi_DATA_WIDTH),
+    .C_S_AXI_ADDR_WIDTH(C_s_axi_ADDR_WIDTH)
+  ) copro_v1_0_s_axi_inst (
+% for i in 0...$port
+    .port<%=i%>(port<%=i%>),
+% end
+    .S_AXI_ACLK(s_axi_aclk),
+    .S_AXI_ARESETN(s_axi_aresetn),
+    .S_AXI_AWADDR(s_axi_awaddr),
+    .S_AXI_AWPROT(s_axi_awprot),
+    .S_AXI_AWVALID(s_axi_awvalid),
+    .S_AXI_AWREADY(s_axi_awready),
+    .S_AXI_WDATA(s_axi_wdata),
+    .S_AXI_WSTRB(s_axi_wstrb),
+    .S_AXI_WVALID(s_axi_wvalid),
+    .S_AXI_WREADY(s_axi_wready),
+    .S_AXI_BRESP(s_axi_bresp),
+    .S_AXI_BVALID(s_axi_bvalid),
+    .S_AXI_BREADY(s_axi_bready),
+    .S_AXI_ARADDR(s_axi_araddr),
+    .S_AXI_ARPROT(s_axi_arprot),
+    .S_AXI_ARVALID(s_axi_arvalid),
+    .S_AXI_ARREADY(s_axi_arready),
+    .S_AXI_RDATA(s_axi_rdata),
+    .S_AXI_RRESP(s_axi_rresp),
+    .S_AXI_RVALID(s_axi_rvalid),
+    .S_AXI_RREADY(s_axi_rready)
+  );
+
+  // Add user logic here
+
+`include "parameters.vh"
+
+  wire               clk;
+  wire               xrst;
+  wire               req;
+  wire               input_we;
+  wire [3:0]         weight_we;
+  wire [3:0]         output_re;
+  wire [LWIDTH-1:0]  total_out;
+  wire [LWIDTH-1:0]  total_in;
+  wire [LWIDTH-1:0]  img_size;
+  wire [LWIDTH-1:0]  fil_size;
+  wire [LWIDTH-1:0]  pool_size;
+  wire [INSIZE-1:0]  input_addr;
+  wire [DWIDTH-1:0]  write_input;
+  wire [WSIZE-1:0]   weight_addr;
+  wire [DWIDTH-1:0]  write_weight;
+  wire [OUTSIZE-1:0] output_addr;
+
+  wire [DWIDTH-1:0]  read_output;
+  wire               ack;
+  wire [DWIDTH-1:0]  probe_in;
+% 8.times do |i|
+  wire [DWIDTH-1:0]  probe_w<%=i%>;
+% end
+
+  assign clk          = s_axi_aclk;
+  assign xrst         = s_axi_aresetn;
+  assign req          = port0[0];
+  assign output_re    = port1[3:0];
+  assign weight_we    = port2[3:0];
+  assign input_we     = port3[0];
+  assign total_out    = port4[7:0];
+  assign total_in     = port5[7:0];
+  assign img_size     = port6[7:0];
+  assign fil_size     = port7[7:0];
+  assign pool_size    = port8[7:0];
+  assign input_addr   = port9[11:0];
+  assign write_input  = port10[15:0];
+  assign weight_addr  = port11[12:0];
+  assign write_weight = port12[15:0];
+  assign output_addr  = port13[9:0];
+
+  assign port255 = {31'b0, ack};
+  assign port254 = {{16{read_output[15]}}, read_output};
+  assign port253 = {{16{probe_in[15]}}, probe_in};
+  assign port252 = {{16{probe_w0[15]}}, probe_w0};
+  assign port251 = {{16{probe_w1[15]}}, probe_w1};
+  assign port250 = {{16{probe_w2[15]}}, probe_w2};
+  assign port249 = {{16{probe_w3[15]}}, probe_w3};
+  assign port248 = {{16{probe_w4[15]}}, probe_w4};
+  assign port247 = {{16{probe_w5[15]}}, probe_w5};
+  assign port246 = {{16{probe_w6[15]}}, probe_w6};
+  assign port245 = {{16{probe_w7[15]}}, probe_w7};
+
+  top top0(/*AUTOINST*/
+    // Outputs
+    .ack          (ack),
+    .read_output  (read_output[DWIDTH-1:0]),
+    .probe_in     (probe_in[DWIDTH-1:0]),
+    .probe_w0     (probe_w0[DWIDTH-1:0]),
+    .probe_w1     (probe_w1[DWIDTH-1:0]),
+    .probe_w2     (probe_w2[DWIDTH-1:0]),
+    .probe_w3     (probe_w3[DWIDTH-1:0]),
+    .probe_w4     (probe_w4[DWIDTH-1:0]),
+    .probe_w5     (probe_w5[DWIDTH-1:0]),
+    .probe_w6     (probe_w6[DWIDTH-1:0]),
+    .probe_w7     (probe_w7[DWIDTH-1:0]),
+    // Inputs
+    .clk          (clk),
+    .fil_size     (fil_size[LWIDTH-1:0]),
+    .img_size     (img_size[LWIDTH-1:0]),
+    .input_addr   (input_addr[INSIZE-1:0]),
+    .input_we     (input_we),
+    .output_addr  (output_addr[OUTSIZE-1:0]),
+    .output_re    (output_re[3:0]),
+    .pool_size    (pool_size[7:0]),
+    .req          (req),
+    .total_in     (total_in[LWIDTH-1:0]),
+    .total_out    (total_out[LWIDTH-1:0]),
+    .weight_addr  (weight_addr[WSIZE-1:0]),
+    .weight_we    (weight_we[3:0]),
+    .write_input  (write_input[DWIDTH-1:0]),
+    .write_weight (write_weight[DWIDTH-1:0]),
+    .xrst         (xrst)
+  );
+
+  // User logic ends
+
+endmodule

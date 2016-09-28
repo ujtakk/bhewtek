@@ -3,9 +3,9 @@
  *     for temporal working.
  * TODO: Therefore, high dimentional load functions are not implemented.
  */
-#include "func_ps.h"
 #include <math.h>
 #include "xil_types.h"
+#include "func_ps.h"
 
 
 
@@ -62,12 +62,12 @@ void load_bias(s16 *bias_vector,
 void full_connect(s16 *input, s16 *output, s16 *weight,
           s16 *bias, const int ilen, const int olen)
 {
-  int i,j;
-  int base = 0;
-  s32 pro;
-  s16 sum=0;
-  for (i=0; i<olen; i++) {
-    for (j=0; j<ilen; j++) {
+  int base  = 0;
+  s32 pro   = 0;
+  s16 sum   = 0;
+
+  for (int i = 0; i < olen; i++) {
+    for (int j = 0; j < ilen; j++) {
       pro = input[j] * weight[base+j] / (int)pow(2,8);
       sum += (s16)pro;
     }
@@ -82,10 +82,9 @@ void full_connect(s16 *input, s16 *output, s16 *weight,
 
 
 
-void activate_1d(s16 *input,const int ilen)
+void activate_1d(s16 *input, const int ilen)
 {
-  int i;
-  for (i=0; i<ilen ;i++)
+  for (int i = 0; i < ilen ;i++)
     if (input[i] < 0)
       input[i] = 0;
 }
@@ -94,18 +93,17 @@ void activate_1d(s16 *input,const int ilen)
 
 
 
-int softmax(double *output,int len)
+int softmax(double *output, int len)
 {
-  int i;
   double expsum=0.0;
 
-  for (i=0; i<len; i++)
+  for (int i = 0; i < len; i++)
     expsum += exp(output[i]);
 
   if (expsum == 0)
     return 1;
   else
-    for (i=0; i<len; i++)
+    for (int i = 0; i < len; i++)
       output[i] = exp(output[i]) / expsum;
 
   return 0;

@@ -3,10 +3,10 @@
 <!--The data in this file is primarily intended for consumption by Xilinx tools.
 The structure and the elements are likely to change over the next few releases.
 This means code written to parse this file will need to be revisited each subsequent release.-->
-<application name="pa" timeStamp="Sat Aug 13 21:09:19 2016">
+<application name="pa" timeStamp="Wed Sep 28 19:49:09 2016">
 <section name="Project Information" visible="false">
 <property name="ProjectID" value="efe2117bb1fc4482aea6bb6d01620306" type="ProjectID"/>
-<property name="ProjectIteration" value="44" type="ProjectIteration"/>
+<property name="ProjectIteration" value="58" type="ProjectIteration"/>
 </section>
 <section name="PlanAhead Usage" visible="true">
 <item name="Project Data">
@@ -17,6 +17,7 @@ This means code written to parse this file will need to be revisited each subseq
 <property name="ImplStrategy" value="Vivado Implementation Defaults" type="ImplStrategy"/>
 </item>
 <item name="Java Command Handlers">
+<property name="CoreView" value="1" type="JavaHandler"/>
 <property name="CreateTopHDL" value="1" type="JavaHandler"/>
 <property name="CustomizeCore" value="5" type="JavaHandler"/>
 <property name="CustomizeRSBBlock" value="1" type="JavaHandler"/>
@@ -24,96 +25,48 @@ This means code written to parse this file will need to be revisited each subseq
 <property name="FileExit" value="2" type="JavaHandler"/>
 <property name="ManageCompositeTargets" value="3" type="JavaHandler"/>
 <property name="MoveToSimSet" value="2" type="JavaHandler"/>
-<property name="NewExportHardware" value="23" type="JavaHandler"/>
-<property name="NewLaunchHardware" value="29" type="JavaHandler"/>
+<property name="NewExportHardware" value="34" type="JavaHandler"/>
+<property name="NewLaunchHardware" value="43" type="JavaHandler"/>
 <property name="NewProject" value="1" type="JavaHandler"/>
-<property name="OpenBlockDesign" value="12" type="JavaHandler"/>
+<property name="OpenBlockDesign" value="21" type="JavaHandler"/>
 <property name="ProjectSettingsCmdHandler" value="5" type="JavaHandler"/>
-<property name="RegenerateRSBLayout" value="2" type="JavaHandler"/>
+<property name="RegenerateRSBLayout" value="3" type="JavaHandler"/>
 <property name="ReportTimingSummary" value="1" type="JavaHandler"/>
-<property name="RunBitgen" value="17" type="JavaHandler"/>
-<property name="RunImplementation" value="26" type="JavaHandler"/>
-<property name="RunSynthesis" value="32" type="JavaHandler"/>
+<property name="RunBitgen" value="21" type="JavaHandler"/>
+<property name="RunImplementation" value="35" type="JavaHandler"/>
+<property name="RunSynthesis" value="43" type="JavaHandler"/>
 <property name="SaveRSBDesign" value="1" type="JavaHandler"/>
 <property name="SetTopNode" value="2" type="JavaHandler"/>
 <property name="ShowHierarchy" value="1" type="JavaHandler"/>
 <property name="ShowSource" value="2" type="JavaHandler"/>
-<property name="ShowView" value="8" type="JavaHandler"/>
+<property name="ShowView" value="13" type="JavaHandler"/>
 <property name="SimulationRun" value="7" type="JavaHandler"/>
 <property name="SimulationRunAll" value="5" type="JavaHandler"/>
 <property name="TclStore" value="1" type="JavaHandler"/>
+<property name="ToggleViewNavigator" value="1" type="JavaHandler"/>
 <property name="ToolsOptions" value="2" type="JavaHandler"/>
 <property name="ToolsTemplates" value="2" type="JavaHandler"/>
-<property name="UpgradeIP" value="31" type="JavaHandler"/>
-<property name="ValidateRSBDesign" value="2" type="JavaHandler"/>
-<property name="ViewTaskImplementation" value="3" type="JavaHandler"/>
+<property name="UpgradeIP" value="39" type="JavaHandler"/>
+<property name="ValidateRSBDesign" value="3" type="JavaHandler"/>
+<property name="ViewTaskImplementation" value="7" type="JavaHandler"/>
 <property name="ViewTaskRTLAnalysis" value="4" type="JavaHandler"/>
 <property name="ViewTaskSynthesis" value="2" type="JavaHandler"/>
 </item>
 <item name="Gui Resources Info">
-<property name="PAResourceCommand.PACommandNames_LANGUAGE_TEMPLATES, Language Templates" value="1" type="GuiResourceData"/>
+<property name="PAResourceCommand.PACommandNames_EXPORT_HARDWARE, Export Hardware..." value="1" type="GuiResourceData"/>
+<property name="PAResourceCommand.PACommandNames_LAUNCH_HARDWARE, Launch SDK" value="1" type="GuiResourceData"/>
 <property name="PAResourceEtoH.GettingStartedView_RECENT_PROJECTS, /ram/home/work/takau/bhewtek/zedboard/zedboard.xpr, 0" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Debug], 70, true" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, SystemVerilog], 77, true" value="2" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Always, Posedge Clocked, Simple Flop], 10, false" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Always, Posedge Clocked, w/ Sync High Reset], 11, false" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Always, Posedge Clocked, w/ Sync Low Reset], 12, false" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Always, Posedge Clocked], 9" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Always], 7" value="2" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Attributes, Clock, Buffer Type, BUFR (CLOCK_BUFFER_TYPE" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Attributes, Clock, Buffer Type, NONE (CLOCK_BUFFER_TYPE" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Attributes, Clock, Buffer Type], 10" value="3" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Attributes, Clock], 9" value="3" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Attributes, I/O], 11" value="2" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Attributes, Info (Synthesis Attributes" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Attributes, Location / Packing, Hierarchical LUT Packing Constraint (HLUTNM" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Attributes, Location / Packing], 16" value="2" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Attributes, Misc, Asynchronous Register Specification (ASYNC_REG" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Attributes, Misc, Mark Signal for Debug (MARK_DEBUG" value="2" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Attributes, Misc], 21" value="2" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Attributes, Synthesis, Black Box(BLACK_BOX" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Attributes, Synthesis, Keep Hierarchy (KEEP_HIERARCHY" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Attributes, Synthesis, Maximum Fanout (MAX_FANOUT" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Attributes, Synthesis, RAM Inference Styles, BlockRAM Implementation (RAM_STYLE=block" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Attributes, Synthesis, RAM Inference Styles, Distributed RAM Implementation (RAM_STYLE=distributed" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Attributes, Synthesis, RAM Inference Styles, Register Implementation (RAM_STYLE=register" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Attributes, Synthesis, RAM Inference Styles], 25" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Attributes, Synthesis], 24" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Attributes], 8" value="2" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Coding Examples, RAM, BlockRAM, Simple Dual Port, 1 Clock w/ Byte-write], 27, false" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Coding Examples, RAM, BlockRAM, Simple Dual Port], 25" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Coding Examples, RAM, BlockRAM, Single Port, Write First Mode], 34, false" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Coding Examples, RAM, BlockRAM, Single Port], 30" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Coding Examples, RAM, BlockRAM], 24" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Coding Examples, RAM], 23" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Coding Examples, ROM/Lookup Table, Using $readmemb], 39, false" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Coding Examples, ROM/Lookup Table, Using 4-bit Case Statement], 41, false" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Coding Examples, ROM/Lookup Table, Using 5-bit Case Statement], 42, false" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Coding Examples, ROM/Lookup Table], 38" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Coding Examples], 9" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Example Modules, RAM, BlockRAM, Simple Dual Port, 1 Clock], 55, false" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Example Modules, RAM, BlockRAM, Simple Dual Port, 2 Clock], 57, false" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Example Modules, RAM, BlockRAM, Simple Dual Port], 54" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Example Modules, RAM, BlockRAM], 53" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Example Modules, RAM], 52" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Example Modules], 49" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Ports], 63" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Signal, Constant  Variable Declarations, Parameter], 68" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Signal, Constant  Variable Declarations, reg, 2-dimensional 2k x 9], 74, false" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Signal, Constant  Variable Declarations, reg, 2-dimensional 8k x 2], 76, false" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Signal, Constant  Variable Declarations, reg], 72" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs, Signal, Constant  Variable Declarations], 67" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog, Synthesis Constructs], 6" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.LanguageTemplatesDialog_TEMPLATES_TREE, [Templates, Verilog], 0" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.MainMenuMgr_REPORT, Report" value="1" type="GuiResourceData"/>
-<property name="PAResourceItoN.MainMenuMgr_TOOLS, Tools" value="5" type="GuiResourceData"/>
-<property name="PAResourceItoN.MainMenuMgr_WINDOW, Window" value="1" type="GuiResourceData"/>
-<property name="RDIResourceCommand.RDICommands_CUSTOM_COMMANDS, Customize Commands" value="1" type="GuiResourceData"/>
+<property name="PAResourceItoN.MainMenuMgr_EXPORT, Export" value="3" type="GuiResourceData"/>
+<property name="PAResourceItoN.MainMenuMgr_FILE, File" value="4" type="GuiResourceData"/>
+<property name="PAResourceItoN.MainMenuMgr_OPEN_RECENT_FILE, Open Recent File" value="2" type="GuiResourceData"/>
+<property name="PAResourceItoN.MainMenuMgr_OPEN_RECENT_PROJECT, Open Recent Project" value="2" type="GuiResourceData"/>
+<property name="PAResourceItoN.NewExportHardwareDialog_INCLUDE_BITSTREAM, Include bitstream, true" value="1" type="GuiResourceData"/>
+<property name="RDIResource.BaseDialog_OK, OK" value="3" type="GuiResourceData"/>
 </item>
 <item name="Other">
-<property name="GuiMode" value="235" type="GuiMode"/>
+<property name="GuiMode" value="256" type="GuiMode"/>
 <property name="BatchMode" value="0" type="BatchMode"/>
-<property name="TclMode" value="146" type="TclMode"/>
+<property name="TclMode" value="161" type="TclMode"/>
 </item>
 </section>
 </application>

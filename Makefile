@@ -1,7 +1,12 @@
 .PHONY: impl data dist clean
 
+run:
+	(cd zedboard/zedboard.sdk/cnn/Debug; \
+		make)
+	xsdk -batch -source scripts/run.tcl
+
 impl:
-	vivado -mode batch -source flow.tcl
+	vivado -mode batch -source scripts/impl.tcl
 
 data:
 	rsync -av okinawa:/home/work/takau/bhewtek/data ./

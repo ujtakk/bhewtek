@@ -37,7 +37,7 @@
 #define INIT  XTime begin, end;
 #define BEGIN XTime_GetTime(&begin);
 #define END   XTime_GetTime(&end);        \
-  printf("%10.6f [ms]\n\n", \
+  printf("elapsed time: %10.6f [ms]\n\n", \
       (double)(end-begin) / COUNTS_PER_SECOND * 1000);
 
 int main(void)

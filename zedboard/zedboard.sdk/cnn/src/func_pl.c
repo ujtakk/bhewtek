@@ -6,20 +6,26 @@
 #include "func_pl.h"
 #include "show.h"
 
+#include "xtime_l.h"
+#define INIT XTime begin, end;
+#define BEGIN XTime_GetTime(&begin);
+#define END   XTime_GetTime(&end); printf("\t%10.6f [ms]\n\n", (double)(end-begin) / COUNTS_PER_SECOND * 1000);
 
 
 
 
-void post_input(s16 *input, int total_in, int img_size)
+
+void post_input(s16 *input, const u16 total_in, const u16 img_size)
 {
-  const int in_size  = total_in * img_size * img_size;
+  const u16 in_size  = total_in * img_size * img_size;
 
-  for (int i = 0; i < in_size; i++) {
-    Xil_Out32(reg_input_addr, i);
+  Xil_Out32(reg_input_we, 0x1);
+  for (u16 i = 0; i < in_size; i++) {
+    // Order "addr -> write_input" is important.
+    Xil_Out32(reg_input_addr,  i);
     Xil_Out32(reg_write_input, input[i]);
-    Xil_Out32(reg_input_we, 0x1);
-    Xil_Out32(reg_input_we, 0x0);
   }
+  Xil_Out32(reg_input_we, 0x0);
   Xil_Out32(reg_input_addr, 0x0);
   Xil_Out32(reg_write_input, 0x0);
 }
@@ -28,22 +34,30 @@ void post_input(s16 *input, int total_in, int img_size)
 
 
 
-void post_weight(s16 *weight, int total_out, int total_in, int fil_size)
+void post_weight(s16 *weight,
+    const u16 total_out, const u16 total_in, const u16 fil_size)
 {
-  int w_mem_addr, core_num;
-  const int w_unit   = total_in * fil_size * fil_size;
-  const int w_size   = total_out * w_unit;
+  u16 w_offset      = 0;
+  u16 w_index       = 0;
+  u16 w_mem_addr    = 0;
+  u16 core_num      = 0;
+  const u16 w_unit  = total_in * fil_size * fil_size;
+  const u16 w_size  = total_out * w_unit;
 
-  for (int i = 0; i < w_size; i++) {
-    if (i % w_unit == 0)
-      core_num = (i / w_unit) % CORE + 1;
-    w_mem_addr = (i / (w_unit * CORE)) * w_unit + i % w_unit;
-    Xil_Out32(reg_weight_addr, w_mem_addr);
+  for (u16 i = 0; i < w_size; i++) {
+    w_offset = i % w_unit;
+    w_index  = i / w_unit;
+    if (w_offset == 0)
+      // Xil_Out32(reg_weight_we, w_index % CORE + 1);
+      core_num = w_index % CORE + 1;
+    w_mem_addr = w_offset + w_unit * (w_index / CORE);
+    Xil_Out32(reg_weight_addr,  w_mem_addr);
     Xil_Out32(reg_write_weight, weight[i]);
-    Xil_Out32(reg_weight_we, core_num);
-    Xil_Out32(reg_weight_we, 0x0);
+    Xil_Out32(reg_weight_we,    core_num);
+    Xil_Out32(reg_weight_we,    0x0);
   }
-  Xil_Out32(reg_weight_addr, 0x0);
+  // Xil_Out32(reg_weight_we,    0x0);
+  Xil_Out32(reg_weight_addr,  0x0);
   Xil_Out32(reg_write_weight, 0x0);
 }
 
@@ -51,13 +65,14 @@ void post_weight(s16 *weight, int total_out, int total_in, int fil_size)
 
 
 
-void post_parameter(int total_out, int total_in, int img_size, int fil_size, int pool_size)
+void post_parameter(const u16 total_out, const u16 total_in,
+    const u16 img_size, const u16 fil_size, const u16 pool_size)
 {
-  Xil_Out32(reg_total_out, total_out);
-  Xil_Out32(reg_total_in, total_in);
-  Xil_Out32(reg_img_size, img_size);
-  Xil_Out32(reg_fil_size, fil_size);
-  Xil_Out32(reg_pool_size, pool_size);
+  Xil_Out32(reg_total_out,  total_out);
+  Xil_Out32(reg_total_in,   total_in);
+  Xil_Out32(reg_img_size,   img_size);
+  Xil_Out32(reg_fil_size,   fil_size);
+  Xil_Out32(reg_pool_size,  pool_size);
 }
 
 
@@ -65,10 +80,14 @@ void post_parameter(int total_out, int total_in, int img_size, int fil_size, int
 
 
 void post_data(s16 *input, s16 *weight,
-    int total_out, int total_in, int img_size, int fil_size, int pool_size)
+    const u16 total_out, const u16 total_in,
+    const u16 img_size, const u16 fil_size, const u16 pool_size)
 {
+  // printf("\tpost_input()\n");
   post_input(input, total_in, img_size);
+  // printf("\tpost_weight()\n");
   post_weight(weight, total_out, total_in, fil_size);
+  // printf("\tpost_parameter()\n");
   post_parameter(total_out, total_in, img_size, fil_size, pool_size);
 }
 
@@ -90,29 +109,27 @@ void exec_core(void)
 
 
 
-void get_data(s16 *output, int total_out, int img_size)
+void get_data(s16 *output, const u16 total_out, const u16 img_size)
 {
+  u16 o_offset    = 0;
+  u16 o_index     = 0;
+  u16 o_mem_addr  = 0;
+  u16 core_num    = 0;
+
   //TODO: split the address of each core.
-  const int o_unit = img_size * img_size;
-  const int o_size = total_out * o_unit;
+  const u16 o_unit = img_size * img_size;
+  const u16 o_size = total_out * o_unit;
 
-  int o_offset, o_index;
-  int o_mem_addr;
-  int core_num, data;
-
-  for (int i = 0; i < o_size; i++) {
+  for (u16 i = 0; i < o_size; i++) {
     o_offset = i % o_unit;
     o_index  = i / o_unit;
     if (o_offset == 0)
       core_num = o_index % CORE + 1;
     o_mem_addr = o_offset + o_unit * (o_index / CORE);
-
-    Xil_Out32(reg_output_addr, o_mem_addr);
-    Xil_Out32(reg_output_re, core_num);
-    data = Xil_In32(reg_read_output);
+    Xil_Out32(reg_output_addr,  o_mem_addr);
+    Xil_Out32(reg_output_re,    core_num);
+    output[i] = Xil_In32(reg_read_output);
     Xil_Out32(reg_output_re, 0x0);
-
-    output[i] = data;
   }
   Xil_Out32(reg_output_addr, 0x0);
 }
@@ -122,9 +139,9 @@ void get_data(s16 *output, int total_out, int img_size)
 
 
 // TODO: insert this process to pl
-void post_process(s16 *pmap, s16 *bias, int total_out, int img_size)
+void post_process(s16 *pmap, s16 *bias, const u16 total_out, const u16 img_size)
 {
-  int img_area = img_size * img_size;
+  const u16 img_area = img_size * img_size;
 
   for (int i = 0; i < total_out; i++)
     for (int j = 0; j < img_area; j++)

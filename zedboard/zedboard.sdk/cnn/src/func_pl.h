@@ -38,14 +38,18 @@
 #define reg_probe_w6     XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG246_OFFSET
 #define reg_probe_w7     XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG245_OFFSET
 
-void post_input(s16 *input, int total_in, int img_size);
-void post_weight(s16 *weight, int total_out, int total_in, int fil_size);
-void post_parameter(int total_out, int total_in, int img_size, int fil_size, int pool_size);
+void post_input(s16 *input, const u16 total_in, const u16 img_size);
+void post_weight(s16 *weight,
+    const u16 total_out, const u16 total_in, const u16 fil_size);
+void post_parameter(const u16 total_out, const u16 total_in,
+    const u16 img_size, const u16 fil_size, const u16 pool_size);
 void post_data(s16 *input, s16 *weight,
-    int total_out, int total_in, int img_size, int fil_size, int pool_size);
+    const u16 total_out, const u16 total_in,
+    const u16 img_size, const u16 fil_size, const u16 pool_size);
 void exec_core(void);
-void get_data(s16 *output, int total_out, int img_size);
-void post_process(s16 *pmap, s16 *bias, int total_out, int img_size);
+void get_data(s16 *output, const u16 total_out, const u16 img_size);
+void post_process(s16 *pmap, s16 *bias,
+    const u16 total_out, const u16 img_size);
 void test_platform(void);
 
 #endif

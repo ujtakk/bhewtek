@@ -94,8 +94,8 @@ int load_b(char *filename,double *d,int *li)
   return 0;
 }
 
-int load_data_1d(char *filename,double *d1,int *li1,double *d2,
-         int *li2,const int length)
+int load_data_1d(char *filename, double *d1, int *li1, double *d2,
+         int *li2, const int length)
 {
   FILE *fp;
   int i;
@@ -115,7 +115,7 @@ int load_data_1d(char *filename,double *d1,int *li1,double *d2,
 }
 
 /*memory allocation for each type and dimension*/
-double **dmalloc_2d(int size1,int size2)
+double **dmalloc_2d(int size1, int size2)
 {
   int i;
   double **target;

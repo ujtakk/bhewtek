@@ -66,6 +66,7 @@ module ctrl_core(/*AUTOARG*/
   reg [LWIDTH-1:0]  r_weight_y;
   reg               r_bias;
   reg [WSIZE-1:0]   r_weight_addr;
+  reg [WSIZE-1:0]   r_weight_offset;
   reg [LWIDTH-1:0]  r_input_x;
   reg [LWIDTH-1:0]  r_input_y;
   reg [INSIZE-1:0]  r_input_addr;
@@ -680,12 +681,19 @@ module ctrl_core(/*AUTOARG*/
 // weight control
 //==========================================================
 
-  assign mem_weight_addr = weight_addr + r_weight_addr;
+  // assign mem_weight_addr = weight_addr + r_weight_addr;
+  assign mem_weight_addr = r_weight_addr + r_weight_offset;
 
   assign s_weight_end     = (r_state == S_WEIGHT)
                               && r_weight_x == r_fil_size - 1
                               && r_weight_y == r_fil_size - 1;
   //assign s_weight_end     = r_bias;
+
+  always @(posedge clk)
+    if (!xrst)
+      r_weight_offset <= 0;
+    else if (req || ack)
+      r_weight_offset <= weight_addr;
 
   always @(posedge clk)
     if (!xrst)
@@ -1314,7 +1322,7 @@ module ctrl_core(/*AUTOARG*/
 
   always @(posedge clk)
     if (!xrst)
-      r_ack <= 0;
+      r_ack <= 1;
     else if (req)
       r_ack <= 0;
     else if (s_output_end && r_count_out + CORE >= r_total_out)

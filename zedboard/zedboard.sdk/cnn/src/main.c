@@ -1,4 +1,5 @@
 #define ENABLE_COPRO
+#define ASSIGN
 
 #include "cnn.h"
 
@@ -37,7 +38,7 @@
 #define INIT  XTime begin, end;
 #define BEGIN XTime_GetTime(&begin);
 #define END   XTime_GetTime(&end);        \
-  printf("%10.6f [ms]\n\n", \
+  printf("elapsed time: %10.6f [ms]\n\n", \
       (double)(end-begin) / COUNTS_PER_SECOND * 1000);
 
 int main(void)
@@ -77,6 +78,21 @@ int main(void)
    */
 
 #ifdef ENABLE_COPRO
+#ifdef ASSIGN
+  assign_weight(w_conv1_flat, 0, N_F1, 1, FHEI);
+  assign_weight(w_conv2_flat, 75, N_F2, N_F1, FHEI);
+
+  BEGIN
+  assign_data(input_flat, 0, N_F1, 1, IMHEI, FHEI, PHEI);
+  exec_core();
+  get_data(pmap1_flat, N_F1, PM1HEI);
+  post_process(pmap1_flat, b_conv1, N_F1, PM1HEI);
+
+  assign_data(pmap1_flat, 75, N_F2, N_F1, PM1HEI, FHEI, PHEI);
+  exec_core();
+  get_data(pmap2_flat, N_F2, PM2HEI);
+  post_process(pmap2_flat, b_conv2, N_F2, PM2HEI);
+#else
   // First Layer
   printf("post_data(input_flat, w_conv1_flat)\n");
   BEGIN
@@ -112,17 +128,18 @@ int main(void)
   BEGIN
   post_process(pmap2_flat, b_conv2, N_F2, PM2HEI);
   END
+#endif
 #else
   /*
-   * For simplication of impl and performance,
-   * we use fixed-length array.
+   * For simplication of impl and retainment of performance,
+   * we use multi-dimentional fixed-length array.
    * (Therefore iterations are not functionalized.)
    */
   /* layer1 */
-  printf("conv(input, w_conv1, fmap1)\n");
-  printf("max_pooling(fmap1, pmap1)\n");
-  printf("add_bias(pmap1, b_conv1)\n");
-  printf("activate(pmap1)\n");
+  // printf("conv(input, w_conv1, fmap1)\n");
+  // printf("max_pooling(fmap1, pmap1)\n");
+  // printf("add_bias(pmap1, b_conv1)\n");
+  // printf("activate(pmap1)\n");
   BEGIN
   for (int i = 0; i < N_F1; i++) {
     // printf("conv(input, w_conv1[i], fmap1[i])\n");
@@ -161,14 +178,12 @@ int main(void)
         if (pmap1[i][k][l] < 0)
           pmap1[i][k][l] = 0;
   }
-  END
 
   /* layer2 */
-  printf("conv(pmap1, w_conv2, fmap2)\n");
-  printf("max_pooling(fmap2, pmap2)\n");
-  printf("add_bias(pmap2, b_conv2)\n");
-  printf("activate(pmap2)\n");
-  BEGIN
+  // printf("conv(pmap1, w_conv2, fmap2)\n");
+  // printf("max_pooling(fmap2, pmap2)\n");
+  // printf("add_bias(pmap2, b_conv2)\n");
+  // printf("activate(pmap2)\n");
   for (int i = 0; i < N_F2; i++) {
     // printf("conv(pmap1, w_conv2[i], fmap2[i])\n");
     for (int j = 0; j < N_F1; j++) {
@@ -206,43 +221,29 @@ int main(void)
         if (pmap2[i][k][l] < 0)
           pmap2[i][k][l] = 0;
   }
-  END
 
-  printf("flatten(pmap2, pmap2_flat)\n");
-  BEGIN
+  // printf("flatten(pmap2, pmap2_flat)\n");
   for (int i = 0; i < N_F2; i++)
     for (int j = 0; j < PM2HEI; j++)
       for (int k = 0;  k < PM2WID; k++)
         pmap2_flat[i*PM2HEI*PM2WID+j*PM2WID+k] = pmap2[i][j][k];
-  END
 #endif
   /************************************************************
    * calculate fully connected layers on CPU
    * because these layers has tendency to be data intensive.
    ************************************************************/
-  printf("full_connect(pmap2_flat, hidden)\n");
-  BEGIN
+  // printf("full_connect(pmap2_flat, hidden)\n");
   full_connect(pmap2_flat, hidden,
                 w_hidden, b_hidden, PM2HEI*PM2WID*N_F2, N_HL);
-  END
-  printf("activate_1d(hidden)\n");
-  BEGIN
+  // printf("activate_1d(hidden)\n");
   activate_1d(hidden, N_HL);
-  END
 
-  printf("full_connect(hidden, output)\n");
-  BEGIN
+  // printf("full_connect(hidden, output)\n");
   full_connect(hidden, output,
                 w_output, b_output, N_HL, LABEL);
   END
 
   print_result(output);
-
-#ifdef ENABLE_COPRO
-  printf("tsuke mono\n");
-#else
-  printf("maki zushi\n");
-#endif
 
   cleanup_platform();
 

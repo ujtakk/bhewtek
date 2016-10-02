@@ -1,7 +1,7 @@
 Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| Tool Version     : Vivado v.2016.1 (lin64) Build 1538259 Fri Apr  8 15:45:23 MDT 2016
-| Date             : Wed Sep 28 19:23:00 2016
+| Tool Version     : Vivado v.2016.2 (lin64) Build 1577090 Thu Jun  2 16:32:35 MDT 2016
+| Date             : Mon Oct  3 00:58:06 2016
 | Host             : mai running 64-bit Debian GNU/Linux 8.6 (jessie)
 | Command          : report_power -file cnn_system_wrapper_power_routed.rpt -pb cnn_system_wrapper_power_summary_routed.pb -rpx cnn_system_wrapper_power_routed.rpx
 | Design           : cnn_system_wrapper
@@ -30,12 +30,12 @@ Table of Contents
 ----------
 
 +--------------------------+--------+
-| Total On-Chip Power (W)  | 2.479  |
-| Dynamic (W)              | 2.296  |
-| Device Static (W)        | 0.184  |
+| Total On-Chip Power (W)  | 2.466  |
+| Dynamic (W)              | 2.283  |
+| Device Static (W)        | 0.183  |
 | Effective TJA (C/W)      | 11.5   |
-| Max Ambient (C)          | 56.4   |
-| Junction Temperature (C) | 53.6   |
+| Max Ambient (C)          | 56.6   |
+| Junction Temperature (C) | 53.4   |
 | Confidence Level         | Medium |
 | Setting File             | ---    |
 | Simulation Activity File | ---    |
@@ -50,20 +50,20 @@ Table of Contents
 | On-Chip                  | Power (W) | Used     | Available | Utilization (%) |
 +--------------------------+-----------+----------+-----------+-----------------+
 | Clocks                   |     0.102 |        3 |       --- |             --- |
-| Slice Logic              |     0.149 |    44788 |       --- |             --- |
+| Slice Logic              |     0.149 |    44800 |       --- |             --- |
 |   LUT as Logic           |     0.116 |    15287 |     53200 |           28.73 |
 |   CARRY4                 |     0.013 |     1362 |     13300 |           10.24 |
-|   Register               |     0.011 |    22773 |    106400 |           21.40 |
+|   Register               |     0.011 |    22785 |    106400 |           21.41 |
 |   LUT as Distributed RAM |     0.007 |      648 |     17400 |            3.72 |
 |   F7/F8 Muxes            |    <0.001 |     1760 |     53200 |            3.31 |
 |   LUT as Shift Register  |    <0.001 |      207 |     17400 |            1.19 |
 |   Others                 |     0.000 |      390 |       --- |             --- |
-| Signals                  |     0.279 |    39229 |       --- |             --- |
+| Signals                  |     0.265 |    39241 |       --- |             --- |
 | Block RAM                |     0.082 |       38 |       140 |           27.14 |
 | DSPs                     |     0.155 |      200 |       220 |           90.91 |
 | PS7                      |     1.529 |        1 |       --- |             --- |
-| Static Power             |     0.184 |          |           |                 |
-| Total                    |     2.479 |          |           |                 |
+| Static Power             |     0.183 |          |           |                 |
+| Total                    |     2.466 |          |           |                 |
 +--------------------------+-----------+----------+-----------+-----------------+
 
 
@@ -73,7 +73,7 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) |
 +-----------+-------------+-----------+-------------+------------+
-| Vccint    |       1.000 |     0.783 |       0.760 |      0.023 |
+| Vccint    |       1.000 |     0.770 |       0.747 |      0.023 |
 | Vccaux    |       1.800 |     0.022 |       0.000 |      0.022 |
 | Vcco33    |       3.300 |     0.001 |       0.000 |      0.001 |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |
@@ -149,12 +149,12 @@ Table of Contents
 +--------------------------------------------------+-----------+
 | Name                                             | Power (W) |
 +--------------------------------------------------+-----------+
-| cnn_system_wrapper                               |     2.296 |
-|   cnn_system_i                                   |     2.296 |
-|     copro_0                                      |     0.754 |
-|       inst                                       |     0.754 |
-|         copro_v1_0_s_axi_inst                    |     0.061 |
-|         top0                                     |     0.693 |
+| cnn_system_wrapper                               |     2.283 |
+|   cnn_system_i                                   |     2.283 |
+|     copro_0                                      |     0.741 |
+|       inst                                       |     0.741 |
+|         copro_v1_0_s_axi_inst                    |     0.062 |
+|         top0                                     |     0.679 |
 |           buf_pix                                |     0.011 |
 |             buff0                                |     0.001 |
 |               mem_reg_0_31_0_5                   |    <0.001 |
@@ -180,7 +180,7 @@ Table of Contents
 |               mem_reg_0_31_0_5                   |    <0.001 |
 |               mem_reg_0_31_12_15                 |    <0.001 |
 |               mem_reg_0_31_6_11                  |    <0.001 |
-|           core0                                  |     0.073 |
+|           core0                                  |     0.072 |
 |             buf_feat                             |     0.004 |
 |               buff0                              |    <0.001 |
 |                 mem_reg_0_31_0_5                 |    <0.001 |
@@ -207,12 +207,12 @@ Table of Contents
 |                 mem_reg_0_31_12_15               |    <0.001 |
 |                 mem_reg_0_31_6_11                |    <0.001 |
 |             conv                                 |     0.065 |
-|               tree                               |     0.060 |
+|               tree                               |     0.059 |
 |               wreg                               |     0.005 |
 |             feat_accum                           |    <0.001 |
 |             mem_feat                             |     0.002 |
 |             pool                                 |     0.001 |
-|           core1                                  |     0.075 |
+|           core1                                  |     0.070 |
 |             buf_feat                             |     0.004 |
 |               buff0                              |    <0.001 |
 |                 mem_reg_0_31_0_5                 |    <0.001 |
@@ -238,13 +238,109 @@ Table of Contents
 |                 mem_reg_0_31_0_5                 |    <0.001 |
 |                 mem_reg_0_31_12_15               |    <0.001 |
 |                 mem_reg_0_31_6_11                |    <0.001 |
-|             conv                                 |     0.067 |
-|               tree                               |     0.061 |
-|               wreg                               |     0.006 |
+|             conv                                 |     0.063 |
+|               tree                               |     0.057 |
+|               wreg                               |     0.005 |
 |             feat_accum                           |    <0.001 |
 |             mem_feat                             |     0.002 |
 |             pool                                 |     0.001 |
-|           core2                                  |     0.071 |
+|           core2                                  |     0.070 |
+|             buf_feat                             |     0.004 |
+|               buff0                              |    <0.001 |
+|                 mem_reg_0_31_0_5                 |    <0.001 |
+|                 mem_reg_0_31_12_15               |    <0.001 |
+|                 mem_reg_0_31_6_11                |    <0.001 |
+|               buff1                              |    <0.001 |
+|                 mem_reg_0_31_0_5                 |    <0.001 |
+|                 mem_reg_0_31_12_15               |    <0.001 |
+|                 mem_reg_0_31_6_11                |    <0.001 |
+|               buff2                              |    <0.001 |
+|                 mem_reg_0_31_0_5                 |    <0.001 |
+|                 mem_reg_0_31_12_15               |    <0.001 |
+|                 mem_reg_0_31_6_11                |    <0.001 |
+|               buff3                              |    <0.001 |
+|                 mem_reg_0_31_0_5                 |    <0.001 |
+|                 mem_reg_0_31_12_15               |    <0.001 |
+|                 mem_reg_0_31_6_11                |    <0.001 |
+|               buff4                              |    <0.001 |
+|                 mem_reg_0_31_0_5                 |    <0.001 |
+|                 mem_reg_0_31_12_15               |    <0.001 |
+|                 mem_reg_0_31_6_11                |    <0.001 |
+|               buff5                              |    <0.001 |
+|                 mem_reg_0_31_0_5                 |    <0.001 |
+|                 mem_reg_0_31_12_15               |    <0.001 |
+|                 mem_reg_0_31_6_11                |    <0.001 |
+|             conv                                 |     0.063 |
+|               tree                               |     0.058 |
+|               wreg                               |     0.005 |
+|             feat_accum                           |    <0.001 |
+|             mem_feat                             |     0.002 |
+|             pool                                 |     0.001 |
+|           core3                                  |     0.070 |
+|             buf_feat                             |     0.004 |
+|               buff0                              |    <0.001 |
+|                 mem_reg_0_31_0_5                 |    <0.001 |
+|                 mem_reg_0_31_12_15               |    <0.001 |
+|                 mem_reg_0_31_6_11                |    <0.001 |
+|               buff1                              |    <0.001 |
+|                 mem_reg_0_31_0_5                 |    <0.001 |
+|                 mem_reg_0_31_12_15               |    <0.001 |
+|                 mem_reg_0_31_6_11                |    <0.001 |
+|               buff2                              |    <0.001 |
+|                 mem_reg_0_31_0_5                 |    <0.001 |
+|                 mem_reg_0_31_12_15               |    <0.001 |
+|                 mem_reg_0_31_6_11                |    <0.001 |
+|               buff3                              |    <0.001 |
+|                 mem_reg_0_31_0_5                 |    <0.001 |
+|                 mem_reg_0_31_12_15               |    <0.001 |
+|                 mem_reg_0_31_6_11                |    <0.001 |
+|               buff4                              |    <0.001 |
+|                 mem_reg_0_31_0_5                 |    <0.001 |
+|                 mem_reg_0_31_12_15               |    <0.001 |
+|                 mem_reg_0_31_6_11                |    <0.001 |
+|               buff5                              |    <0.001 |
+|                 mem_reg_0_31_0_5                 |    <0.001 |
+|                 mem_reg_0_31_12_15               |    <0.001 |
+|                 mem_reg_0_31_6_11                |    <0.001 |
+|             conv                                 |     0.063 |
+|               tree                               |     0.057 |
+|               wreg                               |     0.005 |
+|             feat_accum                           |    <0.001 |
+|             mem_feat                             |     0.002 |
+|             pool                                 |     0.001 |
+|           core4                                  |     0.071 |
+|             buf_feat                             |     0.004 |
+|               buff0                              |    <0.001 |
+|                 mem_reg_0_31_0_5                 |    <0.001 |
+|                 mem_reg_0_31_12_15               |    <0.001 |
+|                 mem_reg_0_31_6_11                |    <0.001 |
+|               buff1                              |    <0.001 |
+|                 mem_reg_0_31_0_5                 |    <0.001 |
+|                 mem_reg_0_31_12_15               |    <0.001 |
+|                 mem_reg_0_31_6_11                |    <0.001 |
+|               buff2                              |    <0.001 |
+|                 mem_reg_0_31_0_5                 |    <0.001 |
+|                 mem_reg_0_31_12_15               |    <0.001 |
+|                 mem_reg_0_31_6_11                |    <0.001 |
+|               buff3                              |    <0.001 |
+|                 mem_reg_0_31_0_5                 |    <0.001 |
+|                 mem_reg_0_31_12_15               |    <0.001 |
+|                 mem_reg_0_31_6_11                |    <0.001 |
+|               buff4                              |    <0.001 |
+|                 mem_reg_0_31_0_5                 |    <0.001 |
+|                 mem_reg_0_31_12_15               |    <0.001 |
+|                 mem_reg_0_31_6_11                |    <0.001 |
+|               buff5                              |    <0.001 |
+|                 mem_reg_0_31_0_5                 |    <0.001 |
+|                 mem_reg_0_31_12_15               |    <0.001 |
+|                 mem_reg_0_31_6_11                |    <0.001 |
+|             conv                                 |     0.063 |
+|               tree                               |     0.058 |
+|               wreg                               |     0.005 |
+|             feat_accum                           |    <0.001 |
+|             mem_feat                             |     0.002 |
+|             pool                                 |     0.001 |
+|           core5                                  |     0.072 |
 |             buf_feat                             |     0.004 |
 |               buff0                              |    <0.001 |
 |                 mem_reg_0_31_0_5                 |    <0.001 |
@@ -271,12 +367,12 @@ Table of Contents
 |                 mem_reg_0_31_12_15               |    <0.001 |
 |                 mem_reg_0_31_6_11                |    <0.001 |
 |             conv                                 |     0.064 |
-|               tree                               |     0.058 |
+|               tree                               |     0.059 |
 |               wreg                               |     0.005 |
 |             feat_accum                           |    <0.001 |
 |             mem_feat                             |     0.002 |
 |             pool                                 |     0.001 |
-|           core3                                  |     0.073 |
+|           core6                                  |     0.074 |
 |             buf_feat                             |     0.004 |
 |               buff0                              |    <0.001 |
 |                 mem_reg_0_31_0_5                 |    <0.001 |
@@ -303,12 +399,12 @@ Table of Contents
 |                 mem_reg_0_31_12_15               |    <0.001 |
 |                 mem_reg_0_31_6_11                |    <0.001 |
 |             conv                                 |     0.066 |
-|               tree                               |     0.060 |
-|               wreg                               |     0.006 |
+|               tree                               |     0.061 |
+|               wreg                               |     0.005 |
 |             feat_accum                           |    <0.001 |
 |             mem_feat                             |     0.002 |
 |             pool                                 |     0.001 |
-|           core4                                  |     0.073 |
+|           core7                                  |     0.082 |
 |             buf_feat                             |     0.004 |
 |               buff0                              |    <0.001 |
 |                 mem_reg_0_31_0_5                 |    <0.001 |
@@ -334,110 +430,14 @@ Table of Contents
 |                 mem_reg_0_31_0_5                 |    <0.001 |
 |                 mem_reg_0_31_12_15               |    <0.001 |
 |                 mem_reg_0_31_6_11                |    <0.001 |
-|             conv                                 |     0.065 |
-|               tree                               |     0.060 |
-|               wreg                               |     0.006 |
-|             feat_accum                           |    <0.001 |
-|             mem_feat                             |     0.002 |
-|             pool                                 |    <0.001 |
-|           core5                                  |     0.073 |
-|             buf_feat                             |     0.004 |
-|               buff0                              |    <0.001 |
-|                 mem_reg_0_31_0_5                 |    <0.001 |
-|                 mem_reg_0_31_12_15               |    <0.001 |
-|                 mem_reg_0_31_6_11                |    <0.001 |
-|               buff1                              |    <0.001 |
-|                 mem_reg_0_31_0_5                 |    <0.001 |
-|                 mem_reg_0_31_12_15               |    <0.001 |
-|                 mem_reg_0_31_6_11                |    <0.001 |
-|               buff2                              |    <0.001 |
-|                 mem_reg_0_31_0_5                 |    <0.001 |
-|                 mem_reg_0_31_12_15               |    <0.001 |
-|                 mem_reg_0_31_6_11                |    <0.001 |
-|               buff3                              |    <0.001 |
-|                 mem_reg_0_31_0_5                 |    <0.001 |
-|                 mem_reg_0_31_12_15               |    <0.001 |
-|                 mem_reg_0_31_6_11                |    <0.001 |
-|               buff4                              |    <0.001 |
-|                 mem_reg_0_31_0_5                 |    <0.001 |
-|                 mem_reg_0_31_12_15               |    <0.001 |
-|                 mem_reg_0_31_6_11                |    <0.001 |
-|               buff5                              |    <0.001 |
-|                 mem_reg_0_31_0_5                 |    <0.001 |
-|                 mem_reg_0_31_12_15               |    <0.001 |
-|                 mem_reg_0_31_6_11                |    <0.001 |
-|             conv                                 |     0.066 |
-|               tree                               |     0.060 |
-|               wreg                               |     0.006 |
-|             feat_accum                           |    <0.001 |
-|             mem_feat                             |     0.002 |
-|             pool                                 |    <0.001 |
-|           core6                                  |     0.073 |
-|             buf_feat                             |     0.004 |
-|               buff0                              |    <0.001 |
-|                 mem_reg_0_31_0_5                 |    <0.001 |
-|                 mem_reg_0_31_12_15               |    <0.001 |
-|                 mem_reg_0_31_6_11                |    <0.001 |
-|               buff1                              |    <0.001 |
-|                 mem_reg_0_31_0_5                 |    <0.001 |
-|                 mem_reg_0_31_12_15               |    <0.001 |
-|                 mem_reg_0_31_6_11                |    <0.001 |
-|               buff2                              |    <0.001 |
-|                 mem_reg_0_31_0_5                 |    <0.001 |
-|                 mem_reg_0_31_12_15               |    <0.001 |
-|                 mem_reg_0_31_6_11                |    <0.001 |
-|               buff3                              |    <0.001 |
-|                 mem_reg_0_31_0_5                 |    <0.001 |
-|                 mem_reg_0_31_12_15               |    <0.001 |
-|                 mem_reg_0_31_6_11                |    <0.001 |
-|               buff4                              |    <0.001 |
-|                 mem_reg_0_31_0_5                 |    <0.001 |
-|                 mem_reg_0_31_12_15               |    <0.001 |
-|                 mem_reg_0_31_6_11                |    <0.001 |
-|               buff5                              |    <0.001 |
-|                 mem_reg_0_31_0_5                 |    <0.001 |
-|                 mem_reg_0_31_12_15               |    <0.001 |
-|                 mem_reg_0_31_6_11                |    <0.001 |
-|             conv                                 |     0.066 |
-|               tree                               |     0.060 |
-|               wreg                               |     0.006 |
-|             feat_accum                           |    <0.001 |
-|             mem_feat                             |     0.002 |
-|             pool                                 |     0.001 |
-|           core7                                  |     0.084 |
-|             buf_feat                             |     0.004 |
-|               buff0                              |    <0.001 |
-|                 mem_reg_0_31_0_5                 |    <0.001 |
-|                 mem_reg_0_31_12_15               |    <0.001 |
-|                 mem_reg_0_31_6_11                |    <0.001 |
-|               buff1                              |    <0.001 |
-|                 mem_reg_0_31_0_5                 |    <0.001 |
-|                 mem_reg_0_31_12_15               |    <0.001 |
-|                 mem_reg_0_31_6_11                |    <0.001 |
-|               buff2                              |    <0.001 |
-|                 mem_reg_0_31_0_5                 |    <0.001 |
-|                 mem_reg_0_31_12_15               |    <0.001 |
-|                 mem_reg_0_31_6_11                |    <0.001 |
-|               buff3                              |    <0.001 |
-|                 mem_reg_0_31_0_5                 |    <0.001 |
-|                 mem_reg_0_31_12_15               |    <0.001 |
-|                 mem_reg_0_31_6_11                |    <0.001 |
-|               buff4                              |    <0.001 |
-|                 mem_reg_0_31_0_5                 |    <0.001 |
-|                 mem_reg_0_31_12_15               |    <0.001 |
-|                 mem_reg_0_31_6_11                |    <0.001 |
-|               buff5                              |    <0.001 |
-|                 mem_reg_0_31_0_5                 |    <0.001 |
-|                 mem_reg_0_31_12_15               |    <0.001 |
-|                 mem_reg_0_31_6_11                |    <0.001 |
-|             conv                                 |     0.077 |
-|               tree                               |     0.071 |
-|               wreg                               |     0.006 |
+|             conv                                 |     0.074 |
+|               tree                               |     0.069 |
+|               wreg                               |     0.005 |
 |             feat_accum                           |    <0.001 |
 |             mem_feat                             |     0.002 |
 |             pool                                 |     0.001 |
 |           ctrl                                   |     0.010 |
-|             ctrl_conv                            |     0.002 |
+|             ctrl_conv                            |     0.001 |
 |             ctrl_core                            |     0.008 |
 |             ctrl_pool                            |    <0.001 |
 |           dec_weight                             |    <0.001 |
@@ -454,13 +454,13 @@ Table of Contents
 |           mem_weight1                            |     0.005 |
 |           mem_weight2                            |     0.005 |
 |           mem_weight3                            |     0.004 |
-|           mem_weight4                            |     0.004 |
-|           mem_weight5                            |     0.004 |
+|           mem_weight4                            |     0.005 |
+|           mem_weight5                            |     0.005 |
 |           mem_weight6                            |     0.005 |
 |           mem_weight7                            |     0.005 |
 |           select_out                             |    <0.001 |
-|     processing_system7_0                         |     1.534 |
-|       inst                                       |     1.534 |
+|     processing_system7_0                         |     1.535 |
+|       inst                                       |     1.535 |
 |     processing_system7_0_axi_periph              |     0.007 |
 |       s00_couplers                               |     0.007 |
 |         auto_pc                                  |     0.007 |

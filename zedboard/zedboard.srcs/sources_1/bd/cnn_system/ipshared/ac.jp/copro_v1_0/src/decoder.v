@@ -1,3 +1,5 @@
+// TODO: parameterize r_code
+
 module decoder(/*AUTOARG*/
    // Outputs
    out_code,

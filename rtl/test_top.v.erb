@@ -1,4 +1,5 @@
 `timescale 1ns/1ps
+% offset = 75
 
 module test_top();
 `include "parameters.vh"
@@ -64,20 +65,21 @@ module test_top();
     // input_addr = 0;
     // write_input = 0;
 
-    read_weight_direct;
-    // read_weight;
-    // <%- for n in 0...$core -%>
-    // weight_we = 4'd<%=n+1%>;
-    // for (i=0; i<2**WSIZE; i=i+1)
-    // begin
-    //  weight_addr = i;
-    //  write_weight = mem_w<%=n%>[i];
-    //  #(STEP);
-    // end
-    // weight_we = 4'd0;
-    // weight_addr = 0;
-    // write_weight = 0;
-    // <%- end -%>
+    // read_weight_direct;
+    read_weight;
+    <%- for n in 0...$core -%>
+    weight_we = 4'd<%=n+1%>;
+    for (i=0; i<2**WSIZE; i=i+1)
+    begin
+     weight_addr = i;
+     #(STEP);
+     write_weight = mem_w<%=n%>[i];
+     #(STEP);
+    end
+    weight_we = 4'd0;
+    weight_addr = 0;
+    write_weight = 0;
+    <%- end -%>
 
     // $toggle_start();
     #(STEP);
@@ -89,7 +91,7 @@ module test_top();
     total_in      = N_F1;
     total_out     = N_F2;
     input_addr    = 0;
-    weight_addr   = 0;
+    weight_addr   = <%=offset%>;
     input_we      = 0;
     write_input   = 0;
     write_weight  = 0;
@@ -184,14 +186,48 @@ module test_top();
 
   task read_weight;
     begin
+      <%- for i in 0...$n_f1/$core -%>
+      <%-   for j in 0...1 -%>
+      <%-     for k in 0...$core -%>
+      $readmemb(
+        "../data/mnist/lenet/bwb_1/data<%=$core*i+k%>_<%=j%>.bin",
+        mem_w<%=k%>,
+        <%=($fsize**2)*(1*i+j)%>,
+        <%=($fsize**2)*(1*i+j+1)-1%>
+      );
+      <%-     end -%>
+      <%-   end -%>
+      <%- end -%>
+      <%- if $n_f1 % $core != 0 -%>
+      <%-   for j in 0...1 -%>
+      <%-     for k in 0...$core -%>
+      <%-       if ($n_f1 - ($n_f1 % $core) + k) < $n_f1 -%>
+      $readmemb(
+        "../data/mnist/lenet/bwb_1/data<%=$n_f1-($n_f1%$core)+k%>_<%=j%>.bin",
+        mem_w<%=k%>,
+        <%=($fsize**2)*(1*($n_f1/$core)+j)%>,
+        <%=($fsize**2)*(1*($n_f1/$core)+j+1)-1%>
+      );
+      <%-       else -%>
+      $readmemb(
+        "../data/mnist/lenet/bwb_1/null.bin",
+        mem_w<%=k%>,
+        <%=($fsize**2)*(1*($n_f1/$core)+j)%>,
+        <%=($fsize**2)*(1*($n_f1/$core)+j+1)-1%>
+      );
+      <%-       end -%>
+      <%-     end -%>
+      <%-   end -%>
+      <%- end -%>
+
       <%- for i in 0...$n_f2/$core -%>
       <%-   for j in 0...$n_f1 -%>
       <%-   for k in 0...$core -%>
       $readmemb(
         "../data/mnist/lenet/bwb_2/data<%=$core*i+k%>_<%=j%>.bin",
         mem_w<%=k%>,
-        <%=($fsize**2)*($n_f1*i+j)%>,
-        <%=($fsize**2)*($n_f1*i+j+1)-1%>
+        <%=($fsize**2)*($n_f1*i+j)%> + <%=offset%>,
+        <%=($fsize**2)*($n_f1*i+j+1)-1%> + <%=offset%>
       );
       <%-   end -%>
       <%-   end -%>
@@ -203,15 +239,15 @@ module test_top();
       $readmemb(
         "../data/mnist/lenet/bwb_2/data<%=$n_f2-($n_f2%$core)+k%>_<%=j%>.bin",
         mem_w<%=k%>,
-        <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%>,
-        <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%>
+        <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%> + <%=offset%>,
+        <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%> + <%=offset%>
       );
       <%-     else -%>
       $readmemb(
         "../data/mnist/lenet/bwb_2/null.bin",
         mem_w<%=k%>,
-        <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%>,
-        <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%>
+        <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%> + <%=offset%>,
+        <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%> + <%=offset%>
       );
       <%-     end -%>
       <%-   end -%>
@@ -222,14 +258,48 @@ module test_top();
 
   task read_weight_direct;
     begin
+      <%- for i in 0...$n_f1/$core -%>
+      <%-   for j in 0...1 -%>
+      <%-     for k in 0...$core -%>
+      $readmemb(
+        "../data/mnist/lenet/bwb_1/data<%=$core*i+k%>_<%=j%>.bin",
+        dut0.mem_weight<%=k%>.mem,
+        <%=($fsize**2)*(1*i+j)%>,
+        <%=($fsize**2)*(1*i+j+1)-1%>
+      );
+      <%-     end -%>
+      <%-   end -%>
+      <%- end -%>
+      <%- if $n_f1 % $core != 0 -%>
+      <%-   for j in 0...1 -%>
+      <%-     for k in 0...$core -%>
+      <%-       if ($n_f1 - ($n_f1 % $core) + k) < $n_f1 -%>
+      $readmemb(
+        "../data/mnist/lenet/bwb_1/data<%=$n_f1-($n_f1%$core)+k%>_<%=j%>.bin",
+        dut0.mem_weight<%=k%>.mem,
+        <%=($fsize**2)*(1*($n_f1/$core)+j)%>,
+        <%=($fsize**2)*(1*($n_f1/$core)+j+1)-1%>
+      );
+      <%-       else -%>
+      $readmemb(
+        "../data/mnist/lenet/bwb_1/null.bin",
+        dut0.mem_weight<%=k%>.mem,
+        <%=($fsize**2)*(1*($n_f1/$core)+j)%>,
+        <%=($fsize**2)*(1*($n_f1/$core)+j+1)-1%>
+      );
+      <%-       end -%>
+      <%-     end -%>
+      <%-   end -%>
+      <%- end -%>
+
       <%- for i in 0...$n_f2/$core -%>
       <%-   for j in 0...$n_f1 -%>
       <%-   for k in 0...$core -%>
       $readmemb(
         "../data/mnist/lenet/bwb_2/data<%=$core*i+k%>_<%=j%>.bin",
         dut0.mem_weight<%=k%>.mem,
-        <%=($fsize**2)*($n_f1*i+j)%>,
-        <%=($fsize**2)*($n_f1*i+j+1)-1%>
+        <%=($fsize**2)*($n_f1*i+j)%> + <%=offset%>,
+        <%=($fsize**2)*($n_f1*i+j+1)-1%> + <%=offset%>
       );
       <%-   end -%>
       <%-   end -%>
@@ -241,15 +311,15 @@ module test_top();
       $readmemb(
         "../data/mnist/lenet/bwb_2/data<%=$n_f2-($n_f2%$core)+k%>_<%=j%>.bin",
         dut0.mem_weight<%=k%>.mem,
-        <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%>,
-        <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%>
+        <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%> + <%=offset%>,
+        <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%> + <%=offset%>
       );
       <%-     else -%>
       $readmemb(
         "../data/mnist/lenet/bwb_2/null.bin",
         dut0.mem_weight<%=k%>.mem,
-        <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%>,
-        <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%>
+        <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%> + <%=offset%>,
+        <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%> + <%=offset%>
       );
       <%-     end -%>
       <%-   end -%>
@@ -279,7 +349,9 @@ module test_top();
         #(STEP*2);
         $fdisplay(fd, "%0d", read_output);
       end
-      output_re = 0;
+      output_addr = 0;
+      output_re   = 0;
+      #(STEP);
       $fclose(fd);
     end
   endtask

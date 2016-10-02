@@ -2,6 +2,9 @@
 <?scdStore version="2"?><scannerInfo id="org.eclipse.cdt.make.core.discoveredScannerInfo">
 <instance id="xilinx.gnu.armv7.exe.debug.22600921;xilinx.gnu.armv7.exe.debug.22600921.">
 <collector id="org.eclipse.cdt.make.core.PerProjectSICollector">
+<includePath path="/ram/mnt_opt/opt/xilinx/SDK/2016.2/gnu/aarch32/lin/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/4.9.2/include"/>
+<includePath path="/ram/mnt_opt/opt/xilinx/SDK/2016.2/gnu/aarch32/lin/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/4.9.2/include-fixed"/>
+<includePath path="/ram/mnt_opt/opt/xilinx/SDK/2016.2/gnu/aarch32/lin/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/4.9.2/../../../../arm-none-eabi/include"/>
 <includePath path="/ram/mnt_opt/opt/xilinx/SDK/2016.1/gnu/aarch32/lin/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/4.9.2/include"/>
 <includePath path="/ram/mnt_opt/opt/xilinx/SDK/2016.1/gnu/aarch32/lin/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/4.9.2/include-fixed"/>
 <includePath path="/ram/mnt_opt/opt/xilinx/SDK/2016.1/gnu/aarch32/lin/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/4.9.2/../../../../arm-none-eabi/include"/>
@@ -696,6 +699,9 @@
 </instance>
 <instance id="xilinx.gnu.armv7.exe.debug.22600921;xilinx.gnu.armv7.exe.debug.22600921.;xilinx.gnu.armv7.c.toolchain.compiler.debug.235937883;xilinx.gnu.armv7.c.compiler.input.1383174205">
 <collector id="org.eclipse.cdt.make.core.PerProjectSICollector">
+<includePath path="/ram/mnt_opt/opt/xilinx/SDK/2016.2/gnu/aarch32/lin/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/4.9.2/include"/>
+<includePath path="/ram/mnt_opt/opt/xilinx/SDK/2016.2/gnu/aarch32/lin/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/4.9.2/include-fixed"/>
+<includePath path="/ram/mnt_opt/opt/xilinx/SDK/2016.2/gnu/aarch32/lin/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/4.9.2/../../../../arm-none-eabi/include"/>
 <includePath path="/ram/mnt_opt/opt/xilinx/SDK/2016.1/gnu/aarch32/lin/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/4.9.2/include"/>
 <includePath path="/ram/mnt_opt/opt/xilinx/SDK/2016.1/gnu/aarch32/lin/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/4.9.2/include-fixed"/>
 <includePath path="/ram/mnt_opt/opt/xilinx/SDK/2016.1/gnu/aarch32/lin/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/4.9.2/../../../../arm-none-eabi/include"/>

@@ -50,7 +50,7 @@
 // IP VLNV: ac.jp:user:copro:1.0
 // IP Revision: 6
 
-(* X_CORE_INFO = "copro_v1_0,Vivado 2016.1" *)
+(* X_CORE_INFO = "copro_v1_0,Vivado 2016.2" *)
 (* CHECK_LICENSE_TYPE = "cnn_system_copro_0_0,copro_v1_0,{}" *)
 (* DowngradeIPIdentifiedWarnings = "yes" *)
 module cnn_system_copro_0_0 (

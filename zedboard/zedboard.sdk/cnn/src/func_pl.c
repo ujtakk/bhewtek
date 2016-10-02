@@ -65,6 +65,37 @@ void post_weight(s16 *weight,
 
 
 
+void assign_weight(s16 *weight, const u16 offset,
+    const u16 total_out, const u16 total_in, const u16 fil_size)
+{
+  u16 w_offset      = 0;
+  u16 w_index       = 0;
+  u16 w_mem_addr    = 0;
+  u16 core_num      = 0;
+  const u16 w_unit  = total_in * fil_size * fil_size;
+  const u16 w_size  = total_out * w_unit;
+
+  for (u16 i = 0; i < w_size; i++) {
+    w_offset = i % w_unit;
+    w_index  = i / w_unit;
+    if (w_offset == 0)
+      // Xil_Out32(reg_weight_we, w_index % CORE + 1);
+      core_num = w_index % CORE + 1;
+    w_mem_addr = offset + w_offset + w_unit * (w_index / CORE);
+    Xil_Out32(reg_weight_addr,  w_mem_addr);
+    Xil_Out32(reg_write_weight, weight[i]);
+    Xil_Out32(reg_weight_we,    core_num);
+    Xil_Out32(reg_weight_we,    0x0);
+  }
+  // Xil_Out32(reg_weight_we,    0x0);
+  Xil_Out32(reg_weight_addr,  0x0);
+  Xil_Out32(reg_write_weight, 0x0);
+}
+
+
+
+
+
 void post_parameter(const u16 total_out, const u16 total_in,
     const u16 img_size, const u16 fil_size, const u16 pool_size)
 {
@@ -87,6 +118,22 @@ void post_data(s16 *input, s16 *weight,
   post_input(input, total_in, img_size);
   // printf("\tpost_weight()\n");
   post_weight(weight, total_out, total_in, fil_size);
+  // printf("\tpost_parameter()\n");
+  post_parameter(total_out, total_in, img_size, fil_size, pool_size);
+}
+
+
+
+
+
+void assign_data(s16 *input, const u16 weight_addr,
+    const u16 total_out, const u16 total_in,
+    const u16 img_size, const u16 fil_size, const u16 pool_size)
+{
+  // printf("\tpost_input()\n");
+  post_input(input, total_in, img_size);
+  // printf("\tpost_weight()\n");
+  Xil_Out32(reg_weight_addr,  weight_addr);
   // printf("\tpost_parameter()\n");
   post_parameter(total_out, total_in, img_size, fil_size, pool_size);
 }
@@ -154,8 +201,6 @@ void post_process(s16 *pmap, s16 *bias, const u16 total_out, const u16 img_size)
 
 
 
-// TODO: Observe How values are influenced
-//        by reading and writing on interface registers.
 void test_platform(void)
 {
   COPRO_Reg_SelfTest((int *)XPAR_COPRO_0_S_AXI_BASEADDR);

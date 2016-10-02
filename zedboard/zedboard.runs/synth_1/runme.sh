@@ -7,16 +7,16 @@
 # 
 
 if [ -z "$PATH" ]; then
-  PATH=/opt/xilinx/SDK/2016.1/bin:/opt/xilinx/Vivado/2016.1/ids_lite/ISE/bin/lin64:/opt/xilinx/Vivado/2016.1/bin
+  PATH=/opt/xilinx/SDK/2016.2/bin:/opt/xilinx/Vivado/2016.2/ids_lite/ISE/bin/lin64:/opt/xilinx/Vivado/2016.2/bin
 else
-  PATH=/opt/xilinx/SDK/2016.1/bin:/opt/xilinx/Vivado/2016.1/ids_lite/ISE/bin/lin64:/opt/xilinx/Vivado/2016.1/bin:$PATH
+  PATH=/opt/xilinx/SDK/2016.2/bin:/opt/xilinx/Vivado/2016.2/ids_lite/ISE/bin/lin64:/opt/xilinx/Vivado/2016.2/bin:$PATH
 fi
 export PATH
 
 if [ -z "$LD_LIBRARY_PATH" ]; then
-  LD_LIBRARY_PATH=/opt/xilinx/Vivado/2016.1/ids_lite/ISE/lib/lin64
+  LD_LIBRARY_PATH=/opt/xilinx/Vivado/2016.2/ids_lite/ISE/lib/lin64
 else
-  LD_LIBRARY_PATH=/opt/xilinx/Vivado/2016.1/ids_lite/ISE/lib/lin64:$LD_LIBRARY_PATH
+  LD_LIBRARY_PATH=/opt/xilinx/Vivado/2016.2/ids_lite/ISE/lib/lin64:$LD_LIBRARY_PATH
 fi
 export LD_LIBRARY_PATH
 

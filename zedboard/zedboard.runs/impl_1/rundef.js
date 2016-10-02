@@ -12,9 +12,9 @@ var WshShell = new ActiveXObject( "WScript.Shell" );
 var ProcEnv = WshShell.Environment( "Process" );
 var PathVal = ProcEnv("PATH");
 if ( PathVal.length == 0 ) {
-  PathVal = "/opt/xilinx/SDK/2016.1/bin:/opt/xilinx/Vivado/2016.1/ids_lite/ISE/bin/lin64;/opt/xilinx/Vivado/2016.1/ids_lite/ISE/lib/lin64;/opt/xilinx/Vivado/2016.1/bin;";
+  PathVal = "/opt/xilinx/SDK/2016.2/bin:/opt/xilinx/Vivado/2016.2/ids_lite/ISE/bin/lin64;/opt/xilinx/Vivado/2016.2/ids_lite/ISE/lib/lin64;/opt/xilinx/Vivado/2016.2/bin;";
 } else {
-  PathVal = "/opt/xilinx/SDK/2016.1/bin:/opt/xilinx/Vivado/2016.1/ids_lite/ISE/bin/lin64;/opt/xilinx/Vivado/2016.1/ids_lite/ISE/lib/lin64;/opt/xilinx/Vivado/2016.1/bin;" + PathVal;
+  PathVal = "/opt/xilinx/SDK/2016.2/bin:/opt/xilinx/Vivado/2016.2/ids_lite/ISE/bin/lin64;/opt/xilinx/Vivado/2016.2/ids_lite/ISE/lib/lin64;/opt/xilinx/Vivado/2016.2/bin;" + PathVal;
 }
 
 ProcEnv("PATH") = PathVal;
@@ -27,7 +27,7 @@ eval( EAInclude(ISEJScriptLib) );
 
 
 // pre-commands:
-ISETouchFile( "write_bitstream", "begin" );
+ISETouchFile( "init_design", "begin" );
 ISEStep( "vivado",
          "-log cnn_system_wrapper.vdi -applog -m64 -messageDb vivado.pb -mode batch -source cnn_system_wrapper.tcl -notrace" );
 

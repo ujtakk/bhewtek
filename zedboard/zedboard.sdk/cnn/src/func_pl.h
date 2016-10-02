@@ -41,9 +41,14 @@
 void post_input(s16 *input, const u16 total_in, const u16 img_size);
 void post_weight(s16 *weight,
     const u16 total_out, const u16 total_in, const u16 fil_size);
+void assign_weight(s16 *weight, const u16 offset,
+    const u16 total_out, const u16 total_in, const u16 fil_size);
 void post_parameter(const u16 total_out, const u16 total_in,
     const u16 img_size, const u16 fil_size, const u16 pool_size);
 void post_data(s16 *input, s16 *weight,
+    const u16 total_out, const u16 total_in,
+    const u16 img_size, const u16 fil_size, const u16 pool_size);
+void assign_data(s16 *input, const u16 weight_addr,
     const u16 total_out, const u16 total_in,
     const u16 img_size, const u16 fil_size, const u16 pool_size);
 void exec_core(void);

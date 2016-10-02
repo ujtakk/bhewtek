@@ -1,3 +1,6 @@
+
+// Template to ignore unnecessary output ports.
+// enumerate in quoted list of verilog-regexp-words.
 /* AUTO_LISP (setq verilog-auto-output-ignore-regexp
     (verilog-regexp-words `(
       ""

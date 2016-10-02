@@ -1,0 +1,204 @@
+#include <stdio.h>
+#include <stdint.h>
+#include <limits.h>
+#include <time.h>
+
+#include "data/input.h"
+#include "data/w_conv1.h"
+#include "data/b_conv1.h"
+#include "data/w_conv2.h"
+#include "data/b_conv2.h"
+#include "data/w_hidden.h"
+#include "data/b_hidden.h"
+#include "data/w_output.h"
+#include "data/b_output.h"
+
+#define FWID    5
+#define FHEI    5
+#define IMWID   28
+#define IMHEI   28
+#define PWID    2
+#define PHEI    2
+#define N_F1    20
+#define N_F2    50
+#define N_HL    500
+#define LABEL   10
+
+#define CORE    8
+#define DWIDTH  16
+#define LWIDTH  8
+#define INSIZE  12
+#define FSIZE   5
+#define PSIZE   2
+#define OUTSIZE 10
+#define WSIZE   13
+#define IFMSIZE 9
+#define FACCUM  7
+#define PACCUM  8
+
+#define FM1HEI (IMHEI-FHEI+1)
+#define FM1WID (IMWID-FWID+1)
+#define PM1HEI FM1HEI/PHEI
+#define PM1WID FM1WID/PWID
+#define FM2HEI (PM1HEI-FHEI+1)
+#define FM2WID (PM1WID-FWID+1)
+#define PM2HEI FM2HEI/PHEI
+#define PM2WID FM2WID/PWID
+
+#define SHIFT 256
+
+typedef int16_t s16;
+typedef int32_t s32;
+
+void print_result(s16 *output)
+{
+  int number  = -1;
+  int max     = INT_MIN;
+
+  for (int i = 0; i < LABEL; i++) {
+    printf("%d\n",output[i]);
+
+    if (max < output[i]) {
+      max = output[i];
+      number = i;
+    }
+  }
+
+  printf("the answer is %d.\n", number);
+}
+
+void full_connect(s16 *input, s16 *output, s16 *weight,
+          s16 *bias, const int ilen, const int olen)
+{
+  int base = 0;
+
+  for (int i = 0; i < olen; i++) {
+    s16 sum = bias[i];
+    for (int j = 0; j < ilen; j++) {
+      s32 pro = input[j] * weight[base+j];
+      if (pro >= 0) sum += pro / SHIFT;
+      else          sum += pro / SHIFT - 1;
+    }
+    output[i] = sum;
+    base += ilen;
+  }
+}
+
+void activate_1d(s16 *input, const int ilen)
+{
+  for (int i = 0; i < ilen; i++)
+    if (input[i] < 0)
+      input[i] = 0;
+}
+
+s16 mul(s16 input, s16 weight)
+{
+  s32 pro = input * weight;
+  if (pro >= 0)
+    return (s16)(pro / SHIFT);
+  else
+    return (s16)(pro / SHIFT - 1);
+}
+
+int main(void)
+{
+  clock_t start, end;
+
+  s16 fmap1[N_F1][FM1HEI][FM1WID];
+  s16 pmap1[N_F1][PM1HEI][PM1WID];
+  s16 fmap2[N_F2][FM2HEI][FM2WID];
+  s16 pmap2[N_F2][PM2HEI][PM2WID];
+  s16 pmap2_flat[N_F2*PM2HEI*PM2WID];
+  s16 hidden[N_HL];
+  s16 output[LABEL];
+
+  start = clock();
+  for (int i = 0; i < N_F1; i++) {
+    for (int j = 0; j < 1; j++) {
+      for (int k = 0; k < FM1HEI; k++) {
+        for (int l = 0; l < FM1WID; l++) {
+          int sum = 0;
+          for (int m = 0; m < FHEI; m++)
+            for (int n = 0; n < FWID; n++)
+              sum += mul(input[j][k+m][l+n], w_conv1[i][j][m][n]);
+          if (j == 0)
+            fmap1[i][k][l] = sum;
+          else
+            fmap1[i][k][l] += sum;
+        }
+      }
+    }
+    for (int k = 0; k < FM1HEI; k += PHEI) {
+      for (int l = 0; l < FM1WID; l += PWID) {
+        int max = INT_MIN;
+        for (int m = 0;  m < PHEI; m++)
+          for (int n = 0; n < PWID; n++)
+            if (fmap1[i][k+m][l+n] > max)
+              max = fmap1[i][k+m][l+n];
+        pmap1[i][k/PHEI][l/PWID] = max;
+      }
+    }
+    for (int k = 0; k < PM1HEI; k++)
+      for (int l = 0; l < PM1WID; l++)
+        pmap1[i][k][l] += b_conv1[i];
+    for (int k = 0; k < PM1HEI; k++)
+      for (int l = 0; l < PM1WID; l++)
+        if (pmap1[i][k][l] < 0)
+          pmap1[i][k][l] = 0;
+  }
+
+  /* layer2 */
+  for (int i = 0; i < N_F2; i++) {
+    for (int j = 0; j < N_F1; j++) {
+      for (int k = 0; k < FM2HEI; k++) {
+        for (int l = 0; l < FM2WID; l++) {
+          int sum = 0;
+          for (int m = 0; m < FHEI; m++)
+            for (int n = 0; n < FWID; n++)
+              sum += mul(pmap1[j][k+m][l+n], w_conv2[i][j][m][n]);
+          if (j == 0)
+            fmap2[i][k][l] = sum;
+          else
+            fmap2[i][k][l] += sum;
+        }
+      }
+    }
+    for (int k = 0; k < FM2HEI; k += PHEI) {
+      for (int l = 0; l < FM2WID; l += PWID) {
+        int max = INT_MIN;
+        for (int m = 0;  m < PHEI; m++)
+          for (int n = 0; n < PWID; n++)
+            if (fmap2[i][k+m][l+n] > max)
+              max = fmap2[i][k+m][l+n];
+        pmap2[i][k/PHEI][l/PWID] = max;
+      }
+    }
+    for (int k = 0; k < PM2HEI; k++)
+      for (int l = 0; l < PM2WID; l++)
+        pmap2[i][k][l] += b_conv2[i];
+    for (int k = 0; k < PM2HEI; k++)
+      for (int l = 0; l < PM2WID; l++)
+        if (pmap2[i][k][l] < 0)
+          pmap2[i][k][l] = 0;
+  }
+
+  for (int i = 0; i < N_F2; i++)
+    for (int j = 0; j < PM2HEI; j++)
+      for (int k = 0;  k < PM2WID; k++)
+        pmap2_flat[i*PM2HEI*PM2WID+j*PM2WID+k] = pmap2[i][j][k];
+
+  full_connect(pmap2_flat, hidden,
+                w_hidden, b_hidden, PM2HEI*PM2WID*N_F2, N_HL);
+  activate_1d(hidden, N_HL);
+
+  full_connect(hidden, output,
+                w_output, b_output, N_HL, LABEL);
+
+  end = clock();
+  printf("elapsed time: %10.6f [ms]\n",
+              (double)(end-start)/CLOCKS_PER_SEC*1000);
+
+  print_result(output);
+
+  return 0;
+}

@@ -63,11 +63,11 @@
  * 
  * fifo_generator_vlog_beh.v
  *    |
- *    +-fifo_generator_v13_1_0_bhv_ver_as
+ *    +-fifo_generator_v13_1_1_bhv_ver_as
  *    |
- *    +-fifo_generator_v13_1_0_bhv_ver_ss
+ *    +-fifo_generator_v13_1_1_bhv_ver_ss
  *    |
- *    +-fifo_generator_v13_1_0_bhv_ver_preload0
+ *    +-fifo_generator_v13_1_1_bhv_ver_preload0
  * 
  *******************************************************************************
  * Description:
@@ -1128,7 +1128,7 @@ module fifo_generator_vlog_beh
 
   generate if (C_INTERFACE_TYPE == 0) begin : conv_fifo
 
-    fifo_generator_v13_1_0_CONV_VER
+    fifo_generator_v13_1_1_CONV_VER
       #(
         .C_COMMON_CLOCK 		(C_COMMON_CLOCK),
         .C_INTERFACE_TYPE 		(C_INTERFACE_TYPE),
@@ -1196,7 +1196,7 @@ module fifo_generator_vlog_beh
         .C_AXI_TYPE                     (C_AXI_TYPE),
         .C_SYNCHRONIZER_STAGE           (C_SYNCHRONIZER_STAGE)
       )
-    fifo_generator_v13_1_0_conv_dut
+    fifo_generator_v13_1_1_conv_dut
       (
         .BACKUP                   (BACKUP),
         .BACKUP_MARKER            (BACKUP_MARKER),
@@ -1302,7 +1302,7 @@ reg r_inv_pad_0 = 0;
    genvar l;
 
    generate for (l = 1; ((l <= C_SYNCHRONIZER_STAGE) && (C_HAS_DATA_COUNTS_AXIS == 3 && C_INTERFACE_TYPE == 0) ); l = l + 1) begin : g_cnt_sync_stage
-     fifo_generator_v13_1_0_sync_stage
+     fifo_generator_v13_1_1_sync_stage
        #(
          .C_WIDTH  (LOG_WR_DEPTH)
         )
@@ -1447,7 +1447,7 @@ reg r_inv_pad_0 = 0;
     assign axis_wr_en = (C_HAS_SLAVE_CE == 1)  ? axis_we & S_ACLK_EN : axis_we;
     assign axis_rd_en = (C_HAS_MASTER_CE == 1) ? axis_re & M_ACLK_EN : axis_re;
 
-    fifo_generator_v13_1_0_CONV_VER
+    fifo_generator_v13_1_1_CONV_VER
       #(
         .C_FAMILY			(C_FAMILY),
         .C_COMMON_CLOCK                 (C_COMMON_CLOCK),
@@ -1520,7 +1520,7 @@ reg r_inv_pad_0 = 0;
         .C_WR_FREQ			(C_WR_FREQ),
         .C_WR_RESPONSE_LATENCY		(C_WR_RESPONSE_LATENCY)
       )
-    fifo_generator_v13_1_0_axis_dut
+    fifo_generator_v13_1_1_axis_dut
       (
         .CLK                      (S_ACLK),
         .WR_CLK                   (S_ACLK),
@@ -1643,7 +1643,7 @@ end endgenerate //rst_blk_no
    genvar i;
 
    generate for (i = 1; ((i <= C_SYNCHRONIZER_STAGE) && (C_APPLICATION_TYPE_AXIS == 1 && C_COMMON_CLOCK == 0) ); i = i + 1) begin : gpkt_cnt_sync_stage
-     fifo_generator_v13_1_0_sync_stage
+     fifo_generator_v13_1_1_sync_stage
        #(
          .C_WIDTH  (LOG_DEPTH_AXIS)
         )
@@ -1655,7 +1655,7 @@ end endgenerate //rst_blk_no
          .DOUT     (wpkt_q[i])
         );
  
-     fifo_generator_v13_1_0_sync_stage
+     fifo_generator_v13_1_1_sync_stage
        #(
          .C_WIDTH  (1)
         )
@@ -1791,7 +1791,7 @@ end endgenerate //rst_blk_no
     assign axis_wr_en = (C_HAS_SLAVE_CE == 1)  ? S_AXIS_TVALID & S_ACLK_EN : S_AXIS_TVALID;
     assign axis_rd_en = (C_HAS_MASTER_CE == 1) ? M_AXIS_TREADY & M_ACLK_EN : M_AXIS_TREADY;
 
-    fifo_generator_v13_1_0_axic_reg_slice
+    fifo_generator_v13_1_1_axic_reg_slice
           #(
             .C_FAMILY                (C_FAMILY),
             .C_DATA_WIDTH            (C_DIN_WIDTH_AXIS),
@@ -1973,7 +1973,7 @@ end endgenerate //rst_blk_no
     assign wach_wr_en = (C_HAS_SLAVE_CE == 1)  ? wach_we & S_ACLK_EN : wach_we;
     assign wach_rd_en = (C_HAS_MASTER_CE == 1) ? wach_re & M_ACLK_EN : wach_re;
 
-    fifo_generator_v13_1_0_CONV_VER
+    fifo_generator_v13_1_1_CONV_VER
       #(
         .C_FAMILY			(C_FAMILY),
         .C_COMMON_CLOCK                 (C_COMMON_CLOCK),
@@ -2046,7 +2046,7 @@ end endgenerate //rst_blk_no
         .C_WR_FREQ			(C_WR_FREQ),
         .C_WR_RESPONSE_LATENCY		(C_WR_RESPONSE_LATENCY)
       )
-    fifo_generator_v13_1_0_wach_dut
+    fifo_generator_v13_1_1_wach_dut
       (
         .CLK                      (S_ACLK),
         .WR_CLK                   (S_ACLK),
@@ -2106,7 +2106,7 @@ end endgenerate //rst_blk_no
   // Register Slice for Write Address Channel
   generate if (C_WACH_TYPE == 1) begin : gwach_reg_slice
 
-    fifo_generator_v13_1_0_axic_reg_slice
+    fifo_generator_v13_1_1_axic_reg_slice
           #(
             .C_FAMILY                (C_FAMILY),
             .C_DATA_WIDTH            (C_DIN_WIDTH_WACH),
@@ -2132,7 +2132,7 @@ end endgenerate //rst_blk_no
   
   generate if (C_APPLICATION_TYPE_WACH == 1 && C_HAS_AXI_WR_CHANNEL == 1) begin : axi_mm_pkt_fifo_wr
 
-    fifo_generator_v13_1_0_axic_reg_slice
+    fifo_generator_v13_1_1_axic_reg_slice
           #(
             .C_FAMILY                (C_FAMILY),
             .C_DATA_WIDTH            (C_DIN_WIDTH_WACH),
@@ -2193,7 +2193,7 @@ end endgenerate //rst_blk_no
     assign wdch_rd_en = (C_HAS_MASTER_CE == 1) ? wdch_re & M_ACLK_EN : wdch_re;
 
 
-    fifo_generator_v13_1_0_CONV_VER
+    fifo_generator_v13_1_1_CONV_VER
       #(
         .C_FAMILY			(C_FAMILY),
         .C_COMMON_CLOCK                 (C_COMMON_CLOCK),
@@ -2266,7 +2266,7 @@ end endgenerate //rst_blk_no
         .C_WR_FREQ			(C_WR_FREQ),
         .C_WR_RESPONSE_LATENCY		(C_WR_RESPONSE_LATENCY)
       )
-    fifo_generator_v13_1_0_wdch_dut
+    fifo_generator_v13_1_1_wdch_dut
       (
         .CLK                      (S_ACLK),
         .WR_CLK                   (S_ACLK),
@@ -2327,7 +2327,7 @@ end endgenerate //rst_blk_no
   // Register Slice for Write Data Channel
   generate if (C_WDCH_TYPE == 1) begin : gwdch_reg_slice
 
-    fifo_generator_v13_1_0_axic_reg_slice
+    fifo_generator_v13_1_1_axic_reg_slice
           #(
             .C_FAMILY                (C_FAMILY),
             .C_DATA_WIDTH            (C_DIN_WIDTH_WDCH),
@@ -2360,7 +2360,7 @@ end endgenerate //rst_blk_no
     assign wrch_wr_en = (C_HAS_MASTER_CE == 1)  ? wrch_we & M_ACLK_EN : wrch_we;
     assign wrch_rd_en = (C_HAS_SLAVE_CE == 1) ? wrch_re & S_ACLK_EN : wrch_re;
 
-    fifo_generator_v13_1_0_CONV_VER
+    fifo_generator_v13_1_1_CONV_VER
       #(
         .C_FAMILY			(C_FAMILY),
         .C_COMMON_CLOCK                 (C_COMMON_CLOCK),
@@ -2433,7 +2433,7 @@ end endgenerate //rst_blk_no
         .C_WR_FREQ			(C_WR_FREQ),
         .C_WR_RESPONSE_LATENCY		(C_WR_RESPONSE_LATENCY)
       )
-    fifo_generator_v13_1_0_wrch_dut
+    fifo_generator_v13_1_1_wrch_dut
       (
         .CLK                      (S_ACLK),
         .WR_CLK                   (M_ACLK),
@@ -2493,7 +2493,7 @@ end endgenerate //rst_blk_no
   // Register Slice for Write Response Channel
   generate if (C_WRCH_TYPE == 1) begin : gwrch_reg_slice
 
-    fifo_generator_v13_1_0_axic_reg_slice
+    fifo_generator_v13_1_1_axic_reg_slice
           #(
             .C_FAMILY                (C_FAMILY),
             .C_DATA_WIDTH            (C_DIN_WIDTH_WRCH),
@@ -2740,7 +2740,7 @@ end endgenerate //rst_blk_no
     assign rach_rd_en = (C_HAS_MASTER_CE == 1) ? rach_re & M_ACLK_EN : rach_re;
 
 
-    fifo_generator_v13_1_0_CONV_VER
+    fifo_generator_v13_1_1_CONV_VER
       #(
         .C_FAMILY			(C_FAMILY),
         .C_COMMON_CLOCK                 (C_COMMON_CLOCK),
@@ -2813,7 +2813,7 @@ end endgenerate //rst_blk_no
         .C_WR_FREQ			(C_WR_FREQ),
         .C_WR_RESPONSE_LATENCY		(C_WR_RESPONSE_LATENCY)
       )
-    fifo_generator_v13_1_0_rach_dut
+    fifo_generator_v13_1_1_rach_dut
       (
         .CLK                      (S_ACLK),
         .WR_CLK                   (S_ACLK),
@@ -2873,7 +2873,7 @@ end endgenerate //rst_blk_no
   // Register Slice for Read Address Channel
   generate if (C_RACH_TYPE == 1) begin : grach_reg_slice
 
-    fifo_generator_v13_1_0_axic_reg_slice
+    fifo_generator_v13_1_1_axic_reg_slice
           #(
             .C_FAMILY                (C_FAMILY),
             .C_DATA_WIDTH            (C_DIN_WIDTH_RACH),
@@ -2900,7 +2900,7 @@ end endgenerate //rst_blk_no
   // Register Slice for Read Address Channel for MM Packet FIFO
   generate if (C_RACH_TYPE == 0 && C_APPLICATION_TYPE_RACH == 1) begin : grach_reg_slice_mm_pkt_fifo
 
-    fifo_generator_v13_1_0_axic_reg_slice
+    fifo_generator_v13_1_1_axic_reg_slice
           #(
             .C_FAMILY                (C_FAMILY),
             .C_DATA_WIDTH            (C_DIN_WIDTH_RACH),
@@ -2973,7 +2973,7 @@ end endgenerate //rst_blk_no
     assign rdch_wr_en = (C_HAS_MASTER_CE == 1)  ? rdch_we & M_ACLK_EN : rdch_we;
     assign rdch_rd_en = (C_HAS_SLAVE_CE == 1) ? rdch_re & S_ACLK_EN : rdch_re;
 
-    fifo_generator_v13_1_0_CONV_VER
+    fifo_generator_v13_1_1_CONV_VER
       #(
         .C_FAMILY			(C_FAMILY),
         .C_COMMON_CLOCK                 (C_COMMON_CLOCK),
@@ -3046,7 +3046,7 @@ end endgenerate //rst_blk_no
         .C_WR_FREQ			(C_WR_FREQ),
         .C_WR_RESPONSE_LATENCY		(C_WR_RESPONSE_LATENCY)
       )
-    fifo_generator_v13_1_0_rdch_dut
+    fifo_generator_v13_1_1_rdch_dut
       (
         .CLK                      (S_ACLK),
         .WR_CLK                   (M_ACLK),
@@ -3107,7 +3107,7 @@ end endgenerate //rst_blk_no
   // Register Slice for read Data Channel
   generate if (C_RDCH_TYPE == 1) begin : grdch_reg_slice
 
-    fifo_generator_v13_1_0_axic_reg_slice
+    fifo_generator_v13_1_1_axic_reg_slice
           #(
             .C_FAMILY                (C_FAMILY),
             .C_DATA_WIDTH            (C_DIN_WIDTH_RDCH),
@@ -3345,14 +3345,14 @@ end endgenerate //rst_blk_no
   end endgenerate // gaxis_pass_through;
 
 
-endmodule //fifo_generator_v13_1_0
+endmodule //fifo_generator_v13_1_1
 
 
 
 /*******************************************************************************
  * Declaration of top-level module for Conventional FIFO
  ******************************************************************************/
-module fifo_generator_v13_1_0_CONV_VER
+module fifo_generator_v13_1_1_CONV_VER
   #(
     parameter  C_COMMON_CLOCK                 = 0,
     parameter  C_INTERFACE_TYPE               = 0,
@@ -3761,7 +3761,7 @@ generate
 case (C_VERILOG_IMPL)
 0 : begin : block1
   //Common Clock Behavioral Model
-  fifo_generator_v13_1_0_bhv_ver_ss
+  fifo_generator_v13_1_1_bhv_ver_ss
   #(
     .C_FAMILY                            (C_FAMILY),
     .C_DATA_COUNT_WIDTH                  (C_DATA_COUNT_WIDTH),            
@@ -3851,7 +3851,7 @@ case (C_VERILOG_IMPL)
 end
 1 : begin : block1
   //Independent Clocks Behavioral Model
-  fifo_generator_v13_1_0_bhv_ver_as
+  fifo_generator_v13_1_1_bhv_ver_as
   #(
     .C_FAMILY                          (C_FAMILY),
     .C_DATA_COUNT_WIDTH                (C_DATA_COUNT_WIDTH),
@@ -3942,7 +3942,7 @@ end
 end
 
 2 : begin : ll_afifo_inst
-  fifo_generator_v13_1_0_beh_ver_ll_afifo
+  fifo_generator_v13_1_1_beh_ver_ll_afifo
   #(
     .C_DIN_WIDTH                    (C_DIN_WIDTH),
     .C_DOUT_RST_VAL                 (C_DOUT_RST_VAL),
@@ -3974,7 +3974,7 @@ end
 end
 default : begin : block1
   //Independent Clocks Behavioral Model
-  fifo_generator_v13_1_0_bhv_ver_as
+  fifo_generator_v13_1_1_bhv_ver_as
   #(
     .C_FAMILY                          (C_FAMILY),
     .C_DATA_COUNT_WIDTH                (C_DATA_COUNT_WIDTH),
@@ -4099,7 +4099,7 @@ endgenerate
    generate if (IS_FWFT == 1 && C_FIFO_TYPE != 3) begin : block2
 
 
-         fifo_generator_v13_1_0_bhv_ver_preload0
+         fifo_generator_v13_1_1_bhv_ver_preload0
            #(
              .C_DOUT_RST_VAL      (C_DOUT_RST_VAL),
              .C_DOUT_WIDTH        (C_DOUT_WIDTH),
@@ -4307,7 +4307,7 @@ endgenerate
       assign ram_rd_en_compare = stage2_reg_en_i && stage1_eop;
 
 
-         fifo_generator_v13_1_0_bhv_ver_preload0
+         fifo_generator_v13_1_1_bhv_ver_preload0
            #(
              .C_DOUT_RST_VAL      (C_DOUT_RST_VAL),
              .C_DOUT_WIDTH        (C_DOUT_WIDTH),
@@ -4932,10 +4932,10 @@ endgenerate
   endgenerate // grstd1_axis
 
 
-endmodule //fifo_generator_v13_1_0_CONV_VER
+endmodule //fifo_generator_v13_1_1_CONV_VER
 
 
-module fifo_generator_v13_1_0_sync_stage
+module fifo_generator_v13_1_1_sync_stage
   #(
     parameter  C_WIDTH          = 10
    )
@@ -4951,12 +4951,12 @@ module fifo_generator_v13_1_0_sync_stage
      else
        DOUT <= #`TCQ DIN;
    end
-endmodule // fifo_generator_v13_1_0_sync_stage
+endmodule // fifo_generator_v13_1_1_sync_stage
 
 /*******************************************************************************
  * Declaration of Independent-Clocks FIFO Module
  ******************************************************************************/
-module fifo_generator_v13_1_0_bhv_ver_as
+module fifo_generator_v13_1_1_bhv_ver_as
    
   /***************************************************************************
    * Declare user parameters and their defaults
@@ -6174,7 +6174,7 @@ endgenerate
    genvar gss;
 
    generate for (gss = 1; gss <= NO_OF_SYNC_STAGE_INC_G2B; gss = gss + 1) begin : Sync_stage_inst
-     fifo_generator_v13_1_0_sync_stage
+     fifo_generator_v13_1_1_sync_stage
        #(
          .C_WIDTH  (C_WR_PNTR_WIDTH)
         )
@@ -6186,7 +6186,7 @@ endgenerate
          .DOUT     (wr_pntr_sync_stgs[gss])
         );
  
-     fifo_generator_v13_1_0_sync_stage
+     fifo_generator_v13_1_1_sync_stage
        #(
          .C_WIDTH  (C_RD_PNTR_WIDTH)
         )
@@ -6885,13 +6885,13 @@ endgenerate
      end //rd_rst_i==0
    end //always
 
-endmodule // fifo_generator_v13_1_0_bhv_ver_as
+endmodule // fifo_generator_v13_1_1_bhv_ver_as
 
 
 /*******************************************************************************
  * Declaration of Low Latency Asynchronous FIFO
  ******************************************************************************/
-module fifo_generator_v13_1_0_beh_ver_ll_afifo
+module fifo_generator_v13_1_1_beh_ver_ll_afifo
    
   /***************************************************************************
    * Declare user parameters and their defaults
@@ -7014,12 +7014,12 @@ module fifo_generator_v13_1_0_beh_ver_ll_afifo
     EMPTY <= ll_afifo_empty;
   end
 
-endmodule // fifo_generator_v13_1_0_beh_ver_ll_afifo
+endmodule // fifo_generator_v13_1_1_beh_ver_ll_afifo
 
 /*******************************************************************************
  * Declaration of top-level module
  ******************************************************************************/
-module fifo_generator_v13_1_0_bhv_ver_ss
+module fifo_generator_v13_1_1_bhv_ver_ss
    
   /**************************************************************************
    * Declare user parameters and their defaults
@@ -9125,14 +9125,14 @@ endgenerate
      end
    end endgenerate // multiple_pe_inputs
 
-endmodule // fifo_generator_v13_1_0_bhv_ver_ss
+endmodule // fifo_generator_v13_1_1_bhv_ver_ss
 
 
 
 /**************************************************************************
  * First-Word Fall-Through module (preload 0)
  **************************************************************************/
-module fifo_generator_v13_1_0_bhv_ver_preload0
+module fifo_generator_v13_1_1_bhv_ver_preload0
   #(
     parameter  C_DOUT_RST_VAL            = "",
     parameter  C_DOUT_WIDTH              = 8,
@@ -10179,7 +10179,7 @@ generate
   end //if
 endgenerate
 
-endmodule //fifo_generator_v13_1_0_bhv_ver_preload0
+endmodule //fifo_generator_v13_1_1_bhv_ver_preload0
 
 
 //-----------------------------------------------------------------------------
@@ -10195,7 +10195,7 @@ endmodule //fifo_generator_v13_1_0_bhv_ver_preload0
 //
 //--------------------------------------------------------------------------
 
-module fifo_generator_v13_1_0_axic_reg_slice #
+module fifo_generator_v13_1_1_axic_reg_slice #
   (
    parameter C_FAMILY     = "virtex7",
    parameter C_DATA_WIDTH = 32,

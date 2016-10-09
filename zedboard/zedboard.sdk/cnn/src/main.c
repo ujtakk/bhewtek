@@ -38,12 +38,15 @@
 #define INIT  XTime begin, end;
 #define BEGIN XTime_GetTime(&begin);
 #define END   XTime_GetTime(&end);        \
-  printf("elapsed time: %10.6f [ms]\n\n", \
+  printf("%10.6f [ms]\n\n", \
       (double)(end-begin) / COUNTS_PER_SECOND * 1000);
 
 int main(void)
 {
   INIT
+
+  // TODO: load data from the SD card using Linux
+  //        => (standalone may be enough)
 
 #ifdef ENABLE_COPRO
   s16 pmap1_flat[N_F1*PM1HEI*PM1WID];
@@ -59,39 +62,50 @@ int main(void)
   s16 hidden[N_HL];
   s16 output[LABEL];
 
-  // Clear the screen
-  for (int i = 0; i < 100; i++) xil_printf("\r\n");
-
   init_platform();
 
-  // printf("asdf\n");
-  // TODO: load data from the SD card using Linux
-  /*
-   * load_images_flat(pmap1_flat, N_F1, PM1HEI, PM1WID);
-
-   * load_weight_flat(w_conv2_flat, N_F2, N_F1, FHEI, FWID);
-   * load_bias(b_conv2, N_F2);
-   * load_weight(w_hidden, N_HL, PM2HEI*PM2WID*N_F2);
-   * load_bias(b_hidden, N_HL);
-   * load_weight(w_output, LABEL, N_HL);
-   * load_bias(b_hidden, LABEL);
-   */
+  // Clear the screen
+  // for (int i = 0; i < 100; i++) xil_printf("\r\n");
+  xil_printf("BEGIN\n\r");
 
 #ifdef ENABLE_COPRO
 #ifdef ASSIGN
   assign_weight(w_conv1_flat, 0, N_F1, 1, FHEI);
   assign_weight(w_conv2_flat, 75, N_F2, N_F1, FHEI);
 
-  BEGIN
+  // printf("assign_data(input_flat);\n");
+  // BEGIN
   assign_data(input_flat, 0, N_F1, 1, IMHEI, FHEI, PHEI);
+  // END
+  // printf("exec_core()\n");
+  // BEGIN
   exec_core();
+  // END
+  // printf("get_data(pmap1_flat)\n");
+  // BEGIN
   get_data(pmap1_flat, N_F1, PM1HEI);
+  // END
+  // printf("post_process(pmap1_flat, b_conv1)\n");
+  // BEGIN
   post_process(pmap1_flat, b_conv1, N_F1, PM1HEI);
+  // END
 
+  // printf("assign_data(pmap1_flat);\n");
+  // BEGIN
   assign_data(pmap1_flat, 75, N_F2, N_F1, PM1HEI, FHEI, PHEI);
+  // END
+  // printf("exec_core()\n");
+  // BEGIN
   exec_core();
+  // END
+  // printf("get_data(pmap2_flat)\n");
+  // BEGIN
   get_data(pmap2_flat, N_F2, PM2HEI);
+  // END
+  // printf("post_process(pmap2_flat, b_conv2)\n");
+  // BEGIN
   post_process(pmap2_flat, b_conv2, N_F2, PM2HEI);
+  // END
 #else
   // First Layer
   printf("post_data(input_flat, w_conv1_flat)\n");
@@ -136,10 +150,10 @@ int main(void)
    * (Therefore iterations are not functionalized.)
    */
   /* layer1 */
-  // printf("conv(input, w_conv1, fmap1)\n");
-  // printf("max_pooling(fmap1, pmap1)\n");
-  // printf("add_bias(pmap1, b_conv1)\n");
-  // printf("activate(pmap1)\n");
+  printf("conv(input, w_conv1, fmap1)\n");
+  printf("max_pooling(fmap1, pmap1)\n");
+  printf("add_bias(pmap1, b_conv1)\n");
+  printf("activate(pmap1)\n");
   BEGIN
   for (int i = 0; i < N_F1; i++) {
     // printf("conv(input, w_conv1[i], fmap1[i])\n");
@@ -178,12 +192,14 @@ int main(void)
         if (pmap1[i][k][l] < 0)
           pmap1[i][k][l] = 0;
   }
+  END
 
   /* layer2 */
-  // printf("conv(pmap1, w_conv2, fmap2)\n");
-  // printf("max_pooling(fmap2, pmap2)\n");
-  // printf("add_bias(pmap2, b_conv2)\n");
-  // printf("activate(pmap2)\n");
+  printf("conv(pmap1, w_conv2, fmap2)\n");
+  printf("max_pooling(fmap2, pmap2)\n");
+  printf("add_bias(pmap2, b_conv2)\n");
+  printf("activate(pmap2)\n");
+  BEGIN
   for (int i = 0; i < N_F2; i++) {
     // printf("conv(pmap1, w_conv2[i], fmap2[i])\n");
     for (int j = 0; j < N_F1; j++) {
@@ -221,27 +237,37 @@ int main(void)
         if (pmap2[i][k][l] < 0)
           pmap2[i][k][l] = 0;
   }
+  END
 
-  // printf("flatten(pmap2, pmap2_flat)\n");
+  printf("flatten(pmap2, pmap2_flat)\n");
+  BEGIN
   for (int i = 0; i < N_F2; i++)
     for (int j = 0; j < PM2HEI; j++)
       for (int k = 0;  k < PM2WID; k++)
         pmap2_flat[i*PM2HEI*PM2WID+j*PM2WID+k] = pmap2[i][j][k];
+  END
 #endif
   /************************************************************
    * calculate fully connected layers on CPU
    * because these layers has tendency to be data intensive.
    ************************************************************/
   // printf("full_connect(pmap2_flat, hidden)\n");
+  // BEGIN
   full_connect(pmap2_flat, hidden,
                 w_hidden, b_hidden, PM2HEI*PM2WID*N_F2, N_HL);
+  // END
+
   // printf("activate_1d(hidden)\n");
+  // BEGIN
   activate_1d(hidden, N_HL);
+  // END
 
   // printf("full_connect(hidden, output)\n");
+  // BEGIN
   full_connect(hidden, output,
                 w_output, b_output, N_HL, LABEL);
-  END
+  // END
+  xil_printf("END\n\r");
 
   print_result(output);
 

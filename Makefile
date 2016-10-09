@@ -3,7 +3,8 @@
 run:
 	(cd zedboard/zedboard.sdk/cnn/Debug; \
 		make)
-	xsdk -batch -source scripts/run.tcl
+	# xsdk -batch -source scripts/run.tcl
+	xsdb scripts/run.tcl
 
 impl:
 	vivado -mode batch -source scripts/impl.tcl

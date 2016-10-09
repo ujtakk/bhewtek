@@ -1,3 +1,6 @@
+server:
+	node server.js
+
 cnn:
 	gcc -o cnn.out -lm cnn.c
 	./cnn.out 2 4

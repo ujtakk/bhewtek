@@ -41,12 +41,36 @@
   printf("%10.6f [ms]\n\n", \
       (double)(end-begin) / COUNTS_PER_SECOND * 1000);
 
+#include "xgpiops.h"
+#define GPIO_DEVICE_ID  XPAR_XGPIOPS_0_DEVICE_ID
+#define OUTPUT_PIN    13
+XGpioPs Gpio; /* The Instance of the GPIO Driver */
+
 int main(void)
 {
   INIT
 
   // TODO: load data from the SD card using Linux
   //        => (standalone may be enough)
+
+  u32 Data;
+  int Status;
+  XGpioPs_Config *ConfigPtr;
+
+  ConfigPtr = XGpioPs_LookupConfig(GPIO_DEVICE_ID);
+  Status = XGpioPs_CfgInitialize(&Gpio, ConfigPtr, ConfigPtr->BaseAddr);
+
+  if (Status != XST_SUCCESS)
+    return XST_FAILURE;
+
+  XGpioPs_SetDirectionPin(&Gpio, OUTPUT_PIN, 1);
+  XGpioPs_SetOutputEnablePin(&Gpio, OUTPUT_PIN, 1);
+
+  // for (int p=9; p<16; p++) {
+  //   XGpioPs_SetDirectionPin(&Gpio, p, 1);
+  //   XGpioPs_SetOutputEnablePin(&Gpio, p, 1);
+  //   XGpioPs_WritePin(&Gpio, p, 0x1);
+  // }
 
 #ifdef ENABLE_COPRO
   s16 pmap1_flat[N_F1*PM1HEI*PM1WID];
@@ -66,7 +90,11 @@ int main(void)
 
   // Clear the screen
   // for (int i = 0; i < 100; i++) xil_printf("\r\n");
-  xil_printf("BEGIN\n\r");
+
+  XGpioPs_WritePin(&Gpio, OUTPUT_PIN, 0x1);
+  Data = XGpioPs_ReadPin(&Gpio, OUTPUT_PIN);
+  if (Data != 1)
+    return XST_FAILURE;
 
 #ifdef ENABLE_COPRO
 #ifdef ASSIGN
@@ -267,11 +295,14 @@ int main(void)
   full_connect(hidden, output,
                 w_output, b_output, N_HL, LABEL);
   // END
-  xil_printf("END\n\r");
+  XGpioPs_WritePin(&Gpio, OUTPUT_PIN, 0x0);
+  Data = XGpioPs_ReadPin(&Gpio, OUTPUT_PIN);
+  if (Data != 0)
+    return XST_FAILURE;
 
-  print_result(output);
+  // print_result(output);
 
   cleanup_platform();
 
-  return 0;
+  return XST_SUCCESS;
 }

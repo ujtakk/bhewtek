@@ -1,0 +1,25 @@
+module hash_mux5(/*AUTOARG*/);
+//`include "parameters.vh"
+
+  /*AUTOINPUT*/
+  input clk;
+  <%- for i in 0...5 -%>
+  input [15:0] x<%=i%>;
+  <%- end -%>
+  input [2:0] sel;
+
+  /*AUTOOUTPUT*/
+  output [15:0] y;
+
+  /*AUTOWIRE*/
+
+  /*AUTOREG*/
+
+  assign y = sel == 3'd0 ? x0
+           : sel == 3'd1 ? x1
+           : sel == 3'd2 ? x2
+           : sel == 3'd3 ? x3
+           : sel == 3'd4 ? x4
+           : 16'd0;
+
+endmodule

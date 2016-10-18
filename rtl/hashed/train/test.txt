@@ -1,0 +1,31 @@
+氏家君，
+
+廣本です．
+
+原稿を優先するため止めていましたが，
+HashedNets の学習パラメータを吐けるようにしました．
+conv_src を使った固定小数点評価もできるようになってます．
+
+/home/work/hiromoto/takau/HashedNets/conv.lua
+
+-hash を付けて実行すると data ディレクトリ内に以下が生成されます．
+
+* hash/
+  学習された hash テーブル．W が重み，B がバイアス．
+
+* idx/
+  学習された hash index 値．
+  (layer名)_(種類)_(層番号).txt の形式．
+  idx が hash の index で W が重み，B がバイアス．
+  xi には xi mode 使用時の符号を格納．
+
+* wb_{1,2,3,4}/
+  hash を展開し，conv_src の LENET mode で
+  読込み可能な形式にしたもの．
+
+xi の有無で少しはまりましたが，一応どちらにも対応できるように
+なっているはずです．ハード実装する際はどうしますか？
+なお lhconv には未対応です．
+hash_bias が false の時にも対応していません．
+
+不明点があれば質問して下さい．

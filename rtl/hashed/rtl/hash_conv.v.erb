@@ -1,0 +1,79 @@
+<%- load "parameters.rb" -%>
+
+/* AUTO_LISP(setq verilog-auto-output-ignore-regexp
+   (verilog-regexp-words `(
+     "sel"
+   ))) */
+
+module hash_conv(/*AUTOARG*/);
+`include "parameters.vh"
+
+  /*AUTOINPUT*/
+  input                     clk;
+  input                     xrst;
+  input                     lut_we;
+  input                     sel_we;
+  input [HWIDTH-1:0]        lut_addr;
+  input [3:0]               lut_data;
+  <%- for i in 0...25 -%>
+  input signed [DWIDTH-1:0] pixel<%=i%>;
+  <%- end -%>
+
+  /*AUTOOUTPUT*/
+
+  /*AUTOWIRE*/
+  wire [2:0]                sel;
+  <%- for i in 0...25 -%>
+  wire signed [DWIDTH-1:0]  signed_pixel<%=i%>;
+  wire [DWIDTH-1:0]         weight<%=i%>;
+  <%- end -%>
+
+  /*AUTOREG*/
+  <%- for i in 0...25 -%>
+  reg [3:0] r_sel<%=i%>;
+  <%- end -%>
+
+  /* conv_tree AUTO_TEMPLATE (
+      <%- for i in 0...25 -%>
+      .pixel<%=i%> (signed_pixel<%=i%>[DWIDTH-1:0]),
+      <%- end -%>
+  ); */
+  conv_tree tree(/*AUTOINST*/);
+
+  hash_wreg wreg(/*AUTOINST*/);
+
+  <%- for i in 0...25 -%>
+  /* hash_mux5 AUTO_TEMPLATE (
+      <%- for j in 0...5 -%>
+      .x<%=j%> (hashed_weight<%=j%>[DWIDTH-1:0]),
+      <%- end -%>
+      .sel     (r_sel<%=i%>[2:0]),
+      .y       (weight<%=i%>[DWIDTH-1:0]),
+  ); */
+  hash_mux5 wsel<%=i%>(/*AUTOINST*/);
+
+  always @(posedge clk or negedge xrst)
+    if (!xrst)
+      r_sel<%=i%> <= 0;
+    else if (sel_we)
+      <%- if i == 24 -%>
+      r_sel<%=i%> <= sel;
+      <%- else -%>
+      r_sel<%=i%> <= r_sel<%=i+1%>;
+      <%- end -%>
+    else
+      r_sel<%=i%> <= r_sel<%=i%>;
+
+  assign signed_pixel<%=i%> = r_sel[3] ? -pixel<%=i%> : pixel<%=i%>;
+
+  <%- end -%>
+
+  /* hash_lut AUTO_TEMPLATE (
+      .mem_we     (lut_we),
+      .mem_addr   (lut_addr[HWIDTH-1:0]),
+      .write_data (lut_data[2:0]),
+      .read_data  (sel[2:0]),
+  ); */
+  hash_lut lut(/*AUTOINST*/);
+
+endmodule

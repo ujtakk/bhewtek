@@ -1,10 +1,12 @@
-module relu(/*AUTOARG*/);
+module bias(/*AUTOARG*/);
 `include "parameters.vh"
 
   /*AUTOINPUT*/
   input clk;
   input xrst;
+  input breg_we;
   input o_we;
+  input signed [DWIDTH-1:0] read_bias;
   input signed [DWIDTH-1:0] pixel_in;
 
   /*AUTOOUTPUT*/
@@ -13,10 +15,15 @@ module relu(/*AUTOARG*/);
   /*AUTOWIRE*/
 
   /*AUTOREG*/
+  reg signed [DWIDTH-1:0] r_bias;
   reg signed [DWIDTH-1:0] r_pixel_in;
   reg signed [DWIDTH-1:0] r_pixel_out;
 
-  assign pixel_out = r_pixel_out;
+  always @(posedge clk)
+    if (!xrst)
+      r_bias <= 0;
+    else if (breg_we)
+      r_bias <= read_bias;
 
   always @(posedge clk)
     if (!xrst)
@@ -28,9 +35,6 @@ module relu(/*AUTOARG*/);
     if (!xrst)
       r_pixel_out <= 0;
     else if (o_we)
-      if (r_pixel_in > 0)
-        r_pixel_out <= r_pixel_in;
-      else
-        r_pixel_out <= 0;
+      r_pixel_out <= r_pixel_in + r_bias;
 
 endmodule

@@ -19,7 +19,7 @@ module core(/*AUTOARG*/);
   ); */
   conv conv(/*AUTOINST*/);
 
-  /* sram_feat AUTO_TEMPLATE (
+  /* mem_feat AUTO_TEMPLATE (
       .read_data1   (),
       .write_data1  (write_feat[DWIDTH-1:0]),
       .mem_we1      (mem_feat_we),
@@ -29,7 +29,7 @@ module core(/*AUTOARG*/);
       .mem_we2      (1'b0),
       .mem_addr2    (mem_feat_addr[FACCUM-1:0]),
   ); */
-  sram_feat mem_feat(/*AUTOINST*/);
+  mem_feat mem_feat(/*AUTOINST*/);
 
   /* accumulator AUTO_TEMPLATE (
       .total    (fmap[DWIDTH-1:0]),
@@ -41,9 +41,25 @@ module core(/*AUTOARG*/);
   ); */
   accumulator feat_accum(/*AUTOINST*/);
 
+  /* bias AUTO_TEMPLATE (
+      .read_bias  (read_bias[DWIDTH-1:0]),
+      .breg_we    (breg_we),
+      .o_we       (bias_we),
+      .pixel_in   (fmap[DWIDTH-1:0]),
+      .pixel_out  (biased[DWIDTH-1:0]),
+  ); */
+  bias bias(/*AUTOINST*/);
+
+  /* relu AUTO_TEMPLATE (
+      .o_we       (relu_we),
+      .pixel_in   (biased[DWIDTH-1:0]),
+      .pixel_out  (actived[DWIDTH-1:0]),
+  ); */
+  relu relu(/*AUTOINST*/);
+
   /* linebuf AUTO_TEMPLATE (
       .buf_en     (buf_feat_en),
-      .buf_input  (fmap[DWIDTH-1:0]),
+      .buf_input  (actived[DWIDTH-1:0]),
       .img_size   (w_fea_size[LWIDTH-1:0]),
       .fil_size   (w_pool_size[LWIDTH-1:0]),
       <%- for i in 0...$fsize -%>

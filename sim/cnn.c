@@ -4,6 +4,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <limits.h>
+#include <assert.h>
 
 #define FWID 5 /*filter width*/
 #define FHEI 5 /*filter height*/
@@ -525,75 +526,103 @@ int main (int argc, char *argv[])
   ifmap2    = imalloc_3d(N_F2,pm1hei-FHEI+1,pm1wid-FWID+1);
   ipmap2    = imalloc_3d(N_F2,pm2hei,pm2wid);
 
-  // load data
-  int r;
+  int number = atoi(argv[1]);
+  int sample = atoi(argv[2]);
 
-  sprintf(filename, "/home/work/takau/bhewtek/data/mnist/input/%d/data%d.txt", atoi(argv[1]), atoi(argv[2]));
-  r = load_image(filename,dinput,iinput,IMHEI,IMWID);
-  if (r == -1) return -1;
+  // load data
+  sprintf(filename,
+      "/home/work/takau/bhewtek/data/mnist/input/%d/data%d.txt",
+      number, sample);
+  int r = load_image(filename,dinput,iinput,IMHEI,IMWID);
+  if (r == -1) {
+    fprintf(stderr, "load_image failed\n");
+    exit(1);
+  }
 
   for (i = 0; i < N_F1; i++) {
-    sprintf(filename,"/home/work/takau/lazy_core/data/weight/wb_1/data%d.txt",i);
+    sprintf(filename,
+        "/home/work/takau/lazy_core/data/weight/wb_1/data%d.txt",i);
     load_data(filename,df1weight[i],if1weight[i],&dbias1[i],&ibias1[i],FHEI,FWID);
   }
 
   for (i = 0; i < N_F1; i++) {
     for (j = 0; j < N_F2; j++) {
-      sprintf(filename,"/home/work/takau/lazy_core/data/weight/wb_2/data%d_%d.txt",j,i);
+      sprintf(filename,
+          "/home/work/takau/lazy_core/data/weight/wb_2/data%d_%d.txt",j,i);
       load_w(filename,df2weight[i][j],if2weight[i][j],FHEI,FWID);
     }
   }
 
   for (i = 0; i < N_F2; i++) {
-    sprintf(filename,"/home/work/takau/lazy_core/data/weight/wb_2/data%d.txt",i);
+    sprintf(filename,
+        "/home/work/takau/lazy_core/data/weight/wb_2/data%d.txt",i);
     load_b(filename,&dbias2[i],&ibias2[i]);
   }
 
   for (i = 0; i < N_HL; i++) {
-    sprintf(filename,"/home/work/takau/lazy_core/data/weight/wb_3/data%d.txt",i);
+    sprintf(filename,
+        "/home/work/takau/lazy_core/data/weight/wb_3/data%d.txt",i);
     load_data_1d(filename,dhweight[i],ihweight[i],&dhbias[i],&ihbias[i],pm2hei*pm2wid*N_F2);
   }
 
   for (i = 0; i < LABEL; i++) {
-    sprintf(filename,"/home/work/takau/lazy_core/data/weight/wb_4/data%d.txt",i);
+    sprintf(filename,
+        "/home/work/takau/lazy_core/data/weight/wb_4/data%d.txt",i);
     load_data_1d(filename,doweight[i],ioweight[i],&dobias[i],&iobias[i],N_HL);
   }
+
+  // // image to feature map1
+  // for (i = 0; i < N_F1; i++) {
+  //   conv(iinput,if1weight[i],ifmap1[i],IMHEI,IMWID,FHEI,FWID);
+  //   max_pooling(ifmap1[i],ipmap1[i],IMHEI-FHEI+1,IMWID-FWID+1);
+  //   add_bias(ipmap1[i],ibias1[i],pm1hei,pm1wid);
+  //   activate(ipmap1[i],pm1hei,pm1wid);
+  // }
+  //
+  // // feature map1 to feature map2
+  // fm_fm(ipmap1,ifmap2,if2weight,N_F1,N_F2,pm1hei,pm1wid,FHEI,FWID);
+  // for (i = 0; i < N_F2; i++) {
+  //   max_pooling(ifmap2[i],ipmap2[i],pm1hei-FHEI+1,pm1wid-FWID+1);
+  //   add_bias(ipmap2[i],ibias2[i],pm2hei,pm2wid);
+  //   activate(ipmap2[i],pm2hei,pm2wid);
+  // }
 
   // image to feature map1
   for (i = 0; i < N_F1; i++) {
     conv(iinput,if1weight[i],ifmap1[i],IMHEI,IMWID,FHEI,FWID);
+    add_bias(ifmap1[i],ibias1[i],IMHEI-FHEI+1,IMWID-FWID+1);
+    activate(ifmap1[i],IMHEI-FHEI+1,IMWID-FWID+1);
     max_pooling(ifmap1[i],ipmap1[i],IMHEI-FHEI+1,IMWID-FWID+1);
-    add_bias(ipmap1[i],ibias1[i],pm1hei,pm1wid);
-    activate(ipmap1[i],pm1hei,pm1wid);
   }
 
   // feature map1 to feature map2
   fm_fm(ipmap1,ifmap2,if2weight,N_F1,N_F2,pm1hei,pm1wid,FHEI,FWID);
   for (i = 0; i < N_F2; i++) {
+    add_bias(ifmap2[i],ibias2[i],pm1hei-FHEI+1,pm1wid-FWID+1);
+    activate(ifmap2[i],pm1hei-FHEI+1,pm1wid-FWID+1);
     max_pooling(ifmap2[i],ipmap2[i],pm1hei-FHEI+1,pm1wid-FWID+1);
-    add_bias(ipmap2[i],ibias2[i],pm2hei,pm2wid);
-    activate(ipmap2[i],pm2hei,pm2wid);
   }
 
+#define IPMAP2
 #ifdef IPMAP1
   for (i = 0; i < N_F1; i++)
     for (j = 0; j < pm1hei; j++)
       for (k = 0; k < pm1wid; k++)
-        printf("%d\n", ipmap1[i][j][k]);
+        printf("%0d\n", ipmap1[i][j][k]);
 #endif
 
 #ifdef IFMAP2
   for (i = 0; i < N_F2; i++)
     for (j = 0; j < pm1hei-FHEI+1; j++)
       for (k = 0; k < pm1wid-FWID+1; k++)
-        printf("%4d\n", ifmap2[i][j][k]);
+        printf("%0d\n", ifmap2[i][j][k]);
 #endif
 
 #ifdef IPMAP2
   for (i = 0; i < N_F2; i++)
     for (j = 0; j < pm2hei; j++)
       for (k = 0; k < pm2wid; k++)
-        printf("%4d\n", ipmap2[i][j][k]);
+        printf("%0d\n", ipmap2[i][j][k]);
 #endif
 
   // full connection layer
@@ -606,9 +635,17 @@ int main (int argc, char *argv[])
   for (i = 0;  i<LABEL; i++) {
     doutput[i] = ioutput[i]/pow(2,8);
   }
-  for (i = 0;  i<LABEL; i++) {
-    printf("%d\n",ioutput[i]);
+
+  // verify the result
+  int max = INT_MIN;
+  int result = -1;
+  for (i = 0; i < LABEL; i++) {
+    if (ioutput[i] > max) {
+      max = ioutput[i];
+      result = i;
+    }
   }
+  assert(result == number);
 
   // free memory
   ifree_2d(iinput,IMHEI);

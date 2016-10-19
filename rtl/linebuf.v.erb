@@ -12,7 +12,7 @@
 module linebuf(/*AUTOARG*/);
 `include "parameters.vh"
 
-  parameter BSIZE = <%= ( Math.log(max_size) / Math.log(2) ).to_i %>;
+  parameter _BUFSIZE = <%= ( Math.log(max_size) / Math.log(2) ).to_i %>;
 
   parameter S_WAIT   = 'd0;
   parameter S_CHARGE = 'd1;
@@ -36,7 +36,7 @@ module linebuf(/*AUTOARG*/);
   wire                      s_charge_end;
   wire                      s_active_end;
   wire [8-1:0]              mem_linebuf_we;
-  wire [BSIZE-1:0]          mem_linebuf_addr;
+  wire [_BUFSIZE-1:0]          mem_linebuf_addr;
   <%- for i in 0..max_line -%>
   wire signed [DWIDTH-1:0]  read_mem<%=i%>;
   <%- end -%>
@@ -44,7 +44,7 @@ module linebuf(/*AUTOARG*/);
   /*AUTOREG*/
   reg [4-1:0]             r_select;
   reg [2-1:0]             r_state;
-  reg [BSIZE-1:0]         r_addr_count;
+  reg [_BUFSIZE-1:0]         r_addr_count;
   reg [3-1:0]             r_mem_count;
   reg [LWIDTH-1:0]        r_line_count;
   reg [8-1:0]             r_linebuf_we;
@@ -167,7 +167,7 @@ module linebuf(/*AUTOARG*/);
   <%- for i in 0..max_line -%>
   /* mem_linebuf AUTO_TEMPLATE (
       .mem_we     (mem_linebuf_we[<%=i%>]),
-      .mem_addr   (mem_linebuf_addr[BSIZE-1:0]),
+      .mem_addr   (mem_linebuf_addr[_BUFSIZE-1:0]),
       .write_data (r_buf_input[DWIDTH-1:0]),
       .read_data  (read_mem<%=i%>[DWIDTH-1:0]),
   ); */

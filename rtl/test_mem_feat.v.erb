@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module test_sram_feat();
+module test_mem_feat();
 `include "parameters.vh"
 <%- load "parameters.rb" -%>
 
@@ -46,7 +46,7 @@ module test_sram_feat();
     //    mem_we1 = 0;
     //    mem_addr1 = 1;
     //    write_data1 = 0;
-    //    sram_faccum.mem[100] = 334;
+    //    mem_faccum.mem[100] = 334;
     //    #(STEP);
     //    mem_addr1 = 10;
     //    mem_addr2 = 5;
@@ -158,6 +158,6 @@ module test_sram_feat();
     ); */
     //rdpb18_64x16_g1 dut0(/*AUTOINST*/);
 
-    sram_feat dut0(/*AUTOINST*/);
+    mem_feat dut0(/*AUTOINST*/);
 
 endmodule

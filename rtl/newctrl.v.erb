@@ -67,8 +67,14 @@ module newctrl(/*AUTOARG*/);
 //====================================================================
 
   <%- for n in ["begin", "valid", "end"] -%>
+  // assign in_conv_<%=n%> = out_core_<%=n%>;
+  // assign in_pool_<%=n%> = out_conv_<%=n%>;
+  // assign in_core_<%=n%> = out_pool_<%=n%>;
+
   assign in_conv_<%=n%> = out_core_<%=n%>;
-  assign in_pool_<%=n%> = out_conv_<%=n%>;
+  assign in_bias_<%=n%> = out_conv_<%=n%>;
+  assign in_relu_<%=n%> = out_bias_<%=n%>;
+  assign in_pool_<%=n%> = out_relu_<%=n%>;
   assign in_core_<%=n%> = out_pool_<%=n%>;
   <%- end -%>
 
@@ -88,13 +94,13 @@ module newctrl(/*AUTOARG*/);
   ); */
   ctrl_conv ctrl_conv(/*AUTOINST*/);
 
-  /* ctrl_pool AUTO_TEMPLATE (
+  /* ctrl_bias AUTO_TEMPLATE (
       <%- for n in ["begin", "valid", "end"] -%>
-      .in_<%=n%>    (in_pool_<%=n%>),
-      .out_<%=n%>  (out_pool_<%=n%>),
+      .in_<%=n%>   (in_bias_<%=n%>),
+      .out_<%=n%> (out_bias_<%=n%>),
       <%- end -%>
   ); */
-  ctrl_pool ctrl_pool(/*AUTOINST*/);
+  ctrl_bias ctrl_bias(/*AUTOINST*/);
 
   /* ctrl_relu AUTO_TEMPLATE (
       <%- for n in ["begin", "valid", "end"] -%>
@@ -102,7 +108,14 @@ module newctrl(/*AUTOARG*/);
       .out_<%=n%> (out_relu_<%=n%>),
       <%- end -%>
   ); */
-  //ctrl_relu ctrl_relu(/*AUTOINST*/);
+  ctrl_relu ctrl_relu(/*AUTOINST*/);
 
+  /* ctrl_pool AUTO_TEMPLATE (
+      <%- for n in ["begin", "valid", "end"] -%>
+      .in_<%=n%>    (in_pool_<%=n%>),
+      .out_<%=n%>  (out_pool_<%=n%>),
+      <%- end -%>
+  ); */
+  ctrl_pool ctrl_pool(/*AUTOINST*/);
 
 endmodule

@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module test_sram_input();
+module test_mem_input();
 `include "parameters.vh"
 <%- load "parameters.rb" -%>
     parameter STEP = 1000;
@@ -30,7 +30,7 @@ module test_sram_input();
     //    mem_we = 0;
     //    mem_addr = 1;
     //    write_data = 0;
-    //    //sram_input.mem[100] = 334;
+    //    //mem_input.mem[100] = 334;
     //    #(STEP);
     //    mem_addr = 10;
     //    #(STEP*2);
@@ -67,7 +67,7 @@ module test_sram_input();
         WE = 0;
         ADR = 1;
         D = 0;
-        //sram_input.mem[100] = 334;
+        //mem_input.mem[100] = 334;
         #(STEP);
         ADR = 10;
         #(STEP*2);
@@ -92,6 +92,6 @@ module test_sram_input();
 
    //rspb18_4kx16m8_g1 dut0(/*AUTOINST*/);
 
-    sram_input dut0(/*AUTOINST*/);
+    mem_input dut0(/*AUTOINST*/);
 
 endmodule

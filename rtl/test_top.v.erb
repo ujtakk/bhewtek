@@ -24,7 +24,6 @@ module test_top();
   reg [DWIDTH-1:0] mem_w<%=i%> [2**WSIZE-1:0];
   <%- end -%>
 
-  integer fp;
   integer i;
   initial
   begin
@@ -32,8 +31,6 @@ module test_top();
 
     // mem_clear;
     mem_clear_direct;
-
-    fp = $fopen("log.txt");
 
     xrst = 0;
     req = 0;
@@ -65,21 +62,21 @@ module test_top();
     // input_addr = 0;
     // write_input = 0;
 
-    // read_weight_direct;
-    read_weight;
-    <%- for n in 0...$core -%>
-    weight_we = 4'd<%=n+1%>;
-    for (i=0; i<2**WSIZE; i=i+1)
-    begin
-     weight_addr = i;
-     #(STEP);
-     write_weight = mem_w<%=n%>[i];
-     #(STEP);
-    end
-    weight_we = 4'd0;
-    weight_addr = 0;
-    write_weight = 0;
-    <%- end -%>
+    read_weight_direct;
+    // read_weight;
+    // <%- for n in 0...$core -%>
+    // weight_we = 4'd<%=n+1%>;
+    // for (i=0; i<2**WSIZE; i=i+1)
+    // begin
+    //  weight_addr = i;
+    //  #(STEP);
+    //  write_weight = mem_w<%=n%>[i];
+    //  #(STEP);
+    // end
+    // weight_we = 4'd0;
+    // weight_addr = 0;
+    // write_weight = 0;
+    // <%- end -%>
 
     // $toggle_start();
     #(STEP);
@@ -144,15 +141,14 @@ module test_top();
   task mem_clear_direct;
     begin
       for (i=0; i<2**INSIZE; i=i+1)
-      begin
         dut0.mem_input.mem[i] = {DWIDTH{1'b0}};
-      end
 
       <%- for i in 0...$core -%>
       for (i=0; i<2**WSIZE; i=i+1)
-      begin
         dut0.mem_weight<%=i%>.mem[i] = {DWIDTH{1'b0}};
-      end
+
+      for (i=0; i<2**BSIZE; i=i+1)
+        dut0.mem_weight<%=i%>.mem[i] = {DWIDTH{1'b0}};
       <%- end -%>
     end
   endtask
@@ -407,34 +403,21 @@ module test_top();
       "%d: ", dut0.ctrl.ctrl_core.out_end,
       "%2d ", dut0.ctrl.ctrl_core.r_count_out,
       "%2d ", dut0.ctrl.ctrl_core.r_count_in,
-      "%2d ", dut0.ctrl.ctrl_core.r_weight_x,
-      "%2d ", dut0.ctrl.ctrl_core.r_weight_y,
       "%2d ", dut0.ctrl.ctrl_core.r_input_x,
       "%2d ", dut0.ctrl.ctrl_core.r_input_y,
+      "|w: ",
+      "%2d ", dut0.ctrl.ctrl_core.r_weight_x,
+      "%2d ", dut0.ctrl.ctrl_core.r_weight_y,
+      "%d ", dut0.ctrl.ctrl_core.r_bias,
+      "; ",
+      "%d ", dut0.ctrl.ctrl_core.r_wreg_we_d[0],
+      "%d ", dut0.ctrl.ctrl_core.wreg_we,
+      "%d ", dut0.mem_weight_addr,
+      "%d ", dut0.core0.conv.read_data,
       "| ",
-      "%d: ", dut0.buf_pix.r_state,
-      "%d ", dut0.buf_pix.mem_linebuf_we,
-      "%5d ", dut0.read_input,
-      "%5d ", dut0.pixel0,
-      "| ",
-      "%d ",  dut0.ctrl.ctrl_conv.out_begin,
-      "%d ",  dut0.ctrl.ctrl_conv.out_valid,
-      "%d: ", dut0.ctrl.ctrl_conv.out_end,
-      "%d ", dut0.ctrl.ctrl_conv.conv_begin,
-      "%d ", dut0.ctrl.ctrl_conv.conv_valid,
-      "%d ", dut0.ctrl.ctrl_conv.conv_end,
-      "| ",
-      "%d: ", dut0.core0.buf_feat.r_state,
-      "%d ", dut0.core0.buf_feat.mem_linebuf_we,
-      "%5d ", dut0.core0.fmap,
-      "%5d ", dut0.core0.pixel_feat0,
-      "| ",
-      "%d: ", dut0.core0.pool_we,
-      "%5d ", dut0.core0.pool.max,
-      "%5d ", dut0.core0.pool.r_pixel_feat0,
-      "%5d ", dut0.core0.pool.r_pixel_feat1,
-      "%5d ", dut0.core0.pool.r_pixel_feat2,
-      "%5d ", dut0.core0.pool.r_pixel_feat3,
+% 3.times do |i|
+      "%d ", dut0.core0.conv.wreg.r_weight<%=i%>,
+% end
       "|"
     );
     #(STEP/2+1);

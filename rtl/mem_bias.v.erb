@@ -1,11 +1,11 @@
-module sram_output(/*AUTOARG*/);
+module mem_bias(/*AUTOARG*/);
 `include "parameters.vh"
-  parameter WORDS = 2 ** OUTSIZE;
+  parameter WORDS = 2 ** BSIZE;
 
   /*AUTOINPUT*/
   input                     clk;
   input                     mem_we;
-  input [OUTSIZE-1:0]       mem_addr;
+  input [WSIZE-1:0]         mem_addr;
   input signed [DWIDTH-1:0] write_data;
 
   /*AUTOOUTPUT*/

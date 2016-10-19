@@ -1,6 +1,6 @@
 <%- load "parameters.rb" -%>
 
-module ctrl_relu(/*AUTOARG*/);
+module ctrl_bias(/*AUTOARG*/);
 `include "parameters.vh"
 
   /*AUTOINPUT*/
@@ -14,25 +14,25 @@ module ctrl_relu(/*AUTOARG*/);
   output out_begin;
   output out_valid;
   output out_end;
-  output relu_we;
+  output bias_we;
 
   /*AUTOWIRE*/
 
   /*AUTOREG*/
-  <%- for i in 0...$d_relu -%>
+  <%- for i in 0...$d_bias -%>
   reg r_out_begin_d<%=i%>;
   reg r_out_valid_d<%=i%>;
   reg r_out_end_d<%=i%>;
   <%- end -%>
 
-  assign out_begin = r_out_begin_d<%=$d_relu-1%>;
-  assign out_valid = r_out_valid_d<%=$d_relu-1%>;
-  assign out_end   = r_out_end_d<%=$d_relu-1%>;
+  assign out_begin = r_out_begin_d<%=$d_bias-1%>;
+  assign out_valid = r_out_valid_d<%=$d_bias-1%>;
+  assign out_end   = r_out_end_d<%=$d_bias-1%>;
 
-  assign relu_we = r_out_valid_d<%=$d_relu-2%>;
+  assign bias_we = r_out_valid_d<%=$d_bias-2%>;
 
   <%- for n in ["begin", "valid", "end"] -%>
-  <%-   for i in 0...$d_relu -%>
+  <%-   for i in 0...$d_bias -%>
   always @(posedge clk)
     <%- if i == 0 -%>
     if (!xrst)

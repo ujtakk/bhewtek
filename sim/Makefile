@@ -3,7 +3,7 @@ server:
 
 cnn:
 	gcc -o cnn.out -lm cnn.c
-	./cnn.out 2 4
+	# ./cnn.out 2 4
 
 conv:
 	gcc -o conv.out -lm -std=c11 conv.c

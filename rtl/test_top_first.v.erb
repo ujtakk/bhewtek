@@ -44,7 +44,7 @@ module test_top_first();
     weight_addr = 0;
     write_weight = 0;
 
-    b_we = 4'd0;
+    bias_we = 4'd0;
     bias_addr = 0;
     write_bias = 0;
 
@@ -493,7 +493,7 @@ module test_top_first();
       "%4d ", dut0.core0.fmap,
       "%4d ", dut0.core0.pixel_feat0,
       "|@ ",
-      "%d: ", dut0.core0.pool_we,
+      "%d: ", dut0.core0.pool_oe,
       "%4d ", dut0.core0.pool.max,
       "%4d ", dut0.core0.pool.r_pixel_feat0,
       "%4d ", dut0.core0.pool.r_pixel_feat1,

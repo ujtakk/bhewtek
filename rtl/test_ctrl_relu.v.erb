@@ -62,7 +62,7 @@ module test_ctrl_relu();
       "%d ", in_end,
       "; ",
       "%d ", ningen.r_pixel_in,
-      "%d ", relu_we,
+      "%d ", relu_oe,
       "; ",
       "%d ", out_begin,
       "%d ", out_valid,
@@ -72,7 +72,7 @@ module test_ctrl_relu();
   end
 
   /* relu AUTO_TEMPLATE (
-      .out_en (relu_we),
+      .out_en (relu_oe),
   ); */
   relu ningen(/*AUTOINST*/);
   ctrl_relu dut0(/*AUTOINST*/);

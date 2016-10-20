@@ -30,7 +30,7 @@ module ctrl_conv(/*AUTOARG*/);
   output              mem_feat_rst;
   output [FACCUM-1:0] mem_feat_addr;
   output [FACCUM-1:0] mem_feat_addr_d1;
-  output              conv_we;
+  output              conv_oe;
   output [LWIDTH-1:0] w_fea_size;
 
   /*AUTOWIRE*/
@@ -254,7 +254,7 @@ module ctrl_conv(/*AUTOARG*/);
   assign out_valid  = r_out_valid_d<%=$d_conv+$d_accum-1%>;
   assign out_end    = r_out_end_d<%=$d_conv+$d_accum-1%>;
 
-  assign conv_we    = r_out_valid_d<%=$d_conv+$d_accum-2%>;
+  assign conv_oe    = r_out_valid_d<%=$d_conv+$d_accum-2%>;
 
   always @(posedge clk)
     if (!xrst)

@@ -51,12 +51,14 @@ module newctrl(/*AUTOARG*/);
   <%- for n in ["begin", "valid", "end"] -%>
   wire in_core_<%=n%>;
   wire in_conv_<%=n%>;
-  wire in_pool_<%=n%>;
+  wire in_bias_<%=n%>;
   wire in_relu_<%=n%>;
+  wire in_pool_<%=n%>;
   wire out_core_<%=n%>;
   wire out_conv_<%=n%>;
-  wire out_pool_<%=n%>;
+  wire out_bias_<%=n%>;
   wire out_relu_<%=n%>;
+  wire out_pool_<%=n%>;
   <%- end -%>
 
   /*AUTOREG*/

@@ -16,6 +16,7 @@ module ctrl_core(/*AUTOARG*/);
   input               in_end;
   input [INSIZE-1:0]  input_addr;
   input [WSIZE-1:0]   weight_addr;
+  input [BSIZE-1:0]   bias_addr;
   input [OUTSIZE-1:0] output_addr;
   input [LWIDTH-1:0]  total_out;
   input [LWIDTH-1:0]  total_in;
@@ -209,7 +210,11 @@ module ctrl_core(/*AUTOARG*/);
   // assign s_weight_end     = (r_state == S_WEIGHT)
   //                             && r_weight_x == r_fil_size - 1
   //                             && r_weight_y == r_fil_size - 1;
-  assign s_weight_end     = r_bias;
+  assign s_weight_end     = r_count_in == r_total_in - 1
+                          ? r_bias
+                          : (r_state == S_WEIGHT)
+                              && r_weight_x == r_fil_size - 1
+                              && r_weight_y == r_fil_size - 1;
 
   always @(posedge clk)
     if (!xrst)
@@ -227,6 +232,17 @@ module ctrl_core(/*AUTOARG*/);
     else if (r_state_d[r_d_pixelbuf] == S_WEIGHT
               && !r_bias_d[r_d_pixelbuf])
       r_weight_addr <= r_weight_addr + 1;
+
+  always @(posedge clk)
+    if (!xrst)
+      r_bias_addr <= 0;
+    else if (r_count_out + CORE >= r_total_out
+              && r_count_in == r_total_in - 1
+              && r_bias_d[r_d_pixelbuf])
+      r_bias_addr <= 0;
+    else if (r_state_d[r_d_pixelbuf] == S_WEIGHT
+              && r_bias_d[r_d_pixelbuf])
+      r_bias_addr <= r_bias_addr + 1;
 
   always @(posedge clk)
     if (!xrst)
@@ -250,6 +266,12 @@ module ctrl_core(/*AUTOARG*/);
         r_weight_y <= 0;
       else
         r_weight_y <= r_weight_y + 1;
+
+  always @(posedge clk)
+    if (!xrst)
+      r_bias_offset <= 0;
+    else if (req || ack)
+      r_bias_offset <= bias_addr;
 
   <%- for i in 1...$d_pixelbuf -%>
   always @(posedge clk)
@@ -301,7 +323,8 @@ module ctrl_core(/*AUTOARG*/);
 
   always @(posedge clk)
     if (r_state == S_WEIGHT)
-      r_bias <= r_weight_x == r_fil_size - 1
+      r_bias <= r_count_in == r_total_in - 1
+             && r_weight_x == r_fil_size - 1
              && r_weight_y == r_fil_size - 1;
     else
       r_bias <= 0;

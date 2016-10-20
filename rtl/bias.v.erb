@@ -19,6 +19,8 @@ module bias(/*AUTOARG*/);
   reg signed [DWIDTH-1:0] r_pixel_in;
   reg signed [DWIDTH-1:0] r_pixel_out;
 
+  assign pixel_out = r_pixel_out;
+
   always @(posedge clk)
     if (!xrst)
       r_bias <= 0;

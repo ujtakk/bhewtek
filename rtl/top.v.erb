@@ -47,6 +47,12 @@ module top(/*AUTOARG*/);
   ); */
   decoder dec_weight(/*AUTOINST*/);
 
+  /* decoder AUTO_TEMPLATE (
+      .in_code  (b_we[<%=$core_log%>:0]),
+      .out_code (mem_bias_we[<%=$core-1%>:0]),
+  ); */
+  decoder dec_bias(/*AUTOINST*/);
+
   <%- for i in 0...$core -%>
   /* mem_weight AUTO_TEMPLATE (
       .read_data  (read_weight<%=i%>[DWIDTH-1:0]),

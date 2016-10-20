@@ -5,7 +5,7 @@ module accumulator(/*AUTOARG*/);
   input clk;
   input xrst;
   input reset;
-  input o_we;
+  input out_en;
   input signed [DWIDTH-1:0] result;
   input signed [DWIDTH-1:0] sum_old;
 
@@ -27,7 +27,7 @@ module accumulator(/*AUTOARG*/);
   always @(posedge clk)
     if (!xrst)
       total <= 0;
-    else if(o_we)
+    else if(out_en)
       total <= sum;
     //else
     //  total <= total;

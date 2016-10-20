@@ -5,7 +5,7 @@ module pool(/*AUTOARG*/);
   /*AUTOINPUT*/
   input clk;
   input xrst;
-  input o_we;
+  input out_en;
   <%- for i in 0...$psize**2 -%>
   input signed [DWIDTH-1:0] pixel_feat<%=i%>;
   <%- end -%>
@@ -41,7 +41,7 @@ module pool(/*AUTOARG*/);
   always @(posedge clk)
     if (!xrst)
       r_max <= 0;
-    else if (o_we)
+    else if (out_en)
       r_max <= max;
 
   <%- for i in 0...$psize**2 -%>

@@ -34,7 +34,7 @@ module core(/*AUTOARG*/);
   /* accumulator AUTO_TEMPLATE (
       .total    (fmap[DWIDTH-1:0]),
       .result   (result[DWIDTH-1:0]),
-      .o_we     (conv_we),
+      .out_en   (conv_we),
       .reset    (mem_feat_rst),
       .sum_old  (read_feat[DWIDTH-1:0]),
       .sum_wb   (write_feat[DWIDTH-1:0]),
@@ -44,14 +44,14 @@ module core(/*AUTOARG*/);
   /* bias AUTO_TEMPLATE (
       .read_bias  (read_bias[DWIDTH-1:0]),
       .breg_we    (breg_we),
-      .o_we       (bias_we),
+      .out_en     (bias_we),
       .pixel_in   (fmap[DWIDTH-1:0]),
       .pixel_out  (biased[DWIDTH-1:0]),
   ); */
   bias bias(/*AUTOINST*/);
 
   /* relu AUTO_TEMPLATE (
-      .o_we       (relu_we),
+      .out_en     (relu_we),
       .pixel_in   (biased[DWIDTH-1:0]),
       .pixel_out  (actived[DWIDTH-1:0]),
   ); */
@@ -76,7 +76,7 @@ module core(/*AUTOARG*/);
 
   /* pool AUTO_TEMPLATE (
       .pmap             (pmap[DWIDTH-1:0]),
-      .o_we             (pool_we),
+      .out_en           (pool_we),
       <%- for i in 0...$psize**2 -%>
       .pixel_feat<%=i%> (pixel_feat<%=i%>[DWIDTH-1:0]),
       <%- end -%>

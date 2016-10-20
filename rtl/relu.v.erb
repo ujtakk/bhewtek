@@ -4,7 +4,7 @@ module relu(/*AUTOARG*/);
   /*AUTOINPUT*/
   input clk;
   input xrst;
-  input o_we;
+  input out_en;
   input signed [DWIDTH-1:0] pixel_in;
 
   /*AUTOOUTPUT*/
@@ -27,7 +27,7 @@ module relu(/*AUTOARG*/);
   always @(posedge clk)
     if (!xrst)
       r_pixel_out <= 0;
-    else if (o_we)
+    else if (out_en)
       if (r_pixel_in > 0)
         r_pixel_out <= r_pixel_in;
       else

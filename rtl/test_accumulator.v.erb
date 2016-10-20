@@ -19,10 +19,10 @@ module test_accumulator();
 
     initial
     begin
-        $display("reset o_we | result sum_old | total sum_wb");
+        $display("reset out_en | result sum_old | total sum_wb");
         #(STEP);
         //xrst = 0;
-        o_we = 0;
+        out_en = 0;
         result = 0;
         sum_old = 0;
         #(STEP);
@@ -32,11 +32,11 @@ module test_accumulator();
         #(STEP);
         reset = 0;
         #(STEP*2);
-        o_we = 1;
+        out_en = 1;
         #(STEP*2);
         result = 7;
         #(STEP*2);
-        o_we = 0;
+        out_en = 0;
         result = 0;
         #(STEP*2);
         $finish();
@@ -47,7 +47,7 @@ module test_accumulator();
         #(STEP/2-1);
         $display(
             "%5d ", reset,
-            "%4d | ", o_we,
+            "%4d | ", out_en,
             "%6d ", result,
             "%7d | ", sum_old,
             "%5d ", total,

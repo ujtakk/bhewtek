@@ -5,7 +5,7 @@ module bias(/*AUTOARG*/);
   input clk;
   input xrst;
   input breg_we;
-  input o_we;
+  input out_en;
   input signed [DWIDTH-1:0] read_bias;
   input signed [DWIDTH-1:0] pixel_in;
 
@@ -36,7 +36,7 @@ module bias(/*AUTOARG*/);
   always @(posedge clk)
     if (!xrst)
       r_pixel_out <= 0;
-    else if (o_we)
+    else if (out_en)
       r_pixel_out <= r_pixel_in + r_bias;
 
 endmodule

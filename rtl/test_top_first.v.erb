@@ -22,9 +22,9 @@ module test_top_first();
   reg [DWIDTH-1:0] mem_in [2**INSIZE-1:0];
   <%- for i in 0...$core -%>
   reg [DWIDTH-1:0] mem_w<%=i%> [2**WSIZE-1:0];
+  reg [DWIDTH-1:0] mem_b<%=i%> [2**BSIZE-1:0];
   <%- end -%>
 
-  integer fp;
   integer i;
   initial
   begin
@@ -43,6 +43,10 @@ module test_top_first();
     weight_we = 4'd0;
     weight_addr = 0;
     write_weight = 0;
+
+    b_we = 4'd0;
+    bias_addr = 0;
+    write_bias = 0;
 
     output_re = 0;
     output_addr = 0;
@@ -65,6 +69,7 @@ module test_top_first();
     // write_input = 0;
 
     read_weight_direct;
+    read_bias_direct;
     // read_weight;
     // <%- for n in 0...$core -%>
     // weight_we = 4'd<%=n+1%>;
@@ -127,15 +132,14 @@ module test_top_first();
   task mem_clear;
     begin
       for (i=0; i<2**INSIZE; i=i+1)
-      begin
         mem_in[i] = {DWIDTH{1'b0}};
-      end
 
       <%- for i in 0...$core -%>
       for (i=0; i<2**WSIZE; i=i+1)
-      begin
         mem_w<%=i%>[i] = {DWIDTH{1'b0}};
-      end
+
+      for (i=0; i<2**BSIZE; i=i+1)
+        mem_b<%=i%>[i] = {DWIDTH{1'b0}};
       <%- end -%>
     end
   endtask
@@ -143,15 +147,14 @@ module test_top_first();
   task mem_clear_direct;
     begin
       for (i=0; i<2**INSIZE; i=i+1)
-      begin
         dut0.mem_input.mem[i] = {DWIDTH{1'b0}};
-      end
 
       <%- for i in 0...$core -%>
       for (i=0; i<2**WSIZE; i=i+1)
-      begin
         dut0.mem_weight<%=i%>.mem[i] = {DWIDTH{1'b0}};
-      end
+
+      for (i=0; i<2**BSIZE; i=i+1)
+        dut0.mem_bias<%=i%>.mem[i] = {DWIDTH{1'b0}};
       <%- end -%>
     end
   endtask
@@ -209,7 +212,7 @@ module test_top_first();
       );
       <%-       else -%>
       $readmemb(
-        "../data/mnist/lenet/bwb_1/null.bin",
+        "../data/mnist/lenet/bwb_1/null_w.bin",
         mem_w<%=k%>,
         <%=($fsize**2)*(1*($n_f1/$core)+j)%>,
         <%=($fsize**2)*(1*($n_f1/$core)+j+1)-1%>
@@ -221,35 +224,66 @@ module test_top_first();
 
       <%- for i in 0...$n_f2/$core -%>
       <%-   for j in 0...$n_f1 -%>
-      <%-   for k in 0...$core -%>
+      <%-     for k in 0...$core -%>
       $readmemb(
         "../data/mnist/lenet/bwb_2/data<%=$core*i+k%>_<%=j%>.bin",
         mem_w<%=k%>,
         <%=($fsize**2)*($n_f1*i+j)%> + <%=offset%>,
         <%=($fsize**2)*($n_f1*i+j+1)-1%> + <%=offset%>
       );
-      <%-   end -%>
+      <%-     end -%>
       <%-   end -%>
       <%- end -%>
       <%- if $n_f2 % $core != 0 -%>
       <%-   for j in 0...$n_f1 -%>
-      <%-   for k in 0...$core -%>
-      <%-     if ($n_f2 - ($n_f2 % $core) + k) < $n_f2 -%>
+      <%-     for k in 0...$core -%>
+      <%-       if ($n_f2 - ($n_f2 % $core) + k) < $n_f2 -%>
       $readmemb(
         "../data/mnist/lenet/bwb_2/data<%=$n_f2-($n_f2%$core)+k%>_<%=j%>.bin",
         mem_w<%=k%>,
         <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%> + <%=offset%>,
         <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%> + <%=offset%>
       );
-      <%-     else -%>
+      <%-       else -%>
       $readmemb(
-        "../data/mnist/lenet/bwb_2/null.bin",
+        "../data/mnist/lenet/bwb_2/null_w.bin",
         mem_w<%=k%>,
         <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%> + <%=offset%>,
         <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%> + <%=offset%>
       );
+      <%-       end -%>
       <%-     end -%>
       <%-   end -%>
+      <%- end -%>
+    end
+  endtask
+
+  task read_bias;
+    begin
+      <%- for i in 0...$n_f1/$core -%>
+      <%-   for j in 0...$core -%>
+      $readmemb(
+        "../data/mnist/lenet/bwb_1/data<%=$core*i+j%>.bin",
+        mem_b<%=j%>,
+        <%=i%>, <%=i%>
+      );
+      <%-   end -%>
+      <%- end -%>
+      <%- if $n_f1 % $core != 0 -%>
+      <%-   for j in 0...$core -%>
+      <%-     if ($n_f1 - ($n_f1 % $core) + j) < $n_f1 -%>
+      $readmemb(
+        "../data/mnist/lenet/bwb_1/data<%=$n_f1-($n_f1%$core)+j%>.bin",
+        mem_b<%=j%>,
+        <%=($n_f1/$core)%>, <%=($n_f1/$core)%>
+      );
+      <%-     else -%>
+      $readmemb(
+        "../data/mnist/lenet/bwb_1/null_b.bin",
+        mem_b<%=j%>,
+        <%=($n_f1/$core)%>, <%=($n_f1/$core)%>
+      );
+      <%-     end -%>
       <%-   end -%>
       <%- end -%>
     end
@@ -281,7 +315,7 @@ module test_top_first();
       );
       <%-       else -%>
       $readmemb(
-        "../data/mnist/lenet/bwb_1/null.bin",
+        "../data/mnist/lenet/bwb_1/null_w.bin",
         dut0.mem_weight<%=k%>.mem,
         <%=($fsize**2)*(1*($n_f1/$core)+j)%>,
         <%=($fsize**2)*(1*($n_f1/$core)+j+1)-1%>
@@ -315,13 +349,44 @@ module test_top_first();
       );
       <%-     else -%>
       $readmemb(
-        "../data/mnist/lenet/bwb_2/null.bin",
+        "../data/mnist/lenet/bwb_2/null_w.bin",
         dut0.mem_weight<%=k%>.mem,
         <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%> + <%=offset%>,
         <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%> + <%=offset%>
       );
       <%-     end -%>
       <%-   end -%>
+      <%-   end -%>
+      <%- end -%>
+    end
+  endtask
+
+  task read_bias_direct;
+    begin
+      <%- for i in 0...$n_f1/$core -%>
+      <%-   for j in 0...$core -%>
+      $readmemb(
+        "../data/mnist/lenet/bwb_1/data<%=$core*i+j%>.bin",
+        dut0.mem_bias<%=j%>.mem,
+        <%=i%>, <%=i%>
+      );
+      <%-   end -%>
+      <%- end -%>
+      <%- if $n_f1 % $core != 0 -%>
+      <%-   for j in 0...$core -%>
+      <%-     if ($n_f1 - ($n_f1 % $core) + j) < $n_f1 -%>
+      $readmemb(
+        "../data/mnist/lenet/bwb_1/data<%=$n_f1-($n_f1%$core)+j%>.bin",
+        dut0.mem_bias<%=j%>.mem,
+        <%=($n_f1/$core)%>, <%=($n_f1/$core)%>
+      );
+      <%-     else -%>
+      $readmemb(
+        "../data/mnist/lenet/bwb_1/null_b.bin",
+        dut0.mem_bias<%=j%>.mem,
+        <%=($n_f1/$core)%>, <%=($n_f1/$core)%>
+      );
+      <%-     end -%>
       <%-   end -%>
       <%- end -%>
     end

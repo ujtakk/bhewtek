@@ -5,6 +5,14 @@
 	</section>
 	<section name="NewClassWizardPage">
 	</section>
+	<section name="CRenameRefactoringInputPage">
+		<item value="3" key="scope"/>
+		<item value="" key="workingset"/>
+		<item value="false" key="references_inv"/>
+		<item value="false" key="comment"/>
+		<item value="false" key="exhausiveFileSearch"/>
+		<item value="false" key="macroDefinition"/>
+	</section>
 	<section name="completion_proposal_size">
 	</section>
 </section>

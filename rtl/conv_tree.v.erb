@@ -1,6 +1,7 @@
+% load "parameters.rb"
+
 module conv_tree(/*AUTOARG*/);
 `include "parameters.vh"
-<%- load "parameters.rb" -%>
 
   /*AUTOINPUT*/
   input clk;
@@ -26,11 +27,7 @@ module conv_tree(/*AUTOARG*/);
   reg signed[DWIDTH-1:0]    r_fmap;
   <%- for i in 0...$fsize**2 -%>
   reg signed [DWIDTH-1:0]   r_pixel<%=i%>;
-  <%- end -%>
-  <%- for i in 0...$fsize**2 -%>
   reg signed [DWIDTH-1:0]   r_weight<%=i%>;
-  <%- end -%>
-  <%- for i in 0...$fsize**2 -%>
   reg signed [2*DWIDTH-1:0] r_pro<%=i%>;
   reg signed [DWIDTH-1:0]   r_pro_short<%=i%>;
   <%- end -%>

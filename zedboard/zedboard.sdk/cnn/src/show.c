@@ -30,9 +30,10 @@ void probe_in(s16 *input_true, int total_in, int img_size)
 
 void probe_w(s16 *weight_true, int total_out, int total_in, int fil_size)
 {
-  int w_mem_addr, core_num;
-  const int w_unit = total_in * fil_size * fil_size;
-  const int w_size = total_out * w_unit;
+  int w_mem_addr    = 0;
+  int core_num      = 0;
+  const int w_unit  = total_in * fil_size * fil_size;
+  const int w_size  = total_out * w_unit;
   int probe;
 
   for (int i = 0; i < w_size; i++) {
@@ -106,7 +107,7 @@ void print_result(s16 *output)
   int max     = INT_MIN;
 
   for (int i = 0; i < LABEL; i++) {
-    xil_printf("%d\n\r",output[i]);
+    printf("%d\n",output[i]);
 
     if (max < output[i]) {
       max = output[i];
@@ -114,7 +115,7 @@ void print_result(s16 *output)
     }
   }
 
-  xil_printf("the answer is %d.\n\r", number);
+  printf("the answer is %d.\n", number);
 }
 
 

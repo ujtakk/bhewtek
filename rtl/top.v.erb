@@ -1,4 +1,4 @@
-<%- load "parameters.rb" -%>
+% load "parameters.rb"
 
 // Template to ignore unnecessary output ports.
 // enumerate in quoted list of verilog-regexp-words.
@@ -33,28 +33,42 @@ module top(/*AUTOARG*/);
 %   end
 % end
 
-  /* sram_input AUTO_TEMPLATE (
+  /* mem_input AUTO_TEMPLATE (
       .read_data  (read_input[DWIDTH-1:0]),
       .write_data (write_input[DWIDTH-1:0]),
       .mem_we     (input_we),
       .mem_addr   (mem_input_addr[INSIZE-1:0]),
   ); */
-  sram_input mem_input(/*AUTOINST*/);
+  mem_input mem_input(/*AUTOINST*/);
 
   /* decoder AUTO_TEMPLATE (
-      .in_code  (weight_we[<%=$core_log%>:0]),
-      .out_code (mem_weight_we[<%=$core-1%>:0]),
+      .in_code  (weight_we[CORELOG:0]),
+      .out_code (mem_weight_we[CORE-1:0]),
   ); */
   decoder dec_weight(/*AUTOINST*/);
 
+  /* decoder AUTO_TEMPLATE (
+      .in_code  (bias_we[CORELOG:0]),
+      .out_code (mem_bias_we[CORE-1:0]),
+  ); */
+  decoder dec_bias(/*AUTOINST*/);
+
   <%- for i in 0...$core -%>
-  /* sram_weight AUTO_TEMPLATE (
+  /* mem_weight AUTO_TEMPLATE (
       .read_data  (read_weight<%=i%>[DWIDTH-1:0]),
       .write_data (write_weight[DWIDTH-1:0]),
       .mem_we     (mem_weight_we[<%=i%>]),
       .mem_addr   (mem_weight_addr[WSIZE-1:0]),
   ); */
-  sram_weight mem_weight<%=i%>(/*AUTOINST*/);
+  mem_weight mem_weight<%=i%>(/*AUTOINST*/);
+
+  /* mem_bias AUTO_TEMPLATE (
+      .read_data  (read_bias<%=i%>[DWIDTH-1:0]),
+      .write_data (write_bias[DWIDTH-1:0]),
+      .mem_we     (mem_bias_we[<%=i%>]),
+      .mem_addr   (mem_bias_addr[BSIZE-1:0]),
+  ); */
+  mem_bias mem_bias<%=i%>(/*AUTOINST*/);
   <%- end -%>
 
   /* linebuf AUTO_TEMPLATE (
@@ -74,27 +88,29 @@ module top(/*AUTOARG*/);
 
   <%- for i in 0...$core -%>
   /* core AUTO_TEMPLATE (
-      .conv_we          (conv_we),
+      .conv_oe          (conv_oe),
       .mem_feat_addr    (mem_feat_addr[FACCUM-1:0]),
       .mem_feat_addr_d1 (mem_feat_addr_d1[FACCUM-1:0]),
       .mem_feat_rst     (mem_feat_rst),
       .mem_feat_we      (mem_feat_we),
-      .pool_we          (pool_we),
+      .pool_oe          (pool_oe),
       .read_weight      (read_weight<%=i%>[DWIDTH-1:0]),
+      .read_bias        (read_bias<%=i%>[DWIDTH-1:0]),
       .wreg_we          (wreg_we),
+      .breg_we          (breg_we),
       .pmap             (pmap<%=i%>[DWIDTH-1:0]),
   ); */
   core core<%=i%>(/*AUTOINST*/);
   <%- end -%>
 
   <%- for i in 0...$core -%>
-  /* sram_output AUTO_TEMPLATE (
+  /* mem_output AUTO_TEMPLATE (
       .read_data  (read_output<%=i%>[DWIDTH-1:0]),
       .write_data (pmap<%=i%>[DWIDTH-1:0]),
       .mem_we     (mem_output_we),
       .mem_addr   (mem_output_addr[OUTSIZE-1:0]),
   ); */
-  sram_output mem_output<%=i%>(/*AUTOINST*/);
+  mem_output mem_output<%=i%>(/*AUTOINST*/);
   <%- end -%>
 
   mux_output select_out(/*AUTOINST*/);

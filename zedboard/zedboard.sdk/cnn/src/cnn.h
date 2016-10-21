@@ -1,6 +1,21 @@
 #ifndef __CNN_H_
 #define __CNN_H_
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+#include <unistd.h>
+
+#include "xparameters.h"
+#include "copro.h"
+
+#include "xil_printf.h"
+#include "platform.h"
+#include "func_ps.h"
+#include "func_pl.h"
+#include "show.h"
+#include "misc.h"
+
 #define FWID    5
 #define FHEI    5
 #define IMWID   28
@@ -32,8 +47,5 @@
 #define FM2WID (PM1WID-FWID+1)
 #define PM2HEI FM2HEI/PHEI
 #define PM2WID FM2WID/PWID
-
-#include "xparameters.h"
-#include "copro.h"
 
 #endif

@@ -6,7 +6,8 @@ log.txt
 *[^(dep)]*.in
 *.com
 *.vstf
-*[^(_true)].dat
+*.dat
+!*_true.dat
 Makefile.dep
 work/
 transcript

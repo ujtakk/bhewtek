@@ -1,11 +1,12 @@
+% load "parameters.rb"
+
 module mux_output(/*AUTOARG*/);
 `include "parameters.vh"
-<%- load "parameters.rb" -%>
 
   /*AUTOINPUT*/
   input clk;
   input xrst;
-  input [<%=$core_log%>:0] output_re;
+  input [CORELOG:0] output_re;
   <%- for i in 0...$core -%>
   input signed [DWIDTH-1:0] read_output<%=i%>;
   <%- end -%>
@@ -25,9 +26,9 @@ module mux_output(/*AUTOARG*/);
       r_output <= 0;
     else
       case (output_re)
-        4'd0:     r_output <= {DWIDTH{1'b0}};
+        <%=$core_log+1%>'d0:     r_output <= {DWIDTH{1'b0}};
         <%- for i in 0...$core -%>
-        4'd<%=i+1%>:     r_output <= read_output<%=i%>;
+        <%=$core_log+1%>'d<%=i+1%>:     r_output <= read_output<%=i%>;
         <%- end -%>
         default:  r_output <= {DWIDTH{1'b0}};
       endcase

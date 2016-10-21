@@ -27,8 +27,8 @@ module ctrl(/*AUTOARG*/);
   /*AUTOOUTPUT*/
   output                ack;
   output                wreg_we;
-  output                conv_we;
-  output                pool_we;
+  output                conv_oe;
+  output                pool_oe;
   output [INSIZE-1:0]   mem_input_addr;
   output [WSIZE-1:0]    mem_weight_addr;
   output                mem_feat_we;
@@ -78,11 +78,11 @@ module ctrl(/*AUTOARG*/);
   reg r_feat_we_d<%=i%>;
   reg r_feat_rst_d<%=i%>;
   reg [FACCUM-1:0] r_feat_addr_d<%=i%>;
-  reg r_conv_we_d<%=i%>;
+  reg r_conv_oe_d<%=i%>;
   <%- end -%>
   reg [FACCUM-1:0] r_feat_addr_d<%=$d_conv+1%>;
   <% for i in 0..$d_pool+1 -%>
-  reg r_pool_we_d<%=i%>;
+  reg r_pool_oe_d<%=i%>;
   reg r_ack_d<%=i%>;
   <%- end -%>
   reg r_ack_d<%=$d_pool+2%>;
@@ -272,7 +272,7 @@ module ctrl(/*AUTOARG*/);
   assign mem_feat_rst     = r_feat_rst_d<%=$d_conv%>;
   assign mem_feat_addr_d1 = r_feat_addr_d<%=$d_conv+1%>;
   assign mem_feat_addr    = r_feat_addr_d<%=$d_conv%>;
-  assign conv_we          = r_conv_we_d<%=$d_conv%>;
+  assign conv_oe          = r_conv_oe_d<%=$d_conv%>;
 
   always @(posedge clk)
     if (r_state == S_CONV && conv_valid)
@@ -328,14 +328,14 @@ module ctrl(/*AUTOARG*/);
   always @(posedge clk)
     <%- if i == 0 -%>
     if (r_state == S_POOL && conv_valid)
-      r_conv_we_d<%=i%> <= 1;
+      r_conv_oe_d<%=i%> <= 1;
     else
-      r_conv_we_d<%=i%> <= 0;
+      r_conv_oe_d<%=i%> <= 0;
     <%- else -%>
     if (!xrst)
-      r_conv_we_d<%=i%> <= 0;
+      r_conv_oe_d<%=i%> <= 0;
     else
-      r_conv_we_d<%=i%> <= r_conv_we_d<%=i-1%>;
+      r_conv_oe_d<%=i%> <= r_conv_oe_d<%=i-1%>;
     <%- end -%>
   <%- end -%>
 
@@ -379,22 +379,22 @@ module ctrl(/*AUTOARG*/);
             && r_pool_x == r_fea_w - 1 && r_pool_y == r_fea_h - 1;
 
   //pool exec
-  assign pool_we     = r_pool_we_d<%=$d_pool%>;
-  assign mem_output_we   = r_pool_we_d<%=$d_pool+1%>;
+  assign pool_oe     = r_pool_oe_d<%=$d_pool%>;
+  assign mem_output_we   = r_pool_oe_d<%=$d_pool+1%>;
   assign mem_output_addr = output_addr + r_output_addr;
 
   always @(posedge clk)
     if (pool_valid && r_pool_x[0] == 1 && r_pool_y[0] == 1)
-      r_pool_we_d0 <= 1;
+      r_pool_oe_d0 <= 1;
     else
-      r_pool_we_d0 <= 0;
+      r_pool_oe_d0 <= 0;
 
   <%- for i in 1..$d_pool+1 -%>
   always @(posedge clk)
     if (!xrst)
-      r_pool_we_d<%=i%> <= 0;
+      r_pool_oe_d<%=i%> <= 0;
     else
-      r_pool_we_d<%=i%> <= r_pool_we_d<%=i-1%>;
+      r_pool_oe_d<%=i%> <= r_pool_oe_d<%=i-1%>;
   <%- end -%>
 
   //always @(posedge clk or negedge xrst)
@@ -403,7 +403,7 @@ module ctrl(/*AUTOARG*/);
       r_output_addr <= 0;
     else if (ack)
       r_output_addr <= 0;
-    else if (r_pool_we_d<%=$d_pool+1%>)
+    else if (r_pool_oe_d<%=$d_pool+1%>)
       r_output_addr <= r_output_addr + 1;
 
   //assign ack = pool_end && r_count_out + <%=$core%> >= r_total_out;

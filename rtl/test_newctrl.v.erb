@@ -1,8 +1,9 @@
+% load "parameters.rb"
+
 `timescale 1ns/1ps
 
 module test_newctrl();
 `include "parameters.vh"
-<%- load "parameters.rb" -%>
 
     /*AUTOREGINPUT*/
 
@@ -59,8 +60,8 @@ module test_newctrl();
           "| ",
           "%d ", ack,
           "%d ", wreg_we,
-          "%d ", conv_we,
-          "%d ", pool_we,
+          "%d ", conv_oe,
+          "%d ", pool_oe,
           "%d ", mem_input_addr,
           "%d ", mem_weight_addr,
           "%d ", mem_feat_we,
@@ -109,8 +110,8 @@ module test_newctrl();
           "| ",
           "%d ", ack,
           "%d ", wreg_we,
-          "%d ", conv_we,
-          "%d ", pool_we,
+          "%d ", conv_oe,
+          "%d ", pool_oe,
           "%d ", mem_input_addr,
           "%d ", mem_weight_addr,
           "%d ", mem_feat_we,

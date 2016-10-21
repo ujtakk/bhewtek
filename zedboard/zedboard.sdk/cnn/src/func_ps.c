@@ -3,9 +3,19 @@
  *     for temporal working.
  * TODO: Therefore, high dimentional load functions are not implemented.
  */
+#include <stdio.h>
 #include <math.h>
+#include <limits.h>
 #include "xil_types.h"
 #include "func_ps.h"
+
+// latency analysis
+#include "xtime_l.h"
+#define INIT  XTime begin, end;
+#define BEGIN XTime_GetTime(&begin);
+#define END   XTime_GetTime(&end); printf("elapsed time: %10.6f [ms]\n\n", (double)(end-begin) / COUNTS_PER_SECOND * 1000);
+
+#define SHIFT 256
 
 
 
@@ -62,18 +72,16 @@ void load_bias(s16 *bias_vector,
 void full_connect(s16 *input, s16 *output, s16 *weight,
           s16 *bias, const int ilen, const int olen)
 {
-  int base  = 0;
-  s32 pro   = 0;
-  s16 sum   = 0;
+  int base = 0;
 
   for (int i = 0; i < olen; i++) {
+    s16 sum = bias[i];
     for (int j = 0; j < ilen; j++) {
-      pro = input[j] * weight[base+j] / (int)pow(2,8);
-      sum += (s16)pro;
+      s32 pro = input[j] * weight[base+j];
+      if (pro >= 0) sum += pro / SHIFT;
+      else          sum += pro / SHIFT - 1;
     }
-
-    output[i] = sum + bias[i];
-    sum = 0;
+    output[i] = sum;
     base += ilen;
   }
 }
@@ -84,7 +92,7 @@ void full_connect(s16 *input, s16 *output, s16 *weight,
 
 void activate_1d(s16 *input, const int ilen)
 {
-  for (int i = 0; i < ilen ;i++)
+  for (int i = 0; i < ilen; i++)
     if (input[i] < 0)
       input[i] = 0;
 }
@@ -93,9 +101,9 @@ void activate_1d(s16 *input, const int ilen)
 
 
 
-int softmax(double *output, int len)
+int softmax(double *output, const int len)
 {
-  double expsum=0.0;
+  double expsum = 0.0;
 
   for (int i = 0; i < len; i++)
     expsum += exp(output[i]);
@@ -113,3 +121,11 @@ int softmax(double *output, int len)
 
 
 
+s16 mul(s16 input, s16 weight)
+{
+  s32 pro = input * weight;
+  if (pro >= 0)
+    return (s16)(pro / SHIFT);
+  else
+    return (s16)(pro / SHIFT - 1);
+}

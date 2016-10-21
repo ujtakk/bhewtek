@@ -1,8 +1,9 @@
+% load "parameters.rb"
+
 `timescale 1ns/1ps
 
 module test_pool();
 `include "parameters.vh"
-<%- load "parameters.rb" -%>
 
     /*AUTOREGINPUT*/
 
@@ -20,26 +21,26 @@ module test_pool();
     initial
     begin
         #(STEP);
-        o_we = 0;
+        out_en = 0;
         <%- for i in 0...4 -%>
         pixel_feat<%=i%> = <%=i%>;
         <%- end -%>
         #(STEP*2);
-        o_we = 1;
+        out_en = 1;
         #(STEP*2);
         pixel_feat0 = 8;
         pixel_feat1 = 5;
         pixel_feat2 = 6;
         pixel_feat3 = 1;
         #(STEP*2);
-        o_we = 0;
+        out_en = 0;
         #(STEP*2);
         pixel_feat0 = 0;
         pixel_feat1 = 5;
         pixel_feat2 = 6;
         pixel_feat3 = 1;
         #(STEP*2);
-        o_we = 1;
+        out_en = 1;
         #(STEP*2);
         $finish();
     end
@@ -48,7 +49,7 @@ module test_pool();
     begin
         #(STEP/2-1);
         $display(
-            "%d | ", o_we,
+            "%d | ", out_en,
             <%- for i in 0...4 -%>
             "%d ", pixel_feat<%=i%>,
             <%- end -%>

@@ -82,16 +82,16 @@
   "../../../ipstatic/generic_baseblocks_v2_1/hdl/verilog/generic_baseblocks_v2_1_mux.v" \
   "../../../ipstatic/generic_baseblocks_v2_1/hdl/verilog/generic_baseblocks_v2_1_nto1_mux.v" \
 -endlib
--makelib ies/fifo_generator_v13_1_0 \
+-makelib ies/fifo_generator_v13_1_1 \
   "../../../ipstatic/fifo_generator_v13_1/simulation/fifo_generator_vlog_beh.v" \
 -endlib
--makelib ies/fifo_generator_v13_1_0 \
+-makelib ies/fifo_generator_v13_1_1 \
   "../../../ipstatic/fifo_generator_v13_1/hdl/fifo_generator_v13_1_rfs.vhd" \
 -endlib
--makelib ies/fifo_generator_v13_1_0 \
+-makelib ies/fifo_generator_v13_1_1 \
   "../../../ipstatic/fifo_generator_v13_1/hdl/fifo_generator_v13_1_rfs.v" \
 -endlib
--makelib ies/axi_data_fifo_v2_1_7 \
+-makelib ies/axi_data_fifo_v2_1_8 \
   "../../../ipstatic/axi_data_fifo_v2_1/hdl/verilog/axi_data_fifo_v2_1_axic_fifo.v" \
   "../../../ipstatic/axi_data_fifo_v2_1/hdl/verilog/axi_data_fifo_v2_1_fifo_gen.v" \
   "../../../ipstatic/axi_data_fifo_v2_1/hdl/verilog/axi_data_fifo_v2_1_axic_srl_fifo.v" \
@@ -104,11 +104,11 @@
   "../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog/axi_infrastructure_v1_1_axic_srl_fifo.v" \
   "../../../ipstatic/axi_infrastructure_v1_1/hdl/verilog/axi_infrastructure_v1_1_vector2axi.v" \
 -endlib
--makelib ies/axi_register_slice_v2_1_8 \
+-makelib ies/axi_register_slice_v2_1_9 \
   "../../../ipstatic/axi_register_slice_v2_1/hdl/verilog/axi_register_slice_v2_1_axic_register_slice.v" \
   "../../../ipstatic/axi_register_slice_v2_1/hdl/verilog/axi_register_slice_v2_1_axi_register_slice.v" \
 -endlib
--makelib ies/axi_protocol_converter_v2_1_8 \
+-makelib ies/axi_protocol_converter_v2_1_9 \
   "../../../ipstatic/axi_protocol_converter_v2_1/hdl/verilog/axi_protocol_converter_v2_1_a_axi3_conv.v" \
   "../../../ipstatic/axi_protocol_converter_v2_1/hdl/verilog/axi_protocol_converter_v2_1_axi3_conv.v" \
   "../../../ipstatic/axi_protocol_converter_v2_1/hdl/verilog/axi_protocol_converter_v2_1_axilite_conv.v" \

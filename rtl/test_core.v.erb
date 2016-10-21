@@ -1,8 +1,9 @@
+% load "parameters.rb"
+
 `timescale 1ns/1ps
 
 module test_core();
 `include "parameters.vh"
-<%- load "parameters.rb" -%>
 
     /*AUTOREGINPUT*/
 
@@ -117,10 +118,10 @@ module test_core();
         $finish();
     end
 
-    reg pool_we_d1;
+    reg pool_oe_d1;
 
     always @(posedge clk)
-        pool_we_d1 <= dut0.pool_we0;
+        pool_oe_d1 <= dut0.pool_oe0;
 
     always @(dut0.mem_input_addr)
         mem_input_cnt = mem_input_cnt + 1;
@@ -131,7 +132,7 @@ module test_core();
     always
     begin
         #(STEP/2-1);
-        if (pool_we_d1)
+        if (pool_oe_d1)
             $display("%d: %d %d %d %d", $time/STEP, $signed(dut0.pmap0), $signed(dut0.pmap1), $signed(dut0.pmap2), $signed(dut0.pmap3));
 
         <%- for i in 0...4 -%>
@@ -178,8 +179,8 @@ module test_core();
             "%d ", dut0.mem_weight_addr0,
             "%d ", dut0.weight_addr0,
             "%d ", dut0.wreg_we0,
-            "%d ", dut0.conv_we0,
-            "%d ", dut0.pool_we0,
+            "%d ", dut0.conv_oe0,
+            "%d ", dut0.pool_oe0,
             "| ",
             "%d ", dut0.mem_faccum_we0,
             "%d ", dut0.mem_faccum_rst0,

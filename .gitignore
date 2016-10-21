@@ -7,8 +7,8 @@ doc/*.fls
 doc/*.pdf
 data/
 dist/
-scripts/
 syn/alib-52/
 *.log
 log
 *.jou
+bckup

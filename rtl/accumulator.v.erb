@@ -11,25 +11,25 @@ module accumulator(/*AUTOARG*/);
 
   /*AUTOOUTPUT*/
   output signed [DWIDTH-1:0] total;
-  output signed [DWIDTH-1:0] sum_wb;
+  output signed [DWIDTH-1:0] sum_new;
 
   /*AUTOWIRE*/
   wire signed [DWIDTH-1:0] sum;
 
   /*AUTOREG*/
+  reg signed [DWIDTH-1:0] r_total;
+
+  assign total   = r_total;
+  assign sum_new = sum;
 
   assign sum = reset
-                ? result
-                : result + sum_old;
-
-  assign sum_wb = sum;
+             ? result
+             : result + sum_old;
 
   always @(posedge clk)
     if (!xrst)
-      total <= 0;
+      r_total <= 0;
     else if(out_en)
-      total <= sum;
-    //else
-    //  total <= total;
+      r_total <= sum;
 
 endmodule

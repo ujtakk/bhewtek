@@ -1,6 +1,7 @@
+% load "parameters.rb"
+
 module core(/*AUTOARG*/);
 `include "parameters.vh"
-<%- load "parameters.rb" -%>
 
   /*AUTOINPUT*/
 
@@ -37,7 +38,7 @@ module core(/*AUTOARG*/);
       .out_en   (conv_oe),
       .reset    (mem_feat_rst),
       .sum_old  (read_feat[DWIDTH-1:0]),
-      .sum_wb   (write_feat[DWIDTH-1:0]),
+      .sum_new   (write_feat[DWIDTH-1:0]),
   ); */
   accumulator feat_accum(/*AUTOINST*/);
 

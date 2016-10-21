@@ -1,4 +1,4 @@
-<%- load "parameters.rb" -%>
+% load "parameters.rb"
 
 // Template to ignore unnecessary output ports.
 // enumerate in quoted list of verilog-regexp-words.
@@ -42,14 +42,14 @@ module top(/*AUTOARG*/);
   mem_input mem_input(/*AUTOINST*/);
 
   /* decoder AUTO_TEMPLATE (
-      .in_code  (weight_we[<%=$core_log%>:0]),
-      .out_code (mem_weight_we[<%=$core-1%>:0]),
+      .in_code  (weight_we[CORELOG:0]),
+      .out_code (mem_weight_we[CORE-1:0]),
   ); */
   decoder dec_weight(/*AUTOINST*/);
 
   /* decoder AUTO_TEMPLATE (
-      .in_code  (bias_we[<%=$core_log%>:0]),
-      .out_code (mem_bias_we[<%=$core-1%>:0]),
+      .in_code  (bias_we[CORELOG:0]),
+      .out_code (mem_bias_we[CORE-1:0]),
   ); */
   decoder dec_bias(/*AUTOINST*/);
 

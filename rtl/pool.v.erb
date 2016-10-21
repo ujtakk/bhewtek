@@ -1,6 +1,7 @@
+% load "parameters.rb"
+
 module pool(/*AUTOARG*/);
 `include "parameters.vh"
-<%- load "parameters.rb" -%>
 
   /*AUTOINPUT*/
   input clk;
@@ -51,4 +52,5 @@ module pool(/*AUTOARG*/);
     else
       r_pixel_feat<%=i%> <= pixel_feat<%=i%>;
   <%- end -%>
+
 endmodule

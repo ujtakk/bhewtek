@@ -3,8 +3,9 @@
 # SIMULATOR=vcs
 # SIMULATOR=iverilog
 IOC_DIR=.
-# TARGET=test_top_first
-TARGET=test_ctrl_hash
+TARGET=test_top_first
+# TARGET=test_top
+# TARGET=test_ctrl_hash
 DIST=./dist
 
 include Makefile.dep

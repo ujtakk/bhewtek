@@ -1,0 +1,124 @@
+% load "parameters.rb"
+
+// Template to ignore unnecessary output ports.
+// enumerate in quoted list of verilog-regexp-words.
+/* AUTO_LISP (setq verilog-auto-output-ignore-regexp
+    (verilog-regexp-words `(
+      ""
+   ))) */
+
+module top_hash(/*AUTOARG*/);
+`include "parameters.vh"
+
+  /*AUTOINPUT*/
+
+  /*AUTOOUTPUT*/
+% if $debug
+  output signed [DWIDTH-1:0] probe_in;
+%   $core.times do |i|
+  output signed [DWIDTH-1:0] probe_w<%=i%>;
+%   end
+% end
+
+  /*AUTOWIRE*/
+
+  /*AUTOREG*/
+
+  // AUTO_CONSTANT (DWIDTH)
+
+% if $debug
+  assign probe_in = read_input;
+%   $core.times do |i|
+  assign probe_w<%=i%> = read_weight<%=i%>;
+%   end
+% end
+
+  /* mem_input AUTO_TEMPLATE (
+      .read_data  (read_input[DWIDTH-1:0]),
+      .write_data (write_input[DWIDTH-1:0]),
+      .mem_we     (input_we),
+      .mem_addr   (mem_input_addr[INSIZE-1:0]),
+  ); */
+  mem_input mem_input(/*AUTOINST*/);
+
+  /* decoder AUTO_TEMPLATE (
+      .in_code  (weight_we[CORELOG:0]),
+      .out_code (mem_weight_we[CORE-1:0]),
+  ); */
+  decoder dec_weight(/*AUTOINST*/);
+
+  /* decoder AUTO_TEMPLATE (
+      .in_code  (hash_we[CORELOG:0]),
+      .out_code (lut_hash_we[CORE-1:0]),
+  ); */
+  decoder dec_hash(/*AUTOINST*/);
+
+  /* decoder AUTO_TEMPLATE (
+      .in_code  (bias_we[CORELOG:0]),
+      .out_code (mem_bias_we[CORE-1:0]),
+  ); */
+  decoder dec_bias(/*AUTOINST*/);
+
+  <%- for i in 0...$core -%>
+  /* mem_weight AUTO_TEMPLATE (
+      .read_data  (read_weight<%=i%>[DWIDTH-1:0]),
+      .write_data (write_weight[DWIDTH-1:0]),
+      .mem_we     (mem_weight_we[<%=i%>]),
+      .mem_addr   (mem_weight_addr[WSIZE-1:0]),
+  ); */
+  mem_weight mem_weight<%=i%>(/*AUTOINST*/);
+
+  /* mem_bias AUTO_TEMPLATE (
+      .read_data  (read_bias<%=i%>[DWIDTH-1:0]),
+      .write_data (write_bias[DWIDTH-1:0]),
+      .mem_we     (mem_bias_we[<%=i%>]),
+      .mem_addr   (mem_bias_addr[BSIZE-1:0]),
+  ); */
+  mem_bias mem_bias<%=i%>(/*AUTOINST*/);
+  <%- end -%>
+
+  /* linebuf AUTO_TEMPLATE (
+      .buf_en     (buf_pix_en),
+      .buf_input  (read_input[DWIDTH-1:0]),
+      .img_size (w_img_size[LWIDTH-1:0]),
+      .fil_size (w_fil_size[LWIDTH-1:0]),
+      <%- for i in 0...$fsize -%>
+      <%-   for j in 0...$fsize -%>
+      .buf_output<%=i%>_<%=j%> (pixel<%=i*$fsize+j%>[DWIDTH-1:0]),
+      <%-   end -%>
+      <%- end -%>
+  ); */
+  linebuf buf_pix(/*AUTOINST*/);
+
+  newctrl ctrl(/*AUTOINST*/);
+
+  <%- for i in 0...$core -%>
+  /* core AUTO_TEMPLATE (
+      .conv_oe          (conv_oe),
+      .mem_feat_addr    (mem_feat_addr[FACCUM-1:0]),
+      .mem_feat_addr_d1 (mem_feat_addr_d1[FACCUM-1:0]),
+      .mem_feat_rst     (mem_feat_rst),
+      .mem_feat_we      (mem_feat_we),
+      .pool_oe          (pool_oe),
+      .read_weight      (read_weight<%=i%>[DWIDTH-1:0]),
+      .read_bias        (read_bias<%=i%>[DWIDTH-1:0]),
+      .wreg_we          (wreg_we),
+      .breg_we          (breg_we),
+      .pmap             (pmap<%=i%>[DWIDTH-1:0]),
+  ); */
+  core core<%=i%>(/*AUTOINST*/);
+  <%- end -%>
+
+  <%- for i in 0...$core -%>
+  /* mem_output AUTO_TEMPLATE (
+      .read_data  (read_output<%=i%>[DWIDTH-1:0]),
+      .write_data (pmap<%=i%>[DWIDTH-1:0]),
+      .mem_we     (mem_output_we),
+      .mem_addr   (mem_output_addr[OUTSIZE-1:0]),
+  ); */
+  mem_output mem_output<%=i%>(/*AUTOINST*/);
+  <%- end -%>
+
+  mux_output select_out(/*AUTOINST*/);
+
+endmodule

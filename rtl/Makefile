@@ -4,7 +4,7 @@
 # SIMULATOR=iverilog
 IOC_DIR=.
 # TARGET=test_top_first
-TARGET=test_ctrl_core
+TARGET=test_top
 DIST=../ip_repo/copro_1.0/src/
 
 include Makefile.dep

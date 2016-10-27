@@ -105,7 +105,7 @@ module ctrl_hash(/*AUTOARG*/);
   reg [LWIDTH-1:0]  r_lut_size;
   reg [LWIDTH-1:0]  r_weight;
   reg [2-1:0]       r_state_weight;
-  reg [2-1:0]       r_state_weight_d [<%=$d_pixelbuf%>-1:0];
+  reg [2-1:0]       r_state_weight_d [<%=$d_pixelbuf%>:0];
   reg [HWIDTH-1:0]  r_hash_addr;
   reg [HWIDTH-1:0]  r_hash_offset;
 
@@ -281,7 +281,7 @@ module ctrl_hash(/*AUTOARG*/);
             r_state_weight <= S_W_SLEEP;
       endcase
 
-  <%- for i in 1...$d_pixelbuf -%>
+  <%- for i in 1..$d_pixelbuf -%>
   always @(posedge clk)
     <%- if i == 1 -%>
     if (!xrst)
@@ -367,9 +367,9 @@ module ctrl_hash(/*AUTOARG*/);
 // wreg & bias control
 //==========================================================
 
-  assign wreg_we = r_state_weight_d[r_d_pixelbuf] == S_W_WEIGHT;
-  assign hash_we = r_state_weight_d[r_d_pixelbuf] == S_W_HASH;
-  assign breg_we = r_state_weight_d[r_d_pixelbuf] == S_W_BIAS;
+  assign wreg_we = r_state_weight_d[r_d_pixelbuf+1] == S_W_WEIGHT;
+  assign hash_we = r_state_weight_d[r_d_pixelbuf+1] == S_W_HASH;
+  assign breg_we = r_state_weight_d[r_d_pixelbuf+1] == S_W_BIAS;
 
 //==========================================================
 // input control

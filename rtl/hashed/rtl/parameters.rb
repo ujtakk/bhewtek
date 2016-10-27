@@ -11,6 +11,8 @@ $d_pixelbuf = 32  # Corresponds to acceptable max input size
 $d_poolbuf  = 32  # Corresponds to acceptable max input size
 $d_conv     = 5   # Delay clocks in the conv module
 $d_accum    = 1   # Delay clocks in the accumlator module
+$d_bias     = 2   # Delay clocks in the pool module
+$d_relu     = 2   # Delay clocks in the pool module
 $d_pool     = 2   # Delay clocks in the pool module
 
 ### Verilog parameter
@@ -21,6 +23,7 @@ $step     = 10 # Step width(ns) per clock
 $insize   = 12 # Address bitwidth of inputs: (12*12*20)
 $outsize  = 12 # Address bitwidth of outputs: (12*12*20)
 $wsize    = 12 # Address bitwidth of weights: (50*20*5*5)/8
+$bsize    = 3  # Address bitwidth of weights: 50/8
 $faccum   = 10 # Address bitwidth of conv fmap: (24*24)
 
 # Network
@@ -33,4 +36,8 @@ $fm1hei = $in_hei - $fsize + 1
 $pm1hei = $fm1hei / $psize
 $fm2hei = $pm1hei - $fsize + 1
 $pm2hei = $fm2hei / $psize
+
+# for HashedNets
+$hwidth = 12
+$comp_rate = 0.2
 

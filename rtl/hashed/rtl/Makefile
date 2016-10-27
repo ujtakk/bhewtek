@@ -4,7 +4,7 @@
 # SIMULATOR=iverilog
 IOC_DIR=.
 # TARGET=test_top_first
-TARGET=test_hash_conv
+TARGET=test_ctrl_core
 DIST=./dist
 
 include Makefile.dep

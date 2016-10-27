@@ -12,7 +12,7 @@ module hash_conv(/*AUTOARG*/);
   input                     clk;
   input                     xrst;
   input                     lut_we;
-  input                     sel_we;
+  input                     hash_we;
   input [HWIDTH-1:0]        lut_addr;
   input [3:0]               lut_data;
   <%- for i in 0...25 -%>
@@ -55,7 +55,7 @@ module hash_conv(/*AUTOARG*/);
   always @(posedge clk or negedge xrst)
     if (!xrst)
       r_sel<%=i%> <= 0;
-    else if (sel_we)
+    else if (hash_we)
       <%- if i == 24 -%>
       r_sel<%=i%> <= sel;
       <%- else -%>
@@ -68,10 +68,11 @@ module hash_conv(/*AUTOARG*/);
 
   <%- end -%>
 
+  // TODO: need decoder for lut_hash_we
   /* hash_lut AUTO_TEMPLATE (
-      .mem_we     (lut_we),
-      .mem_addr   (lut_addr[HWIDTH-1:0]),
-      .write_data (lut_data[2:0]),
+      .mem_we     (lut_hash_we),
+      .mem_addr   (lut_hash_addr[HWIDTH-1:0]),
+      .write_data (lut_hash_data[2:0]),
       .read_data  (sel[2:0]),
   ); */
   hash_lut lut(/*AUTOINST*/);

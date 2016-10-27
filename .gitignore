@@ -12,3 +12,4 @@ syn/alib-52/
 log
 *.jou
 bckup
+*.out

@@ -82,47 +82,47 @@ module ctrl_pool(/*AUTOARG*/);
 
   always @(posedge clk)
     if (!xrst)
+    begin
       r_pool_x <= 0;
-    else if (r_state == S_WAIT)
-      r_pool_x <= 0;
-    else if (r_state == S_ACTIVE && in_valid)
-      if (r_pool_x == r_fea_size - 1)
-        r_pool_x <= 0;
-      else
-        r_pool_x <= r_pool_x + 1;
-
-  always @(posedge clk)
-    if (!xrst)
       r_pool_y <= 0;
-    else if (r_state == S_WAIT)
-      r_pool_y <= 0;
-    else if (r_state == S_ACTIVE && in_valid && r_pool_x == r_fea_size - 1)
-      if (r_pool_y == r_fea_size - 1)
-        r_pool_y <= 0;
-      else
-        r_pool_y <= r_pool_y + 1;
-
-  always @(posedge clk)
-    if (!xrst)
       r_pool_exec_x <= 0;
-    else if (r_state == S_WAIT)
-      r_pool_exec_x <= 0;
-    else if (r_state == S_ACTIVE && in_valid)
-      if (r_pool_exec_x == r_pool_size - 1)
-        r_pool_exec_x <= 0;
-      else
-        r_pool_exec_x <= r_pool_exec_x + 1;
+      r_pool_exec_y <= 0;
+    end
+    else
+      case (r_state)
+        S_WAIT:
+        begin
+          r_pool_x <= 0;
+          r_pool_y <= 0;
+          r_pool_exec_x <= 0;
+          r_pool_exec_y <= 0;
+        end
 
-  always @(posedge clk)
-    if (!xrst)
-      r_pool_exec_y <= 0;
-    else if (r_state == S_WAIT)
-      r_pool_exec_y <= 0;
-    else if (r_state == S_ACTIVE && in_valid && r_pool_x == r_fea_size - 1)
-      if (r_pool_exec_y == r_pool_size - 1)
-        r_pool_exec_y <= 0;
-      else
-        r_pool_exec_y <= r_pool_exec_y + 1;
+        S_ACTIVE:
+          if (in_valid)
+          begin
+            if (r_pool_x == r_fea_size - 1)
+            begin
+              r_pool_x <= 0;
+              if (r_pool_y == r_fea_size - 1)
+                r_pool_y <= 0;
+              else
+                r_pool_y <= r_pool_y + 1;
+
+              if (r_pool_exec_y == r_pool_size - 1)
+                r_pool_exec_y <= 0;
+              else
+                r_pool_exec_y <= r_pool_exec_y + 1;
+            end
+            else
+              r_pool_x <= r_pool_x + 1;
+
+            if (r_pool_exec_x == r_pool_size - 1)
+              r_pool_exec_x <= 0;
+            else
+              r_pool_exec_x <= r_pool_exec_x + 1;
+          end
+      endcase
 
 //==========================================================
 // pool control
@@ -136,10 +136,6 @@ module ctrl_pool(/*AUTOARG*/);
     else
       r_buf_feat_en <= in_begin;
 
-  // assign pool_begin = r_pool_begin_d[<%=$d_poolbuf-1%>];
-  // assign pool_valid = r_pool_valid_d[<%=$d_poolbuf-1%>];
-  // assign pool_end   = r_pool_end_d[<%=$d_poolbuf-1%>];
-
   assign pool_begin = r_pool_begin_d[r_d_poolbuf];
   assign pool_valid = r_pool_valid_d[r_d_poolbuf];
   assign pool_end   =   r_pool_end_d[r_d_poolbuf];
@@ -147,9 +143,9 @@ module ctrl_pool(/*AUTOARG*/);
   <%- for n in ["begin", "valid", "end"] -%>
   <%-   for i in 0...$d_poolbuf -%>
   always @(posedge clk)
-    if (!xrst)
-      r_pool_<%=n%>_d[<%=i%>] <= 0;
     <%- if i == 0 -%>
+    if (!xrst)
+      r_pool_<%=n%>_d[0] <= 0;
     else
       <%- case n -%>
       <%- when "begin" -%>
@@ -167,6 +163,8 @@ module ctrl_pool(/*AUTOARG*/);
       <%- else -%>
       <%- end -%>
     <%- else -%>
+    if (!xrst)
+      r_pool_<%=n%>_d[<%=i%>] <= 0;
     else
       r_pool_<%=n%>_d[<%=i%>] <= r_pool_<%=n%>_d[<%=i-1%>];
     <%- end -%>

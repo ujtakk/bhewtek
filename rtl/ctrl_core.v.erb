@@ -8,6 +8,9 @@ module ctrl_core(/*AUTOARG*/);
   parameter S_INPUT   = 'd2;
   parameter S_OUTPUT  = 'd3;
 
+  parameter S_W_WEIGHT  = 'd0;
+  parameter S_W_BIAS    = 'd1;
+
   /*AUTOINPUT*/
   input               clk;
   input               xrst;
@@ -47,9 +50,13 @@ module ctrl_core(/*AUTOARG*/);
   wire s_weight_end;
   wire s_input_end;
   wire s_output_end;
+  wire s_w_weight_end;
+  wire s_w_bias_end;
+  wire final_iter;
 
   /*AUTOREG*/
   reg [2-1:0]       r_state;
+  reg               r_state_weight;
   reg               r_ack;
   reg [LWIDTH-1:0]  r_total_out;
   reg [LWIDTH-1:0]  r_total_in;
@@ -60,7 +67,6 @@ module ctrl_core(/*AUTOARG*/);
   reg [LWIDTH-1:0]  r_count_in;
   reg [LWIDTH-1:0]  r_weight_x;
   reg [LWIDTH-1:0]  r_weight_y;
-  reg               r_bias;
   reg [WSIZE-1:0]   r_weight_addr;
   reg [WSIZE-1:0]   r_weight_offset;
   reg [BSIZE-1:0]   r_bias_addr;
@@ -70,22 +76,23 @@ module ctrl_core(/*AUTOARG*/);
   reg [INSIZE-1:0]  r_input_addr;
   reg               r_output_we;
   reg [OUTSIZE-1:0] r_output_addr;
-  reg [2-1:0]       r_state_d [<%=$d_pixelbuf%>-1:0];
-  // reg [LWIDTH-1:0]  r_weight_x_d [<%=$d_pixelbuf%>-1:0];
-  // reg [LWIDTH-1:0]  r_weight_y_d [<%=$d_pixelbuf%>-1:0];
-  reg               r_bias_d [<%=$d_pixelbuf%>-1:0];
-  reg               r_wreg_we_d [<%=$d_pixelbuf%>-1:0];
-  reg               r_out_begin_d [<%=$d_pixelbuf%>-1:0];
-  reg               r_out_valid_d [<%=$d_pixelbuf%>-1:0];
-  reg               r_out_end_d [<%=$d_pixelbuf%>-1:0];
-  reg               r_first_input_d [<%=$d_pixelbuf%>-1:0];
-  reg               r_last_input_d [<%=$d_pixelbuf%>-1:0];
+  reg [2-1:0]       r_state_d         [<%=$d_pixelbuf%>:0];
+  reg               r_state_weight_d  [<%=$d_pixelbuf%>:0];
+  reg               r_wreg_we_d       [<%=$d_pixelbuf%>-1:0];
+  reg               r_out_begin_d     [<%=$d_pixelbuf%>-1:0];
+  reg               r_out_valid_d     [<%=$d_pixelbuf%>-1:0];
+  reg               r_out_end_d       [<%=$d_pixelbuf%>-1:0];
+  reg               r_first_input_d   [<%=$d_pixelbuf%>-1:0];
+  reg               r_last_input_d    [<%=$d_pixelbuf%>-1:0];
   reg               r_buf_pix_en;
   reg [LWIDTH-1:0]  r_d_pixelbuf;
 
 //==========================================================
 // core control
 //==========================================================
+
+  assign final_iter = r_count_in == r_total_in - 1
+                        && r_count_out >= r_total_out - CORE;
 
   //main FSM
   always @(posedge clk)
@@ -120,7 +127,7 @@ module ctrl_core(/*AUTOARG*/);
 
         S_OUTPUT:
           if (s_output_end)
-            if (r_count_out + CORE >= r_total_out)
+            if (r_count_out >= r_total_out - CORE)
             begin
               r_state     <= S_WAIT;
               r_count_out <= 0;
@@ -134,7 +141,7 @@ module ctrl_core(/*AUTOARG*/);
 
   assign core_state = r_state_d[r_d_pixelbuf];
 
-  <%- for i in 1...$d_pixelbuf -%>
+  <%- for i in 1..$d_pixelbuf -%>
   always @(posedge clk)
     <%- if i == 1 -%>
     if (!xrst)
@@ -184,8 +191,8 @@ module ctrl_core(/*AUTOARG*/);
     end
     else
     begin
-      r_first_input_d[0] <= (r_state == S_INPUT) && r_count_in == 0;
-      r_last_input_d[0]  <= (r_state == S_INPUT) && r_count_in == r_total_in - 1;
+      r_first_input_d[0] <= r_state == S_INPUT && r_count_in == 0;
+      r_last_input_d[0]  <= r_state == S_INPUT && r_count_in == r_total_in - 1;
     end
     <%- else -%>
     if (!xrst)
@@ -208,150 +215,129 @@ module ctrl_core(/*AUTOARG*/);
   assign mem_weight_addr = r_weight_addr + r_weight_offset;
   assign mem_bias_addr = r_bias_addr + r_bias_offset;
 
-  // assign s_weight_end     = (r_state == S_WEIGHT)
-  //                             && r_weight_x == r_fil_size - 1
-  //                             && r_weight_y == r_fil_size - 1;
-  assign s_weight_end     = r_count_in == r_total_in - 1
-                          ? r_bias
-                          : (r_state == S_WEIGHT)
-                              && r_weight_x == r_fil_size - 1
-                              && r_weight_y == r_fil_size - 1;
+  assign s_weight_end     = r_state == S_WEIGHT && r_count_in == r_total_in - 1
+                          ? s_w_bias_end
+                          : s_w_weight_end;
+
+  assign s_w_weight_end = r_state_weight == S_W_WEIGHT
+                          && r_weight_x == r_fil_size - 1
+                          && r_weight_y == r_fil_size - 1;
+
+  assign s_w_bias_end   = r_state_weight == S_W_BIAS;
 
   always @(posedge clk)
     if (!xrst)
-      r_weight_offset <= 0;
-    else if (req || ack)
-      r_weight_offset <= weight_addr;
+      r_state_weight <= S_W_WEIGHT;
+    else
+      case (r_state_weight)
+        S_W_WEIGHT:
+          if (s_w_weight_end && r_count_in == r_total_in - 1)
+            r_state_weight <= S_W_BIAS;
 
-  always @(posedge clk)
-    if (!xrst)
-      r_weight_addr <= 0;
-    else if (r_count_out + CORE >= r_total_out
-              && r_count_in == r_total_in - 1
-              && r_bias_d[r_d_pixelbuf-1])
-      r_weight_addr <= 0;
-    else if (r_state_d[r_d_pixelbuf] == S_WEIGHT
-              && !r_bias_d[r_d_pixelbuf])
-      r_weight_addr <= r_weight_addr + 1;
+        S_W_BIAS:
+          if (s_w_bias_end)
+            r_state_weight <= S_W_WEIGHT;
 
-  always @(posedge clk)
-    if (!xrst)
-      r_bias_addr <= 0;
-    else if (r_count_out + CORE >= r_total_out
-              && r_count_in == r_total_in - 1
-              && r_bias_d[r_d_pixelbuf])
-      r_bias_addr <= 0;
-    else if (r_state_d[r_d_pixelbuf] == S_WEIGHT
-              && r_bias_d[r_d_pixelbuf])
-      r_bias_addr <= r_bias_addr + 1;
+        default:
+          r_state_weight <= S_W_WEIGHT;
+      endcase
 
-  always @(posedge clk)
-    if (!xrst)
-      r_weight_x <= 0;
-    else if (r_state == S_WAIT)
-      r_weight_x <= 0;
-    else if (r_state == S_WEIGHT && !r_bias)
-      if (r_weight_x == r_fil_size - 1)
-        r_weight_x <= 0;
-      else
-        r_weight_x <= r_weight_x + 1;
-
-  always @(posedge clk)
-    if (!xrst)
-      r_weight_y <= 0;
-    else if (r_state == S_WAIT)
-      r_weight_y <= 0;
-    else if (r_state == S_WEIGHT && !r_bias
-              && r_weight_x == r_fil_size - 1)
-      if (r_weight_y == r_fil_size - 1)
-        r_weight_y <= 0;
-      else
-        r_weight_y <= r_weight_y + 1;
-
-  always @(posedge clk)
-    if (!xrst)
-      r_bias_offset <= 0;
-    else if (req || ack)
-      r_bias_offset <= bias_addr;
-
-  <%- for i in 1...$d_pixelbuf -%>
+  <%- for i in 1..$d_pixelbuf -%>
   always @(posedge clk)
     <%- if i == 1 -%>
     if (!xrst)
-      r_bias_d[<%=i%>] <= 0;
+      r_state_weight_d[<%=i%>] <= 0;
     else
-      r_bias_d[<%=i%>] <= r_bias;
+      r_state_weight_d[<%=i%>] <= r_state_weight;
     <%- else -%>
     if (!xrst)
-      r_bias_d[<%=i%>] <= 0;
+      r_state_weight_d[<%=i%>] <= 0;
     else
-      r_bias_d[<%=i%>] <= r_bias_d[<%=i-1%>];
+      r_state_weight_d[<%=i%>] <= r_state_weight_d[<%=i-1%>];
     <%- end -%>
   <%- end -%>
 
-  <%- for i in 1...$d_pixelbuf -%>
-
-  // always @(posedge clk)
-  //   <%- if i == 1 -%>
-  //   if (!xrst)
-  //   begin
-  //     r_weight_x_d[<%=i%>] <= 0;
-  //     r_weight_y_d[<%=i%>] <= 0;
-  //     r_bias_d[<%=i%>]     <= 0;
-  //   end
-  //   else
-  //   begin
-  //     r_weight_x_d[<%=i%>] <= r_weight_x;
-  //     r_weight_y_d[<%=i%>] <= r_weight_y;
-  //     r_bias_d[<%=i%>]     <= r_bias;
-  //   end
-  //   <%- else -%>
-  //   if (!xrst)
-  //   begin
-  //     r_weight_x_d[<%=i%>] <= 0;
-  //     r_weight_y_d[<%=i%>] <= 0;
-  //     r_bias_d[<%=i%>]     <= 0;
-  //   end
-  //   else
-  //   begin
-  //     r_weight_x_d[<%=i%>] <= r_weight_x_d[<%=i-1%>];
-  //     r_weight_y_d[<%=i%>] <= r_weight_y_d[<%=i-1%>];
-  //     r_bias_d[<%=i%>]     <= r_bias_d[<%=i-1%>];
-  //   end
-  //   <%- end -%>
-
-  <%- end -%>
+  always @(posedge clk)
+    if (!xrst)
+    begin
+      r_weight_offset <= 0;
+      r_bias_offset   <= 0;
+    end
+    else if (req || ack)
+    begin
+      r_weight_offset <= weight_addr;
+      r_bias_offset   <= bias_addr;
+    end
 
   always @(posedge clk)
-    if (r_state == S_WEIGHT)
-      r_bias <= r_count_in == r_total_in - 1
-             && r_weight_x == r_fil_size - 1
-             && r_weight_y == r_fil_size - 1;
+    if (!xrst)
+    begin
+      r_weight_addr <= 0;
+      r_bias_addr   <= 0;
+    end
+    else if (final_iter && r_state_weight_d[r_d_pixelbuf] == S_W_BIAS)
+    begin
+      r_weight_addr <= 0;
+      r_bias_addr   <= 0;
+    end
+    else if (r_state_d[r_d_pixelbuf] == S_WEIGHT)
+      case (r_state_weight_d[r_d_pixelbuf])
+        S_W_WEIGHT:
+          r_weight_addr <= r_weight_addr + 1;
+        S_W_BIAS:
+          r_bias_addr   <= r_bias_addr + 1;
+        default:
+        begin
+          r_weight_addr <= r_weight_addr;
+          r_bias_addr   <= r_bias_addr;
+        end
+      endcase
+
+  always @(posedge clk)
+    if (!xrst)
+    begin
+      r_weight_x <= 0;
+      r_weight_y <= 0;
+    end
     else
-      r_bias <= 0;
+      case (r_state)
+        S_WEIGHT:
+          case (r_state_weight)
+            S_W_WEIGHT:
+              if (r_weight_x == r_fil_size - 1)
+              begin
+                r_weight_x <= 0;
+                if (r_weight_y == r_fil_size - 1)
+                  r_weight_y <= 0;
+                else
+                  r_weight_y <= r_weight_y + 1;
+              end
+              else
+                r_weight_x <= r_weight_x + 1;
+
+            default:
+            begin
+              r_weight_x <= 0;
+              r_weight_y <= 0;
+            end
+          endcase
+
+        default:
+        begin
+          r_weight_x <= 0;
+          r_weight_y <= 0;
+        end
+      endcase
 
 //==========================================================
 // wreg & bias control
 //==========================================================
 
-  assign wreg_we = r_wreg_we_d[r_d_pixelbuf];
-  assign breg_we = r_bias_d[r_d_pixelbuf];
+  assign wreg_we = r_state_d[r_d_pixelbuf+1] == S_WEIGHT
+                   && r_state_weight_d[r_d_pixelbuf+1] == S_W_WEIGHT;
 
-  <%- for i in 0...$d_pixelbuf -%>
-  always @(posedge clk)
-    <%- if i == 0 -%>
-    if (!xrst)
-      r_wreg_we_d[0] <= 0;
-    else
-      // r_wreg_we_d[0] <= (r_state == S_WEIGHT);
-      r_wreg_we_d[0] <= (r_state == S_WEIGHT) && !r_bias;
-    <%- else -%>
-    if (!xrst)
-      r_wreg_we_d[<%=i%>] <= 0;
-    else
-      r_wreg_we_d[<%=i%>] <= r_wreg_we_d[<%=i-1%>];
-    <%- end -%>
-  <%- end -%>
+  assign breg_we = r_state_d[r_d_pixelbuf+1] == S_WEIGHT
+                   && r_state_weight_d[r_d_pixelbuf+1] == S_W_BIAS;
 
 //==========================================================
 // input control
@@ -373,27 +359,30 @@ module ctrl_core(/*AUTOARG*/);
 
   always @(posedge clk)
     if (!xrst)
+    begin
       r_input_x <= 0;
-    else if (r_state != S_INPUT)
-      r_input_x <= 0;
-    else if (r_state == S_INPUT)
-      if (r_input_x == r_img_size - 1)
-        r_input_x <= 0;
-      else
-        r_input_x <= r_input_x + 1;
+      r_input_y <= 0;
+    end
     else
-      r_input_x <= 0;
+      case (r_state)
+        S_INPUT:
+          if (r_input_x == r_img_size - 1)
+          begin
+            r_input_x <= 0;
+            if (r_input_y == r_img_size - 1)
+              r_input_y <= 0;
+            else
+              r_input_y <= r_input_y + 1;
+          end
+          else
+            r_input_x <= r_input_x + 1;
 
-  always @(posedge clk)
-    if (!xrst)
-      r_input_y <= 0;
-    else if (r_state != S_INPUT)
-      r_input_y <= 0;
-    else if ((r_state == S_INPUT) && r_input_x == r_img_size - 1)
-      if (r_input_y == r_img_size - 1)
-        r_input_y <= 0;
-      else
-        r_input_y <= r_input_y + 1;
+        default:
+        begin
+          r_input_x <= 0;
+          r_input_y <= 0;
+        end
+    endcase
 
   assign buf_pix_en = r_buf_pix_en;
 

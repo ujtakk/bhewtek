@@ -38,6 +38,7 @@ $fm2hei = $pm1hei - $fsize + 1
 $pm2hei = $fm2hei / $psize
 
 # for HashedNets
-$hwidth = 12
+$hwidth = 4
+$hsize  = 12
 $comp_rate = 0.2
 

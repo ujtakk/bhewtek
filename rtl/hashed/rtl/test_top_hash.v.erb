@@ -7,7 +7,7 @@
 
 `timescale 1ns/1ps
 
-module test_top();
+module test_top_hash();
 `include "parameters.vh"
 
   /*AUTOREGINPUT*/
@@ -131,7 +131,7 @@ module test_top();
     $finish();
   end
 
-  top dut0(/*AUTOINST*/);
+  top_hash dut0(/*AUTOINST*/);
 
   task mem_clear;
     begin
@@ -465,10 +465,10 @@ module test_top();
     #(STEP/2-1);
     $display(
       "%5d: ", $time/STEP,
-      "%d ", xrst,
-      "%d ", req,
-      "%d ", ack,
-      "%d ", dut0.ctrl.ctrl_core.r_state,
+      "%d ",   xrst,
+      "%d ",   req,
+      "%d ",   ack,
+      "%d ",   dut0.ctrl.ctrl_core.r_state,
       "| ",
       "%d ",  dut0.ctrl.ctrl_core.out_begin,
       "%d ",  dut0.ctrl.ctrl_core.out_valid,
@@ -479,7 +479,7 @@ module test_top();
       "%2d ", dut0.ctrl.ctrl_core.r_input_y,
       "%2d ", dut0.ctrl.ctrl_core.r_weight_x,
       "%2d ", dut0.ctrl.ctrl_core.r_weight_y,
-      "%d ",  dut0.ctrl.ctrl_core.r_bias,
+      "%d ",  dut0.ctrl.ctrl_core.r_state_weight,
       "| ",
       "%d ",  dut0.ctrl.ctrl_conv.out_begin,
       "%d ",  dut0.ctrl.ctrl_conv.out_valid,
@@ -489,17 +489,17 @@ module test_top();
       "%d ",  dut0.ctrl.ctrl_bias.out_begin,
       "%d ",  dut0.ctrl.ctrl_bias.out_valid,
       "%d: ", dut0.ctrl.ctrl_bias.out_end,
-      "%4d ",  dut0.mem_bias_addr,
-      "%4d ",  dut0.core0.read_bias,
+      "%4d ", dut0.mem_bias_addr,
+      "%4d ", dut0.core0.read_bias,
       "%d ",  dut0.core0.breg_we,
       "%d ",  dut0.core0.bias.out_en,
-      "%4d ",  dut0.core0.bias.r_bias,
+      "%4d ", dut0.core0.bias.r_bias,
       "%d ",  dut0.core0.bias.pixel_in,
-      "%4d ",  dut0.core0.bias.pixel_out,
+      "%4d ", dut0.core0.bias.pixel_out,
       "| ",
-      "%4d ",  dut0.mem_bias0.mem[0],
-      "%4d ",  dut0.mem_bias0.mem[1],
-      "%4d ",  dut0.mem_bias0.mem[2],
+      "%4d ", dut0.mem_bias0.mem[0],
+      "%4d ", dut0.mem_bias0.mem[1],
+      "%4d ", dut0.mem_bias0.mem[2],
       "| ",
       "%d ",  dut0.ctrl.ctrl_relu.out_begin,
       "%d ",  dut0.ctrl.ctrl_relu.out_valid,

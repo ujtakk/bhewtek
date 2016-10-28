@@ -351,14 +351,6 @@ module ctrl_core(/*AUTOARG*/);
 
   always @(posedge clk)
     if (!xrst)
-      r_input_addr <= 0;
-    else if (r_state == S_OUTPUT)
-      r_input_addr <= 0;
-    else if (r_state == S_INPUT)
-      r_input_addr <= r_input_addr + 1;
-
-  always @(posedge clk)
-    if (!xrst)
     begin
       r_input_x <= 0;
       r_input_y <= 0;
@@ -383,6 +375,14 @@ module ctrl_core(/*AUTOARG*/);
           r_input_y <= 0;
         end
     endcase
+
+  always @(posedge clk)
+    if (!xrst)
+      r_input_addr <= 0;
+    else if (r_state == S_OUTPUT)
+      r_input_addr <= 0;
+    else if (r_state == S_INPUT)
+      r_input_addr <= r_input_addr + 1;
 
   assign buf_pix_en = r_buf_pix_en;
 

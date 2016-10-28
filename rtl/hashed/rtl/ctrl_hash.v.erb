@@ -8,10 +8,9 @@ module ctrl_hash(/*AUTOARG*/);
   parameter S_INPUT   = 'd2;
   parameter S_OUTPUT  = 'd3;
 
-  parameter S_W_SLEEP   = 'd0;
-  parameter S_W_WEIGHT  = 'd1;
-  parameter S_W_HASH    = 'd2;
-  parameter S_W_BIAS    = 'd3;
+  parameter S_W_WEIGHT  = 'd0;
+  parameter S_W_HASH    = 'd1;
+  parameter S_W_BIAS    = 'd2;
 
   /*AUTOINPUT*/
   input               clk;
@@ -53,7 +52,7 @@ module ctrl_hash(/*AUTOARG*/);
 
   // for hash table
   output [HWIDTH-1:0]   lut_hash_addr;
-  output                hash_we;
+  output                hreg_we;
 
   /*AUTOWIRE*/
   wire s_weight_end;
@@ -69,6 +68,7 @@ module ctrl_hash(/*AUTOARG*/);
 
   /*AUTOREG*/
   reg [2-1:0]       r_state;
+  reg [2-1:0]       r_state_weight;
   reg               r_ack;
   reg [LWIDTH-1:0]  r_total_out;
   reg [LWIDTH-1:0]  r_total_in;
@@ -89,14 +89,15 @@ module ctrl_hash(/*AUTOARG*/);
   reg [INSIZE-1:0]  r_input_addr;
   reg               r_output_we;
   reg [OUTSIZE-1:0] r_output_addr;
-  reg [2-1:0]       r_state_d [<%=$d_pixelbuf%>-1:0];
-  reg               r_bias_d [<%=$d_pixelbuf%>-1:0];
-  reg               r_wreg_we_d [<%=$d_pixelbuf%>-1:0];
-  reg               r_out_begin_d [<%=$d_pixelbuf%>-1:0];
-  reg               r_out_valid_d [<%=$d_pixelbuf%>-1:0];
-  reg               r_out_end_d [<%=$d_pixelbuf%>-1:0];
-  reg               r_first_input_d [<%=$d_pixelbuf%>-1:0];
-  reg               r_last_input_d [<%=$d_pixelbuf%>-1:0];
+  reg [2-1:0]       r_state_d         [<%=$d_pixelbuf%>:0];
+  reg [2-1:0]       r_state_weight_d  [<%=$d_pixelbuf%>:0];
+  reg               r_bias_d          [<%=$d_pixelbuf%>-1:0];
+  reg               r_wreg_we_d       [<%=$d_pixelbuf%>-1:0];
+  reg               r_out_begin_d     [<%=$d_pixelbuf%>-1:0];
+  reg               r_out_valid_d     [<%=$d_pixelbuf%>-1:0];
+  reg               r_out_end_d       [<%=$d_pixelbuf%>-1:0];
+  reg               r_first_input_d   [<%=$d_pixelbuf%>-1:0];
+  reg               r_last_input_d    [<%=$d_pixelbuf%>-1:0];
   reg               r_buf_pix_en;
   reg [LWIDTH-1:0]  r_d_pixelbuf;
 
@@ -104,8 +105,6 @@ module ctrl_hash(/*AUTOARG*/);
   reg [LWIDTH-1:0]  r_comped_fil_size;
   reg [LWIDTH-1:0]  r_lut_size;
   reg [LWIDTH-1:0]  r_weight;
-  reg [2-1:0]       r_state_weight;
-  reg [2-1:0]       r_state_weight_d [<%=$d_pixelbuf%>:0];
   reg [HWIDTH-1:0]  r_hash_addr;
   reg [HWIDTH-1:0]  r_hash_offset;
 
@@ -120,6 +119,9 @@ module ctrl_hash(/*AUTOARG*/);
 
   assign first_input = r_first_input_d[r_d_pixelbuf];
   assign last_input  = r_last_input_d[r_d_pixelbuf];
+
+  assign final_iter = r_count_out >= r_total_out - CORE
+                      && r_count_in == r_total_in - 1;
 
   //main FSM
   always @(posedge clk)
@@ -239,32 +241,23 @@ module ctrl_hash(/*AUTOARG*/);
   assign lut_hash_addr    = r_hash_addr   + r_hash_offset;
   assign mem_bias_addr    = r_bias_addr   + r_bias_offset;
 
-  assign s_w_sleep_end  = r_state_weight == S_W_SLEEP
-                          && (req
-                              || s_input_end  && r_count_in != r_total_in - 1
-                              || s_output_end && r_count_out < r_total_out - CORE);
-  assign s_w_weight_end = r_state_weight == S_W_WEIGHT
-                          && r_weight == r_comped_fil_size - 1;
-  assign s_w_hash_end   = r_state_weight == S_W_HASH
-                          && r_weight == r_lut_size - 1;
-  assign s_w_bias_end   = r_state_weight == S_W_BIAS;
-
-  assign s_weight_end     = r_count_in == r_total_in - 1
+  assign s_weight_end     = r_state == S_WEIGHT && r_count_in == r_total_in - 1
                           ? s_w_bias_end
                           : s_w_hash_end;
 
-  assign final_iter = r_count_out >= r_total_out - CORE
-                      && r_count_in == r_total_in - 1;
+  assign s_w_weight_end = r_state_weight == S_W_WEIGHT
+                          && r_weight == r_comped_fil_size - 1;
+
+  assign s_w_hash_end   = r_state_weight == S_W_HASH
+                          && r_weight == r_lut_size - 1;
+
+  assign s_w_bias_end   = r_state_weight == S_W_BIAS;
 
   always @(posedge clk)
     if (!xrst)
-      r_state_weight <= S_W_SLEEP;
+      r_state_weight <= S_W_WEIGHT;
     else
       case (r_state_weight)
-        S_W_SLEEP:
-          if (s_w_sleep_end)
-            r_state_weight <= S_W_WEIGHT;
-
         S_W_WEIGHT:
           if (s_w_weight_end)
             r_state_weight <= S_W_HASH;
@@ -274,11 +267,11 @@ module ctrl_hash(/*AUTOARG*/);
             if (r_count_in == r_total_in - 1)
               r_state_weight <= S_W_BIAS;
             else
-              r_state_weight <= S_W_SLEEP;
+              r_state_weight <= S_W_WEIGHT;
 
         S_W_BIAS:
           if (s_w_bias_end)
-            r_state_weight <= S_W_SLEEP;
+            r_state_weight <= S_W_WEIGHT;
       endcase
 
   <%- for i in 1..$d_pixelbuf -%>
@@ -367,9 +360,14 @@ module ctrl_hash(/*AUTOARG*/);
 // wreg & bias control
 //==========================================================
 
-  assign wreg_we = r_state_weight_d[r_d_pixelbuf+1] == S_W_WEIGHT;
-  assign hash_we = r_state_weight_d[r_d_pixelbuf+1] == S_W_HASH;
-  assign breg_we = r_state_weight_d[r_d_pixelbuf+1] == S_W_BIAS;
+  assign wreg_we = r_state_d[r_d_pixelbuf+1] == S_WEIGHT
+                   && r_state_weight_d[r_d_pixelbuf+1] == S_W_WEIGHT;
+
+  assign hreg_we = r_state_d[r_d_pixelbuf+1] == S_WEIGHT
+                   && r_state_weight_d[r_d_pixelbuf+1] == S_W_HASH;
+
+  assign breg_we = r_state_d[r_d_pixelbuf+1] == S_WEIGHT
+                   && r_state_weight_d[r_d_pixelbuf+1] == S_W_BIAS;
 
 //==========================================================
 // input control
@@ -380,8 +378,6 @@ module ctrl_hash(/*AUTOARG*/);
   assign s_input_end    = (r_state == S_INPUT)
                             && r_input_x == r_img_size - 1
                             && r_input_y == r_img_size - 1;
-
-  assign buf_pix_en = r_buf_pix_en;
 
   always @(posedge clk)
     if (!xrst)
@@ -417,6 +413,8 @@ module ctrl_hash(/*AUTOARG*/);
       r_input_addr <= 0;
     else if (r_state == S_INPUT)
       r_input_addr <= r_input_addr + 1;
+
+  assign buf_pix_en = r_buf_pix_en;
 
   always @(posedge clk)
     if (!xrst)

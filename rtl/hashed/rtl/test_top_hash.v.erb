@@ -37,26 +37,31 @@ module test_top_hash();
     // mem_clear;
     mem_clear_direct;
 
-    xrst = 0;
-    req = 0;
-
-    input_we = 0;
-    input_addr = 0;
-    write_input = 0;
-
-    weight_we = 4'd0;
-    weight_addr = 0;
-    write_weight = 0;
-
-    bias_we = 4'd0;
-    bias_addr = 0;
-    write_bias = 0;
-
-    output_re = 0;
-    output_addr = 0;
-
+    xrst  = 0;
     #(STEP);
     xrst = 1;
+
+    req   = 0;
+
+    total_out     = 0;
+    total_in      = 0;
+    img_size      = 0;
+    fil_size      = 0;
+    pool_size     = 0;
+    input_we      = 0;
+    input_addr    = 0;
+    write_input   = 0;
+    weight_we     = 4'd0;
+    weight_addr   = 0;
+    write_weight  = 0;
+    hash_we       = 4'd0;
+    hash_addr     = 0;
+    hash_data     = 0;
+    bias_we       = 4'd0;
+    bias_addr     = 0;
+    write_bias    = 0;
+    output_re     = 0;
+    output_addr   = 0;
 
     read_input_direct;
     // read_input;
@@ -73,6 +78,7 @@ module test_top_hash();
     // write_input = 0;
 
     read_weight_direct;
+    // read_hash_direct;
     read_bias_direct;
     // read_weight;
     // <%- for n in 0...$core -%>
@@ -93,19 +99,22 @@ module test_top_hash();
     #(STEP);
 
     req           = 0;
+    total_out     = N_F2;
+    total_in      = N_F1;
+    img_size      = 12;
     fil_size      = FSIZE;
     pool_size     = PSIZE;
-    img_size      = 12;
-    total_in      = N_F1;
-    total_out     = N_F2;
-    input_addr    = 0;
-    weight_addr   = <%=offset%>;
     input_we      = 0;
+    input_addr    = 0;
     write_input   = 0;
-    write_weight  = 0;
     weight_we     = 4'd0;
-    output_addr   = 0;
+    weight_addr   = <%=offset%>;
+    write_weight  = 0;
+    hash_we       = 4'b0;
+    hash_addr     = 0;
+    hash_data     = 0;
     output_re     = 0;
+    output_addr   = 0;
 
     #(STEP);
 

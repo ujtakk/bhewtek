@@ -12,40 +12,32 @@ module hash_conv(/*AUTOARG*/);
   input                     clk;
   input                     xrst;
   input                     hreg_we;
-  input [HWIDTH-1:0]               hash_data;
-  <%- for i in 0...25 -%>
+  input signed [DWIDTH-1:0] read_data;
+  input [HWIDTH-1:0]        hash_data;
+  <%- for i in 0...$fsize**2 -%>
   input signed [DWIDTH-1:0] pixel<%=i%>;
   <%- end -%>
 
   /*AUTOOUTPUT*/
 
   /*AUTOWIRE*/
-  <%- for i in 0...25 -%>
-  wire signed [DWIDTH-1:0]  signed_pixel<%=i%>;
-  wire [DWIDTH-1:0]         weight<%=i%>;
+  <%- for i in 0...$fsize**2 -%>
+  wire signed [DWIDTH-1:0]  weight<%=i%>;
   <%- end -%>
 
   /*AUTOREG*/
-  <%- for i in 0...25 -%>
+  <%- for i in 0...$fsize**2 -%>
   reg [HWIDTH-1:0] r_sel<%=i%>;
   <%- end -%>
 
-  /* conv_tree AUTO_TEMPLATE (
-      <%- for i in 0...25 -%>
-      .pixel<%=i%> (signed_pixel<%=i%>[DWIDTH-1:0]),
-      <%- end -%>
-  ); */
   conv_tree tree(/*AUTOINST*/);
 
   hash_wreg wreg(/*AUTOINST*/);
 
-  <%- for i in 0...25 -%>
+  <%- for i in 0...$fsize**2 -%>
   /* hash_mux5 AUTO_TEMPLATE (
-      <%- for j in 0...5 -%>
-      .x<%=j%> (hashed_weight<%=j%>[DWIDTH-1:0]),
-      <%- end -%>
-      .sel     (r_sel<%=i%>[2:0]),
-      .y       (weight<%=i%>[DWIDTH-1:0]),
+      .sel     (r_sel<%=i%>[HWIDTH-1:0]),
+      .weight  (weight<%=i%>[DWIDTH-1:0]),
   ); */
   hash_mux5 wsel<%=i%>(/*AUTOINST*/);
 
@@ -53,15 +45,11 @@ module hash_conv(/*AUTOARG*/);
     if (!xrst)
       r_sel<%=i%> <= 0;
     else if (hreg_we)
-      <%- if i == 24 -%>
+      <%- if i == $fsize**2-1 -%>
       r_sel<%=i%> <= hash_data;
       <%- else -%>
       r_sel<%=i%> <= r_sel<%=i+1%>;
       <%- end -%>
-    else
-      r_sel<%=i%> <= r_sel<%=i%>;
-
-  assign signed_pixel<%=i%> = r_sel<%=i%>[HWIDTH-1] ? -pixel<%=i%> : pixel<%=i%>;
 
   <%- end -%>
 

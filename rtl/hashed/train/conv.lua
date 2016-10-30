@@ -187,14 +187,14 @@ local function createModel(opt)
      f_xi = io.open(path..'/conv'..l..'_xi_W_'..i..'_'..j..'.txt', 'w')
         end
         for k = 1, kerSize*kerSize do
-     f:write(idx[i][j][k] .. '\n')
-     if hash_config.xi then
-        f_xi:write(xi[i][j][k] .. '\n')
-     end
+          f:write(idx[i][j][k] .. '\n')
+          if hash_config.xi then
+             f_xi:write(xi[i][j][k] .. '\n')
+          end
         end
         f:close()
         if hash_config.xi then
-     f_xi:close()
+          f_xi:close()
         end
      end
   end
@@ -438,14 +438,15 @@ local function writeParams(model, opt)
     W = conv_nodes[l].weight:reshape(conv_nodes[l].nOutputPlane, conv_nodes[l].nInputPlane, kerSize*kerSize)
     B = conv_nodes[l].bias
     for i = 1, W:size()[1] do
-      if l == 1 then
-        f = io.open(path..'/data'..(i-1)..'.txt', 'w')
-        for k = 1, kerSize*kerSize do
-          f:write(W[i][1][k] .. '\n')
-        end
-        f:write(B[i] .. '\n')
-        f:close()
-      else
+      -- NOTE: layer 1 should be treated samely as latter conv layer.
+      -- if l == 1 then
+      --   f = io.open(path..'/data'..(i-1)..'.txt', 'w')
+      --   for k = 1, kerSize*kerSize do
+      --     f:write(W[i][1][k] .. '\n')
+      --   end
+      --   f:write(B[i] .. '\n')
+      --   f:close()
+      -- else
         for j = 1, W:size()[2] do
           f = io.open(path..'/data'..(i-1)..'_'..(j-1)..'.txt', 'w')
           for k = 1, kerSize*kerSize do
@@ -457,7 +458,7 @@ local function writeParams(model, opt)
         f = io.open(path..'/data'..(i-1)..'.txt', 'w')
         f:write(B[i] .. '\n')
         f:close()
-      end
+      -- end
     end
   end
   for l = 1, #lin_nodes do

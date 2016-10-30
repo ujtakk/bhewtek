@@ -18,3 +18,5 @@ lhconv:
 graph:
 	jupyter nbconvert --to notebook -ExecutePreprocessor.timeout=-1 --execute hash_learn.ipynb --inplace
 
+convert:
+	gcc -o convert.out -lm -std=gnu11 convert.c

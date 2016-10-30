@@ -51,7 +51,7 @@ module ctrl_hash(/*AUTOARG*/);
   output [LWIDTH-1:0]   w_fil_size;
 
   // for hash table
-  output [HWIDTH-1:0]   lut_hash_addr;
+  output [HSIZE-1:0]   lut_hash_addr;
   output                hreg_we;
 
   /*AUTOWIRE*/
@@ -105,8 +105,8 @@ module ctrl_hash(/*AUTOARG*/);
   reg [LWIDTH-1:0]  r_comped_fil_size;
   reg [LWIDTH-1:0]  r_lut_size;
   reg [LWIDTH-1:0]  r_weight;
-  reg [HWIDTH-1:0]  r_hash_addr;
-  reg [HWIDTH-1:0]  r_hash_offset;
+  reg [HSIZE-1:0]  r_hash_addr;
+  reg [HSIZE-1:0]  r_hash_offset;
 
 //==========================================================
 // core control
@@ -343,7 +343,7 @@ module ctrl_hash(/*AUTOARG*/);
       r_hash_addr   <= 0;
       r_bias_addr   <= 0;
     end
-    else
+    else if (r_state_d[r_d_pixelbuf] == S_WEIGHT)
       case (r_state_weight_d[r_d_pixelbuf])
         S_W_WEIGHT: r_weight_addr <= r_weight_addr + 1;
         S_W_HASH:   r_hash_addr   <= r_hash_addr + 1;

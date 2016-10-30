@@ -32,7 +32,6 @@ edit:
 
 diff:
 	vimdiff $(TARGET).dat $(TARGET)_true.dat
-	#vimdiff test_ctrl.dat test_ctrl_true.dat
 
 define DEP_IN
 ## -*- text -*-

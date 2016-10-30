@@ -28,6 +28,7 @@ $faccum   = 10 # Address bitwidth of conv fmap: (24*24)
 
 # Network
 $in_hei = 28
+$n_in   = 1
 $n_f1   = 20
 $n_f2   = 50
 $fsize  = 5

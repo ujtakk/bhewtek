@@ -1,7 +1,7 @@
 % load "parameters.rb"
 % input  = "/home/work/takau/bhewtek/data/mnist/binput"
-% weight = "/home/work/takau/bhewtek/data/mnist/lenet"
-// % weight = "../train/lh_t"
+// % weight = "/home/work/takau/bhewtek/data/mnist/lenet"
+% weight = "/home/work/takau/bhewtek/rtl/hashed/train/lh_t"
 % num = 2; file = 4
 % offset = 75 # addr offset where bwb_2 start at
 
@@ -331,35 +331,35 @@ module test_top_first();
 
       <%- for i in 0...$n_f2/$core -%>
       <%-   for j in 0...$n_f1 -%>
-      <%-   for k in 0...$core -%>
+      <%-     for k in 0...$core -%>
       $readmemb(
         "<%=weight%>/bwb_2/data<%=$core*i+k%>_<%=j%>.bin",
         dut0.mem_weight<%=k%>.mem,
         <%=($fsize**2)*($n_f1*i+j)%> + <%=offset%>,
         <%=($fsize**2)*($n_f1*i+j+1)-1%> + <%=offset%>
       );
-      <%-   end -%>
+      <%-     end -%>
       <%-   end -%>
       <%- end -%>
       <%- if $n_f2 % $core != 0 -%>
       <%-   for j in 0...$n_f1 -%>
-      <%-   for k in 0...$core -%>
-      <%-     if ($n_f2 - ($n_f2 % $core) + k) < $n_f2 -%>
+      <%-     for k in 0...$core -%>
+      <%-       if ($n_f2 - ($n_f2 % $core) + k) < $n_f2 -%>
       $readmemb(
         "<%=weight%>/bwb_2/data<%=$n_f2-($n_f2%$core)+k%>_<%=j%>.bin",
         dut0.mem_weight<%=k%>.mem,
         <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%> + <%=offset%>,
         <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%> + <%=offset%>
       );
-      <%-     else -%>
+      <%-       else -%>
       $readmemb(
         "<%=weight%>/bwb_2/null_w.bin",
         dut0.mem_weight<%=k%>.mem,
         <%=($fsize**2)*($n_f1*($n_f2/$core)+j)%> + <%=offset%>,
         <%=($fsize**2)*($n_f1*($n_f2/$core)+j+1)-1%> + <%=offset%>
       );
+      <%-       end -%>
       <%-     end -%>
-      <%-   end -%>
       <%-   end -%>
       <%- end -%>
     end
@@ -465,51 +465,51 @@ module test_top_first();
     #(STEP/2-1);
     $display(
       "%5d: ", $time/STEP,
-      "%d ", xrst,
-      "%d ", req,
-      "%d ", ack,
-      "%d ", dut0.ctrl.ctrl_core.r_state,
+      "%d ",   xrst,
+      "%d ",   req,
+      "%d ",   ack,
+      "%d ",   dut0.ctrl.ctrl_core.r_state,
       "| ",
       "%d ",  dut0.ctrl.ctrl_core.out_begin,
       "%d ",  dut0.ctrl.ctrl_core.out_valid,
       "%d: ", dut0.ctrl.ctrl_core.out_end,
       "%2d ", dut0.ctrl.ctrl_core.r_count_out,
       "%2d ", dut0.ctrl.ctrl_core.r_count_in,
-      "%2d ", dut0.ctrl.ctrl_core.r_weight_x,
-      "%2d ", dut0.ctrl.ctrl_core.r_weight_y,
       "%2d ", dut0.ctrl.ctrl_core.r_input_x,
       "%2d ", dut0.ctrl.ctrl_core.r_input_y,
-      // "| ",
-      // "%d: ", dut0.buf_pix.r_state,
-      // "%d ", dut0.buf_pix.mem_linebuf_we,
-      // "%4d ", dut0.read_input,
-      // "%4d ", dut0.pixel0,
-      // "| ",
-      // "%d ",  dut0.ctrl.ctrl_conv.out_begin,
-      // "%d ",  dut0.ctrl.ctrl_conv.out_valid,
-      // "%d: ", dut0.ctrl.ctrl_conv.out_end,
-      // "%d ", dut0.ctrl.ctrl_conv.conv_begin,
-      // "%d ", dut0.ctrl.ctrl_conv.conv_valid,
-      // "%d ", dut0.ctrl.ctrl_conv.conv_end,
+      "%2d ", dut0.ctrl.ctrl_core.r_weight_x,
+      "%2d ", dut0.ctrl.ctrl_core.r_weight_y,
+      "%d ",  dut0.ctrl.ctrl_core.r_state_weight,
       "| ",
-      "%d: ", dut0.core0.buf_feat.r_state,
-      "%d ", dut0.core0.buf_feat.mem_linebuf_we,
-      "%4d ", dut0.core0.fmap,
-      "%4d ", dut0.core0.pixel_feat0,
-      "|@ ",
-      "%d: ", dut0.core0.pool_oe,
-      "%4d ", dut0.core0.pool.max,
-      "%4d ", dut0.core0.pool.r_pixel_feat0,
-      "%4d ", dut0.core0.pool.r_pixel_feat1,
-      "%4d ", dut0.core0.pool.r_pixel_feat2,
-      "%4d ", dut0.core0.pool.r_pixel_feat3,
+      "%d ",  dut0.ctrl.ctrl_conv.out_begin,
+      "%d ",  dut0.ctrl.ctrl_conv.out_valid,
+      "%d: ", dut0.ctrl.ctrl_conv.out_end,
+      "%d ",  dut0.core0.fmap,
       "| ",
-      "%d ", dut0.mem_output_we,
-      "%d: ", dut0.mem_output_addr,
-      "%d ", dut0.pmap0,
-      "%d ", dut0.read_output0,
-      "%d ", dut0.output_re,
-      "%d ", dut0.read_output,
+      "%d ",  dut0.ctrl.ctrl_bias.out_begin,
+      "%d ",  dut0.ctrl.ctrl_bias.out_valid,
+      "%d: ", dut0.ctrl.ctrl_bias.out_end,
+      "%4d ", dut0.mem_bias_addr,
+      "%4d ", dut0.core0.read_bias,
+      "%d ",  dut0.core0.breg_we,
+      "%d ",  dut0.core0.bias.out_en,
+      "%4d ", dut0.core0.bias.r_bias,
+      "%d ",  dut0.core0.bias.pixel_in,
+      "%4d ", dut0.core0.bias.pixel_out,
+      "| ",
+      "%4d ", dut0.mem_bias0.mem[0],
+      "%4d ", dut0.mem_bias0.mem[1],
+      "%4d ", dut0.mem_bias0.mem[2],
+      "| ",
+      "%d ",  dut0.ctrl.ctrl_relu.out_begin,
+      "%d ",  dut0.ctrl.ctrl_relu.out_valid,
+      "%d: ", dut0.ctrl.ctrl_relu.out_end,
+      "%d ",  dut0.core0.actived,
+      "| ",
+      "%d ",  dut0.ctrl.ctrl_pool.out_begin,
+      "%d ",  dut0.ctrl.ctrl_pool.out_valid,
+      "%d: ", dut0.ctrl.ctrl_pool.out_end,
+      "%d ",  dut0.core0.pmap,
       "|"
     );
     #(STEP/2+1);

@@ -70,9 +70,9 @@ module top_hash(/*AUTOARG*/);
 
   /* hash_lut AUTO_TEMPLATE (
       .mem_we     (lut_hash_we[<%=i%>]),
-      .mem_addr   (lut_hash_addr[HWIDTH-1:0]),
-      .write_data (write_hash[2:0]),
-      .read_data  (read_hash[3:0]),
+      .mem_addr   (lut_hash_addr[HSIZE-1:0]),
+      .write_data (write_hash[HWIDTH-1:0]),
+      .read_data  (read_hash<%=i%>[HWIDTH-1:0]),
   ); */
   hash_lut lut_hash<%=i%>(/*AUTOINST*/);
 
@@ -109,6 +109,7 @@ module top_hash(/*AUTOARG*/);
       .mem_feat_we      (mem_feat_we),
       .pool_oe          (pool_oe),
       .read_weight      (read_weight<%=i%>[DWIDTH-1:0]),
+      .read_hash        (read_hash<%=i%>[HWIDTH-1:0]),
       .read_bias        (read_bias<%=i%>[DWIDTH-1:0]),
       .wreg_we          (wreg_we),
       .hreg_we          (hreg_we),

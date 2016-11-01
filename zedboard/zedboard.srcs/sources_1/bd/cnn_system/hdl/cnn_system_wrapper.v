@@ -1,8 +1,8 @@
 //Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2016.2 (lin64) Build 1577090 Thu Jun  2 16:32:35 MDT 2016
-//Date        : Mon Oct  3 00:41:57 2016
-//Host        : menorca running 64-bit Debian GNU/Linux 8.6 (jessie)
+//Date        : Mon Oct 31 04:06:20 2016
+//Host        : mai running 64-bit Debian GNU/Linux 8.6 (jessie)
 //Command     : generate_target cnn_system_wrapper.bd
 //Design      : cnn_system_wrapper
 //Purpose     : IP block netlist

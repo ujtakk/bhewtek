@@ -4,7 +4,7 @@ TARGET=rtl_top
 all:
 	make link
 	./auto.sh $(TARGET).v
-	./sim.sh 2>&1 > log
+	./sim.sh | tee log
 
 link:
 	ln -s $(RTL_DIR)/*.v .

@@ -5,13 +5,13 @@ module mem_linebuf(/*AUTOARG*/
    clk, mem_we, mem_addr, write_data
    );
 `include "parameters.vh"
-    parameter BSIZE = 5;
-    parameter WORDS = 2 ** BSIZE;
+    localparam _BUFSIZE = 5;
+    localparam WORDS   = 2 ** _BUFSIZE;
 
     /*AUTOINPUT*/
     input clk;
     input mem_we;
-    input [BSIZE-1:0] mem_addr;
+    input [_BUFSIZE-1:0] mem_addr;
     input signed [DWIDTH-1:0] write_data;
 
     /*AUTOOUTPUT*/
@@ -35,7 +35,7 @@ module mem_linebuf(/*AUTOARG*/
 
     integer i;
     initial
-      for (i = 0; i < 2**BSIZE; i = i + 1)
+      for (i = 0; i < 2**_BUFSIZE; i = i + 1)
         mem[i] = 0;
 
 endmodule

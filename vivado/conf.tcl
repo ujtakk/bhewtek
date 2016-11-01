@@ -33,7 +33,7 @@ write_verilog -force $resultDir/${design}_synth_netlist.v
 
 for {set i 0} {$i < 10} {incr i} {
     for {set j 1} {$j <= 10} {incr j} {
-        read_saif -strip_path saif_rtl/dut0 -file ../saif_rtl/saif8/rtl_top${i}_${j}.saif
+        read_saif -strip_path rtl_top/dut0 -file ../saif_rtl/saif8/rtl_top${i}_${j}.saif
         report_switching_activity -signal_rate -static_probability [all_outputs]
 
         check_timing

@@ -96,6 +96,29 @@ void assign_weight(s16 *weight, const u16 offset,
 
 
 
+void assign_bias(s16 *bias, const u16 offset, const u16 total_out)
+{
+  u16 b_mem_addr    = 0;
+  u16 core_num      = 0;
+
+  for (u16 i = 0; i < total_out; i++) {
+    // Xil_Out32(reg_bias_we, i % CORE + 1);
+    core_num = i % CORE + 1;
+    b_mem_addr = offset + i / CORE;
+    Xil_Out32(reg_bias_addr,  b_mem_addr);
+    Xil_Out32(reg_write_bias, bias[i]);
+    Xil_Out32(reg_bias_we,    core_num);
+    Xil_Out32(reg_bias_we,    0x0);
+  }
+  // Xil_Out32(reg_bias_we,    0x0);
+  Xil_Out32(reg_bias_addr,  0x0);
+  Xil_Out32(reg_write_bias, 0x0);
+}
+
+
+
+
+
 void post_parameter(const u16 total_out, const u16 total_in,
     const u16 img_size, const u16 fil_size, const u16 pool_size)
 {

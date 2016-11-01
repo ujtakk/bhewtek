@@ -23,7 +23,7 @@ $step     = 10 # Step width(ns) per clock
 $insize   = 12 # Address bitwidth of inputs: (12*12*20)
 $outsize  = 12 # Address bitwidth of outputs: (12*12*20)
 $wsize    = 12 # Address bitwidth of weights: (50*20*5*5)/8
-$bsize    = 3  # Address bitwidth of weights: 50/8
+$bsize    = 4  # Address bitwidth of weights: 50/8
 $faccum   = 10 # Address bitwidth of conv fmap: (24*24)
 
 # Network

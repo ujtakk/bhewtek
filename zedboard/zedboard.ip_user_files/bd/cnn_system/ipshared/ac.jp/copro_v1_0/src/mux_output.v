@@ -1,3 +1,4 @@
+
 module mux_output(/*AUTOARG*/
    // Outputs
    read_output,
@@ -11,7 +12,7 @@ module mux_output(/*AUTOARG*/
   /*AUTOINPUT*/
   input clk;
   input xrst;
-  input [3:0] output_re;
+  input [CORELOG:0] output_re;
   input signed [DWIDTH-1:0] read_output0;
   input signed [DWIDTH-1:0] read_output1;
   input signed [DWIDTH-1:0] read_output2;

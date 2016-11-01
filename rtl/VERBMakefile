@@ -7,6 +7,14 @@
 ###
 
 ###
+# TODO:
+#   - extend VFile.includes to VHFile class
+#     (currently, another `include in the header file will not work.)
+###
+
+
+
+###
 # below is the template for dep.in script.
 # write the definition of this macro on Makefile that includes VERBMakefile
 ###
@@ -63,12 +71,11 @@ VCS=vcs +v2k
 endif
 
 ifeq ($(SIMULATOR),xsim)
-XVLOG_OPT= #-work work #+acc=rnbp +define+FAST_FUNC # -novopt # -lint
+XVLOG_OPT= --verbose 2 #-work work #+acc=rnbp +define+FAST_FUNC # -novopt # -lint
 XSIMOPTION= #$(XVLOG_OPT)
-XELABOPTION= -debug typical -nolog
-LNAME=`echo $* | tr "A-Z" "a-z"`
-ELAB_SIM=xelab $(XELABOPTION) $(LNAME) -s $(LNAME)_sim > /dev/null 2>&1
-DO_SIM= test -f $(LNAME)_sim && rm -f $(LNAME)_sim ; time xsim $(LNAME)_sim $(XSIMOPTION) -R | sed 's/^\# //'
+XELABOPTION= -debug typical
+ELAB_SIM=xelab $(XELABOPTION) $* -s $*_sim
+DO_SIM= test -f $*_sim && rm -f $*_sim ; time xsim $*_sim $(XSIMOPTION) -R | sed 's/^\# //'
 V_COMPILE=(xvlog $(XVLOG_OPT) $< > $@.log && touch $@) && (grep "^\*\* " $@.log || true) || (cat $@.log ; false)
 else
 ifeq ($(SIMULATOR),vsim)
@@ -82,7 +89,7 @@ DO_SIM=make $* && time ./$*
 V_COMPILE=touch $@
 else
 ifeq ($(SIMULATOR),iverilog)
-DO_SIM=make $* && time ./$*
+DO_SIM=make $* && time ./$*.out
 V_COMPILE=touch $@
 endif
 endif
@@ -101,8 +108,8 @@ endif
 .com.log:
 ifeq ($(SIMULATOR),xsim)
 	@$(E) echo "  ELABORATE         $*"
-	$(Q)$(ELAB_SIM)
-	$(DO_SIM)
+	$(Q)$(ELAB_SIM) | tee $@
+	$(DO_SIM) 2>&1 | tee -a $@
 else
 	$(DO_SIM) 2>&1 | tee $@
 endif
@@ -179,6 +186,9 @@ clean-common:
 	### vcs
 	rm -f default.cfg vcdplus.vpd vcs.key
 	rm -rf *.daidir
+
+	### iverilog
+	rm -f *.out
 
 	rm -f $(VERBFILES:.v.erb=.v)
 	rm -f $(VERBFILES:.v.erb=.v.in)

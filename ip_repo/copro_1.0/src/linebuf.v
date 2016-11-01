@@ -23,7 +23,7 @@ module linebuf(/*AUTOARG*/
    );
 `include "parameters.vh"
 
-  parameter BSIZE = 5;
+  parameter _BUFSIZE = 5;
 
   parameter S_WAIT   = 'd0;
   parameter S_CHARGE = 'd1;
@@ -70,7 +70,7 @@ module linebuf(/*AUTOARG*/
   wire                      s_charge_end;
   wire                      s_active_end;
   wire [8-1:0]              mem_linebuf_we;
-  wire [BSIZE-1:0]          mem_linebuf_addr;
+  wire [_BUFSIZE-1:0]          mem_linebuf_addr;
   wire signed [DWIDTH-1:0]  read_mem0;
   wire signed [DWIDTH-1:0]  read_mem1;
   wire signed [DWIDTH-1:0]  read_mem2;
@@ -81,7 +81,7 @@ module linebuf(/*AUTOARG*/
   /*AUTOREG*/
   reg [4-1:0]             r_select;
   reg [2-1:0]             r_state;
-  reg [BSIZE-1:0]         r_addr_count;
+  reg [_BUFSIZE-1:0]         r_addr_count;
   reg [3-1:0]             r_mem_count;
   reg [LWIDTH-1:0]        r_line_count;
   reg [8-1:0]             r_linebuf_we;
@@ -417,7 +417,7 @@ module linebuf(/*AUTOARG*/
 
   /* mem_linebuf AUTO_TEMPLATE (
       .mem_we     (mem_linebuf_we[0]),
-      .mem_addr   (mem_linebuf_addr[BSIZE-1:0]),
+      .mem_addr   (mem_linebuf_addr[_BUFSIZE-1:0]),
       .write_data (r_buf_input[DWIDTH-1:0]),
       .read_data  (read_mem0[DWIDTH-1:0]),
   ); */
@@ -427,12 +427,12 @@ module linebuf(/*AUTOARG*/
 		    // Inputs
 		    .clk		(clk),
 		    .mem_we		(mem_linebuf_we[0]),	 // Templated
-		    .mem_addr		(mem_linebuf_addr[BSIZE-1:0]), // Templated
+		    .mem_addr		(mem_linebuf_addr[_BUFSIZE-1:0]), // Templated
 		    .write_data		(r_buf_input[DWIDTH-1:0])); // Templated
 
   /* mem_linebuf AUTO_TEMPLATE (
       .mem_we     (mem_linebuf_we[1]),
-      .mem_addr   (mem_linebuf_addr[BSIZE-1:0]),
+      .mem_addr   (mem_linebuf_addr[_BUFSIZE-1:0]),
       .write_data (r_buf_input[DWIDTH-1:0]),
       .read_data  (read_mem1[DWIDTH-1:0]),
   ); */
@@ -442,12 +442,12 @@ module linebuf(/*AUTOARG*/
 		    // Inputs
 		    .clk		(clk),
 		    .mem_we		(mem_linebuf_we[1]),	 // Templated
-		    .mem_addr		(mem_linebuf_addr[BSIZE-1:0]), // Templated
+		    .mem_addr		(mem_linebuf_addr[_BUFSIZE-1:0]), // Templated
 		    .write_data		(r_buf_input[DWIDTH-1:0])); // Templated
 
   /* mem_linebuf AUTO_TEMPLATE (
       .mem_we     (mem_linebuf_we[2]),
-      .mem_addr   (mem_linebuf_addr[BSIZE-1:0]),
+      .mem_addr   (mem_linebuf_addr[_BUFSIZE-1:0]),
       .write_data (r_buf_input[DWIDTH-1:0]),
       .read_data  (read_mem2[DWIDTH-1:0]),
   ); */
@@ -457,12 +457,12 @@ module linebuf(/*AUTOARG*/
 		    // Inputs
 		    .clk		(clk),
 		    .mem_we		(mem_linebuf_we[2]),	 // Templated
-		    .mem_addr		(mem_linebuf_addr[BSIZE-1:0]), // Templated
+		    .mem_addr		(mem_linebuf_addr[_BUFSIZE-1:0]), // Templated
 		    .write_data		(r_buf_input[DWIDTH-1:0])); // Templated
 
   /* mem_linebuf AUTO_TEMPLATE (
       .mem_we     (mem_linebuf_we[3]),
-      .mem_addr   (mem_linebuf_addr[BSIZE-1:0]),
+      .mem_addr   (mem_linebuf_addr[_BUFSIZE-1:0]),
       .write_data (r_buf_input[DWIDTH-1:0]),
       .read_data  (read_mem3[DWIDTH-1:0]),
   ); */
@@ -472,12 +472,12 @@ module linebuf(/*AUTOARG*/
 		    // Inputs
 		    .clk		(clk),
 		    .mem_we		(mem_linebuf_we[3]),	 // Templated
-		    .mem_addr		(mem_linebuf_addr[BSIZE-1:0]), // Templated
+		    .mem_addr		(mem_linebuf_addr[_BUFSIZE-1:0]), // Templated
 		    .write_data		(r_buf_input[DWIDTH-1:0])); // Templated
 
   /* mem_linebuf AUTO_TEMPLATE (
       .mem_we     (mem_linebuf_we[4]),
-      .mem_addr   (mem_linebuf_addr[BSIZE-1:0]),
+      .mem_addr   (mem_linebuf_addr[_BUFSIZE-1:0]),
       .write_data (r_buf_input[DWIDTH-1:0]),
       .read_data  (read_mem4[DWIDTH-1:0]),
   ); */
@@ -487,12 +487,12 @@ module linebuf(/*AUTOARG*/
 		    // Inputs
 		    .clk		(clk),
 		    .mem_we		(mem_linebuf_we[4]),	 // Templated
-		    .mem_addr		(mem_linebuf_addr[BSIZE-1:0]), // Templated
+		    .mem_addr		(mem_linebuf_addr[_BUFSIZE-1:0]), // Templated
 		    .write_data		(r_buf_input[DWIDTH-1:0])); // Templated
 
   /* mem_linebuf AUTO_TEMPLATE (
       .mem_we     (mem_linebuf_we[5]),
-      .mem_addr   (mem_linebuf_addr[BSIZE-1:0]),
+      .mem_addr   (mem_linebuf_addr[_BUFSIZE-1:0]),
       .write_data (r_buf_input[DWIDTH-1:0]),
       .read_data  (read_mem5[DWIDTH-1:0]),
   ); */
@@ -502,7 +502,7 @@ module linebuf(/*AUTOARG*/
 		    // Inputs
 		    .clk		(clk),
 		    .mem_we		(mem_linebuf_we[5]),	 // Templated
-		    .mem_addr		(mem_linebuf_addr[BSIZE-1:0]), // Templated
+		    .mem_addr		(mem_linebuf_addr[_BUFSIZE-1:0]), // Templated
 		    .write_data		(r_buf_input[DWIDTH-1:0])); // Templated
 
 

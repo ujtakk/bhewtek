@@ -9,40 +9,48 @@
 #include "xparameters.h"
 #include "copro.h"
 
+// reg macro
+#define REG_BASE          XPAR_COPRO_0_S_AXI_BASEADDR
+#define REG_COPRO(num)    REG_BASE + COPRO_s_axi_SLV_REG##num##_OFFSET
+
 // input reg
-#define reg_req          XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG0_OFFSET
-#define reg_output_re    XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG1_OFFSET
-#define reg_weight_we    XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG2_OFFSET
-#define reg_input_we     XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG3_OFFSET
-#define reg_total_out    XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG4_OFFSET
-#define reg_total_in     XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG5_OFFSET
-#define reg_img_size     XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG6_OFFSET
-#define reg_fil_size     XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG7_OFFSET
-#define reg_pool_size    XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG8_OFFSET
-#define reg_input_addr   XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG9_OFFSET
-#define reg_write_input  XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG10_OFFSET
-#define reg_weight_addr  XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG11_OFFSET
-#define reg_write_weight XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG12_OFFSET
-#define reg_output_addr  XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG13_OFFSET
+#define reg_req           REG_COPRO(0)
+#define reg_total_out     REG_COPRO(1)
+#define reg_total_in      REG_COPRO(2)
+#define reg_img_size      REG_COPRO(3)
+#define reg_fil_size      REG_COPRO(4)
+#define reg_pool_size     REG_COPRO(5)
+#define reg_input_we      REG_COPRO(6)
+#define reg_input_addr    REG_COPRO(7)
+#define reg_write_input   REG_COPRO(8)
+#define reg_weight_we     REG_COPRO(9)
+#define reg_weight_addr   REG_COPRO(10)
+#define reg_write_weight  REG_COPRO(11)
+#define reg_bias_we       REG_COPRO(12)
+#define reg_bias_addr     REG_COPRO(13)
+#define reg_write_bias    REG_COPRO(14)
+#define reg_output_re     REG_COPRO(15)
+#define reg_output_addr   REG_COPRO(16)
 
 // output reg
-#define reg_ack          XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG255_OFFSET
-#define reg_read_output  XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG254_OFFSET
-#define reg_probe_in     XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG253_OFFSET
-#define reg_probe_w0     XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG252_OFFSET
-#define reg_probe_w1     XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG251_OFFSET
-#define reg_probe_w2     XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG250_OFFSET
-#define reg_probe_w3     XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG249_OFFSET
-#define reg_probe_w4     XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG248_OFFSET
-#define reg_probe_w5     XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG247_OFFSET
-#define reg_probe_w6     XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG246_OFFSET
-#define reg_probe_w7     XPAR_COPRO_0_S_AXI_BASEADDR + COPRO_s_axi_SLV_REG245_OFFSET
+#define reg_ack           REG_COPRO(255)
+#define reg_read_output   REG_COPRO(254)
+#define reg_probe_in      REG_COPRO(253)
+#define reg_probe_w0      REG_COPRO(252)
+#define reg_probe_w1      REG_COPRO(251)
+#define reg_probe_w2      REG_COPRO(250)
+#define reg_probe_w3      REG_COPRO(249)
+#define reg_probe_w4      REG_COPRO(248)
+#define reg_probe_w5      REG_COPRO(247)
+#define reg_probe_w6      REG_COPRO(246)
+#define reg_probe_w7      REG_COPRO(245)
 
 void post_input(s16 *input, const u16 total_in, const u16 img_size);
 void post_weight(s16 *weight,
     const u16 total_out, const u16 total_in, const u16 fil_size);
 void assign_weight(s16 *weight, const u16 offset,
     const u16 total_out, const u16 total_in, const u16 fil_size);
+void assign_bias(s16 *bias, const u16 offset, const u16 total_out);
 void post_parameter(const u16 total_out, const u16 total_in,
     const u16 img_size, const u16 fil_size, const u16 pool_size);
 void post_data(s16 *input, s16 *weight,

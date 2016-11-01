@@ -1,8 +1,8 @@
 module accumulator(/*AUTOARG*/
    // Outputs
-   total, sum_wb,
+   total, sum_new,
    // Inputs
-   clk, xrst, reset, o_we, result, sum_old
+   clk, xrst, reset, out_en, result, sum_old
    );
 `include "parameters.vh"
 
@@ -10,34 +10,31 @@ module accumulator(/*AUTOARG*/
   input clk;
   input xrst;
   input reset;
-  input o_we;
+  input out_en;
   input signed [DWIDTH-1:0] result;
   input signed [DWIDTH-1:0] sum_old;
 
   /*AUTOOUTPUT*/
   output signed [DWIDTH-1:0] total;
-  output signed [DWIDTH-1:0] sum_wb;
+  output signed [DWIDTH-1:0] sum_new;
 
   /*AUTOWIRE*/
   wire signed [DWIDTH-1:0] sum;
 
   /*AUTOREG*/
-  // Beginning of automatic regs (for this module's undeclared outputs)
-  reg signed [DWIDTH-1:0] total;
-  // End of automatics
+  reg signed [DWIDTH-1:0] r_total;
+
+  assign total   = r_total;
+  assign sum_new = sum;
 
   assign sum = reset
-                ? result
-                : result + sum_old;
-
-  assign sum_wb = sum;
+             ? result
+             : result + sum_old;
 
   always @(posedge clk)
     if (!xrst)
-      total <= 0;
-    else if(o_we)
-      total <= sum;
-    //else
-    //  total <= total;
+      r_total <= 0;
+    else if(out_en)
+      r_total <= sum;
 
 endmodule

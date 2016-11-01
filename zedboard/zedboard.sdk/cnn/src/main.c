@@ -53,18 +53,18 @@ int main(void)
   // TODO: load data from the SD card using Linux
   //        => (standalone may be enough)
 
-  u32 Data;
-  int Status;
-  XGpioPs_Config *ConfigPtr;
-
-  ConfigPtr = XGpioPs_LookupConfig(GPIO_DEVICE_ID);
-  Status = XGpioPs_CfgInitialize(&Gpio, ConfigPtr, ConfigPtr->BaseAddr);
-
-  if (Status != XST_SUCCESS)
-    return XST_FAILURE;
-
-  XGpioPs_SetDirectionPin(&Gpio, OUTPUT_PIN, 1);
-  XGpioPs_SetOutputEnablePin(&Gpio, OUTPUT_PIN, 1);
+  // u32 Data;
+  // int Status;
+  // XGpioPs_Config *ConfigPtr;
+  //
+  // ConfigPtr = XGpioPs_LookupConfig(GPIO_DEVICE_ID);
+  // Status = XGpioPs_CfgInitialize(&Gpio, ConfigPtr, ConfigPtr->BaseAddr);
+  //
+  // if (Status != XST_SUCCESS)
+  //   return XST_FAILURE;
+  //
+  // XGpioPs_SetDirectionPin(&Gpio, OUTPUT_PIN, 1);
+  // XGpioPs_SetOutputEnablePin(&Gpio, OUTPUT_PIN, 1);
 
   // for (int p=9; p<16; p++) {
   //   XGpioPs_SetDirectionPin(&Gpio, p, 1);
@@ -91,48 +91,50 @@ int main(void)
   // Clear the screen
   // for (int i = 0; i < 100; i++) xil_printf("\r\n");
 
-  XGpioPs_WritePin(&Gpio, OUTPUT_PIN, 0x1);
-  Data = XGpioPs_ReadPin(&Gpio, OUTPUT_PIN);
-  if (Data != 1)
-    return XST_FAILURE;
+  // XGpioPs_WritePin(&Gpio, OUTPUT_PIN, 0x1);
+  // Data = XGpioPs_ReadPin(&Gpio, OUTPUT_PIN);
+  // if (Data != 1)
+  //   return XST_FAILURE;
 
 #ifdef ENABLE_COPRO
 #ifdef ASSIGN
   assign_weight(w_conv1_flat, 0, N_F1, 1, FHEI);
+  assign_bias(b_conv1, 0, N_F1);
   assign_weight(w_conv2_flat, 75, N_F2, N_F1, FHEI);
+  assign_bias(b_conv2, 5, N_F2);
 
-  // printf("assign_data(input_flat);\n");
-  // BEGIN
+  printf("assign_data(input_flat);\n");
+  BEGIN
   assign_data(input_flat, 0, N_F1, 1, IMHEI, FHEI, PHEI);
-  // END
-  // printf("exec_core()\n");
-  // BEGIN
+  END
+  printf("exec_core()\n");
+  BEGIN
   exec_core();
-  // END
-  // printf("get_data(pmap1_flat)\n");
-  // BEGIN
+  END
+  printf("get_data(pmap1_flat)\n");
+  BEGIN
   get_data(pmap1_flat, N_F1, PM1HEI);
-  // END
+  END
   // printf("post_process(pmap1_flat, b_conv1)\n");
   // BEGIN
-  post_process(pmap1_flat, b_conv1, N_F1, PM1HEI);
+  // post_process(pmap1_flat, b_conv1, N_F1, PM1HEI);
   // END
 
-  // printf("assign_data(pmap1_flat);\n");
-  // BEGIN
+  printf("assign_data(pmap1_flat);\n");
+  BEGIN
   assign_data(pmap1_flat, 75, N_F2, N_F1, PM1HEI, FHEI, PHEI);
-  // END
-  // printf("exec_core()\n");
-  // BEGIN
+  END
+  printf("exec_core()\n");
+  BEGIN
   exec_core();
-  // END
-  // printf("get_data(pmap2_flat)\n");
-  // BEGIN
+  END
+  printf("get_data(pmap2_flat)\n");
+  BEGIN
   get_data(pmap2_flat, N_F2, PM2HEI);
-  // END
+  END
   // printf("post_process(pmap2_flat, b_conv2)\n");
   // BEGIN
-  post_process(pmap2_flat, b_conv2, N_F2, PM2HEI);
+  // post_process(pmap2_flat, b_conv2, N_F2, PM2HEI);
   // END
 #else
   // First Layer
@@ -279,28 +281,27 @@ int main(void)
    * calculate fully connected layers on CPU
    * because these layers has tendency to be data intensive.
    ************************************************************/
-  // printf("full_connect(pmap2_flat, hidden)\n");
-  // BEGIN
+  printf("full_connect(pmap2_flat, hidden)\n");
+  BEGIN
   full_connect(pmap2_flat, hidden,
                 w_hidden, b_hidden, PM2HEI*PM2WID*N_F2, N_HL);
-  // END
+  END
 
-  // printf("activate_1d(hidden)\n");
-  // BEGIN
+  printf("activate_1d(hidden)\n");
+  BEGIN
   activate_1d(hidden, N_HL);
-  // END
+  END
 
-  // printf("full_connect(hidden, output)\n");
-  // BEGIN
+  printf("full_connect(hidden, output)\n");
+  BEGIN
   full_connect(hidden, output,
                 w_output, b_output, N_HL, LABEL);
-  // END
-  XGpioPs_WritePin(&Gpio, OUTPUT_PIN, 0x0);
-  Data = XGpioPs_ReadPin(&Gpio, OUTPUT_PIN);
-  if (Data != 0)
-    return XST_FAILURE;
+  END
+  // XGpioPs_WritePin(&Gpio, OUTPUT_PIN, 0x0);
+  // Data = XGpioPs_ReadPin(&Gpio, OUTPUT_PIN);
+  // if (Data != 0) return XST_FAILURE;
 
-  // print_result(output);
+  print_result(output);
 
   cleanup_platform();
 

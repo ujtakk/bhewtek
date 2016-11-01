@@ -1,9 +1,9 @@
 % load "parameters.rb"
-% input  = "/home/work/takau/bhewtek/data/mnist/bpmap1"
-// % weight = "/home/work/takau/bhewtek/data/mnist/lenet"
-% weight = "/home/work/takau/bhewtek/rtl/hashed/train/lh_t"
-% num = 2; file = 4
 % offset = 75 # addr offset where bwb_2 start at
+% input  = "/home/work/takau/bhewtek/data/mnist/bpmap1"
+% weight = "/home/work/takau/bhewtek/data/mnist/lenet"
+// % weight = "/home/work/takau/bhewtek/rtl/hashed/train/lh_t"
+% num = 2; file = 4
 
 `timescale 1ns/1ps
 
@@ -117,17 +117,17 @@ module test_top();
 
     while(!ack) #(STEP);
     #(STEP*10);
+    // $toggle_stop();
+    // $toggle_report(
+    //   "top<%=num%>_<%=file%>.saif",
+    //   1.0e-9,
+    //   "test_top.dut0"
+    // );
 
     // valid_memin;
     // valid_memw;
     write_output;
 
-    // $toggle_stop();
-    // $toggle_report(
-    //   "../saif_rtl/saif{CORE}/rtl_top{NUM}_{FILE}.saif",
-    //   1.0e-9,
-    //   "test_top"
-    // );
     $finish();
   end
 

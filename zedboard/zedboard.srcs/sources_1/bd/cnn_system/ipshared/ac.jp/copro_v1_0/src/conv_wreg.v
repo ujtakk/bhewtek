@@ -1,3 +1,4 @@
+
 module conv_wreg(/*AUTOARG*/
    // Outputs
    weight0, weight1, weight2, weight3, weight4, weight5, weight6,

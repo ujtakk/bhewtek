@@ -1,7 +1,8 @@
+
 module ctrl_conv(/*AUTOARG*/
    // Outputs
    out_begin, out_valid, out_end, mem_feat_we, mem_feat_rst,
-   mem_feat_addr, mem_feat_addr_d1, conv_we, w_fea_size,
+   mem_feat_addr, mem_feat_addr_d1, conv_oe, w_fea_size,
    // Inputs
    clk, xrst, in_begin, in_valid, in_end, core_state, w_img_size,
    w_fil_size, first_input, last_input
@@ -36,7 +37,7 @@ module ctrl_conv(/*AUTOARG*/
   output              mem_feat_rst;
   output [FACCUM-1:0] mem_feat_addr;
   output [FACCUM-1:0] mem_feat_addr_d1;
-  output              conv_we;
+  output              conv_oe;
   output [LWIDTH-1:0] w_fea_size;
 
   /*AUTOWIRE*/
@@ -137,39 +138,43 @@ module ctrl_conv(/*AUTOARG*/
 
   always @(posedge clk)
     if (!xrst)
+    begin
       r_conv_x <= 0;
-    else if (r_state == S_WAIT)
-      r_conv_x <= 0;
-    else if (r_state == S_ACTIVE)
-      if (r_core_state == S_CORE_INPUT && in_valid)
-        if (r_conv_x == r_img_size - 1)
+      r_conv_y <= 0;
+    end
+    else
+      case (r_state)
+        S_WAIT:
+        begin
           r_conv_x <= 0;
-        else
-          r_conv_x <= r_conv_x + 1;
-      else if (r_core_state == S_CORE_OUTPUT && !r_wait_back)
-        if (r_conv_x == r_fea_size - 1)
-          r_conv_x <= 0;
-        else
-          r_conv_x <= r_conv_x + 1;
+          r_conv_y <= 0;
+        end
 
-  always @(posedge clk)
-    if (!xrst)
-      r_conv_y <= 0;
-    else if (r_state == S_WAIT)
-      r_conv_y <= 0;
-    else if (r_state == S_ACTIVE)
-      if (r_core_state == S_CORE_INPUT
-            && in_valid && r_conv_x == r_img_size - 1)
-        if (r_conv_y == r_img_size - 1)
-          r_conv_y <= 0;
-        else
-          r_conv_y <= r_conv_y + 1;
-      else if (r_core_state == S_CORE_OUTPUT && !r_wait_back
-                 && r_conv_x == r_fea_size - 1)
-        if (r_conv_y == r_fea_size - 1)
-          r_conv_y <= 0;
-        else
-          r_conv_y <= r_conv_y + 1;
+        S_ACTIVE:
+          if (r_core_state == S_CORE_INPUT && in_valid)
+            if (r_conv_x == r_img_size - 1)
+            begin
+              r_conv_x <= 0;
+              if (r_conv_y == r_img_size - 1)
+                r_conv_y <= 0;
+              else
+                r_conv_y <= r_conv_y + 1;
+            end
+            else
+              r_conv_x <= r_conv_x + 1;
+
+          else if (r_core_state == S_CORE_OUTPUT && !r_wait_back)
+            if (r_conv_x == r_fea_size - 1)
+            begin
+              r_conv_x <= 0;
+              if (r_conv_y == r_fea_size - 1)
+                r_conv_y <= 0;
+              else
+                r_conv_y <= r_conv_y + 1;
+            end
+            else
+              r_conv_x <= r_conv_x + 1;
+      endcase
 
 //==========================================================
 // conv control
@@ -227,7 +232,6 @@ module ctrl_conv(/*AUTOARG*/
     if (!xrst)
       r_feat_we_d0 <= 0;
     else
-      //r_feat_we_d0 <= !r_last_input_d0 && conv_valid;
       r_feat_we_d0 <= conv_valid;
   always @(posedge clk)
     if (!xrst)
@@ -320,7 +324,7 @@ module ctrl_conv(/*AUTOARG*/
   assign out_valid  = r_out_valid_d5;
   assign out_end    = r_out_end_d5;
 
-  assign conv_we    = r_out_valid_d4;
+  assign conv_oe    = r_out_valid_d4;
 
   always @(posedge clk)
     if (!xrst)

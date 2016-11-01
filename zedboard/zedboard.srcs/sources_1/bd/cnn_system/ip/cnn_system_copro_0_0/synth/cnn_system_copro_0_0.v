@@ -48,7 +48,7 @@
 
 
 // IP VLNV: ac.jp:user:copro:1.0
-// IP Revision: 6
+// IP Revision: 9
 
 (* X_CORE_INFO = "copro_v1_0,Vivado 2016.2" *)
 (* CHECK_LICENSE_TYPE = "cnn_system_copro_0_0,copro_v1_0,{}" *)

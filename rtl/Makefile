@@ -2,10 +2,12 @@
 #### (make compile.all USE_CACHE=0; ...; rm -f Makefile.dep; make Makefile.dep)
 # SIMULATOR=vcs
 # SIMULATOR=iverilog
+# SIMULATOR=xsim
 IOC_DIR=.
 # TARGET=test_top_first
 TARGET=test_top
-DIST=../ip_repo/copro_1.0/src/
+# DIST=../ip_repo/copro_1.0/src/
+DIST=../dist
 
 include Makefile.dep
 include VERBMakefile
@@ -28,7 +30,7 @@ log:
 	vim $(TARGET).log
 
 edit:
-	vim $(TARGET).v.erb
+	vim -O $(TARGET).v.erb `echo $(TARGET) | awk -F "test_" '{print $$2 ".v.erb"}'`
 
 diff:
 	vimdiff $(TARGET).dat $(TARGET)_true.dat

@@ -202,7 +202,7 @@ module ctrl_hash(/*AUTOARG*/);
       r_img_size    <= img_size;
       r_fil_size    <= fil_size;
       r_d_pixelbuf  <= img_size - fil_size + 8 - 1;
-      r_comped_fil_size <= fil_size * fil_size * COMP_RATE;
+      r_comped_fil_size <= fil_size;
       r_lut_size <= fil_size * fil_size;
     end
 

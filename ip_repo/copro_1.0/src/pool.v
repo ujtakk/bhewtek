@@ -1,8 +1,9 @@
+
 module pool(/*AUTOARG*/
    // Outputs
    pmap,
    // Inputs
-   clk, xrst, o_we, pixel_feat0, pixel_feat1, pixel_feat2,
+   clk, xrst, out_en, pixel_feat0, pixel_feat1, pixel_feat2,
    pixel_feat3
    );
 `include "parameters.vh"
@@ -10,7 +11,7 @@ module pool(/*AUTOARG*/
   /*AUTOINPUT*/
   input clk;
   input xrst;
-  input o_we;
+  input out_en;
   input signed [DWIDTH-1:0] pixel_feat0;
   input signed [DWIDTH-1:0] pixel_feat1;
   input signed [DWIDTH-1:0] pixel_feat2;
@@ -48,7 +49,7 @@ module pool(/*AUTOARG*/
   always @(posedge clk)
     if (!xrst)
       r_max <= 0;
-    else if (o_we)
+    else if (out_en)
       r_max <= max;
 
   always @(posedge clk)
@@ -71,4 +72,5 @@ module pool(/*AUTOARG*/
       r_pixel_feat3 <= 0;
     else
       r_pixel_feat3 <= pixel_feat3;
+
 endmodule

@@ -1,0 +1,39 @@
+module hash_wreg(/*AUTOARG*/);
+`include "parameters.vh"
+<%- load "parameters.rb" -%>
+
+  /*AUTOINPUT*/
+  input clk;
+  input xrst;
+  input wreg_we;
+  input [DWIDTH-1:0] read_data;
+
+  /*AUTOOUTPUT*/
+  <%- for i in 0...$fsize -%>
+  output signed [DWIDTH-1:0] hashed_weight<%=i%>;
+  <%- end -%>
+
+  /*AUTOWIRE*/
+
+  /*AUTOREG*/
+  <%- for i in 0...$fsize -%>
+  reg [DWIDTH-1:0] r_weight<%=i%>;
+  <%- end -%>
+
+  <%- for i in 0...$fsize -%>
+  assign hashed_weight<%=i%> = r_weight<%=i%>;
+  <%- end -%>
+
+  <%- for i in 0...$fsize -%>
+  always @(posedge clk)
+    if (!xrst)
+      r_weight<%=i%> <= 0;
+    else if (wreg_we)
+      <%- if i == $fsize-1 -%>
+      r_weight<%=i%> <= read_data;
+      <%- else -%>
+      r_weight<%=i%> <= r_weight<%=i+1%>;
+      <%- end -%>
+  <%- end -%>
+
+endmodule

@@ -1,1 +1,0 @@
-/usr/bin/c++  -fPIC    -shared -Wl,-soname,libhashnn.so -o libhashnn.so CMakeFiles/hashnn.dir/./hashnn_generated_myhashnn.cu.o  -L/project/tantra/wenlinchen/mylocal/lib /usr/local/cuda/lib64/libcudart.so -lcuda -lluaT -lTHC /project/tantra/wenlinchen/mylocal/lib/libTH.so -lblas -llapack -Wl,-rpath,/project/tantra/wenlinchen/mylocal/lib:/usr/local/cuda/lib64 

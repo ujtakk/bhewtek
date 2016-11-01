@@ -1,0 +1,11 @@
+#-----------------------------------------------------------
+# Vivado v2016.2 (64-bit)
+# SW Build 1577090 on Thu Jun  2 16:32:35 MDT 2016
+# IP Build 1577682 on Fri Jun  3 12:00:54 MDT 2016
+# Start of session at: Mon Oct 10 23:15:06 2016
+# Process ID: 6230
+# Current directory: /ram/home/work/takau/bhewtek/zedboard/zedboard.runs/synth_1
+# Command line: vivado -log cnn_system_wrapper.vds -mode batch -messageDb vivado.pb -notrace -source cnn_system_wrapper.tcl
+# Log file: /ram/home/work/takau/bhewtek/zedboard/zedboard.runs/synth_1/cnn_system_wrapper.vds
+# Journal file: /ram/home/work/takau/bhewtek/zedboard/zedboard.runs/synth_1/vivado.jou
+#-----------------------------------------------------------

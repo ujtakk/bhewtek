@@ -32,6 +32,7 @@ export_ip_user_files \
 upgrade_ip \
   -vlnv ac.jp:user:copro:1.0 [get_ips  cnn_system_copro_0_0] \
   -log ip_upgrade.log
+
 generate_target all [get_files  $srcs/sources_1/bd/cnn_system/cnn_system.bd]
 export_ip_user_files \
   -of_objects [get_files $srcs/sources_1/bd/cnn_system/cnn_system.bd] \

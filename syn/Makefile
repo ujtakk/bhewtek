@@ -32,4 +32,5 @@ clean:
 	rm -f *.v *.vh *.rb
 	rm -f *.log *.svf
 	rm -rf results reports
+	rm -rf alib-*
 

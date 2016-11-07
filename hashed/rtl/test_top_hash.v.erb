@@ -1,7 +1,7 @@
 % load "parameters.rb"
 % input  = "/home/work/takau/bhewtek/data/mnist/bpmap1"
 // % weight = "/home/work/takau/bhewtek/data/mnist/lenet"
-% weight = "/home/work/takau/bhewtek/rtl/hashed/train/lh_t"
+% weight = "/home/work/takau/bhewtek/hashed/train/lh_t"
 % num = 2; file = 4
 % offset = 0 # addr offset where bwb_2 start at
 
@@ -542,45 +542,45 @@ module test_top_hash();
   always
   begin
     #(STEP/2-1);
-    $display(
-      "%5d: ", $time/STEP, // {{{
-      "%d ",   xrst,
-      "%d ",   req,
-      "%d ",   ack,
-      "%d ",   dut0.ctrl.ctrl_core.r_state,
-      "| ",
-      "%d ",  dut0.ctrl.ctrl_core.out_begin,
-      "%d ",  dut0.ctrl.ctrl_core.out_valid,
-      "%d: ", dut0.ctrl.ctrl_core.out_end,
-      "%2d ", dut0.ctrl.ctrl_core.r_count_out,
-      "%2d ", dut0.ctrl.ctrl_core.r_count_in,
-      "%2d ", dut0.ctrl.ctrl_core.r_input_x,
-      "%2d ", dut0.ctrl.ctrl_core.r_input_y,
-      "%2d ", dut0.ctrl.ctrl_core.r_weight_x,
-      "%2d ", dut0.ctrl.ctrl_core.r_weight_y,
-      "%d ",  dut0.ctrl.ctrl_core.r_state_weight,
-      "| ",
-      "%d ",  dut0.ctrl.ctrl_conv.out_begin,
-      "%d ",  dut0.ctrl.ctrl_conv.out_valid,
-      "%d: ", dut0.ctrl.ctrl_conv.out_end,
-      "%d ",  dut0.core0.fmap,
-      "| ",
-      "%d ",  dut0.ctrl.ctrl_bias.out_begin,
-      "%d ",  dut0.ctrl.ctrl_bias.out_valid,
-      "%d: ", dut0.ctrl.ctrl_bias.out_end,
-      "%d ",  dut0.core0.biased,
-      "| ",
-      "%d ",  dut0.ctrl.ctrl_relu.out_begin,
-      "%d ",  dut0.ctrl.ctrl_relu.out_valid,
-      "%d: ", dut0.ctrl.ctrl_relu.out_end,
-      "%d ",  dut0.core0.actived,
-      "| ",
-      "%d ",  dut0.ctrl.ctrl_pool.out_begin,
-      "%d ",  dut0.ctrl.ctrl_pool.out_valid,
-      "%d: ", dut0.ctrl.ctrl_pool.out_end,
-      "%d ",  dut0.core0.pmap,
-      "|" // }}}
-    );
+    // $display(
+    //   "%5d: ", $time/STEP, // {{{
+    //   "%d ",   xrst,
+    //   "%d ",   req,
+    //   "%d ",   ack,
+    //   "%d ",   dut0.ctrl.ctrl_core.r_state,
+    //   "| ",
+    //   "%d ",  dut0.ctrl.ctrl_core.out_begin,
+    //   "%d ",  dut0.ctrl.ctrl_core.out_valid,
+    //   "%d: ", dut0.ctrl.ctrl_core.out_end,
+    //   "%2d ", dut0.ctrl.ctrl_core.r_count_out,
+    //   "%2d ", dut0.ctrl.ctrl_core.r_count_in,
+    //   "%2d ", dut0.ctrl.ctrl_core.r_input_x,
+    //   "%2d ", dut0.ctrl.ctrl_core.r_input_y,
+    //   "%2d ", dut0.ctrl.ctrl_core.r_weight_x,
+    //   "%2d ", dut0.ctrl.ctrl_core.r_weight_y,
+    //   "%d ",  dut0.ctrl.ctrl_core.r_state_weight,
+    //   "| ",
+    //   "%d ",  dut0.ctrl.ctrl_conv.out_begin,
+    //   "%d ",  dut0.ctrl.ctrl_conv.out_valid,
+    //   "%d: ", dut0.ctrl.ctrl_conv.out_end,
+    //   "%d ",  dut0.core0.fmap,
+    //   "| ",
+    //   "%d ",  dut0.ctrl.ctrl_bias.out_begin,
+    //   "%d ",  dut0.ctrl.ctrl_bias.out_valid,
+    //   "%d: ", dut0.ctrl.ctrl_bias.out_end,
+    //   "%d ",  dut0.core0.biased,
+    //   "| ",
+    //   "%d ",  dut0.ctrl.ctrl_relu.out_begin,
+    //   "%d ",  dut0.ctrl.ctrl_relu.out_valid,
+    //   "%d: ", dut0.ctrl.ctrl_relu.out_end,
+    //   "%d ",  dut0.core0.actived,
+    //   "| ",
+    //   "%d ",  dut0.ctrl.ctrl_pool.out_begin,
+    //   "%d ",  dut0.ctrl.ctrl_pool.out_valid,
+    //   "%d: ", dut0.ctrl.ctrl_pool.out_end,
+    //   "%d ",  dut0.core0.pmap,
+    //   "|" // }}}
+    // );
     // focus ctrl
     // $display(
     //   "%5d: ", $time/STEP, // {{{
@@ -610,6 +610,11 @@ module test_top_hash();
     //   "%4d ", dut0.core0.conv.hashed_weight4,
     //   "|" // }}}
     // );
+    $display(
+      <%- for i in 0...$fsize**2 -%> // {{{
+      "%0d,", dut0.core0.conv.weight<%=i%>,
+      <%- end -%> // }}}
+    );
     #(STEP/2+1);
   end
 

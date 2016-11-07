@@ -1,8 +1,8 @@
 % load "parameters.rb"
 % offset = 75 # addr offset where bwb_2 start at
 % input  = "/home/work/takau/bhewtek/data/mnist/bpmap1"
-% weight = "/home/work/takau/bhewtek/data/mnist/lenet"
-// % weight = "/home/work/takau/bhewtek/rtl/hashed/train/lh_t"
+// % weight = "/home/work/takau/bhewtek/data/mnist/lenet"
+% weight = "/home/work/takau/bhewtek/hashed/train/lh_t"
 % num = 2; file = 4
 
 `timescale 1ns/1ps
@@ -463,54 +463,59 @@ module test_top();
   always
   begin
     #(STEP/2-1);
+    // $display(
+    //   "%5d: ", $time/STEP, // {{{
+    //   "%d ",   xrst,
+    //   "%d ",   req,
+    //   "%d ",   ack,
+    //   "%d ",   dut0.ctrl.ctrl_core.r_state,
+    //   "| ",
+    //   "%d ",  dut0.ctrl.ctrl_core.out_begin,
+    //   "%d ",  dut0.ctrl.ctrl_core.out_valid,
+    //   "%d: ", dut0.ctrl.ctrl_core.out_end,
+    //   "%2d ", dut0.ctrl.ctrl_core.r_count_out,
+    //   "%2d ", dut0.ctrl.ctrl_core.r_count_in,
+    //   "%2d ", dut0.ctrl.ctrl_core.r_input_x,
+    //   "%2d ", dut0.ctrl.ctrl_core.r_input_y,
+    //   "%2d ", dut0.ctrl.ctrl_core.r_weight_x,
+    //   "%2d ", dut0.ctrl.ctrl_core.r_weight_y,
+    //   "%d ",  dut0.ctrl.ctrl_core.r_state_weight,
+    //   "| ",
+    //   "%d ",  dut0.ctrl.ctrl_conv.out_begin,
+    //   "%d ",  dut0.ctrl.ctrl_conv.out_valid,
+    //   "%d: ", dut0.ctrl.ctrl_conv.out_end,
+    //   "%d ",  dut0.core0.fmap,
+    //   "| ",
+    //   "%d ",  dut0.ctrl.ctrl_bias.out_begin,
+    //   "%d ",  dut0.ctrl.ctrl_bias.out_valid,
+    //   "%d: ", dut0.ctrl.ctrl_bias.out_end,
+    //   "%4d ", dut0.mem_bias_addr,
+    //   "%4d ", dut0.core0.read_bias,
+    //   "%d ",  dut0.core0.breg_we,
+    //   "%d ",  dut0.core0.bias.out_en,
+    //   "%4d ", dut0.core0.bias.r_bias,
+    //   "%d ",  dut0.core0.bias.pixel_in,
+    //   "%4d ", dut0.core0.bias.pixel_out,
+    //   "| ",
+    //   "%4d ", dut0.mem_bias0.mem[0],
+    //   "%4d ", dut0.mem_bias0.mem[1],
+    //   "%4d ", dut0.mem_bias0.mem[2],
+    //   "| ",
+    //   "%d ",  dut0.ctrl.ctrl_relu.out_begin,
+    //   "%d ",  dut0.ctrl.ctrl_relu.out_valid,
+    //   "%d: ", dut0.ctrl.ctrl_relu.out_end,
+    //   "%d ",  dut0.core0.actived,
+    //   "| ",
+    //   "%d ",  dut0.ctrl.ctrl_pool.out_begin,
+    //   "%d ",  dut0.ctrl.ctrl_pool.out_valid,
+    //   "%d: ", dut0.ctrl.ctrl_pool.out_end,
+    //   "%d ",  dut0.core0.pmap,
+    //   "|" // }}}
+    // );
     $display(
-      "%5d: ", $time/STEP,
-      "%d ",   xrst,
-      "%d ",   req,
-      "%d ",   ack,
-      "%d ",   dut0.ctrl.ctrl_core.r_state,
-      "| ",
-      "%d ",  dut0.ctrl.ctrl_core.out_begin,
-      "%d ",  dut0.ctrl.ctrl_core.out_valid,
-      "%d: ", dut0.ctrl.ctrl_core.out_end,
-      "%2d ", dut0.ctrl.ctrl_core.r_count_out,
-      "%2d ", dut0.ctrl.ctrl_core.r_count_in,
-      "%2d ", dut0.ctrl.ctrl_core.r_input_x,
-      "%2d ", dut0.ctrl.ctrl_core.r_input_y,
-      "%2d ", dut0.ctrl.ctrl_core.r_weight_x,
-      "%2d ", dut0.ctrl.ctrl_core.r_weight_y,
-      "%d ",  dut0.ctrl.ctrl_core.r_state_weight,
-      "| ",
-      "%d ",  dut0.ctrl.ctrl_conv.out_begin,
-      "%d ",  dut0.ctrl.ctrl_conv.out_valid,
-      "%d: ", dut0.ctrl.ctrl_conv.out_end,
-      "%d ",  dut0.core0.fmap,
-      "| ",
-      "%d ",  dut0.ctrl.ctrl_bias.out_begin,
-      "%d ",  dut0.ctrl.ctrl_bias.out_valid,
-      "%d: ", dut0.ctrl.ctrl_bias.out_end,
-      "%4d ", dut0.mem_bias_addr,
-      "%4d ", dut0.core0.read_bias,
-      "%d ",  dut0.core0.breg_we,
-      "%d ",  dut0.core0.bias.out_en,
-      "%4d ", dut0.core0.bias.r_bias,
-      "%d ",  dut0.core0.bias.pixel_in,
-      "%4d ", dut0.core0.bias.pixel_out,
-      "| ",
-      "%4d ", dut0.mem_bias0.mem[0],
-      "%4d ", dut0.mem_bias0.mem[1],
-      "%4d ", dut0.mem_bias0.mem[2],
-      "| ",
-      "%d ",  dut0.ctrl.ctrl_relu.out_begin,
-      "%d ",  dut0.ctrl.ctrl_relu.out_valid,
-      "%d: ", dut0.ctrl.ctrl_relu.out_end,
-      "%d ",  dut0.core0.actived,
-      "| ",
-      "%d ",  dut0.ctrl.ctrl_pool.out_begin,
-      "%d ",  dut0.ctrl.ctrl_pool.out_valid,
-      "%d: ", dut0.ctrl.ctrl_pool.out_end,
-      "%d ",  dut0.core0.pmap,
-      "|"
+      <%- for i in 0...$fsize**2 -%> // {{{
+      "%0d,", dut0.core0.conv.weight<%=i%>,
+      <%- end -%> // }}}
     );
     #(STEP/2+1);
   end

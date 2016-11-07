@@ -16,7 +16,7 @@ module hash_lut(/*AUTOARG*/);
   /*AUTOREG*/
 
   reg [HWIDTH-1:0]  mem [WORDS-1:0];
-  reg [HWIDTH-1:0]  addr_reg;
+  reg [HSIZE-1:0]  addr_reg;
 
   always @(posedge clk)
   begin

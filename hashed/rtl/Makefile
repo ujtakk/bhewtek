@@ -32,8 +32,8 @@ edit:
 	vim $(TARGET).v.erb
 
 diff:
-	vimdiff $(TARGET).dat $(TARGET)_true.dat
-	#vimdiff test_ctrl.dat test_ctrl_true.dat
+	# vimdiff $(TARGET).dat $(TARGET)_true.dat
+	vimdiff test_top_hash.dat ../../rtl/test_top.dat
 
 define DEP_IN
 ## -*- text -*-

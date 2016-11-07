@@ -29,7 +29,7 @@ module ctrl_hash(/*AUTOARG*/);
   input [LWIDTH-1:0]  fil_size;
 
   // for hash table
-  input [HWIDTH-1:0]  hash_addr;
+  input [HSIZE-1:0]  hash_addr;
 
   /*AUTOOUTPUT*/
   output                ack;
@@ -51,7 +51,7 @@ module ctrl_hash(/*AUTOARG*/);
   output [LWIDTH-1:0]   w_fil_size;
 
   // for hash table
-  output [HSIZE-1:0]   lut_hash_addr;
+  output [HSIZE-1:0]    lut_hash_addr;
   output                hreg_we;
 
   /*AUTOWIRE*/

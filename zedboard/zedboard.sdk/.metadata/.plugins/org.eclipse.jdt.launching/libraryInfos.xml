@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<libraryInfos>
+<libraryInfo home="/ram/mnt_opt/opt/xilinx/SDK/2016.2/tps/lnx64/jre" version="1.8.0_66">
+<bootpath>
+<entry path="/ram/mnt_opt/opt/xilinx/SDK/2016.2/tps/lnx64/jre/lib/resources.jar"/>
+<entry path="/ram/mnt_opt/opt/xilinx/SDK/2016.2/tps/lnx64/jre/lib/rt.jar"/>
+<entry path="/ram/mnt_opt/opt/xilinx/SDK/2016.2/tps/lnx64/jre/lib/sunrsasign.jar"/>
+<entry path="/ram/mnt_opt/opt/xilinx/SDK/2016.2/tps/lnx64/jre/lib/jsse.jar"/>
+<entry path="/ram/mnt_opt/opt/xilinx/SDK/2016.2/tps/lnx64/jre/lib/jce.jar"/>
+<entry path="/ram/mnt_opt/opt/xilinx/SDK/2016.2/tps/lnx64/jre/lib/charsets.jar"/>
+<entry path="/ram/mnt_opt/opt/xilinx/SDK/2016.2/tps/lnx64/jre/lib/jfr.jar"/>
+<entry path="/ram/mnt_opt/opt/xilinx/SDK/2016.2/tps/lnx64/jre/classes"/>
+</bootpath>
+<extensionDirs>
+<entry path="/ram/mnt_opt/opt/xilinx/SDK/2016.2/tps/lnx64/jre/lib/ext"/>
+<entry path="/usr/java/packages/lib/ext"/>
+</extensionDirs>
+<endorsedDirs>
+<entry path="/ram/mnt_opt/opt/xilinx/SDK/2016.2/tps/lnx64/jre/lib/endorsed"/>
+</endorsedDirs>
+</libraryInfo>
+<libraryInfo home="/ram/mnt_opt/opt/xilinx/SDK/2016.2/tps/lnx64" version="1.8.0_66">
+<bootpath>
+<entry path="/ram/mnt_opt/opt/xilinx/SDK/2016.2/tps/lnx64/jre/lib/resources.jar"/>
+<entry path="/ram/mnt_opt/opt/xilinx/SDK/2016.2/tps/lnx64/jre/lib/rt.jar"/>
+<entry path="/ram/mnt_opt/opt/xilinx/SDK/2016.2/tps/lnx64/jre/lib/sunrsasign.jar"/>
+<entry path="/ram/mnt_opt/opt/xilinx/SDK/2016.2/tps/lnx64/jre/lib/jsse.jar"/>
+<entry path="/ram/mnt_opt/opt/xilinx/SDK/2016.2/tps/lnx64/jre/lib/jce.jar"/>
+<entry path="/ram/mnt_opt/opt/xilinx/SDK/2016.2/tps/lnx64/jre/lib/charsets.jar"/>
+<entry path="/ram/mnt_opt/opt/xilinx/SDK/2016.2/tps/lnx64/jre/lib/jfr.jar"/>
+<entry path="/ram/mnt_opt/opt/xilinx/SDK/2016.2/tps/lnx64/jre/classes"/>
+</bootpath>
+<extensionDirs>
+<entry path="/ram/mnt_opt/opt/xilinx/SDK/2016.2/tps/lnx64/jre/lib/ext"/>
+<entry path="/usr/java/packages/lib/ext"/>
+</extensionDirs>
+<endorsedDirs>
+<entry path="/ram/mnt_opt/opt/xilinx/SDK/2016.2/tps/lnx64/jre/lib/endorsed"/>
+</endorsedDirs>
+</libraryInfo>
+</libraryInfos>

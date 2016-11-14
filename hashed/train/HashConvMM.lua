@@ -72,10 +72,19 @@ function HashConvMM:hashFunc(hN, size_out, size_in, ker_width, ker_height, extra
           end
           key = key_i .. '_' .. key_j .. '_' .. key_k .. '_' .. key_l .. extra_str
 
-          if lhmode then
-            idx[count] = self.xxhash.xxh32(key, self.config.hashSeed) % (range) + min + ((i-1)*size_in + (j-1)) * range
-          else
-            idx[count] = self.xxhash.xxh32(key, self.config.hashSeed) % (range) + min
+	  if self.config.xorhash then
+	     bit32 = require 'bit32'
+	     if lhmode then
+		idx[count] = (bit32.bxor(count, count*2)) % (range) + min + ((i-1)*size_in + (j-1)) * range
+	     else
+		idx[count] = (bit32.bxor(count, count*2)) % (range) + min
+	     end
+	  else
+	     if lhmode then
+		idx[count] = self.xxhash.xxh32(key, self.config.hashSeed) % (range) + min + ((i-1)*size_in + (j-1)) * range
+	     else
+		idx[count] = self.xxhash.xxh32(key, self.config.hashSeed) % (range) + min
+	     end
           end
         end
       end
@@ -98,6 +107,7 @@ function HashConvMM:copyConfig(config)
   self.config.verbose       = config.verbose
   self.config.cpu           = config.cpu or false
   self.config.lhconv        = config.lhconv
+  self.config.xorhash       = config.xorhash
   if not self.config.compression then
     error('variable compression must be specified')
   end
@@ -269,4 +279,3 @@ end
 function HashConvMM:parameters()
   return {self.h_weight, self.h_bias}, {self.h_gradWeight, self.h_gradBias}
 end
-

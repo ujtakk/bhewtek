@@ -64,8 +64,13 @@ function HashLinear:hashFunc(hN, size_out, size_in, extra_str)
             end
             key = key_i .. '_' .. key_j .. extra_str
 
-            idx[count] = self.xxhash.xxh32(key,self.config.hashSeed) % (range) + min
-        end
+	    if self.config.xorhash then
+	       bit32 = require 'bit32'
+	       idx[count] = (bit32.bxor(count, count*2)) % (range) + min
+	    else
+	       idx[count] = self.xxhash.xxh32(key,self.config.hashSeed) % (range) + min
+	    end
+	end
     end
     return idx:cuda()
 end
@@ -83,6 +88,7 @@ function HashLinear:copyConfig(config)
     self.config.rescale_grad = config.rescale_grad
     self.config.verbose      = config.verbose
     self.config.cpu          = config.cpu or false
+    self.config.xorhash        = config.xorhash
     if not self.config.compression then
         error('variable compression must be specified')
     end

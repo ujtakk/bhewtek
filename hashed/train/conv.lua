@@ -31,6 +31,8 @@ local function commandLine()
   cmd:option('-hashSeed', 1691, 'seed for hash functions')
   cmd:option('-shuffle', true, 'shuffle training data')
   cmd:option('-lhconv', false, 'setting conv mode when hash is enabled')
+  cmd:option('-dump', false, 'dump weights')
+  cmd:option('-xorhash', false, 'enable XOR hashing (use with -hash option)')
 
   cmd:text()
 
@@ -108,7 +110,8 @@ local function hashConfig(opt)
     hbias         = opt.hash_bias,
     hashSeed      = opt.hashSeed,
     rescale_grad  = opt.rescale_grad,
-    lhconv        = opt.lhconv
+    lhconv        = opt.lhconv,
+    xorhash       = opt.xorhash
   }
   return hash_config
 
@@ -171,92 +174,94 @@ local function createModel(opt)
   model:add(nn.LogSoftMax())
 
   -- write hash index to files
-  if hash_config then
-     path = 'data/idx'
-     os.execute('mkdir -p ' .. path)
-     conv_nodes = model:findModules('nn.HashConvMM')
-     for l = 1, #conv_nodes do
-  idx = conv_nodes[l].idxW:reshape(conv_nodes[l].size_out, conv_nodes[l].size_in, kerSize*kerSize)
-  if hash_config.xi then
-     xi = conv_nodes[l].xi_W:reshape(conv_nodes[l].size_out, conv_nodes[l].size_in, kerSize*kerSize)
-  end
-  for i = 1, idx:size()[1] do
-     for j = 1, idx:size()[2] do
-        f = io.open(path..'/conv'..l..'_idxW_'..i..'_'..j..'.txt', 'w')
-        if hash_config.xi then
-     f_xi = io.open(path..'/conv'..l..'_xi_W_'..i..'_'..j..'.txt', 'w')
-        end
-        for k = 1, kerSize*kerSize do
-          f:write(idx[i][j][k] .. '\n')
-          if hash_config.xi then
-             f_xi:write(xi[i][j][k] .. '\n')
-          end
-        end
-        f:close()
-        if hash_config.xi then
-          f_xi:close()
-        end
-     end
-  end
-  idx = conv_nodes[l].idxB
-  if hash_config.xi then
-     xi = conv_nodes[l].xi_B
-  end
-  f = io.open(path..'/conv'..l..'_idxB.txt', 'w')
-  if hash_config.xi then
-     f_xi = io.open(path..'/conv'..l..'_xi_B.txt', 'w')
-  end
-  for i = 1, idx:nElement() do
-     f:write(idx[i][1] .. '\n')
-     if hash_config.xi then
-        f_xi:write(xi[i][1] .. '\n')
-     end
-  end
-  f:close()
-  if hash_config.xi then
-     f_xi:close()
-  end
-     end
-     lin_nodes = model:findModules('nn.HashLinear')
-     for l = 1, #lin_nodes do
-  idx = lin_nodes[l].idxW
-  if hash_config.xi then
-     xi = lin_nodes[l].xi_W
-  end
-  for i = 1, idx:size()[1] do
-     f = io.open(path..'/lin'..l..'_idxW_'..i..'.txt', 'w')
-     if hash_config.xi then
-        f_xi = io.open(path..'/lin'..l..'_xi_W_'..i..'.txt', 'w')
-     end
-     for j = 1, idx:size()[2] do
-        f:write(idx[i][j] .. '\n')
-        if hash_config.xi then
-     f_xi:write(xi[i][j] .. '\n')
-        end
-     end
-     f:close()
-     if hash_config.xi then
-        f_xi:close()
-     end
-  end
-  idx = lin_nodes[l].idxB
-  if hash_config.xi then
-     xi = lin_nodes[l].xi_B
-  end
-  f = io.open(path..'/lin'..l..'_idxB.txt', 'w')
-  if hash_config.xi then
-     f_xi = io.open(path..'/lin'..l..'_xi_B.txt', 'w')
-  end
-  for i = 1, idx:nElement() do
-     f:write(idx[i][1] .. '\n')
-     if hash_config.xi then
-        f_xi:write(xi[i][1] .. '\n')
-     end
-  end
-  f:close()
-  if hash_config.xi then
-     f_xi:close()
-  end
+  if opt.dump then
+     if hash_config then
+	path = 'data/idx'
+	os.execute('mkdir -p ' .. path)
+	conv_nodes = model:findModules('nn.HashConvMM')
+	for l = 1, #conv_nodes do
+	   idx = conv_nodes[l].idxW:reshape(conv_nodes[l].size_out, conv_nodes[l].size_in, kerSize*kerSize)
+	   if hash_config.xi then
+	      xi = conv_nodes[l].xi_W:reshape(conv_nodes[l].size_out, conv_nodes[l].size_in, kerSize*kerSize)
+	   end
+	   for i = 1, idx:size()[1] do
+	      for j = 1, idx:size()[2] do
+		 f = io.open(path..'/conv'..l..'_idxW_'..i..'_'..j..'.txt', 'w')
+		 if hash_config.xi then
+		    f_xi = io.open(path..'/conv'..l..'_xi_W_'..i..'_'..j..'.txt', 'w')
+		 end
+		 for k = 1, kerSize*kerSize do
+		    f:write(idx[i][j][k] .. '\n')
+		    if hash_config.xi then
+		       f_xi:write(xi[i][j][k] .. '\n')
+		    end
+		 end
+		 f:close()
+		 if hash_config.xi then
+		    f_xi:close()
+		 end
+	      end
+	   end
+	   idx = conv_nodes[l].idxB
+	   if hash_config.xi then
+	      xi = conv_nodes[l].xi_B
+	   end
+	   f = io.open(path..'/conv'..l..'_idxB.txt', 'w')
+	   if hash_config.xi then
+	      f_xi = io.open(path..'/conv'..l..'_xi_B.txt', 'w')
+	   end
+	   for i = 1, idx:nElement() do
+	      f:write(idx[i][1] .. '\n')
+	      if hash_config.xi then
+		 f_xi:write(xi[i][1] .. '\n')
+	      end
+	   end
+	   f:close()
+	   if hash_config.xi then
+	      f_xi:close()
+	   end
+	end
+	lin_nodes = model:findModules('nn.HashLinear')
+	for l = 1, #lin_nodes do
+	   idx = lin_nodes[l].idxW
+	   if hash_config.xi then
+	      xi = lin_nodes[l].xi_W
+	   end
+	   for i = 1, idx:size()[1] do
+	      f = io.open(path..'/lin'..l..'_idxW_'..i..'.txt', 'w')
+	      if hash_config.xi then
+		 f_xi = io.open(path..'/lin'..l..'_xi_W_'..i..'.txt', 'w')
+	      end
+	      for j = 1, idx:size()[2] do
+		 f:write(idx[i][j] .. '\n')
+		 if hash_config.xi then
+		    f_xi:write(xi[i][j] .. '\n')
+		 end
+	      end
+	      f:close()
+	      if hash_config.xi then
+		 f_xi:close()
+	      end
+	   end
+	   idx = lin_nodes[l].idxB
+	   if hash_config.xi then
+	      xi = lin_nodes[l].xi_B
+	   end
+	   f = io.open(path..'/lin'..l..'_idxB.txt', 'w')
+	   if hash_config.xi then
+	      f_xi = io.open(path..'/lin'..l..'_xi_B.txt', 'w')
+	   end
+	   for i = 1, idx:nElement() do
+	      f:write(idx[i][1] .. '\n')
+	      if hash_config.xi then
+		 f_xi:write(xi[i][1] .. '\n')
+	      end
+	   end
+	   f:close()
+	   if hash_config.xi then
+	      f_xi:close()
+	   end
+	end
      end
   end
 
@@ -389,92 +394,92 @@ end
 
 local function writeParams(model, opt)
 
-  if opt.hash then
-    conv_nodes = model:findModules('nn.HashConvMM')
-    lin_nodes = model:findModules('nn.HashLinear')
+   if opt.hash then
+      conv_nodes = model:findModules('nn.HashConvMM')
+      lin_nodes = model:findModules('nn.HashLinear')
 
-    -- write hash table
-    path = 'data/hash'
-    os.execute('mkdir -p ' .. path)
-    for l = 1, #conv_nodes do
-      hash = conv_nodes[l].h_weight
-      f = io.open(path..'/conv'..l..'_hashW.txt', 'w')
-      for i = 1, hash:size()[1] do
-        f:write(hash[i] .. '\n')
+      -- write hash table
+      path = 'data/hash'
+      os.execute('mkdir -p ' .. path)
+      for l = 1, #conv_nodes do
+	 hash = conv_nodes[l].h_weight
+	 f = io.open(path..'/conv'..l..'_hashW.txt', 'w')
+	 for i = 1, hash:size()[1] do
+	    f:write(hash[i] .. '\n')
+	 end
+	 f:close()
+	 hash = conv_nodes[l].h_bias
+	 f = io.open(path..'/conv'..l..'_hashB.txt', 'w')
+	 for i = 1, hash:size()[1] do
+	    f:write(hash[i] .. '\n')
+	 end
+	 f:close()
       end
-      f:close()
-      hash = conv_nodes[l].h_bias
-      f = io.open(path..'/conv'..l..'_hashB.txt', 'w')
-      for i = 1, hash:size()[1] do
-        f:write(hash[i] .. '\n')
+      for l = 1, #lin_nodes do
+	 hash = lin_nodes[l].h_weight
+	 f = io.open(path..'/lin'..l..'_hashW.txt', 'w')
+	 for i = 1, hash:size()[1] do
+	    f:write(hash[i] .. '\n')
+	 end
+	 f:close()
+	 hash = lin_nodes[l].h_bias
+	 f = io.open(path..'/lin'..l..'_hashB.txt', 'w')
+	 for i = 1, hash:size()[1] do
+	    f:write(hash[i] .. '\n')
+	 end
+	 f:close()
       end
-      f:close()
-        end
-        for l = 1, #lin_nodes do
-      hash = lin_nodes[l].h_weight
-      f = io.open(path..'/lin'..l..'_hashW.txt', 'w')
-      for i = 1, hash:size()[1] do
-        f:write(hash[i] .. '\n')
-      end
-      f:close()
-      hash = lin_nodes[l].h_bias
-      f = io.open(path..'/lin'..l..'_hashB.txt', 'w')
-      for i = 1, hash:size()[1] do
-        f:write(hash[i] .. '\n')
-      end
-      f:close()
-    end
 
-  else -- without hash
-    conv_nodes = model:findModules('nn.SpatialConvolutionMM')
-    lin_nodes = model:findModules('nn.Linear')
-  end
+   else -- without hash
+      conv_nodes = model:findModules('nn.SpatialConvolutionMM')
+      lin_nodes = model:findModules('nn.Linear')
+   end
 
-  -- write uncompressed weights
-  for l = 1, #conv_nodes do
-    path = 'data/wb_'..l
-    os.execute('mkdir -p ' .. path)
-    kerSize = conv_nodes[l].kW
-    W = conv_nodes[l].weight:reshape(conv_nodes[l].nOutputPlane, conv_nodes[l].nInputPlane, kerSize*kerSize)
-    B = conv_nodes[l].bias
-    for i = 1, W:size()[1] do
-      -- NOTE: layer 1 should be treated samely as latter conv layer.
-      -- if l == 1 then
-      --   f = io.open(path..'/data'..(i-1)..'.txt', 'w')
-      --   for k = 1, kerSize*kerSize do
-      --     f:write(W[i][1][k] .. '\n')
-      --   end
-      --   f:write(B[i] .. '\n')
-      --   f:close()
-      -- else
-        for j = 1, W:size()[2] do
-          f = io.open(path..'/data'..(i-1)..'_'..(j-1)..'.txt', 'w')
-          for k = 1, kerSize*kerSize do
-            f:write(W[i][j][k] .. '\n')
-          end
-          f:close()
-        end
-        -- bias
-        f = io.open(path..'/data'..(i-1)..'.txt', 'w')
-        f:write(B[i] .. '\n')
-        f:close()
-      -- end
-    end
-  end
-  for l = 1, #lin_nodes do
-    path = 'data/wb_'..(#conv_nodes+l)
-    os.execute('mkdir -p ' .. path)
-    W = lin_nodes[l].weight
-    B = lin_nodes[l].bias
-    for i = 1, W:size()[1] do
-      f = io.open(path..'/data'..(i-1)..'.txt', 'w')
-      for j = 1, W:size()[2] do
-        f:write(W[i][j] .. '\n')
+   -- write uncompressed weights
+   for l = 1, #conv_nodes do
+      path = 'data/wb_'..l
+      os.execute('mkdir -p ' .. path)
+      kerSize = conv_nodes[l].kW
+      W = conv_nodes[l].weight:reshape(conv_nodes[l].nOutputPlane, conv_nodes[l].nInputPlane, kerSize*kerSize)
+      B = conv_nodes[l].bias
+      for i = 1, W:size()[1] do
+	 -- NOTE: layer 1 should be treated samely as latter conv layer.
+	 -- if l == 1 then
+	 --   f = io.open(path..'/data'..(i-1)..'.txt', 'w')
+	 --   for k = 1, kerSize*kerSize do
+	 --     f:write(W[i][1][k] .. '\n')
+	 --   end
+	 --   f:write(B[i] .. '\n')
+	 --   f:close()
+	 -- else
+	    for j = 1, W:size()[2] do
+	       f = io.open(path..'/data'..(i-1)..'_'..(j-1)..'.txt', 'w')
+	       for k = 1, kerSize*kerSize do
+		  f:write(W[i][j][k] .. '\n')
+	       end
+	       f:close()
+	    end
+	    -- bias
+	    f = io.open(path..'/data'..(i-1)..'.txt', 'w')
+	    f:write(B[i] .. '\n')
+	    f:close()
+       -- end
       end
-      f:write(B[i] .. '\n')
-      f:close()
-    end
-  end
+   end
+   for l = 1, #lin_nodes do
+      path = 'data/wb_'..(#conv_nodes+l)
+      os.execute('mkdir -p ' .. path)
+      W = lin_nodes[l].weight
+      B = lin_nodes[l].bias
+      for i = 1, W:size()[1] do
+	 f = io.open(path..'/data'..(i-1)..'.txt', 'w')
+	 for j = 1, W:size()[2] do
+	    f:write(W[i][j] .. '\n')
+	 end
+	 f:write(B[i] .. '\n')
+	 f:close()
+      end
+   end
 
   collectgarbage()
 end
@@ -486,6 +491,7 @@ end
 
 local function main()
   local opt = commandLine()
+  print(opt)
   torch.setdefaulttensortype('torch.FloatTensor')
   local data = load_data(opt)
 
@@ -509,7 +515,9 @@ local function main()
     ------------ Report Errors
     report(t)
 
-    writeParams(model, opt)
+    if opt.dump then
+       writeParams(model, opt)
+    end
 
     collectgarbage()
   end

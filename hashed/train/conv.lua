@@ -56,7 +56,7 @@ local function load_data(opt)
   data['xe']    = testData.data:float()
   data['yr']    = trainData.label + 1
   data['ye']    = testData.label + 1
-  opt.outputDim   = 10
+  opt.outputDim = 10
   opt.inputDim  = 784
 
   -- shuffle the training data
